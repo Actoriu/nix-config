@@ -1,0 +1,19 @@
+[formatter.nix]
+command = "alejandra"
+includes = ["*.nix"]
+excludes = ["./pkgs/_sources/*"]
+
+[formatter.prettier]
+command = "prettier"
+options = ["--plugin", "prettier-plugin-toml", "--write"]
+includes = ["*.md", "*.yaml", "*.yml", "*.toml", "*.json"]
+excludes = ["./pkgs/_sources/*"]
+
+[formatter.python]
+command = "black"
+includes = ["*.py"]
+
+[formatter.shell]
+command = "shfmt"
+options = ["-bn", "-ci", "-sr", "-i", "2", "-s", "-w"]
+includes = ["*.sh", "*.zsh"]

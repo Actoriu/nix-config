@@ -1,0 +1,54 @@
+#+TITLE: Nix-Config
+#+Author: Actoriu
+#+CATEGORY: nix-config
+#+DESCRIPTION: A literate programming style exposition of my NixOS and user home (dot files) configuration
+#+LANGUAGE: en
+#+STARTUP: overview indent align
+#+BABEL: :cache yes
+#+OPTIONS: ^:nil num:nil tags:nil \n:t
+#+PROPERTY: header-args :comments link
+
+# Badge
+[[https://nixos.org][https://img.shields.io/badge/NixOS-v21.11-blue.svg?style=flat-square&logo=NixOS&logoColor=white]]
+[[https://mit-license.org/][https://img.shields.io/badge/license-MIT-green.svg?dummy]]
+
+# #+html: <p align="center">
+# #+html: <a href="https://nixos.org"><img src="https://img.shields.io/badge/NixOS-v21.11-blue.svg?style=flat-square&logo=NixOS&logoColor=white"></a>
+# #+html: <a href="https://mit-license.org/"><img src="https://img.shields.io/badge/license-MIT-green.svg?dummy"></a>
+# #+html: </p>
+# -----
+
+* Table of Contents                                       :TOC_4_gh:noexport:
+- [[#introduction][Introduction]]
+  - [[#usage][Usage]]
+    - [[#with-flake][With Flake]]
+
+* Introduction
+
+Configuration for NixOS and user home (dot files). It is provided via Nix flakes and includes the following components:
+
+** Usage
+
+*** With Flake
+
+[[https://nixos.wiki/wiki/Flakes][wiki Flakes]]
+
+- Nixos
+
+  #+begin_example
+    sudo nixos-rebuild switch --flake '/etc/nixos#nixos-desktop'
+  #+end_example
+
+- Non-Nixos
+
+  - NixOS version <=21.05
+
+    #+begin_example
+      nix-shell -p nixUnstable --command "nix --experimental-features 'nix-command flakes' build '.#$1'"
+    #+end_example
+
+  - Nix-on-droid
+
+    #+begin_example
+      nix-on-droid switch --flake '~/.config/nixpkgs#device'
+    #+end_example

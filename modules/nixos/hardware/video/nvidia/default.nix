@@ -1,0 +1,36 @@
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+
+with lib;
+
+let
+  cfg = config.custom.hardware.nvidia;
+in {
+  options.custom.hardware.nvidia = {
+    enable = mkEnableOption "Enable support for the graphical interface nvidia drives.";
+
+    drivers = mkOption {
+      type = types.str;
+      example = "nvidia-340";
+      description = "Enable support for nvidia drives.";
+    };
+  };
+
+  config = mkIf cfg.enable (mkMerge [
+    { boot.blacklistedKernelModules = [ "nouveau" ]; }
+    (mkIf (cfg.drivers == "nvidia-340") {
+      hardware.nvidia = {
+        package = config.boot.kernelPackages.nvidiaPackages.legacy_340;
+      };
+
+      services.xserver = {
+        enable = true;
+        videoDrivers = [ "nvidia" ];
+      };
+    })
+  ]);
+}

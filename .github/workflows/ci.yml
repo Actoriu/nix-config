@@ -1,0 +1,62 @@
+name: Build and test flake outputs
+
+on:
+  push:
+    branches:
+      - main
+      - try
+  pull_request:
+
+jobs:
+  build:
+    name: Build Nix configuration for ${{ matrix.target }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+        target:
+          - actoriu
+          - d630
+          - oneplus5
+        system:
+          - aarch64
+          - x86_64
+        nix-command:
+          - flake check
+        include:
+          - nix-command: build .#homeConfigurations.actoriu.activationPackage
+            system: x86_64
+          - nix-command: build .#nixosConfigurations.d630.config.system.build.toplevel
+            system: x86_64
+          - nix-command: build .#nixOnDroidConfigurations.oneplus5.activationPackage --impure
+            system: aarch64
+    steps:
+      - uses: actions/checkout@v3.0.2
+      - uses: docker/setup-qemu-action@v2
+        if: ${{ matrix.system == 'aarch64' }}
+      - uses: cachix/install-nix-action@v17
+        with:
+          extra_nix_config: |
+            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+            extra-platforms = aarch64-linux
+            experimental-features = nix-command flakes recursive-nix
+      - uses: cachix/cachix-action@v10
+        with:
+          name: actoriu
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+          extraPullNames: actoriu,nix-community,nix-on-droid
+      - uses: nick-invision/retry@v2.7.0
+        with:
+          max_attempts: 2
+          timeout_minutes: 5
+          retry_on: error
+          command: |
+            cachix watch-exec nix-config -- \
+              nix \
+                --log-format bar-with-logs \
+                --option keep-going true \
+                --show-trace \
+                ${{ matrix.nix-command }}
+
