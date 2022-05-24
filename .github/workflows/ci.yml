@@ -11,11 +11,10 @@ on:
 jobs:
   build:
     name: Build Nix configuration for ${{ matrix.target }}
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest]
         target:
           - actoriu
           - d630
