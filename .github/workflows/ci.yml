@@ -2,10 +2,6 @@ name: Build and test flake outputs
 
 on:
   push:
-    branches:
-      - main
-      - try
-  pull_request:
   workflow_dispatch:
 
 jobs:
