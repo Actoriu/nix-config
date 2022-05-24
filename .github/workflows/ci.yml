@@ -10,15 +10,10 @@ on:
 
 jobs:
   build:
-    name: Build Nix configuration for ${{ matrix.target }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        target:
-          - actoriu
-          - d630
-          - oneplus5
         system:
           - aarch64
           - x86_64
