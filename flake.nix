@@ -10,13 +10,13 @@
     extra-substituters = [
       "https://cache.nixos.org"
       "https://nix-community.cachix.org"
-      "https://actoriu.cachix.org"
+      "https://nix-actions.cachix.org"
       "https://nix-on-droid.cachix.org"
     ];
     extra-trusted-public-keys = [
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      "actoriu.cachix.org-1:htl65pXtoZ5aa5pgM5Rj42jg02WGBFabB8vcm3WVm8A="
+      "nix-actions.cachix.org-1:q1zaD/nV7CEcV2gxiwuoDCVN/d1zzPAClEQngBYqf3w="
       "nix-on-droid.cachix.org-1:56snoMJTXmDRC1Ei24CmKoUqvHJ9XCp+nidK7qkMQrU="
     ];
   };
