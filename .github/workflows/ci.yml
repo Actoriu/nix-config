@@ -44,6 +44,4 @@ jobs:
       #    retry_on: error
         run: |
           cachix watch-exec nix-config -- \
-            nix \
-              ${{ matrix.nix-command }}
-
+            nix ${{ matrix.nix-command }}
