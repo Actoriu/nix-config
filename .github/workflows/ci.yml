@@ -37,12 +37,12 @@ jobs:
           name: actoriu
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
           extraPullNames: actoriu,nix-community,nix-on-droid
-      - uses: nick-invision/retry@v2.7.0
-        with:
-          max_attempts: 2
-          timeout_minutes: 5
-          retry_on: error
-          command: |
+      #- uses: nick-invision/retry@v2.7.0
+      #  with:
+      #    max_attempts: 2
+      #    timeout_minutes: 5
+      #    retry_on: error
+      command: |
             cachix watch-exec nix-config -- \
               nix \
                 ${{ matrix.nix-command }}
