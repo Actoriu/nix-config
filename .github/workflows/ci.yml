@@ -16,11 +16,11 @@ jobs:
         nix-command:
           - flake check
         include:
-          - nix-command: build -L --keep-going .#homeConfigurations.actoriu.activationPackage
+          - nix-command: build .#homeConfigurations.actoriu.activationPackage
             system: x86_64
-          - nix-command: build -L --keep-going .#nixosConfigurations.d630.config.system.build.toplevel
+          - nix-command: build .#nixosConfigurations.d630.config.system.build.toplevel
             system: x86_64
-          - nix-command: build -L --keep-going .#nixOnDroidConfigurations.oneplus5.activationPackage --impure
+          - nix-command: build .#nixOnDroidConfigurations.oneplus5.activationPackage --impure
             system: aarch64
     steps:
       - uses: actions/checkout@v3.0.2
@@ -35,13 +35,15 @@ jobs:
       - uses: cachix/cachix-action@v10
         with:
           name: nix-actions
-          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+          signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
           extraPullNames: nix-actions,nix-community,nix-on-droid
-      #- uses: nick-invision/retry@v2.7.0
-      #  with:
-      #    max_attempts: 2
-      #    timeout_minutes: 5
-      #    retry_on: error
-      - run: |
-          cachix watch-exec nix-actions -- \
-            nix ${{ matrix.nix-command }}
+      - uses: nick-invision/retry@v2.7.0
+        with:
+          max_attempts: 2
+          timeout_minutes: 5
+          retry_on: error
+          command: |
+            cachix watch-exec nix-actions -- \
+              nix -L --keep-going \
+                ${{ matrix.nix-command }}
