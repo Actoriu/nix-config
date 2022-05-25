@@ -34,9 +34,9 @@ jobs:
             experimental-features = nix-command flakes recursive-nix
       - uses: cachix/cachix-action@v10
         with:
-          name: actoriu
+          name: nix-actions
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
-          extraPullNames: actoriu,nix-community,nix-on-droid
+          extraPullNames: nix-actions,nix-community,nix-on-droid
       #- uses: nick-invision/retry@v2.7.0
       #  with:
       #    max_attempts: 2
