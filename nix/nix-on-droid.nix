@@ -24,7 +24,7 @@
               config = {
                 allowUnfree = true;
               };
-              verlays = [
+              overlays = [
                 inputs.deploy-rs.overlay
                 inputs.emacs-overlay.overlay
                 # inputs.guix-overlay.overlays.default
