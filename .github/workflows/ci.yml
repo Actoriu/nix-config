@@ -43,7 +43,7 @@ jobs:
       #    timeout_minutes: 5
       #    retry_on: error
         run: |
-            cachix watch-exec nix-config -- \
-              nix \
-                ${{ matrix.nix-command }}
+          cachix watch-exec nix-config -- \
+            nix \
+              ${{ matrix.nix-command }}
 
