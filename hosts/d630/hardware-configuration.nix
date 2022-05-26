@@ -14,7 +14,8 @@
 
   boot = {
     cleanTmpDir = true;
-    extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
+    # extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
+    extraModulePackages = [ ];
     initrd = {
       availableKernelModules = [ "uhci_hcd" "ata_piix" "firewire_ohci" "sr_mod" ];
       kernelModules = [ ];
