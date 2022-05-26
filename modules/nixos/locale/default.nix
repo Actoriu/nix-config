@@ -34,8 +34,8 @@ in {
       fonts = {
         fonts = with pkgs; [
           hanazono
-          noto-fonts-cjk-sans
-          noto-fonts-cjk-serif
+          unstable.noto-fonts-cjk-sans
+          unstable.noto-fonts-cjk-serif
           sarasa-gothic
         ];
         fontconfig = {
