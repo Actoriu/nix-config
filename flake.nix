@@ -1,25 +1,25 @@
 {
   description = "Nix configuration with flakes";
 
-  nixConfig = {
-    extra-experimental-features = "nix-command flakes recursive-nix";
-    substituters = [
-      "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
-      "https://mirrors.ustc.edu.cn/nix-channels/store"
-    ];
-    extra-substituters = [
-      "https://cache.nixos.org"
-      "https://nix-community.cachix.org"
-      "https://nix-actions.cachix.org"
-      "https://nix-on-droid.cachix.org"
-    ];
-    extra-trusted-public-keys = [
-      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      "nix-actions.cachix.org-1:q1zaD/nV7CEcV2gxiwuoDCVN/d1zzPAClEQngBYqf3w="
-      "nix-on-droid.cachix.org-1:56snoMJTXmDRC1Ei24CmKoUqvHJ9XCp+nidK7qkMQrU="
-    ];
-  };
+  # nixConfig = {
+  #   extra-experimental-features = "nix-command flakes recursive-nix";
+  #   substituters = [
+  #     "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
+  #     "https://mirrors.ustc.edu.cn/nix-channels/store"
+  #   ];
+  #   extra-substituters = [
+  #     "https://cache.nixos.org"
+  #     "https://nix-community.cachix.org"
+  #     "https://nix-actions.cachix.org"
+  #     "https://nix-on-droid.cachix.org"
+  #   ];
+  #   extra-trusted-public-keys = [
+  #     "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+  #     "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+  #     "nix-actions.cachix.org-1:q1zaD/nV7CEcV2gxiwuoDCVN/d1zzPAClEQngBYqf3w="
+  #     "nix-on-droid.cachix.org-1:56snoMJTXmDRC1Ei24CmKoUqvHJ9XCp+nidK7qkMQrU="
+  #   ];
+  # };
 
   inputs = {
     nixpkgs = {
