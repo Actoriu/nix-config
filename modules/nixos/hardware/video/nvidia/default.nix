@@ -21,7 +21,16 @@ in {
   };
 
   config = mkIf cfg.enable (mkMerge [
-    { boot.blacklistedKernelModules = [ "nouveau" ]; }
+    {
+      boot = {
+        blacklistedKernelModules = [ "nouveau" ];
+        extraModulePackages =
+          [ config.boot.kernelPackages.nvidiaPackages.legacy_340 ];
+      };
+    }
+    {
+      environment.systemPackages = [ config.boot.kernelPackages.nvidiaPackages.legacy_340 ];
+    }
     (mkIf (cfg.drivers == "nvidia-340") {
       hardware.nvidia = {
         package = config.boot.kernelPackages.nvidiaPackages.legacy_340;
