@@ -30,7 +30,7 @@ jobs:
         with:
           extra_nix_config: |
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
-            extra-platforms = aarch64-linux
+            extra-platforms = aarch64-linux i686-linux
             experimental-features = nix-command flakes recursive-nix
       - uses: cachix/cachix-action@v10
         with:
