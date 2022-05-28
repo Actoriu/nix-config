@@ -1,22 +1,17 @@
-{
-  self,
-  inputs,
-  ...
-}: {
+{ self, inputs, ... }: {
   d630 = inputs.nixpkgs.lib.nixosSystem {
     system = "x86_64-linux";
     specialArgs = { inherit inputs; };
     modules = [
       ({ config, lib, pkgs, ... }:
-        let
-          overlay-unstable = final: prev: {
-            unstable = inputs.nixpkgs-unstable.legacyPackages.x86_64-linux;
-          };
-        in {
+        # let
+        #   overlay-unstable = final: prev: {
+        #     unstable = inputs.nixpkgs-unstable.legacyPackages.x86_64-linux;
+        #   };
+        # in {
+        {
           nixpkgs = {
-            config = {
-              allowUnfree = true;
-            };
+            config = { allowUnfree = true; };
             overlays = [
               inputs.deploy-rs.overlay
               inputs.emacs-overlay.overlay
@@ -26,7 +21,7 @@
               inputs.nur.overlay
               inputs.nvfetcher.overlay
               inputs.ragenix.overlay
-              overlay-unstable
+              # overlay-unstable
               (final: prev: { spacemacs = inputs.spacemacs; })
               # (import ./overlays)
               # (import ./pkgs)
@@ -34,6 +29,10 @@
           };
           imports = [
             ../hosts/d630/default.nix
+            ../profiles/nix/gc/default.nix
+            ../profiles/nix/settings/default.nix
+            ../profiles/nix/version/default.nix
+            ../profiles/nix/cachix/default.nix
             inputs.guix-overlay.nixosModules.guix-binary
             inputs.impermanence.nixosModules.impermanence
             inputs.nixos-cn.nixosModules.nixos-cn-registries

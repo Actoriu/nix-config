@@ -1,11 +1,8 @@
-{
-  ...
-}:
+{ ... }: {
+  imports = [ ../modules/default.nix ];
 
-{
-  imports = [
-    ../modules/default.nix
-  ];
+  programs.home-manager.enable = true;
+  manual.manpages.enable = false;
 
   custom = {
     development = {
@@ -43,8 +40,6 @@
       urxvt.enable = true;
       xst.enable = true;
     };
-    video = {
-      mpv.enable = true;
-    };
+    video = { mpv.enable = true; };
   };
 }

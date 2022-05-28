@@ -2,11 +2,11 @@
 
 {
   nix = {
-    localRegistry = {
-      enable = false;
-      cacheGlobalRegistry = true;
-      noGlobalRegistry = false;
-    };
+    # localRegistry = {
+    #   enable = false;
+    #   cacheGlobalRegistry = true;
+    #   noGlobalRegistry = false;
+    # };
     settings = {
       auto-optimise-store = true;
       allowed-users = [ "@wheel" ];
