@@ -1,11 +1,9 @@
 { ... }: {
   nix = {
     settings = {
-      substituters = [
-        "https://actoriu.cachix.org"
-      ];
+      substituters = [ "https://nix-actions.cachix.org" ];
       trusted-public-keys = [
-        "actoriu.cachix.org-1:htl65pXtoZ5aa5pgM5Rj42jg02WGBFabB8vcm3WVm8A="
+        "nix-actions.cachix.org-1:WTp8/9EIjoPRzwSERLLMHzDUVGthajaIJ/zEZY6DHvM="
       ];
     };
   };

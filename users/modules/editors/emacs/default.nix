@@ -1,21 +1,15 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
+{ config, lib, pkgs, ... }:
 
 with lib;
 
-let
-  cfg = config.custom.editors.emacs;
-in
-{
+let cfg = config.custom.editors.emacs;
+in {
   options.custom.editors.emacs = {
     enable = mkEnableOption "Enable support for emacs.";
     doom-emacs = mkEnableOption "Enable support for doom-emacs.";
     spacemacs = mkEnableOption "Enable support for spacemacs.";
-    emacs-application-framework = mkEnableOption "Enable support for emacs-application-framework.";
+    emacs-application-framework =
+      mkEnableOption "Enable support for emacs-application-framework.";
   };
 
   config = mkIf cfg.enable (mkMerge [
@@ -38,7 +32,7 @@ in
       home = {
         packages = with pkgs; [
           emacs-all-the-icons-fonts
-          guile
+          guile_3_0
           nodejs
           nodePackages.pyright
           openssh
@@ -72,18 +66,18 @@ in
       #   };
       # };
 
-      # home = {
-      #   file = {
-      #     ".emacs.d" = {
-      #       source = pkgs.spacemacs;
-      #       recursive = true;
-      #     };
-      #     # ".spacemacs.d" = {
-      #     #   source = spacemacsd;
-      #     #   recursive = true;
-      #     # };
-      #   };
-      # };
+      home = {
+        file = {
+          ".emacs.d" = {
+            source = pkgs.spacemacs;
+            recursive = true;
+          };
+          # ".spacemacs.d" = {
+          #   source = spacemacsd;
+          #   recursive = true;
+          # };
+        };
+      };
     })
 
     (mkIf cfg.emacs-application-framework {
@@ -97,8 +91,8 @@ in
           fd
           # eaf-music-player
           taglib
-          (python3.withPackages
-            (ps: with ps; [
+          (python3.withPackages (ps:
+            with ps; [
               # eaf core
               pyqt5
               sip

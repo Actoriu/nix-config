@@ -1,14 +1,8 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
+{ config, lib, pkgs, ... }:
 
 with lib;
 
-let
-  cfg = config.custom.locale;
+let cfg = config.custom.locale;
 in {
   options.custom.locale = {
     enable = mkEnableOption "Enable support for locale.";
@@ -30,12 +24,12 @@ in {
     (mkIf (cfg.inputMethod != null) {
       i18n.inputMethod.enabled = cfg.inputMethod;
     })
-    (mkIf (cfg.locale == "zh_CN" ) {
+    (mkIf (cfg.locale == "zh_CN") {
       fonts = {
         fonts = with pkgs; [
           hanazono
-          unstable.noto-fonts-cjk-sans
-          unstable.noto-fonts-cjk-serif
+          noto-fonts-cjk-sans
+          noto-fonts-cjk-serif
           sarasa-gothic
         ];
         fontconfig = {
@@ -48,10 +42,7 @@ in {
       };
       i18n = {
         defaultLocale = "zh_CN.UTF-8";
-        supportedLocales = [
-          "en_US.UTF-8/UTF-8"
-          "zh_CN.UTF-8/UTF-8"
-        ];
+        supportedLocales = [ "en_US.UTF-8/UTF-8" "zh_CN.UTF-8/UTF-8" ];
       };
       time.timeZone = "Asia/Shanghai";
     })
@@ -59,7 +50,10 @@ in {
       i18n.inputMethod.fcitx.engines = with pkgs.fcitx-engines; [ rime ];
     })
     (mkIf (cfg.locale == "zh_CN" && cfg.inputMethod == "fcitx5") {
-      i18n.inputMethod.fcitx5.addons = with pkgs; [ fcitx5-with-addons fcitx5-rime ];
+      i18n.inputMethod.fcitx5.addons = with pkgs; [
+        fcitx5-with-addons
+        fcitx5-rime
+      ];
     })
     (mkIf (cfg.locale == "zh_CN" && cfg.inputMethod == "ibus") {
       i18n.inputMethod.ibus.engines = with pkgs.ibus-engines; [ rime ];

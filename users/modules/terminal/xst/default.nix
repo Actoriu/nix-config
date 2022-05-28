@@ -25,7 +25,7 @@ in
           genericName = "Default terminal";
           icon = "utilities-terminal";
           exec = "${xst}/bin/xst";
-          categories = "System;TerminalEmulator";
+          categories = [ "System" "TerminalEmulator" ];
         })
       ];
     };

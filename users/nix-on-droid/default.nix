@@ -1,9 +1,8 @@
-{
-  ...
-}: {
-  imports = [
-    ../modules/default.nix
-  ];
+{ ... }: {
+  imports = [ ../modules/default.nix ];
+
+  programs.home-manager.enable = true;
+  manual.manpages.enable = false;
 
   custom = {
     development = {
@@ -31,7 +30,7 @@
       password-store.enable = true;
       # rofi.enable = true;
       # tmux.enable = true;
-      # xdg.enable = true;
+      xdg.enable = true;
       # xresources.enable = true;
       zoxide.enable = true;
       zsh.enable = true;

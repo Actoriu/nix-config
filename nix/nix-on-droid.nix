@@ -1,29 +1,22 @@
-{
-  self,
-  inputs,
-  ...
-}: {
+{ self, inputs, ... }: {
   oneplus5 = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
     system = "aarch64-linux";
     # config = ./hosts/oneplus5/default.nix;
     config = { config, lib, pkgs, ... }:
-      let
-        overlay-unstable = final: prev: {
-          unstable = inputs.nixpkgs-unstable.legacyPackages.aarch64-linux;
-        };
-      in {
-        imports = [
-          ../hosts/oneplus5/default.nix
-        ];
+      # let
+      #   overlay-unstable = final: prev: {
+      #     unstable = inputs.nixpkgs-unstable.legacyPackages.aarch64-linux;
+      #   };
+      # in {
+      {
+        imports = [ ../hosts/oneplus5/default.nix ];
         home-manager = {
           backupFileExtension = "backup";
           useGlobalPkgs = true;
           useUserPackages = true;
           config = { config, lib, pkgs, ... }: {
             nixpkgs = {
-              config = {
-                allowUnfree = true;
-              };
+              config = { allowUnfree = true; };
               overlays = [
                 inputs.deploy-rs.overlay
                 inputs.emacs-overlay.overlay
@@ -33,12 +26,11 @@
                 inputs.nur.overlay
                 # inputs.nvfetcher.overlay
                 inputs.ragenix.overlay
-                overlay-unstable
+                # overlay-unstable
                 (final: prev: { spacemacs = inputs.spacemacs; })
                 # (import ./overlays)
                 # (import ./pkgs)
-              ] ++
-              config.nixpkgs.overlays;
+              ] ++ config.nixpkgs.overlays;
             };
             home.stateVersion = "21.11";
             imports = [ ../users/nix-on-droid/default.nix ];
