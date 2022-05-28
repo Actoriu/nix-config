@@ -9,7 +9,7 @@
 #+PROPERTY: header-args :comments link
 
 # Badge
-[[https://nixos.org][https://img.shields.io/badge/NixOS-v21.11-blue.svg?style=flat-square&logo=NixOS&logoColor=white]]
+[[https://nixos.org][https://img.shields.io/badge/NixOS-v22.05-blue.svg?style=flat-square&logo=NixOS&logoColor=white]]
 [[https://mit-license.org/][https://img.shields.io/badge/license-MIT-green.svg?dummy]]
 
 # #+html: <p align="center">
