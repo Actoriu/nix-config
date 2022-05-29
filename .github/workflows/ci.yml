@@ -16,38 +16,48 @@ jobs:
         nix-command:
           - flake check
         include:
-          - nix-command: build .#homeConfigurations.actoriu.activationPackage
-            system: x86_64
           - nix-command: build .#nixosConfigurations.d630.config.system.build.toplevel
+            system: x86_64
+          - nix-command: build .#homeConfigurations.actoriu.activationPackage
             system: x86_64
           - nix-command: build .#nixOnDroidConfigurations.oneplus5.activationPackage --impure
             system: aarch64
     steps:
-      - uses: actions/checkout@v3.0.2
-      - uses: docker/setup-qemu-action@v2
-        if: ${{ matrix.system == 'aarch64' }}
-      - uses: cachix/install-nix-action@v17
-        with:
-          extra_nix_config: |
-            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
-            extra-platforms = aarch64-linux i686-linux
-            experimental-features = nix-command flakes recursive-nix
-      - uses: cachix/cachix-action@v10
-        with:
-          name: nix-actions
-          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
-          signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
-          extraPullNames: nix-actions,nix-community,nix-on-droid
       - name: Set swap space
         uses: pierotofy/set-swap-space@v1.0
         with:
           swap-size-gb: 10
-      - uses: nick-invision/retry@v2.7.0
+      - name: Checkout repository
+        uses: actions/checkout@v3.0.2
+        with:
+          fetch-depth: 0
+      - name: Build command (aarch64)
+        uses: docker/setup-qemu-action@v2
+        # if: ${{ matrix.system == 'aarch64' }}
+      - name: Install nix
+        uses: cachix/install-nix-action@v17
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+          extra_nix_config: |
+            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+            extra-platforms = aarch64-linux i686-linux
+      - name: Setup cachix
+        uses: cachix/cachix-action@v10
+        with:
+          name: nix-actions
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+          signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
+          extraPullNames: nix-community,nix-on-droid
+      - name: Retry run commands
+        uses: nick-invision/retry@v2.7.0
         with:
           max_attempts: 2
-          timeout_minutes: 5
+          timeout_minutes: 720
           retry_on: error
           command: |
             cachix watch-exec nix-actions -- \
-              nix -L --keep-going \
+              nix \
+                --log-format bar-with-logs \
+                --option keep-going true \
+                --show-trace \
                 ${{ matrix.nix-command }}
