@@ -7,5 +7,6 @@
     ./network
     ./power-management
     ./usershell
+    ./version
   ];
 }
