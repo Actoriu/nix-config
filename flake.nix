@@ -132,76 +132,76 @@
     };
   };
 
-  outputs = { self, ... }@inputs: {
+  outputs = { self, ... }@inputs:
     inputs.flake-utils-plus.lib.mkFlake {
-    inherit self inputs;
+      inherit self inputs;
 
-    supportedSystems = [ "aarch64-linux" "x86_64-linux" ];
+      supportedSystems = [ "aarch64-linux" "x86_64-linux" ];
 
-    channelsConfig = { allowUnfree = true; };
+      channelsConfig = { allowUnfree = true; };
 
-    sharedOverlays = [
-      inputs.devshell.overlay
-      inputs.nixos-cn.overlay
-      inputs.nur.overlay
-      inputs.nvfetcher.overlay
-      (final: prev: { spacemacs = inputs.spacemacs; })
-    ];
-
-    hostDefaults = {
-      channelName = "latest";
-      modules = [
-        inputs.home-manager.nixosModules.home-manager
-        {
-          home-manager = {
-            useGlobalPkgs = true;
-            useUserPackages = true;
-          };
-        }
-        ./machines/modules
-        ./user/modules
+      sharedOverlays = [
+        inputs.devshell.overlay
+        inputs.nixos-cn.overlay
+        inputs.nur.overlay
+        inputs.nvfetcher.overlay
+        (final: prev: { spacemacs = inputs.spacemacs; })
       ];
-    };
 
-    hosts = {
-      d630 = {
+      hostDefaults = {
+        channelName = "latest";
         modules = [
-          inputs.impermanence.nixosModules.impermanence
-          inputs.nixos-cn.nixosModules.nixos-cn-registries
-          inputs.nixos-cn.nixosModules.nixos-cn
-          ./hosts/d630
+          inputs.home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+            };
+          }
+          ./machines/modules
+          ./user/modules
         ];
       };
 
-      oneplus5 = {
-        output = "nixOnDroidConfigurations";
-        builder = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
-          config = import ./hosts/oneplus5 { inherit self inputs; };
-        };
-      };
-    };
-
-    outputsBuilder = channels: with channels.nixos; {
-      devShells = {
-        default = pkgs.devshell.mkShell {
-          name = "nix-on-droid";
-          imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
-          git.hooks.enable = true;
-          git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
-          packages = with pkgs; [
-            cachix
-            nix-build-uncached
-            nixpkgs-fmt
-            nodePackages.prettier
-            nodePackages.prettier-plugin-toml
-            shfmt
-            treefmt
+      hosts = {
+        d630 = {
+          modules = [
+            inputs.impermanence.nixosModules.impermanence
+            inputs.nixos-cn.nixosModules.nixos-cn-registries
+            inputs.nixos-cn.nixosModules.nixos-cn
+            ./hosts/d630
           ];
-          devshell.startup.nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
-            export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
-          '';
+        };
+
+        oneplus5 = {
+          output = "nixOnDroidConfigurations";
+          builder = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
+            config = import ./hosts/oneplus5 { inherit self inputs; };
+          };
+        };
+      };
+
+      outputsBuilder = channels: with channels.nixos; {
+        devShells = {
+          default = pkgs.devshell.mkShell {
+            name = "nix-on-droid";
+            imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
+            git.hooks.enable = true;
+            git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
+            packages = with pkgs; [
+              cachix
+              nix-build-uncached
+              nixpkgs-fmt
+              nodePackages.prettier
+              nodePackages.prettier-plugin-toml
+              shfmt
+              treefmt
+            ];
+            devshell.startup.nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
+              export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
+            '';
+          };
         };
       };
     };
-  };
 }
