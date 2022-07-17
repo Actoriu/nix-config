@@ -1,8 +1,7 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
+{ config
+, lib
+, pkgs
+, ...
 }:
 
 with lib;
@@ -24,7 +23,7 @@ in
         cmake
         gcc
         gdb
-        llvmPackages.libcxx
+        # llvmPackages.libcxx
       ];
     };
   };

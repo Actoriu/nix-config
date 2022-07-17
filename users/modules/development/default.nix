@@ -1,10 +1,8 @@
-{ ... }:
-
-{
+{ ... }: {
   imports = [
-    ./cc/default.nix
-    ./nodejs/default.nix
-    ./python/default.nix
-    ./texlive/default.nix
+    ./cc
+    ./nodejs
+    ./python
+    ./texlive
   ];
 }

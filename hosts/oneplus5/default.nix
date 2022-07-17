@@ -1,7 +1,6 @@
-{
-  config,
-  pkgs,
-  ...
+{ config
+, pkgs
+, ...
 }: {
   nix = {
     package = pkgs.nix_2_7;
@@ -55,7 +54,7 @@
 
   # Read the changelog before changing this value
   system = {
-    stateVersion = "21.11";
+    stateVersion = "22.05";
   };
 
   # nix-channel --add https://github.com/rycee/home-manager/archive/release-21.11.tar.gz home-manager
@@ -79,4 +78,4 @@
 
 }
 
-  # vim: ft=nix
+# vim: ft=nix

@@ -1,16 +1,15 @@
-{
-  config,
-  lib,
-  ...
+{ config
+, lib
+, ...
 }:
 
 with lib;
 
 let
-  cfg = config.custom.redshift;
+  cfg = config.custom.services.redshift;
 in
 {
-  options.custom.redshift = {
+  options.custom.services.redshift = {
     enable = mkEnableOption "Enable support for redshift.";
   };
 
@@ -23,7 +22,7 @@ in
           day = 5800;
           night = 4600;
         };
-        provider = "manual" ;
+        provider = "manual";
         latitude = 24.1958;
         longitude = 102.9274;
         settings = {

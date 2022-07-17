@@ -1,8 +1,7 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
+{ config
+, lib
+, pkgs
+, ...
 }:
 
 with lib;
@@ -73,7 +72,7 @@ in
               cursor = "#d8dee9";
             };
 
-            vi_mode_cursor ={
+            vi_mode_cursor = {
               text = "#2e3440";
               cursor = "#d8dee9";
             };

@@ -1,8 +1,7 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
+{ config
+, lib
+, pkgs
+, ...
 }:
 
 with lib;
@@ -19,7 +18,7 @@ in
     programs = {
       neovim = {
         enable = cfg.enable;
-        package = pkgs.neovim-nightly;
+        # package = pkgs.neovim-nightly;
         viAlias = true;
         vimAlias = true;
         vimdiffAlias = true;
@@ -180,10 +179,10 @@ in
           {
             plugin = onedark-vim;
             config = ''
-          set background=dark
-          packadd! onedark-vim
-          colorscheme onedark
-        '';
+              set background=dark
+              packadd! onedark-vim
+              colorscheme onedark
+            '';
           }
         ];
       };

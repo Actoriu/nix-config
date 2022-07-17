@@ -1,7 +1,6 @@
-{
-  config,
-  lib,
-  ...
+{ config
+, lib
+, ...
 }:
 
 with lib;
@@ -20,9 +19,5 @@ in
         enable = cfg.enable;
       };
     };
-
-    # services.openssh = {
-    #   enable = cfg.enable;
-    # };
   };
 }

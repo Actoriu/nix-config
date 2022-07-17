@@ -9,5 +9,5 @@
       };
       flake = import flake-compat { src = ./.; };
     in
-      flake
+    flake
   ).shellNix
