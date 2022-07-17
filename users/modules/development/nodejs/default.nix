@@ -1,8 +1,7 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
+{ config
+, lib
+, pkgs
+, ...
 }:
 
 with lib;
@@ -18,9 +17,10 @@ in
   config = mkIf cfg.enable {
     home = {
       packages = with pkgs; [
-        nodejs
+        nodejs-18_x
         nodePackages.pyright
       ];
     };
+    programs.npm.enable = true;
   };
 }

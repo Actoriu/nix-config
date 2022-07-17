@@ -1,21 +1,19 @@
-{ ... }:
-
-{
+{ ... }: {
   imports = [
-    ./bat/default.nix
-    ./dircolors/default.nix
-    ./direnv/default.nix
-    ./fzf/default.nix
-    ./git/default.nix
-    ./gnupg/default.nix
-    ./lorri/default.nix
-    ./openssh/default.nix
-    ./password-store/default.nix
-    ./rofi/default.nix
-    ./tmux/default.nix
-    ./xdg/default.nix
-    ./xresources/default.nix
-    ./zoxide/default.nix
-    ./zsh/default.nix
+    ./bat
+    ./dircolors
+    ./direnv
+    ./fzf
+    ./git
+    ./gnupg
+    ./lorri
+    ./openssh
+    ./password-store
+    ./rofi
+    ./tmux
+    ./xdg
+    ./xresources
+    ./zoxide
+    ./zsh
   ];
 }

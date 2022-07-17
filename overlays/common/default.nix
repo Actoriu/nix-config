@@ -1,7 +1,6 @@
-{
-  self,
-  inputs,
-  ...
+{ self
+, inputs
+, ...
 }:
 with inputs; [
   (final: prev: {
@@ -9,7 +8,8 @@ with inputs; [
     lib = prev.lib.extend (
       lfinal: lprev: {
         our = self.lib;
-      });
+      }
+    );
     spacemacs = inputs.spacemacs;
   })
   inputs.deploy-rs.overlay
