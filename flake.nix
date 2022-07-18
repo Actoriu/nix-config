@@ -163,6 +163,7 @@
 
       hosts = {
         d630 = {
+          system = "x86_64-linux";
           modules = [
             inputs.impermanence.nixosModules.impermanence
             inputs.nixos-cn.nixosModules.nixos-cn-registries
@@ -172,6 +173,7 @@
         };
 
         oneplus5 = {
+          system = "aarch64-linux";
           output = "nixOnDroidConfigurations";
           builder = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
             config = import ./hosts/oneplus5 { inherit self inputs; };
@@ -186,7 +188,7 @@
         {
           devShells = {
             default = pkgs.devshell.mkShell {
-              name = "nix-on-droid";
+              name = "nix-config";
               imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
               git.hooks.enable = true;
               git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
