@@ -159,7 +159,7 @@
             };
           }
           ./machines/modules
-          ./user/modules
+          ./users/modules
         ];
       };
 

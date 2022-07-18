@@ -106,9 +106,9 @@
     useDefaultShell = true;
   };
 
-  # home-manager.users.${config.user.name} = {
-  #   home.stateVersion = config.custom.version;
-  # };
+  home-manager.users.${config.user.name} = {
+    home.stateVersion = config.custom.version;
+  };
 
   # console = {
   #   font = "Lat2-Terminus16";
