@@ -151,12 +151,10 @@
       hostDefaults = {
         channelName = "latest";
         modules = [
-          inputs.home-manager.nixosModules.home-manager
+          inputs.home-manager.nixosModules
           {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-            };
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
           }
           ./machines/modules
           ./users/modules
