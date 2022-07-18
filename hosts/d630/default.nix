@@ -85,7 +85,7 @@
     terminal = {
       alacritty.enable = true;
       urxvt.enable = true;
-      xst.enable = true;
+      # xst.enable = true;
     };
     usershell = {
       enable = true;
