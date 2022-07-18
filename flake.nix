@@ -179,27 +179,31 @@
         };
       };
 
-      outputsBuilder = channels: with channels.nixos; {
-        devShells = {
-          default = pkgs.devshell.mkShell {
-            name = "nix-on-droid";
-            imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
-            git.hooks.enable = true;
-            git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
-            packages = with pkgs; [
-              cachix
-              nix-build-uncached
-              nixpkgs-fmt
-              nodePackages.prettier
-              nodePackages.prettier-plugin-toml
-              shfmt
-              treefmt
-            ];
-            devshell.startup.nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
-              export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
-            '';
+      outputsBuilder = channels:
+        let
+          pkgs = channels.latest;
+        in
+        {
+          devShells = {
+            default = pkgs.devshell.mkShell {
+              name = "nix-on-droid";
+              imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
+              git.hooks.enable = true;
+              git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
+              packages = with pkgs; [
+                cachix
+                nix-build-uncached
+                nixpkgs-fmt
+                nodePackages.prettier
+                nodePackages.prettier-plugin-toml
+                shfmt
+                treefmt
+              ];
+              devshell.startup.nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
+                export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
+              '';
+            };
           };
         };
-      };
     };
 }
