@@ -15,18 +15,16 @@ in
   };
 
   config = mkIf cfg.enable {
-    home = {
-      packages = with pkgs; [
-        xst
-        (makeDesktopItem {
-          name = "xst";
-          desktopName = "Suckless Terminal";
-          genericName = "Default terminal";
-          icon = "utilities-terminal";
-          exec = "${xst}/bin/xst";
-          categories = [ "System" "TerminalEmulator" ];
-        })
-      ];
-    };
+    home.packages = with pkgs; [
+      xst
+      (makeDesktopItem {
+        name = "xst";
+        desktopName = "Suckless Terminal";
+        genericName = "Default terminal";
+        icon = "utilities-terminal";
+        exec = "${xst}/bin/xst";
+        categories = [ "System" "TerminalEmulator" ];
+      })
+    ];
   };
 }
