@@ -19,6 +19,6 @@ in
       nodejs-18_x
       nodePackages.pyright
     ];
-    programs.npm.enable = true;
+    # programs.npm.enable = true;
   };
 }
