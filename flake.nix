@@ -35,7 +35,7 @@
     devshell = {
       url = "github:numtide/devshell";
       inputs = {
-        flake-utils.follows = "flake-utils-plus/flake-utils";
+        flake-utils.follows = "flake-utils/flake-utils";
         nixpkgs.follows = "latest";
       };
     };
