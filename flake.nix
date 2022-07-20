@@ -139,6 +139,17 @@
           {
             system = "x86_64-linux";
             modules = [
+              ({ config, lib, pkgs, ... }: {
+                nixpkgs.overlays = with inputs; [
+                  devshell.overlay
+                  nixos-cn.overlay
+                  nur.overlay
+                  nvfetcher.overlay
+                  (final: prev: { spacemacs = inputs.spacemacs; })
+                ];
+                system.configurationRevision =
+                  inputs.nixos.lib.mkIf (self ? rev) self.rev;
+              })
               ./hosts/d630
               inputs.impermanence.nixosModules.impermanence
               inputs.nixos-cn.nixosModules.nixos-cn-registries
@@ -151,17 +162,6 @@
                   users.actoriu = import ./users/actoriu/default.nix;
                 };
               }
-              ({ config, lib, pkgs, ... }: {
-                nixos.overlays = with inputs; [
-                  devshell.overlay
-                  nixos-cn.overlay
-                  nur.overlay
-                  nvfetcher.overlay
-                  (final: prev: { spacemacs = inputs.spacemacs; })
-                ];
-                system.configurationRevision =
-                  inputs.nixos.lib.mkIf (self ? rev) self.rev;
-              })
             ];
           };
       };
