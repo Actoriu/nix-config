@@ -141,7 +141,7 @@
             modules = [
               ({ config, lib, pkgs, ... }: {
                 nixpkgs.overlays = with inputs; [
-                  devshell.overlay
+                  # devshell.overlay
                   nixos-cn.overlay
                   nur.overlay
                   nvfetcher.overlay
@@ -170,7 +170,10 @@
     inputs.flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ]
       (system:
         let
-          pkgs = inputs.nixos.legacyPackages.${system};
+          pkgs = import inputs.nixos {
+            inherit system;
+            overlays = [ devshell.overlay ];
+          };
         in
         {
           devShells = {
