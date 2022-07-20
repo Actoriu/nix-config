@@ -159,6 +159,7 @@
                 home-manager = {
                   useGlobalPkgs = true;
                   useUserPackages = true;
+                  sharedModules = [{ manual.manpages.enable = false; }];
                   users.actoriu = import ./users/actoriu/default.nix;
                 };
               }
