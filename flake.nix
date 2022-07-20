@@ -152,7 +152,7 @@
                 };
               }
               ({ config, lib, pkgs, ... }: {
-                inputs.nixos.overlays = with inputs; [
+                nixos.overlays = with inputs; [
                   devshell.overlay
                   nixos-cn.overlay
                   nur.overlay
