@@ -15,12 +15,10 @@ in
   };
 
   config = mkIf cfg.enable {
-    home = {
-      packages = with pkgs; [
-        nodejs-18_x
-        nodePackages.pyright
-      ];
-    };
+    home.packages = with pkgs; [
+      nodejs-18_x
+      nodePackages.pyright
+    ];
     programs.npm.enable = true;
   };
 }

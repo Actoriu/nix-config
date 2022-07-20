@@ -15,16 +15,14 @@ in
   };
 
   config = mkIf cfg.enable {
-    home = {
-      packages = with pkgs; [
-        bear
-        ccls
-        clang
-        cmake
-        gcc
-        gdb
-        # llvmPackages.libcxx
-      ];
-    };
+    home.packages = with pkgs; [
+      bear
+      ccls
+      clang
+      cmake
+      gcc
+      gdb
+      # llvmPackages.libcxx
+    ];
   };
 }
