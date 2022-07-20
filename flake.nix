@@ -172,7 +172,7 @@
         let
           pkgs = import inputs.nixos {
             inherit system;
-            overlays = [ devshell.overlay ];
+            overlays = [ inputs.devshell.overlay ];
           };
         in
         {
