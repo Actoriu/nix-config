@@ -10,7 +10,7 @@
     [
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ../machines/nixos/modules
+      ../../machines/modules
     ];
 
   custom = {
