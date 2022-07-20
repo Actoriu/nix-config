@@ -1,6 +1,8 @@
 { ... }: {
   imports = [ ../modules ];
 
+  programs.home-manager.enable = true;
+
   custom = {
     development = {
       cc.enable = true;
