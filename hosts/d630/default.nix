@@ -10,24 +10,10 @@
     [
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ../machines/nixos/modules
     ];
 
   custom = {
-    development = {
-      cc.enable = true;
-      nodejs.enable = true;
-      python.enable = true;
-      texlive.enable = true;
-    };
-    editors = {
-      emacs = {
-        enable = true;
-        spacemacs = true;
-        emacs-application-framework = true;
-      };
-      neovim.enable = true;
-      zathura.enable = true;
-    };
     fonts.enable = true;
     hardware = {
       audio.pipewire.enable = true;
@@ -63,51 +49,20 @@
       tlp = true;
       upower = true;
     };
-    shell = {
-      bat.enable = true;
-      dircolors.enable = true;
-      direnv = {
-        enable = true;
-        nix-direnv = true;
-      };
-      fzf.enable = true;
-      git.enable = true;
-      gnupg.enable = true;
-      openssh.enable = true;
-      password-store.enable = true;
-      rofi.enable = true;
-      tmux.enable = true;
-      xdg.enable = true;
-      xresources.enable = true;
-      zoxide.enable = true;
-      zsh.enable = true;
-    };
-    terminal = {
-      alacritty.enable = true;
-      urxvt.enable = true;
-      # xst.enable = true;
-    };
     usershell = {
       enable = true;
       defaultUserShell = true;
       package = pkgs.zsh;
     };
-    user.name = "actoriu";
+    # user.name = "actoriu";
     version.enable = "22.05";
-    video = {
-      mpv.enable = true;
-    };
   };
 
-  users.users.${config.user.name} = {
+  users.users.actoriu = {
     isNormalUser = true;
     extraGroups = [ "wheel" ];
     uid = 1000;
     useDefaultShell = true;
-  };
-
-  home-manager.users.${config.user.name} = {
-    home.stateVersion = config.custom.version;
   };
 
   # console = {

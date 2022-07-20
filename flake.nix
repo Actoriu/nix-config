@@ -30,7 +30,7 @@
       flake = false;
     };
 
-    flake-utils-plus.url = "github:gytis-ivaskevicius/flake-utils-plus";
+    flake-utils.url = "github:numtide/flake-utils";
 
     devshell = {
       url = "github:numtide/devshell";
@@ -41,10 +41,10 @@
     };
 
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-22.05";
       inputs = {
         utils.follows = "flake-utils-plus/flake-utils";
-        nixpkgs.follows = "latest";
+        nixpkgs.follows = "nixos";
       };
     };
 
@@ -81,14 +81,14 @@
       };
     };
 
-    nix-on-droid = {
-      url = "github:t184256/nix-on-droid";
-      inputs = {
-        flake-utils.follows = "flake-utils-plus/flake-utils";
-        home-manager.follows = "home-manager";
-        nixpkgs.follows = "latest";
-      };
-    };
+    # nix-on-droid = {
+    #   url = "github:t184256/nix-on-droid";
+    #   inputs = {
+    #     flake-utils.follows = "flake-utils-plus/flake-utils";
+    #     home-manager.follows = "home-manager";
+    #     nixpkgs.follows = "nixos";
+    #   };
+    # };
 
     # nixos-hardware.url = "github:NixOS/nixos-hardware";
 
@@ -133,53 +133,43 @@
   };
 
   outputs = { self, ... }@inputs:
-    inputs.flake-utils-plus.lib.mkFlake {
-      inherit self inputs;
-
-      supportedSystems = [ "aarch64-linux" "x86_64-linux" ];
-
-      channelsConfig = { allowUnfree = true; };
-
-      sharedOverlays = [
-        inputs.devshell.overlay
-        inputs.nixos-cn.overlay
-        inputs.nur.overlay
-        inputs.nvfetcher.overlay
-        (final: prev: { spacemacs = inputs.spacemacs; })
-      ];
-
-      hostDefaults = {
-        channelName = "latest";
-        modules = [
-          inputs.home-manager.nixosModules.home-manager
-          ./machines/modules
-          ./users/modules
-        ];
-      };
-
-      hosts = {
-        d630 = {
-          system = "x86_64-linux";
-          modules = [
-            inputs.impermanence.nixosModules.impermanence
-            inputs.nixos-cn.nixosModules.nixos-cn-registries
-            inputs.nixos-cn.nixosModules.nixos-cn
-            ./hosts/d630
-          ];
-        };
-
-        oneplus5 = {
-          system = "aarch64-linux";
-          output = "nixOnDroidConfigurations";
-          builder = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
-            config = import ./hosts/oneplus5 { inherit self inputs; };
+    {
+      nixosConfigurations = {
+        d630 = inputs.nixos.lib.nixosSystem
+          {
+            system = "x86_64-linux";
+            modules = [
+              ./hosts/d630
+              inputs.impermanence.nixosModules.impermanence
+              inputs.nixos-cn.nixosModules.nixos-cn-registries
+              inputs.nixos-cn.nixosModules.nixos-cn
+              inputs.home-manager.nixosModules.home-manager
+              {
+                home-manager = {
+                  useGlobalPkgs = true;
+                  useUserPackages = true;
+                  users.actoriu = import ./users/actoriu/default.nix;
+                };
+              }
+              ({ config, lib, pkgs, ... }: {
+                inputs.nixos.overlays = with inputs; [
+                  devshell.overlay
+                  nixos-cn.overlay
+                  nur.overlay
+                  nvfetcher.overlay
+                  (final: prev: { spacemacs = inputs.spacemacs; })
+                ];
+                system.configurationRevision =
+                  inputs.nixos.lib.mkIf (self ? rev) self.rev;
+              })
+            ];
           };
-        };
       };
-
-      outputsBuilder = channels:
+    } //
+    inputs.flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ]
+      (system:
         let
-          pkgs = channels.latest;
+          pkgs = inputs.nixos.legacyPackages.${system};
         in
         {
           devShells = {
@@ -202,6 +192,5 @@
               '';
             };
           };
-        };
-    };
+        });
 }

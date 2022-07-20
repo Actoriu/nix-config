@@ -15,18 +15,16 @@ in
   };
 
   config = mkIf cfg.enable {
-    home = {
-      packages = with pkgs; [
-        (python3.withPackages
-          (ps: with ps; [
-            flake8
-            importmagic
-            ipython
-            isort
-            python_magic
-            setuptools
-          ]))
-      ];
-    };
+    home.packages = with pkgs; [
+      (python3.withPackages
+        (ps: with ps; [
+          flake8
+          importmagic
+          ipython
+          isort
+          python_magic
+          setuptools
+        ]))
+    ];
   };
 }
