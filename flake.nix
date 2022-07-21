@@ -144,10 +144,10 @@
 
       sharedOverlays = [
         self.overlay
-        devshell.overlay
-        nixos-cn.overlay
-        nur.overlay
-        nvfetcher.overlay
+        inputs.devshell.overlay
+        inputs.nixos-cn.overlay
+        inputs.nur.overlay
+        inputs.nvfetcher.overlay
         (final: prev: { spacemacs = inputs.spacemacs; })
         # (import ./pkgs)
       ];
