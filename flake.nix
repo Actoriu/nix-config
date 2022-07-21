@@ -164,7 +164,8 @@
               # users.actoriu = import ./users/actoriu/default.nix;
             };
           }
-          ./modules
+          ./machines/modules
+          ./users/modules
         ];
       };
 
