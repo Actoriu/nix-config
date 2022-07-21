@@ -30,12 +30,12 @@
       flake = false;
     };
 
-    flake-utils.url = "github:numtide/flake-utils";
+    flake-utils-plus.url = "github:gytis-ivaskevicius/flake-utils-plus";
 
     devshell = {
       url = "github:numtide/devshell";
       inputs = {
-        flake-utils.follows = "flake-utils";
+        flake-utils.follows = "flake-utils-plus/flake-utils";
         nixpkgs.follows = "latest";
       };
     };
@@ -43,7 +43,7 @@
     home-manager = {
       url = "github:nix-community/home-manager/release-22.05";
       inputs = {
-        utils.follows = "flake-utils";
+        utils.follows = "flake-utils-plus/flake-utils";
         nixpkgs.follows = "nixos";
       };
     };
@@ -76,7 +76,7 @@
     nixos-cn = {
       url = "github:nixos-cn/flakes";
       inputs = {
-        flake-utils.follows = "flake-utils";
+        flake-utils.follows = "flake-utils-plus/flake-utils";
         nixpkgs.follows = "latest";
       };
     };
@@ -105,7 +105,7 @@
       url = "github:berberman/nvfetcher";
       inputs = {
         flake-compat.follows = "flake-compat";
-        flake-utils.follows = "flake-utils";
+        flake-utils.follows = "flake-utils-plus/flake-utils";
         nixpkgs.follows = "latest";
       };
     };
@@ -133,47 +133,56 @@
   };
 
   outputs = { self, ... }@inputs:
-    {
-      nixosConfigurations = {
-        d630 = inputs.nixos.lib.nixosSystem
+    inputs.flake-utils-plus.lib.mkFlake {
+      inherit self inputs;
+
+      supportedSystems = [ "aarch64-linux" "x86_64-linux" ];
+
+      channelsConfig = { allowBroken = true; };
+
+      overlay = import ./overlays;
+
+      sharedOverlays = [
+        self.overlay
+        devshell.overlay
+        nixos-cn.overlay
+        nur.overlay
+        nvfetcher.overlay
+        (final: prev: { spacemacs = inputs.spacemacs; })
+        # (import ./pkgs)
+      ];
+
+      hostDefaults = {
+        channelName = "nixos";
+        modules = [
+          inputs.home-manager.nixosModules.home-manager
           {
-            system = "x86_64-linux";
-            modules = [
-              ({ config, lib, pkgs, ... }: {
-                nixpkgs.overlays = with inputs; [
-                  # devshell.overlay
-                  nixos-cn.overlay
-                  nur.overlay
-                  nvfetcher.overlay
-                  (final: prev: { spacemacs = inputs.spacemacs; })
-                ];
-                system.configurationRevision =
-                  inputs.nixos.lib.mkIf (self ? rev) self.rev;
-              })
-              ./hosts/d630
-              inputs.impermanence.nixosModules.impermanence
-              inputs.nixos-cn.nixosModules.nixos-cn-registries
-              inputs.nixos-cn.nixosModules.nixos-cn
-              inputs.home-manager.nixosModules.home-manager
-              {
-                home-manager = {
-                  useGlobalPkgs = true;
-                  useUserPackages = true;
-                  sharedModules = [{ manual.manpages.enable = false; }];
-                  users.actoriu = import ./users/actoriu/default.nix;
-                };
-              }
-            ];
-          };
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              sharedModules = [{ manual.manpages.enable = false; }];
+              # users.actoriu = import ./users/actoriu/default.nix;
+            };
+          }
+          ./modules
+        ];
       };
-    } //
-    inputs.flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ]
-      (system:
+
+      hosts = {
+        d630 = {
+          system = "x86_64-linux";
+          modules = [
+            inputs.impermanence.nixosModules.impermanence
+            inputs.nixos-cn.nixosModules.nixos-cn-registries
+            inputs.nixos-cn.nixosModules.nixos-cn
+            ./hosts/d630
+          ];
+        };
+      };
+
+      outputsBuilder = channels:
         let
-          pkgs = import inputs.nixos {
-            inherit system;
-            overlays = [ inputs.devshell.overlay ];
-          };
+          pkgs = channels.nixos;
         in
         {
           devShells = {
@@ -196,5 +205,6 @@
               '';
             };
           };
-        });
+        };
+    };
 }
