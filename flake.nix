@@ -165,7 +165,7 @@
             };
           }
           ./machines/modules
-          ./users/modules
+          # ./users/modules
         ];
       };
 
