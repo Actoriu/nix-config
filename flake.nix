@@ -156,7 +156,7 @@
         overlays.default = import ./overlays;
 
         sharedOverlays = [
-          self.overlay
+          # self.overlay
           inputs.devshell.overlay
           inputs.nixos-cn.overlay
           inputs.nur.overlay
