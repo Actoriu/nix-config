@@ -181,10 +181,10 @@
         };
       };
 
-      outputsBuilder = channels:
-        let
-          pkgs = channels.nixos;
-        in
+      outputsBuilder = channels: with channels.nixos;
+        # let
+        #   pkgs = channels.nixos;
+        # in
         {
           devShells = {
             default = pkgs.devshell.mkShell {
