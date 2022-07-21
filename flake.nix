@@ -133,19 +133,7 @@
   };
 
   outputs = { self, ... }@inputs:
-    # let
-    #   system = "x86_64-linux";
-    #   pkgs = inputs.nixos.legacyPackages.${system};
-    # in
-    {
-      homeConfigurations.actoriu = inputs.home-manager.lib.homeManagerConfiguration {
-        # inherit pkgs;
-
-        modules = [
-          # ./users/actoriu
-        ];
-      };
-    } // inputs.flake-utils-plus.lib.mkFlake
+    inputs.flake-utils-plus.lib.mkFlake
       {
         inherit self inputs;
 
@@ -220,5 +208,13 @@
               };
             };
           };
+      } // {
+      homeConfigurations.actoriu = inputs.home-manager.lib.homeManagerConfiguration {
+        # inherit pkgs;
+
+        modules = [
+          # ./users/actoriu
+        ];
       };
+    };
 }
