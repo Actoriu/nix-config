@@ -210,7 +210,7 @@
           };
       } // {
       homeConfigurations.actoriu = inputs.home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
+        # inherit pkgs;
 
         modules = [
           ./users/actoriu
