@@ -153,7 +153,7 @@
 
         channelsConfig = { allowBroken = true; };
 
-        overlay = import ./overlays;
+        overlays.default = import ./overlays;
 
         sharedOverlays = [
           self.overlay
