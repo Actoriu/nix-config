@@ -106,6 +106,32 @@
         "type": "github"
       }
     },
+    "nix-on-droid": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "home-manager": [
+          "home-manager"
+        ],
+        "nixpkgs": [
+          "nixos"
+        ]
+      },
+      "locked": {
+        "lastModified": 1654667844,
+        "narHash": "sha256-0tiIwPItfniax/bFw24CXTo74C7e+aIlAfHIBVF2xEE=",
+        "owner": "t184256",
+        "repo": "nix-on-droid",
+        "rev": "949f20f8ba900a02dfceb5c61ccef927ce704d87",
+        "type": "github"
+      },
+      "original": {
+        "owner": "t184256",
+        "repo": "nix-on-droid",
+        "type": "github"
+      }
+    },
     "nixlib": {
       "locked": {
         "lastModified": 1636849918,
@@ -230,6 +256,7 @@
         "home-manager": "home-manager",
         "impermanence": "impermanence",
         "latest": "latest",
+        "nix-on-droid": "nix-on-droid",
         "nixos": "nixos",
         "nixos-cn": "nixos-cn",
         "nixos-generators": "nixos-generators",
