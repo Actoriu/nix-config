@@ -243,7 +243,7 @@
           {
             devShells =
               let pkgs = channels.nixos {
-                inherit system;
+                # inherit system;
 
                 overlays = [ inputs.devshell.overlay ];
               };
