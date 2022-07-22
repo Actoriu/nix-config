@@ -30,6 +30,8 @@
       flake = false;
     };
 
+    flake-utils.url = "github:numtide/flake-utils";
+
     flake-utils-plus.url = "github:gytis-ivaskevicius/flake-utils-plus";
 
     devshell = {
@@ -133,88 +135,119 @@
   };
 
   outputs = { self, ... }@inputs:
-    inputs.flake-utils-plus.lib.mkFlake
+    inputs.flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
       {
-        inherit self inputs;
+        devShell =
+          let pkgs = import nixpkgs {
+            inherit system;
 
-        supportedSystems = [ "aarch64-linux" "x86_64-linux" ];
-
-        channelsConfig = { allowBroken = true; };
-
-        overlays.default = import ./overlays;
-
-        sharedOverlays = [
-          # self.overlay
-          inputs.devshell.overlay
-          inputs.nixos-cn.overlay
-          inputs.nur.overlay
-          inputs.nvfetcher.overlay
-          (final: prev: { spacemacs = inputs.spacemacs; })
-          # (import ./pkgs)
-        ];
-
-        hostDefaults = {
-          channelName = "nixos";
-          modules = [
-            inputs.home-manager.nixosModules.home-manager
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                sharedModules = [{ manual.manpages.enable = false; }];
-                # users.actoriu = import ./users/actoriu/default.nix;
-              };
-            }
-            ./machines/modules
-            # ./users/modules
-          ];
-        };
-
-        hosts = {
-          d630 = {
-            system = "x86_64-linux";
-            modules = [
-              inputs.impermanence.nixosModules.impermanence
-              inputs.nixos-cn.nixosModules.nixos-cn-registries
-              inputs.nixos-cn.nixosModules.nixos-cn
-              ./hosts/d630
-            ];
+            overlays = [ devshell.overlay ];
           };
-        };
-
-        outputsBuilder = channels: with channels.nixos;
-          # let
-          #   pkgs = channels.nixos;
-          # in
+          in
           {
-            devShells = {
-              default = pkgs.devshell.mkShell {
-                name = "nix-config";
-                imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
-                git.hooks.enable = true;
-                git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
-                packages = with pkgs; [
-                  cachix
-                  nix-build-uncached
-                  nixpkgs-fmt
-                  nodePackages.prettier
-                  nodePackages.prettier-plugin-toml
-                  shfmt
-                  treefmt
-                ];
-                devshell.startup.nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
-                  export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
-                '';
-              };
+            default = pkgs.devshell.mkShell {
+              name = "nix-config";
+              imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
+              git.hooks.enable = true;
+              git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
+              packages = with pkgs; [
+                cachix
+                nix-build-uncached
+                nixpkgs-fmt
+                nodePackages.prettier
+                nodePackages.prettier-plugin-toml
+                shfmt
+                treefmt
+              ];
+              devshell.startup.nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
+                export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
+              '';
             };
           };
-      } // {
-      homeConfigurations.actoriu = inputs.home-manager.lib.homeManagerConfiguration {
-        # inherit pkgs;
-
-        modules = [
-          ./users/actoriu
-        ];
-      };
-    };
+      });
 }
+#     inputs.flake-utils-plus.lib.mkFlake
+#       {
+#         inherit self inputs;
+
+#         supportedSystems = [ "aarch64-linux" "x86_64-linux" ];
+
+#         channelsConfig = { allowBroken = true; };
+
+#         overlays.default = import ./overlays;
+
+#         sharedOverlays = [
+#           # self.overlay
+#           inputs.devshell.overlay
+#           inputs.nixos-cn.overlay
+#           inputs.nur.overlay
+#           inputs.nvfetcher.overlay
+#           (final: prev: { spacemacs = inputs.spacemacs; })
+#           # (import ./pkgs)
+#         ];
+
+#         hostDefaults = {
+#           channelName = "nixos";
+#           modules = [
+#             inputs.home-manager.nixosModules.home-manager
+#             {
+#               home-manager = {
+#                 useGlobalPkgs = true;
+#                 useUserPackages = true;
+#                 sharedModules = [{ manual.manpages.enable = false; }];
+#                 # users.actoriu = import ./users/actoriu/default.nix;
+#               };
+#             }
+#             ./machines/modules
+#             # ./users/modules
+#           ];
+#         };
+
+#         hosts = {
+#           d630 = {
+#             system = "x86_64-linux";
+#             modules = [
+#               inputs.impermanence.nixosModules.impermanence
+#               inputs.nixos-cn.nixosModules.nixos-cn-registries
+#               inputs.nixos-cn.nixosModules.nixos-cn
+#               ./hosts/d630
+#             ];
+#           };
+#         };
+
+#         outputsBuilder = channels: with channels.nixos;
+#           # let
+#           #   pkgs = channels.nixos;
+#           # in
+#           {
+#             devShells = {
+#               default = pkgs.devshell.mkShell {
+#                 name = "nix-config";
+#                 imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
+#                 git.hooks.enable = true;
+#                 git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
+#                 packages = with pkgs; [
+#                   cachix
+#                   nix-build-uncached
+#                   nixpkgs-fmt
+#                   nodePackages.prettier
+#                   nodePackages.prettier-plugin-toml
+#                   shfmt
+#                   treefmt
+#                 ];
+#                 devshell.startup.nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
+#                   export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
+#                 '';
+#               };
+#             };
+#           };
+#       } // {
+#       homeConfigurations.actoriu = inputs.home-manager.lib.homeManagerConfiguration {
+#         # inherit pkgs;
+
+#         modules = [
+#           ./users/actoriu
+#         ];
+#       };
+#     };
+# }
