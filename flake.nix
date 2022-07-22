@@ -32,12 +32,12 @@
 
     flake-utils.url = "github:numtide/flake-utils";
 
-    flake-utils-plus.url = "github:gytis-ivaskevicius/flake-utils-plus";
+    # flake-utils-plus.url = "github:gytis-ivaskevicius/flake-utils-plus";
 
     devshell = {
       url = "github:numtide/devshell";
       inputs = {
-        flake-utils.follows = "flake-utils-plus/flake-utils";
+        flake-utils.follows = "flake-utils";
         nixpkgs.follows = "latest";
       };
     };
@@ -45,7 +45,7 @@
     home-manager = {
       url = "github:nix-community/home-manager/release-22.05";
       inputs = {
-        utils.follows = "flake-utils-plus/flake-utils";
+        utils.follows = "flake-utils";
         nixpkgs.follows = "nixos";
       };
     };
@@ -78,7 +78,7 @@
     nixos-cn = {
       url = "github:nixos-cn/flakes";
       inputs = {
-        flake-utils.follows = "flake-utils-plus/flake-utils";
+        flake-utils.follows = "flake-utils";
         nixpkgs.follows = "latest";
       };
     };
@@ -107,7 +107,7 @@
       url = "github:berberman/nvfetcher";
       inputs = {
         flake-compat.follows = "flake-compat";
-        flake-utils.follows = "flake-utils-plus/flake-utils";
+        flake-utils.follows = "flake-utils";
         nixpkgs.follows = "latest";
       };
     };
@@ -137,7 +137,7 @@
   outputs = { self, ... }@inputs:
     inputs.flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
       {
-        devShell =
+        devShells =
           let pkgs = import inputs.nixos {
             inherit system;
 
