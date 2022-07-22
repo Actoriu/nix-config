@@ -138,10 +138,10 @@
     inputs.flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
       {
         devShell =
-          let pkgs = import nixpkgs {
+          let pkgs = import inputs.nixos {
             inherit system;
 
-            overlays = [ devshell.overlay ];
+            overlays = [ inputs.devshell.overlay ];
           };
           in
           {
