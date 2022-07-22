@@ -135,6 +135,21 @@
   };
 
   outputs = { self, ... }@inputs:
+    {
+      nixosConfigurations = {
+        d630 = inputs.nixos.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [ ./hosts/d630 ];
+        };
+      };
+      homeConfigurations = {
+        actoriu = inputs.home-manager.lib.homeManagerConfiguration {
+          modules = [
+            ./user/actoriu
+          ];
+        };
+      };
+    } //
     inputs.flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
       {
         devShells =
