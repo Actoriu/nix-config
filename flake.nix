@@ -22,7 +22,7 @@
   };
 
   inputs = {
-    nixos.url = "github:NixOS/nixpkgs/nixos-22.05";
+    nixos.url = "github:NixOS/nixpkgs/nixos-21.11";
     latest.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     flake-compat = {
@@ -43,7 +43,7 @@
     };
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-22.05";
+      url = "github:nix-community/home-manager/release-21.11";
       inputs = {
         utils.follows = "flake-utils";
         nixpkgs.follows = "nixos";
@@ -83,14 +83,14 @@
       };
     };
 
-    # nix-on-droid = {
-    #   url = "github:t184256/nix-on-droid";
-    #   inputs = {
-    #     flake-utils.follows = "flake-utils-plus/flake-utils";
-    #     home-manager.follows = "home-manager";
-    #     nixpkgs.follows = "nixos";
-    #   };
-    # };
+    nix-on-droid = {
+      url = "github:t184256/nix-on-droid";
+      inputs = {
+        flake-utils.follows = "flake-utils";
+        home-manager.follows = "home-manager";
+        nixpkgs.follows = "nixos";
+      };
+    };
 
     # nixos-hardware.url = "github:NixOS/nixos-hardware";
 
@@ -147,6 +147,12 @@
           modules = [
             ./user/actoriu
           ];
+        };
+      };
+      nixOnDroidConfigurations = {
+        oneplus5 = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
+          system = "aarch64-linux";
+          config = ./hosts/oneplus5/default.nix;
         };
       };
     } //
