@@ -187,6 +187,9 @@
     #           };
     #       });
     # }
+    let
+      inherit (inputs.flake-utils-plus.lib) exportModules exportOverlays exportPackages;
+    in
     inputs.flake-utils-plus.lib.mkFlake
       {
         inherit self inputs;
@@ -195,10 +198,13 @@
 
         channelsConfig = { allowBroken = true; };
 
-        overlays.default = import ./overlays;
+        overlay = import ./overlays;
+        overlays = exportOverlays {
+          inherit (self) pkgs inputs;
+        };
 
         sharedOverlays = [
-          # self.overlay
+          self.overlay
           inputs.devshell.overlay
           inputs.nixos-cn.overlay
           inputs.nur.overlay
@@ -237,34 +243,31 @@
         };
 
         outputsBuilder = channels:
-          # let
-          #   pkgs = channels.nixos;
-          # in
+          let
+            pkgs = channels.nixos;
+          in
           {
-            devShells =
-              let
-                pkgs = channels.nixos;
-              in
-              {
-                default = pkgs.devshell.mkShell {
-                  name = "nix-config";
-                  imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
-                  git.hooks.enable = true;
-                  git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
-                  packages = with pkgs; [
-                    cachix
-                    nix-build-uncached
-                    nixpkgs-fmt
-                    nodePackages.prettier
-                    nodePackages.prettier-plugin-toml
-                    shfmt
-                    treefmt
-                  ];
-                  devshell.startup.nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
-                    export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
-                  '';
-                };
+            devShells = {
+              default = pkgs.devshell.mkShell {
+                name = "nix-config";
+                imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
+                git.hooks.enable = true;
+                git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
+                packages = with pkgs; [
+                  cachix
+                  nix-build-uncached
+                  nixpkgs-fmt
+                  nodePackages.prettier
+                  nodePackages.prettier-plugin-toml
+                  shfmt
+                  treefmt
+                ];
+                devshell.startup.nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
+                  export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
+                '';
               };
+            };
+            packages = exportPackages self.overlays channels;
           };
       } // {
       homeConfigurations = {
