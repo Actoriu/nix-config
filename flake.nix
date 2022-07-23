@@ -155,7 +155,7 @@
               };
             }
             ({ pkgs, ... }: {
-              inputs.nixos.overlays = [
+              nixpkgs.overlays = [
                 inputs.nixos-cn.overlay
                 inputs.nur.overlay
                 inputs.nvfetcher.overlay
