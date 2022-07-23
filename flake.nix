@@ -198,13 +198,13 @@
 
         channelsConfig = { allowBroken = true; };
 
-        overlay = import ./overlays;
+        overlays.default = import ./overlays;
         overlays = exportOverlays {
           inherit (self) pkgs inputs;
         };
 
         sharedOverlays = [
-          self.overlay
+          # self.overlay
           inputs.devshell.overlay
           inputs.nixos-cn.overlay
           inputs.nur.overlay
