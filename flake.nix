@@ -43,7 +43,7 @@
     };
 
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-22.05";
       inputs = {
         utils.follows = "flake-utils-plus/flake-utils";
         nixpkgs.follows = "nixos";
