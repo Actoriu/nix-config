@@ -135,147 +135,173 @@
   };
 
   outputs = { self, ... }@inputs:
-    #     {
-    #       nixosConfigurations = {
-    #         d630 = inputs.nixos.lib.nixosSystem {
-    #           system = "x86_64-linux";
-    #           modules = [ ./hosts/d630 ];
-    #         };
-    #       };
-    #       homeConfigurations = {
-    #         actoriu = inputs.home-manager.lib.homeManagerConfiguration {
-    #           modules = [
-    #             ./user/actoriu
-    #           ];
-    #         };
-    #       };
-    #       nixOnDroidConfigurations = {
-    #         oneplus5 = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
-    #           system = "aarch64-linux";
-    #           config = ./hosts/oneplus5/default.nix;
-    #         };
-    #       };
-    #     } //
-    #     inputs.flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
-    #       {
-    #         devShells =
-    #           let pkgs = import inputs.nixos {
-    #             inherit system;
+    {
+      overlays.default = import ./overlays;
 
-    #             overlays = [ inputs.devshell.overlay ];
-    #           };
-    #           in
-    #           {
-    #             default = pkgs.devshell.mkShell {
-    #               name = "nix-config";
-    #               imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
-    #               git.hooks.enable = true;
-    #               git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
-    #               packages = with pkgs; [
-    #                 cachix
-    #                 nix-build-uncached
-    #                 nixpkgs-fmt
-    #                 nodePackages.prettier
-    #                 nodePackages.prettier-plugin-toml
-    #                 shfmt
-    #                 treefmt
-    #               ];
-    #               devshell.startup.nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
-    #                 export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
-    #               '';
-    #             };
-    #           };
-    #       });
-    # }
-    let
-      inherit (inputs.flake-utils-plus.lib) exportModules exportOverlays exportPackages;
-    in
-    inputs.flake-utils-plus.lib.mkFlake
-      {
-        inherit self inputs;
-
-        supportedSystems = [ "aarch64-linux" "x86_64-linux" ];
-
-        channelsConfig = { allowBroken = true; };
-
-        overlays.default = import ./overlays;
-        overlays = exportOverlays {
-          inherit (self) pkgs inputs;
-        };
-
-        sharedOverlays = [
-          # self.overlay
-          inputs.devshell.overlay
-          inputs.nixos-cn.overlay
-          inputs.nur.overlay
-          inputs.nvfetcher.overlay
-          (final: prev: { spacemacs = inputs.spacemacs; })
-          # (import ./pkgs)
-        ];
-
-        hostDefaults = {
-          channelName = "nixos";
+      nixosConfigurations = {
+        d630 = inputs.nixos.lib.nixosSystem {
+          system = "x86_64-linux";
           modules = [
+            inputs.impermanence.nixosModules.impermanence
+            inputs.nixos-cn.nixosModules.nixos-cn-registries
+            inputs.nixos-cn.nixosModules.nixos-cn
             inputs.home-manager.nixosModules.home-manager
             {
               home-manager = {
                 useGlobalPkgs = true;
                 useUserPackages = true;
                 sharedModules = [{ manual.manpages.enable = false; }];
-                # users.actoriu = import ./users/actoriu/default.nix;
+                users.actoriu = import ./users/actoriu/default.nix;
               };
             }
-            ./machines/modules
-            # ./users/modules
-          ];
-        };
-
-        hosts = {
-          d630 = {
-            system = "x86_64-linux";
-            modules = [
-              inputs.impermanence.nixosModules.impermanence
-              inputs.nixos-cn.nixosModules.nixos-cn-registries
-              inputs.nixos-cn.nixosModules.nixos-cn
-              ./hosts/d630
-            ];
-          };
-        };
-
-        outputsBuilder = channels:
-          let
-            pkgs = channels.nixos;
-          in
-          {
-            devShells = {
-              default = pkgs.devshell.mkShell {
-                name = "nix-config";
-                imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
-                git.hooks.enable = true;
-                git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
-                packages = with pkgs; [
-                  cachix
-                  nix-build-uncached
-                  nixpkgs-fmt
-                  nodePackages.prettier
-                  nodePackages.prettier-plugin-toml
-                  shfmt
-                  treefmt
-                ];
-                devshell.startup.nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
-                  export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
-                '';
-              };
-            };
-            packages = exportPackages self.overlays channels;
-          };
-      } // {
-      homeConfigurations = {
-        actoriu = inputs.home-manager.lib.homeManagerConfiguration {
-          modules = [
-            ./users/actoriu
+            ({ pkgs, ... }: {
+              nixos.overlays = [
+                inputs.nixos-cn.overlay
+                inputs.nur.overlay
+                inputs.nvfetcher.overlay
+                (final: prev: { spacemacs = inputs.spacemacs; })
+              ];
+              system.configurationRevision =
+                inputs.nixos.lib.mkIf (self ? rev) self.rev;
+            })
+            ./hosts/d630
           ];
         };
       };
-    };
+      homeConfigurations = {
+        actoriu = inputs.home-manager.lib.homeManagerConfiguration {
+          modules = [
+            ./user/actoriu
+          ];
+        };
+      };
+      nixOnDroidConfigurations = {
+        oneplus5 = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
+          system = "aarch64-linux";
+          config = ./hosts/oneplus5/default.nix;
+        };
+      };
+    } //
+    inputs.flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
+      {
+        devShells =
+          let pkgs = import inputs.nixos {
+            inherit system;
+
+            overlays = [ inputs.devshell.overlay ];
+          };
+          in
+          {
+            default = pkgs.devshell.mkShell {
+              name = "nix-config";
+              imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
+              git.hooks.enable = true;
+              git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
+              packages = with pkgs; [
+                cachix
+                nix-build-uncached
+                nixpkgs-fmt
+                nodePackages.prettier
+                nodePackages.prettier-plugin-toml
+                shfmt
+                treefmt
+              ];
+              devshell.startup.nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
+                export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
+              '';
+            };
+          };
+      });
 }
+#     let
+#       inherit (inputs.flake-utils-plus.lib) exportModules exportOverlays exportPackages;
+#     in
+#     inputs.flake-utils-plus.lib.mkFlake
+#       {
+#         inherit self inputs;
+
+#         supportedSystems = [ "aarch64-linux" "x86_64-linux" ];
+
+#         channelsConfig = { allowBroken = true; };
+
+#         overlay = import ./overlays;
+#         overlays = exportOverlays {
+#           inherit (self) pkgs inputs;
+#         };
+
+#         sharedOverlays = [
+#           # self.overlay
+#           inputs.devshell.overlay
+#           inputs.nixos-cn.overlay
+#           inputs.nur.overlay
+#           inputs.nvfetcher.overlay
+#           (final: prev: { spacemacs = inputs.spacemacs; })
+#           # (import ./pkgs)
+#         ];
+
+#         hostDefaults = {
+#           channelName = "nixos";
+#           modules = [
+#             inputs.home-manager.nixosModules.home-manager
+#             {
+#               home-manager = {
+#                 useGlobalPkgs = true;
+#                 useUserPackages = true;
+#                 sharedModules = [{ manual.manpages.enable = false; }];
+#                 # users.actoriu = import ./users/actoriu/default.nix;
+#               };
+#             }
+#             ./machines/modules
+#             # ./users/modules
+#           ];
+#         };
+
+#         hosts = {
+#           d630 = {
+#             system = "x86_64-linux";
+#             modules = [
+#               inputs.impermanence.nixosModules.impermanence
+#               inputs.nixos-cn.nixosModules.nixos-cn-registries
+#               inputs.nixos-cn.nixosModules.nixos-cn
+#               ./hosts/d630
+#             ];
+#           };
+#         };
+
+#         outputsBuilder = channels:
+#           let
+#             pkgs = channels.nixos;
+#           in
+#           {
+#             devShells = {
+#               default = pkgs.devshell.mkShell {
+#                 name = "nix-config";
+#                 imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
+#                 git.hooks.enable = true;
+#                 git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
+#                 packages = with pkgs; [
+#                   cachix
+#                   nix-build-uncached
+#                   nixpkgs-fmt
+#                   nodePackages.prettier
+#                   nodePackages.prettier-plugin-toml
+#                   shfmt
+#                   treefmt
+#                 ];
+#                 devshell.startup.nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
+#                   export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
+#                 '';
+#               };
+#             };
+#             packages = exportPackages self.overlays channels;
+#           };
+#       } // {
+#       homeConfigurations = {
+#         actoriu = inputs.home-manager.lib.homeManagerConfiguration {
+#           modules = [
+#             ./users/actoriu
+#           ];
+#         };
+#       };
+#     };
+# }
