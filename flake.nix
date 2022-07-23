@@ -155,10 +155,10 @@
               };
             }
             ({ pkgs, ... }: {
-              nixpkgs.overlays = [
-                inputs.nixos-cn.overlay
-                inputs.nur.overlay
-                inputs.nvfetcher.overlay
+              nixpkgs.overlays = with inputs; [
+                nixos-cn.overlay
+                nur.overlay
+                nvfetcher.overlay
                 (final: prev: { spacemacs = inputs.spacemacs; })
               ];
               system.configurationRevision =
@@ -168,17 +168,17 @@
           ];
         };
       };
+      nixOnDroidConfigurations = {
+        oneplus5 = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
+          system = "aarch64-linux";
+          config = ./hosts/oneplus5/default.nix;
+        };
+      };
       homeConfigurations = {
         actoriu = inputs.home-manager.lib.homeManagerConfiguration {
           modules = [
             ./user/actoriu
           ];
-        };
-      };
-      nixOnDroidConfigurations = {
-        oneplus5 = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
-          system = "aarch64-linux";
-          config = ./hosts/oneplus5/default.nix;
         };
       };
     } //
