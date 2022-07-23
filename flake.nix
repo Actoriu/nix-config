@@ -267,12 +267,12 @@
               };
           };
       } // {
-      homeConfigurations = {
-        actoriu = inputs.home-manager.lib.homeManagerConfiguration {
-          modules = [
-            ./users/actoriu
-          ];
-        };
-      };
+      # homeConfigurations = {
+      #   actoriu = inputs.home-manager.lib.homeManagerConfiguration {
+      #     modules = [
+      #       ./users/actoriu
+      #     ];
+      #   };
+      # };
     };
 }
