@@ -3,7 +3,6 @@
     "devshell": {
       "inputs": {
         "flake-utils": [
-          "flake-utils-plus",
           "flake-utils"
         ],
         "nixpkgs": [
@@ -42,34 +41,16 @@
     },
     "flake-utils": {
       "locked": {
-        "lastModified": 1644229661,
-        "narHash": "sha256-1YdnJAsNy69bpcjuoKdOYQX0YxZBiCYZo4Twxerqv7k=",
+        "lastModified": 1656928814,
+        "narHash": "sha256-RIFfgBuKz6Hp89yRr7+NR5tzIAbn52h8vT6vXkYjZoM=",
         "owner": "numtide",
         "repo": "flake-utils",
-        "rev": "3cecb5b042f7f209c56ffd8371b2711a290ec797",
+        "rev": "7e2a3b3dfd9af950a856d66b0a7d01e3c18aa249",
         "type": "github"
       },
       "original": {
         "owner": "numtide",
         "repo": "flake-utils",
-        "type": "github"
-      }
-    },
-    "flake-utils-plus": {
-      "inputs": {
-        "flake-utils": "flake-utils"
-      },
-      "locked": {
-        "lastModified": 1657226504,
-        "narHash": "sha256-GIYNjuq4mJlFgqKsZ+YrgzWm0IpA4axA3MCrdKYj7gs=",
-        "owner": "gytis-ivaskevicius",
-        "repo": "flake-utils-plus",
-        "rev": "2bf0f91643c2e5ae38c1b26893ac2927ac9bd82a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "gytis-ivaskevicius",
-        "repo": "flake-utils-plus",
         "type": "github"
       }
     },
@@ -128,7 +109,6 @@
     "nix-on-droid": {
       "inputs": {
         "flake-utils": [
-          "flake-utils-plus",
           "flake-utils"
         ],
         "home-manager": [
@@ -186,7 +166,6 @@
     "nixos-cn": {
       "inputs": {
         "flake-utils": [
-          "flake-utils-plus",
           "flake-utils"
         ],
         "nixpkgs": [
@@ -249,7 +228,6 @@
           "flake-compat"
         ],
         "flake-utils": [
-          "flake-utils-plus",
           "flake-utils"
         ],
         "nixpkgs": [
@@ -274,7 +252,7 @@
       "inputs": {
         "devshell": "devshell",
         "flake-compat": "flake-compat",
-        "flake-utils-plus": "flake-utils-plus",
+        "flake-utils": "flake-utils",
         "home-manager": "home-manager",
         "impermanence": "impermanence",
         "latest": "latest",
