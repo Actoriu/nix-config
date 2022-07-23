@@ -30,14 +30,14 @@
       flake = false;
     };
 
-    flake-utils.url = "github:numtide/flake-utils";
+    # flake-utils.url = "github:numtide/flake-utils";
 
-    # flake-utils-plus.url = "github:gytis-ivaskevicius/flake-utils-plus";
+    flake-utils-plus.url = "github:gytis-ivaskevicius/flake-utils-plus";
 
     devshell = {
       url = "github:numtide/devshell";
       inputs = {
-        flake-utils.follows = "flake-utils";
+        flake-utils.follows = "flake-utils-plus/flake-utils";
         nixpkgs.follows = "latest";
       };
     };
@@ -45,7 +45,7 @@
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs = {
-        utils.follows = "flake-utils";
+        utils.follows = "flake-utils-plus/flake-utils";
         nixpkgs.follows = "nixos";
       };
     };
@@ -78,7 +78,7 @@
     nixos-cn = {
       url = "github:nixos-cn/flakes";
       inputs = {
-        flake-utils.follows = "flake-utils";
+        flake-utils.follows = "flake-utils-plus/flake-utils";
         nixpkgs.follows = "latest";
       };
     };
@@ -86,7 +86,7 @@
     nix-on-droid = {
       url = "github:t184256/nix-on-droid";
       inputs = {
-        flake-utils.follows = "flake-utils";
+        flake-utils.follows = "flake-utils-plus/flake-utils";
         home-manager.follows = "home-manager";
         nixpkgs.follows = "nixos";
       };
@@ -107,7 +107,7 @@
       url = "github:berberman/nvfetcher";
       inputs = {
         flake-compat.follows = "flake-compat";
-        flake-utils.follows = "flake-utils";
+        flake-utils.follows = "flake-utils-plus/flake-utils";
         nixpkgs.follows = "latest";
       };
     };
