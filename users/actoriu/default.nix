@@ -10,7 +10,7 @@
   custom = {
     # development
     cc.enable = true;
-    nodejs.enable = true;
+    javascript.enable = true;
     python.enable = true;
     texlive.enable = true;
     # editors
