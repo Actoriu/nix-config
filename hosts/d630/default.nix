@@ -14,6 +14,8 @@
       ../../profiles/nixos
     ];
 
+  services.xserver.enable = true;
+
   custom = {
     fonts.enable = true;
     audio.pipewire.enable = true;
