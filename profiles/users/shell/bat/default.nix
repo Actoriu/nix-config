@@ -1,0 +1,5 @@
+{ ... }: {
+  custom.bat = {
+    enable = true;
+  };
+}

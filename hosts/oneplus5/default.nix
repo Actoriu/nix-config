@@ -3,7 +3,6 @@
 , ...
 }: {
   nix = {
-    package = pkgs.nix_2_7;
     extraConfig = ''
       experimental-features = nix-command flakes
     '';

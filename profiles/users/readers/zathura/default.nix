@@ -1,0 +1,5 @@
+{ ... }: {
+  custom.zathura = {
+    enable = true;
+  };
+}

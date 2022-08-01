@@ -1,0 +1,5 @@
+{ ... }: {
+  custom.openssh = {
+    enable = true;
+  };
+}

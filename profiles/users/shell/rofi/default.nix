@@ -1,0 +1,5 @@
+{ ... }: {
+  custom.rofi = {
+    enable = true;
+  };
+}

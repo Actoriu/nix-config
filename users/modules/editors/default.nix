@@ -1,7 +1,0 @@
-{ ... }: {
-  imports = [
-    ./emacs
-    ./neovim
-    ./zathura
-  ];
-}

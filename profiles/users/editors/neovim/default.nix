@@ -1,0 +1,5 @@
+{ ... }: {
+  custom.neovim = {
+    enable = true;
+  };
+}

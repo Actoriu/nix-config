@@ -1,0 +1,5 @@
+{ ... }: {
+  custom.javascript = {
+    enable = true;
+  };
+}

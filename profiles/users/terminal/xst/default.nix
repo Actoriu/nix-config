@@ -1,0 +1,5 @@
+{ ... }: {
+  custom.xst = {
+    enable = true;
+  };
+}
