@@ -58,7 +58,7 @@
       # defaultUserShell = true;
       package = pkgs.zsh;
       user.name = "actoriu";
-      version.enable = "22.05";
+      version = "22.05";
     };
   };
 
