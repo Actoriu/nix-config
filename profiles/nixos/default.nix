@@ -1,6 +1,6 @@
 { ... }: {
   imports = [
-    ./hardware
+    # ./hardware
     ./nix
     ./security
     ./services

@@ -18,7 +18,10 @@
 
   custom = {
     fonts.enable = true;
-    audio.pipewire.enable = true;
+    audio = {
+      enable = true;
+      pipewire.enable = true;
+    };
     bluetooth.enable = true;
     cpu.intel.enable = true;
     opengl.enable = true;
