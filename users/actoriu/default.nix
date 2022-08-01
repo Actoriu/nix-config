@@ -1,11 +1,11 @@
 { ... }: {
   imports = [
     ../../modules/users
-    ../../profiles/users
+    # ../../profiles/users
   ];
 
-  # programs.home-manager.enable = true;
-  # home.stateVersion = "22.05";
+  programs.home-manager.enable = true;
+  home.stateVersion = "22.05";
 
   custom = {
     # development
