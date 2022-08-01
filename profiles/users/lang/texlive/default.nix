@@ -1,0 +1,5 @@
+{ ... }: {
+  custom.texlive = {
+    enable = true;
+  };
+}

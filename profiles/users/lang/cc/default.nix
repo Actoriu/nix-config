@@ -1,0 +1,5 @@
+{ ... }: {
+  custom.cc = {
+    enable = true;
+  };
+}

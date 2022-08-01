@@ -10,21 +10,20 @@
     [
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ../../machines/modules
+      ../../modules/nixos
+      ../../profiles/nixos
     ];
 
   custom = {
     fonts.enable = true;
-    hardware = {
-      audio.pipewire.enable = true;
-      bluetooth.enable = true;
-      cpu.intel.enable = true;
-      opengl.enable = true;
-      printers.enable = true;
-      video.nvidia = {
-        enable = true;
-        drivers = "nvidia-340";
-      };
+    audio.pipewire.enable = true;
+    bluetooth.enable = true;
+    cpu.intel.enable = true;
+    opengl.enable = true;
+    printers.enable = true;
+    video.nvidia = {
+      enable = true;
+      drivers = "nvidia-340";
     };
     loader = {
       enable = true;
@@ -49,20 +48,19 @@
       tlp = true;
       upower = true;
     };
-    usershell = {
+    users = {
       enable = true;
-      defaultUserShell = true;
+      # defaultUserShell = true;
       package = pkgs.zsh;
+      user.name = "actoriu";
+      version.enable = "22.05";
     };
-    # user.name = "actoriu";
-    version.enable = "22.05";
   };
 
-  users.users.actoriu = {
+  users.users.${config.custom.users.user.name} = {
     isNormalUser = true;
     extraGroups = [ "wheel" ];
     uid = 1000;
-    useDefaultShell = true;
   };
 
   # console = {

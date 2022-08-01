@@ -1,0 +1,5 @@
+{ ... }: {
+  custom.zoxide = {
+    enable = true;
+  };
+}
