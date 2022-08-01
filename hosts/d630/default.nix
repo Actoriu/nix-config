@@ -20,7 +20,7 @@
     fonts.enable = true;
     audio = {
       enable = true;
-      pipewire.enable = true;
+      pipewire = true;
     };
     bluetooth.enable = true;
     cpu.intel.enable = true;
