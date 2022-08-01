@@ -1,11 +1,11 @@
 { ... }: {
   imports = [
-    ./editors
+    # ./editors
     ./home-manager
-    ./lang
-    ./readers
-    ./shell
-    ./terminal
-    ./video
+    # ./lang
+    # ./readers
+    # ./shell
+    # ./terminal
+    # ./video
   ];
 }
