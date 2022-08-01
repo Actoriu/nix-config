@@ -7,10 +7,10 @@
 with lib;
 
 let
-  cfg = config.custom.nvidia;
+  cfg = config.custom.video.nvidia;
 in
 {
-  options.custom.nvidia = {
+  options.custom.video.nvidia = {
     enable = mkEnableOption "Enable support for the graphical interface nvidia drives.";
 
     drivers = mkOption {
