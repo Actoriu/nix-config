@@ -32,7 +32,7 @@ in
       description = "Enable support for user shell package.";
     };
 
-    user.name = mkOption {
+    userName = mkOption {
       type = types.nullOr types.str;
       default = null;
       description = "Enable support for users.users.<name>.name";

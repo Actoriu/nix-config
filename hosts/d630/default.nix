@@ -57,12 +57,12 @@
       enable = true;
       # defaultUserShell = true;
       package = pkgs.zsh;
-      user.name = "actoriu";
+      userName = "actoriu";
       version = "22.05";
     };
   };
 
-  users.users.${config.custom.users.user.name} = {
+  users.users.${config.custom.users.userName} = {
     isNormalUser = true;
     extraGroups = [ "wheel" ];
     uid = 1000;
