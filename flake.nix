@@ -143,6 +143,7 @@
           impermanence.nixosModules.impermanence
           nixos-cn.nixosModules.nixos-cn-registries
           nixos-cn.nixosModules.nixos-cn
+          home-manager.nixosModules.home-manager
           ({ pkgs, ... }: {
             nixpkgs = {
               config = { allowUnfree = true; };
@@ -156,9 +157,8 @@
             system.configurationRevision =
               inputs.nixos.lib.mkIf (self ? rev) self.rev;
           })
-          ./hosts/d630
-          home-manager.nixosModules.home-manager
           ./profiles/shared/home-manager
+          ./hosts/d630
           # {
           #   home-manager = {
           #     useGlobalPkgs = true;
