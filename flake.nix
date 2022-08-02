@@ -170,13 +170,14 @@
     #     config = ./hosts/oneplus5/default.nix;
     #   };
     # };
-    homeConfigurations = {
-      actoriu = inputs.home-manager.lib.homeManagerConfiguration {
-        modules = [
-          ./user/actoriu
-        ];
-      };
-    };
+    homeConfigurations = import ./machines/home/default.nix { inherit self inputs; };
+    # homeConfigurations = {
+    #   actoriu = inputs.home-manager.lib.homeManagerConfiguration {
+    #     modules = [
+    #       ./user/actoriu
+    #     ];
+    #   };
+    # };
   } //
   inputs.flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
     {
