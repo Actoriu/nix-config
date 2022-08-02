@@ -163,12 +163,13 @@
     #     ];
     #   };
     # };
-    nixOnDroidConfigurations = {
-      oneplus5 = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
-        system = "aarch64-linux";
-        config = ./hosts/oneplus5/default.nix;
-      };
-    };
+    nixOnDroidConfigurations = import ./machines/droid/default.nix { inherit self inputs; };
+    # nixOnDroidConfigurations = {
+    #   oneplus5 = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
+    #     system = "aarch64-linux";
+    #     config = ./hosts/oneplus5/default.nix;
+    #   };
+    # };
     homeConfigurations = {
       actoriu = inputs.home-manager.lib.homeManagerConfiguration {
         modules = [
