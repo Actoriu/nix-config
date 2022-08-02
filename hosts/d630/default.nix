@@ -69,7 +69,7 @@
   };
 
   home-manager = {
-    user.${config.custom.users.userName} = {
+    users.${config.custom.users.userName} = {
       imports = [
         # inputs.impermanence.nixosModules.home-manager.impermanence
         ./users/actoriu
