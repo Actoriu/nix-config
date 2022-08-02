@@ -1,5 +1,0 @@
-{ ... }: {
-  custom.printers = {
-    enable = true;
-  };
-}

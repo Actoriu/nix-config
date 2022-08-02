@@ -1,5 +1,0 @@
-{ ... }: {
-  custom.dircolors = {
-    enable = true;
-  };
-}

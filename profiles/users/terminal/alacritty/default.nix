@@ -1,5 +1,0 @@
-{ ... }: {
-  custom.alacritty = {
-    enable = true;
-  };
-}

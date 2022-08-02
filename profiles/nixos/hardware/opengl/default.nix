@@ -1,5 +1,0 @@
-{ ... }: {
-  custom.opengl = {
-    enable = true;
-  };
-}

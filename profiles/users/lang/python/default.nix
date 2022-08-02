@@ -1,5 +1,0 @@
-{ ... }: {
-  custom.python = {
-    enable = true;
-  };
-}

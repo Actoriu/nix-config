@@ -1,5 +1,0 @@
-{ ... }: {
-  custom.fzf = {
-    enable = true;
-  };
-}

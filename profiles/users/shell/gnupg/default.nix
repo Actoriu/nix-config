@@ -1,5 +1,0 @@
-{ ... }: {
-  custom.gnupg = {
-    enable = true;
-  };
-}

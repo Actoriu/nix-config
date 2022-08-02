@@ -1,5 +1,0 @@
-{ ... }: {
-  custom.bluetooth = {
-    enable = true;
-  };
-}
