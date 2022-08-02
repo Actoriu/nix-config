@@ -144,17 +144,18 @@
           nixos-cn.nixosModules.nixos-cn-registries
           nixos-cn.nixosModules.nixos-cn
           ({ pkgs, ... }: {
-            nixpkgs.overlays = with inputs; [
-              nixos-cn.overlay
-              nur.overlay
-              nvfetcher.overlay
-              (final: prev: { spacemacs = inputs.spacemacs; })
-            ];
+            nixpkgs = {
+              config = { allowUnfree = true; };
+              overlays = with inputs; [
+                nixos-cn.overlay
+                nur.overlay
+                nvfetcher.overlay
+                (final: prev: { spacemacs = inputs.spacemacs; })
+              ];
+            };
             system.configurationRevision =
               inputs.nixos.lib.mkIf (self ? rev) self.rev;
           })
-          ./profiles/shared/nixpkgs
-          # ./profiles/shared/home-manager
           ./hosts/d630
           home-manager.nixosModules.home-manager
           {
@@ -162,7 +163,11 @@
               useGlobalPkgs = true;
               useUserPackages = true;
               extraSpecialArgs = { inherit inputs; };
-              sharedModules = [{ manual.manpages.enable = false; }];
+              sharedModules = [{
+                manual.manpages.enable = false;
+                programs.home-manager.enable = true;
+                home.stateVersion = "${config.custom.users.user.version}";
+              }];
               users.${config.custom.users.userName} = {
                 imports = [
                   inputs.impermanence.nixosModules.home-manager.impermanence
