@@ -2,6 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 { config
+, inputs
 , lib
 , pkgs
 , ...
@@ -58,7 +59,7 @@
       # defaultUserShell = true;
       package = pkgs.zsh;
       userName = "actoriu";
-      version = "22.05";
+      userVersion = "22.05";
     };
   };
 
@@ -71,7 +72,7 @@
   home-manager = {
     users.${config.custom.users.userName} = {
       imports = [
-        # inputs.impermanence.nixosModules.home-manager.impermanence
+        inputs.impermanence.nixosModules.home-manager.impermanence
         ../../users/actoriu
       ];
     };

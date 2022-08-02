@@ -50,6 +50,6 @@ in
     # (mkIf (cfg.package.pname == "fish") { programs.fish.enable = true; })
     # (mkIf (cfg.package.pname == "zsh") { programs.zsh.enable = true; })
     (mkIf cfg.defaultUserShell { users.defaultUserShell = cfg.package; })
-    (mkIf (cfg.version != null) { system.stateVersion = cfg.version; })
+    (mkIf (cfg.userVersion != null) { system.stateVersion = cfg.userVersion; })
   ]);
 }
