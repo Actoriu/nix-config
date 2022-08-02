@@ -1,6 +1,11 @@
 { ... }: {
   imports = [
-    ./programs
+    ./editors
+    ./lang
+    ./readers
     ./services
+    ./shell
+    ./terminal
+    ./video
   ];
 }
