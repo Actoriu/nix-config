@@ -47,4 +47,6 @@
     # video
     mpv.enable = true;
   };
+
+  xdg.configFile."nixpkgs/config.nix".text = "nixpkgs.config = { allowUnfree = true; };";
 }
