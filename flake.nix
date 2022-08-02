@@ -167,7 +167,7 @@
           #     sharedModules = [{
           #       manual.manpages.enable = false;
           #       programs.home-manager.enable = true;
-          #       home.stateVersion = "${config.custom.users.user.version}";
+          #       home.stateVersion = "${config.custom.users.version}";
           #     }];
           #     users.${config.custom.users.userName} = {
           #       imports = [
