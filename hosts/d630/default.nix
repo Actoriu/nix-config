@@ -14,8 +14,6 @@
       ../../profiles/nixos
     ];
 
-  nixpkgs.config = import ../../profiles/shared/nixpkgs/default.nix;
-
   services.xserver.enable = true;
 
   custom = {
