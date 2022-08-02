@@ -163,7 +163,7 @@
     #     ];
     #   };
     # };
-    nixOnDroidConfigurations = import ./machines/droid/default.nix { inherit self inputs; };
+    nixOnDroidConfigurations = imports [ ./machines/droid ] { inherit self inputs; };
     # nixOnDroidConfigurations = {
     #   oneplus5 = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
     #     system = "aarch64-linux";
