@@ -154,7 +154,7 @@
               inputs.nixos.lib.mkIf (self ? rev) self.rev;
           })
           ./profiles/shared/nixpkgs
-          ./profiles/shared/home-manager
+          # ./profiles/shared/home-manager
           ./hosts/d630
           home-manager.nixosModules.home-manager
           {
