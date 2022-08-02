@@ -1,16 +1,11 @@
 { ... }: {
   imports = [
-    ./audio
-    ./bluetooth
-    ./cpu
     ./fonts
+    ./hardware
     ./loader
     ./locale
     ./network
-    ./opengl
     ./power-management
-    ./printers
     ./users
-    ./video
   ];
 }
