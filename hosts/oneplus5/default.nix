@@ -2,6 +2,8 @@
 , pkgs
 , ...
 }: {
+  nixpkgs.config = import ./profiles/shared/nixpkgs/default.nix;
+
   nix = {
     extraConfig = ''
       experimental-features = nix-command flakes
@@ -65,12 +67,10 @@
   #   useUserPackages = true;
   #   config = { pkgs, lib, ... }: {
   #     nixpkgs = {
-  #       config = {
-  #         allowUnfree = true;
-  #       };
-  #       inherit (config.nixpkgs) overlays;
+  #       config = import ./profiles/shared/nixpkgs/default.nix;
   #     };
-  #     home.stateVersion = "21.11";
+  #     xdg.configFile."nixpkgs/config.nix".source = ./profiles/shared/nixpkgs/default.nix;
+  #     home.stateVersion = "22.05";
   #     imports = [ ../../users/nix-on-droid/default.nix ];
   #   };
   # };

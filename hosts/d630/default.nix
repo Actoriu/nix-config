@@ -14,6 +14,8 @@
       ../../profiles/nixos
     ];
 
+  nixpkgs.config = import ./profiles/shared/nixpkgs/default.nix;
+
   services.xserver.enable = true;
 
   custom = {
@@ -67,6 +69,15 @@
     extraGroups = [ "wheel" ];
     uid = 1000;
   };
+
+  # home-manager = {
+  #   user.${config.custom.users.userName} = {
+  #     imports = [
+  #       inputs.impermanence.nixosModules.home-manager.impermanence
+  #       ./users/actoriu
+  #     ];
+  #   };
+  # };
 
   # console = {
   #   font = "Lat2-Terminus16";
