@@ -68,14 +68,14 @@
     uid = 1000;
   };
 
-  # home-manager = {
-  #   user.${config.custom.users.userName} = {
-  #     imports = [
-  #       inputs.impermanence.nixosModules.home-manager.impermanence
-  #       ./users/actoriu
-  #     ];
-  #   };
-  # };
+  home-manager = {
+    user.${config.custom.users.userName} = {
+      imports = [
+        # inputs.impermanence.nixosModules.home-manager.impermanence
+        ./users/actoriu
+      ];
+    };
+  };
 
   # console = {
   #   font = "Lat2-Terminus16";

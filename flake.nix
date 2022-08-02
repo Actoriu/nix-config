@@ -158,24 +158,25 @@
           })
           ./hosts/d630
           home-manager.nixosModules.home-manager
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              extraSpecialArgs = { inherit inputs; };
-              sharedModules = [{
-                manual.manpages.enable = false;
-                programs.home-manager.enable = true;
-                home.stateVersion = "${config.custom.users.user.version}";
-              }];
-              users.${config.custom.users.userName} = {
-                imports = [
-                  inputs.impermanence.nixosModules.home-manager.impermanence
-                  ./users/actoriu
-                ];
-              };
-            };
-          }
+          ./profiles/shared/home-manager
+          # {
+          #   home-manager = {
+          #     useGlobalPkgs = true;
+          #     useUserPackages = true;
+          #     extraSpecialArgs = { inherit inputs; };
+          #     sharedModules = [{
+          #       manual.manpages.enable = false;
+          #       programs.home-manager.enable = true;
+          #       home.stateVersion = "${config.custom.users.user.version}";
+          #     }];
+          #     users.${config.custom.users.userName} = {
+          #       imports = [
+          #         inputs.impermanence.nixosModules.home-manager.impermanence
+          #         ./users/actoriu
+          #       ];
+          #     };
+          #   };
+          # }
         ];
       };
     };

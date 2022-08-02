@@ -4,7 +4,7 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    extraSpecialArgs = { inherit inputs; };
+    # extraSpecialArgs = { inherit inputs; };
     sharedModules = [{
       manual.manpages.enable = false;
       programs.home-manager.enable = true;
