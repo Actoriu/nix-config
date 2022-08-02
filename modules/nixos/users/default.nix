@@ -38,7 +38,7 @@ in
       description = "Enable support for users.users.<name>.name";
     };
 
-    version = mkOption {
+    userVersion = mkOption {
       type = types.nullOr (types.enum [ "22.05" "22.11" ]);
       default = null;
       example = "22.05";
