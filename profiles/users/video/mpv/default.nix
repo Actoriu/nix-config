@@ -1,5 +1,0 @@
-{ ... }: {
-  custom.mpv = {
-    enable = true;
-  };
-}

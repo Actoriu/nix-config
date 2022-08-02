@@ -1,5 +1,0 @@
-{ ... }: {
-  custom.urxvt = {
-    enable = true;
-  };
-}

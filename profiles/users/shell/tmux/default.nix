@@ -1,5 +1,0 @@
-{ ... }: {
-  custom.tmux = {
-    enable = true;
-  };
-}
