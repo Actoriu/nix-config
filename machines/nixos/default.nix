@@ -23,8 +23,8 @@
         system.configurationRevision =
           inputs.nixos.lib.mkIf (self ? rev) self.rev;
       })
-      ./profiles/shared/home-manager
-      ./hosts/d630
+      ../../profiles/shared/home-manager
+      ../../hosts/d630
     ];
   };
 }
