@@ -2,8 +2,8 @@
 , ...
 }: {
   home = {
-    username = config.custom.users.user.name;
-    homeDirectory = "home/${config.custom.users.user.name}";
+    username = config.custom.users.userName;
+    homeDirectory = "home/${config.custom.users.userName}";
     stateVersion = config.custom.users.version;
   };
   programs.home-manager.enable = true;

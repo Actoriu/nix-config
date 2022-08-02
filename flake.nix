@@ -176,7 +176,10 @@
                   useGlobalPkgs = true;
                   useUserPackages = true;
                   sharedModules = [{ manual.manpages.enable = false; }];
-                  users.actoriu = import ./users/actoriu/default.nix;
+                  users.actoriu = imports [
+                    inputs.impermanence.nixosModules.home-manager.impermanence
+                    ./users/actoriu
+                  ];
                 };
               }
               # ({ pkgs, ... }: {
