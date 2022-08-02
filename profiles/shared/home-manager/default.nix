@@ -9,7 +9,7 @@
     sharedModules = [{
       manual.manpages.enable = false;
       programs.home-manager.enable = true;
-      home.stateVersion = "${config.custom.users.version}";
+      home.stateVersion = "${config.custom.users.userVersion}";
     }];
   };
 }
