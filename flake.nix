@@ -178,38 +178,64 @@
     #     ];
     #   };
     # };
-  } // {
-    imports = [
-      (./machines/home/default.nix { inherit self inputs; })
-    ];
   }
+  # } // {
+  #   imports = [
+  #     (./machines/home/default.nix { inherit self inputs; })
+  #   ];
+  # }
   // inputs.flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
+    let
+      pkgs = inputs.nixos.legacyPackages.${system};
+    in
     {
-      devShells =
-        let pkgs = import inputs.nixos {
-          inherit system;
-          overlays = [ inputs.devshell.overlay ];
+      homeConfigurations = {
+        actoriu = inputs.home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+
+          modules = [
+            ({ config, lib, pkgs, ... }: {
+              nixpkgs = {
+                config = { allowUnfree = true; };
+                verlays = [
+                  self.verlays.default
+                  (final: prev: { spacemacs = inputs.spacemacs; })
+                ];
+              };
+            })
+            ../../user/actoriu
+          ];
         };
-        in
-        {
-          default = pkgs.devshell.mkShell {
-            name = "nix-config";
-            imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
-            git.hooks.enable = true;
-            git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
-            packages = with pkgs; [
-              cachix
-              nix-build-uncached
-              nixpkgs-fmt
-              nodePackages.prettier
-              nodePackages.prettier-plugin-toml
-              shfmt
-              treefmt
-            ];
-            devshell.startup.nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
-              export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
-            '';
-          };
-        };
-    });
+      };
+    };
+    )
+    // inputs.flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
+    {
+    devShells =
+    let pkgs = import inputs.nixos {
+    inherit system;
+  overlays = [ inputs.devshell.overlay ];
+};
+in
+{
+default = pkgs.devshell.mkShell {
+name = "nix-config";
+imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
+git.hooks.enable = true;
+git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
+packages = with pkgs; [
+cachix
+nix-build-uncached
+nixpkgs-fmt
+nodePackages.prettier
+nodePackages.prettier-plugin-toml
+shfmt
+treefmt
+];
+devshell.startup.nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
+                export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
+              '';
+};
+};
+});
 }
