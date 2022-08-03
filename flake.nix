@@ -178,36 +178,37 @@
     #     ];
     #   };
     # };
-  }
+  } //
+  (import ./machines/home { inherit self inputs; })
   # } // {
   #   imports = [
   #     ./machines/home ({ inherit self inputs; })
   #   ];
   # }
-  // (inputs.flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
-    let
-      pkgs = inputs.nixos.legacyPackages.${system};
-    in
-    {
-      homeConfigurations = {
-        actoriu = inputs.home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
+  # // (inputs.flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
+  #   let
+  #     pkgs = inputs.nixos.legacyPackages.${system};
+  #   in
+  #   {
+  #     homeConfigurations = {
+  #       actoriu = inputs.home-manager.lib.homeManagerConfiguration {
+  #         inherit pkgs;
 
-          modules = [
-            ({ config, lib, pkgs, ... }: {
-              nixpkgs = {
-                config = { allowUnfree = true; };
-                verlays = [
-                  self.verlays.default
-                  (final: prev: { spacemacs = inputs.spacemacs; })
-                ];
-              };
-            })
-            ../../user/actoriu
-          ];
-        };
-      };
-    }))
+  #         modules = [
+  #           ({ config, lib, pkgs, ... }: {
+  #             nixpkgs = {
+  #               config = { allowUnfree = true; };
+  #               verlays = [
+  #                 self.verlays.default
+  #                 (final: prev: { spacemacs = inputs.spacemacs; })
+  #               ];
+  #             };
+  #           })
+  #           ../../user/actoriu
+  #         ];
+  #       };
+  #     };
+  #   }))
   // (inputs.flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
     {
       devShells =
