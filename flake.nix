@@ -185,7 +185,7 @@
   #   ];
   # }
   // {
-    inputs.flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
+    inputs.flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
     let
     pkgs = inputs.nixos.legacyPackages.${system};
     in
