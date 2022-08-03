@@ -136,15 +136,15 @@
 
   outputs = { self, ... }@inputs: {
     overlays.default = import ./overlays;
-    nixosConfigurations = import ./machines/nixos/default.nix ({ inherit self inputs; });
-    nixOnDroidConfigurations = import ./machines/droid/default.nix ({ inherit self inputs; });
+    nixosConfigurations = import ./machines/nixos/default.nix { inherit self inputs; };
+    nixOnDroidConfigurations = import ./machines/droid/default.nix { inherit self inputs; };
   }
   // inputs.flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
     let
       pkgs = inputs.nixos.legacyPackages.${system};
     in
     {
-      homeConfigurations = import import ./machines/home/default.nix ({ inherit self inputs; });
+      homeConfigurations = import ./machines/home/default.nix { inherit self inputs; };
     })
   // inputs.flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
     {
