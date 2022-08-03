@@ -136,48 +136,8 @@
 
   outputs = { self, ... }@inputs: {
     overlays.default = import ./overlays;
-    nixosConfigurations = import ./machines/nixos/default.nix { inherit self inputs; };
-    # nixosConfigurations = {
-    #   d630 = inputs.nixos.lib.nixosSystem {
-    #     system = "x86_64-linux";
-    #     specialArgs = { inherit inputs; };
-    #     modules = with inputs; [
-    #       impermanence.nixosModules.impermanence
-    #       nixos-cn.nixosModules.nixos-cn-registries
-    #       nixos-cn.nixosModules.nixos-cn
-    #       home-manager.nixosModules.home-manager
-    #       ({ pkgs, ... }: {
-    #         nixpkgs = {
-    #           config = { allowUnfree = true; };
-    #           overlays = with inputs; [
-    #             nixos-cn.overlay
-    #             nur.overlay
-    #             nvfetcher.overlay
-    #             (final: prev: { spacemacs = inputs.spacemacs; })
-    #           ];
-    #         };
-    #         system.configurationRevision =
-    #           inputs.nixos.lib.mkIf (self ? rev) self.rev;
-    #       })
-    #       ./profiles/shared/home-manager
-    #       ./hosts/d630
-    #     ];
-    #   };
-    # };
-    nixOnDroidConfigurations = import ./machines/droid/default.nix { inherit self inputs; };
-    # nixOnDroidConfigurations = {
-    #   oneplus5 = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
-    #     system = "aarch64-linux";
-    #     config = ./hosts/oneplus5/default.nix;
-    #   };
-    # };
-    # homeConfigurations = {
-    #   actoriu = inputs.home-manager.lib.homeManagerConfiguration {
-    #     modules = [
-    #       ./user/actoriu
-    #     ];
-    #   };
-    # };
+    nixosConfigurations = import ./machines/nixos/default.nix ({ inherit self inputs; });
+    nixOnDroidConfigurations = import ./machines/droid/default.nix ({ inherit self inputs; });
   }
   // inputs.flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
     let
