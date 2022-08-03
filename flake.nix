@@ -179,7 +179,7 @@
     #   };
     # };
   } // {
-    (import ./machines/home/default.nix { inherit self inputs; };)
+    import ./machines/home/default.nix { inherit self inputs; }
     }
     // inputs.flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
     {
