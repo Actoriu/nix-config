@@ -144,7 +144,26 @@
       pkgs = inputs.nixos.legacyPackages.${system};
     in
     {
-      homeConfigurations = import ./machines/home/default.nix { inherit self inputs pkgs; };
+      # homeConfigurations = import ./machines/home/default.nix { inherit self inputs pkgs; };
+
+      homeConfigurations = {
+        actoriu = inputs.home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+
+          modules = [
+            ({ config, lib, pkgs, ... }: {
+              nixpkgs = {
+                config = { allowUnfree = true; };
+                verlays = [
+                  self.verlays.default
+                  (final: prev: { spacemacs = inputs.spacemacs; })
+                ];
+              };
+            })
+            ../../user/actoriu
+          ];
+        };
+      };
       # defaultPackage.x86_64-linux = self.homeConfigurations.actoriu.activationPackage;
     })
   // inputs.flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
