@@ -147,7 +147,7 @@
           ({ config, lib, pkgs, ... }: {
             nixpkgs = {
               config = { allowUnfree = true; };
-              verlays = [
+              overlays = [
                 # self.verlays.default
                 (final: prev: { spacemacs = inputs.spacemacs; })
               ];
