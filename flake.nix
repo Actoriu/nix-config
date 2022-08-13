@@ -134,13 +134,13 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs:
+  outputs = { self, ... }@inputs:
     let
       system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
+      pkgs = inputs.nixpkgs.legacyPackages.${system};
     in
     {
-      homeConfigurations.actoriu = home-manager.lib.homeManagerConfiguration {
+      homeConfigurations.actoriu = inputs.home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
 
         modules = [
@@ -153,7 +153,7 @@
               ];
             };
           })
-          ../../user/actoriu
+          ../../user/actoriu/default.nix
         ];
       };
       # packages.x86_64-linux.homeConfigurations.actoriu.activationPackage;
