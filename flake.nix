@@ -161,8 +161,8 @@
     #   overlays.default = import ./overlays;
     #   nixosConfigurations = import ./machines/nixos/default.nix { inherit self inputs; };
     #   nixOnDroidConfigurations = import ./machines/droid/default.nix { inherit self inputs; };
-    # }
-    // (inputs.flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
+    # } //
+    (inputs.flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
       let
         pkgs = inputs.nixos.legacyPackages.${system};
       in
