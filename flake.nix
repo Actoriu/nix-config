@@ -162,9 +162,9 @@
     #   nixosConfigurations = import ./machines/nixos/default.nix { inherit self inputs; };
     #   nixOnDroidConfigurations = import ./machines/droid/default.nix { inherit self inputs; };
     # } //
-    (inputs.flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
+    inputs.flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
       let
-        pkgs = inputs.nixos.legacyPackages.${system};
+        pkgs = inputs.nixpkgs.legacyPackages.${system};
       in
       {
         # homeConfigurations = import ./machines/home/default.nix { inherit self inputs pkgs; };
@@ -187,7 +187,7 @@
             ];
           };
         };
-      }));
+      });
   # // (inputs.flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
   #   {
   #     devShells =
