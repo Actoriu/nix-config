@@ -23,7 +23,7 @@
 
   inputs = {
     nixos.url = "github:NixOS/nixpkgs/nixos-22.05";
-    latest.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     flake-compat = {
       url = "github:edolstra/flake-compat";
@@ -38,15 +38,15 @@
       url = "github:numtide/devshell";
       inputs = {
         flake-utils.follows = "flake-utils";
-        nixpkgs.follows = "latest";
+        nixpkgs.follows = "nixpkgs";
       };
     };
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-22.05";
+      url = "github:nix-community/home-manager";
       inputs = {
         utils.follows = "flake-utils";
-        nixpkgs.follows = "nixos";
+        nixpkgs.follows = "nixpkgs";
       };
     };
 
@@ -79,7 +79,7 @@
       url = "github:nixos-cn/flakes";
       inputs = {
         flake-utils.follows = "flake-utils";
-        nixpkgs.follows = "latest";
+        nixpkgs.follows = "nixpkgs";
       };
     };
 
@@ -88,7 +88,7 @@
       inputs = {
         flake-utils.follows = "flake-utils";
         home-manager.follows = "home-manager";
-        nixpkgs.follows = "nixos";
+        nixpkgs.follows = "nixpkgs";
       };
     };
 
@@ -97,7 +97,7 @@
     nixos-generators = {
       url = "github:nix-community/nixos-generators";
       inputs = {
-        nixpkgs.follows = "latest";
+        nixpkgs.follows = "nixpkgs";
       };
     };
 
@@ -108,7 +108,7 @@
       inputs = {
         flake-compat.follows = "flake-compat";
         flake-utils.follows = "flake-utils";
-        nixpkgs.follows = "latest";
+        nixpkgs.follows = "nixpkgs";
       };
     };
 
@@ -142,7 +142,7 @@
     }
     // (inputs.flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
       let
-        pkgs = inputs.nixos.legacyPackages.${system};
+        pkgs = inputs.nixpkgs.legacyPackages.${system};
       in
       {
         # homeConfigurations = import ./machines/home/default.nix { inherit self inputs pkgs; };
