@@ -7,7 +7,7 @@
     config = { config, lib, pkgs, ... }: {
       nixpkgs = {
         config = { allowUnfree = true; };
-        verlays = [
+        overlays = [
           (final: prev: { spacemacs = inputs.spacemacs; })
         ];
       };
@@ -21,7 +21,7 @@
         config = { config, lib, pkgs, ... }: {
           nixpkgs = {
             config = { allowUnfree = true; };
-            # verlays = [
+            # overlays = [
             #   (final: prev: { spacemacs = inputs.spacemacs; })
             # ];
           };
