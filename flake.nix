@@ -164,7 +164,6 @@
           ];
         };
       };
-      packages.default = self.homeConfigurations.actoriu.activationPackage;
     }))
   // (inputs.flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
     {
