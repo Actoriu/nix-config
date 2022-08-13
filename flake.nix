@@ -153,7 +153,7 @@
               ];
             };
           })
-          ./user/actoriu
+          ./users/actoriu
         ];
       };
       # packages.x86_64-linux.homeConfigurations.actoriu.activationPackage;
@@ -184,7 +184,7 @@
   #               ];
   #             };
   #           })
-  #           ./user/actoriu
+  #           ./users/actoriu
   #         ];
   #       };
   #     };
