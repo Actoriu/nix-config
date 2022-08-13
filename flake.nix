@@ -144,7 +144,8 @@
       pkgs = inputs.nixos.legacyPackages.${system};
     in
     {
-      homeConfigurations = import ./machines/home/default.nix { inherit self inputs; };
+      homeConfigurations = import ./machines/home/default.nix { inherit self inputs pkgs; };
+      # defaultPackage.x86_64-linux = self.homeConfigurations.actoriu.activationPackage;
     })
   // inputs.flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
     {
