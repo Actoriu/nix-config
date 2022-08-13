@@ -1,5 +1,6 @@
 { self
 , inputs
+, pkgs
 , ...
 }: {
   actoriu = inputs.home-manager.lib.homeManagerConfiguration {
