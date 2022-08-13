@@ -22,7 +22,7 @@
   };
 
   inputs = {
-    nixos.url = "github:NixOS/nixpkgs/nixos-22.05";
+    # nixos.url = "github:NixOS/nixpkgs/nixos-22.05";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     flake-compat = {
@@ -134,67 +134,80 @@
     };
   };
 
-  outputs = { self, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, ... }@inputs:
+    let
+      system = "x86_64-linux";
+      pkgs = nixpkgs.legacyPackages.${system};
+    in
     {
-      overlays.default = import ./overlays;
-      nixosConfigurations = import ./machines/nixos/default.nix { inherit self inputs; };
-      nixOnDroidConfigurations = import ./machines/droid/default.nix { inherit self inputs; };
-    }
-    // (inputs.flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
-      let
-        pkgs = inputs.nixpkgs.legacyPackages.${system};
-      in
-      {
-        # homeConfigurations = import ./machines/home/default.nix { inherit self inputs pkgs; };
+      homeConfigurations.jdoe = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
 
-        homeConfigurations = {
-          actoriu = inputs.home-manager.lib.homeManagerConfiguration {
-            inherit pkgs;
+        modules = [
+          ../../user/actoriu
+        ];
+      };
+    };
+  # {
+  #   overlays.default = import ./overlays;
+  #   nixosConfigurations = import ./machines/nixos/default.nix { inherit self inputs; };
+  #   nixOnDroidConfigurations = import ./machines/droid/default.nix { inherit self inputs; };
+  # }
+  # // (inputs.flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
+  #   let
+  #     pkgs = inputs.nixos.legacyPackages.${system};
+  #   in
+  #   {
+  #     # homeConfigurations = import ./machines/home/default.nix { inherit self inputs pkgs; };
 
-            modules = [
-              ({ config, lib, pkgs, ... }: {
-                nixpkgs = {
-                  config = { allowUnfree = true; };
-                  verlays = [
-                    self.verlays.default
-                    (final: prev: { spacemacs = inputs.spacemacs; })
-                  ];
-                };
-              })
-              ../../user/actoriu
-            ];
-          };
-        };
-        actoriu = self.homeConfigurations.actoriu.activationPackage;
-        packages.default = self.actoriu;
-      }))
-    // (inputs.flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
-      {
-        devShells =
-          let pkgs = import inputs.nixos {
-            inherit system;
-            overlays = [ inputs.devshell.overlay ];
-          };
-          in
-          {
-            default = pkgs.devshell.mkShell {
-              name = "nix-config";
-              imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
-              git.hooks.enable = true;
-              git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
-              packages = with pkgs; [
-                cachix
-                nix-build-uncached
-                nixpkgs-fmt
-                nodePackages.prettier
-                nodePackages.prettier-plugin-toml
-                shfmt
-                treefmt
-              ];
-              devshell.startup.nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
-                export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
-              '';
-            };
-          };
-      }));
+  #     homeConfigurations = {
+  #       actoriu = inputs.home-manager.lib.homeManagerConfiguration {
+  #         inherit pkgs;
+
+  #         modules = [
+  #           ({ config, lib, pkgs, ... }: {
+  #             nixpkgs = {
+  #               config = { allowUnfree = true; };
+  #               verlays = [
+  #                 self.verlays.default
+  #                 (final: prev: { spacemacs = inputs.spacemacs; })
+  #               ];
+  #             };
+  #           })
+  #           ../../user/actoriu
+  #         ];
+  #       };
+  #     };
+  #     actoriu = self.homeConfigurations.actoriu.activationPackage;
+  #     packages.default = self.actoriu;
+  #   }))
+  # // (inputs.flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
+  #   {
+  #     devShells =
+  #       let pkgs = import inputs.nixos {
+  #         inherit system;
+  #         overlays = [ inputs.devshell.overlay ];
+  #       };
+  #       in
+  #       {
+  #         default = pkgs.devshell.mkShell {
+  #           name = "nix-config";
+  #           imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
+  #           git.hooks.enable = true;
+  #           git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
+  #           packages = with pkgs; [
+  #             cachix
+  #             nix-build-uncached
+  #             nixpkgs-fmt
+  #             nodePackages.prettier
+  #             nodePackages.prettier-plugin-toml
+  #             shfmt
+  #             treefmt
+  #           ];
+  #           devshell.startup.nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
+  #             export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
+  #           '';
+  #         };
+  #       };
+  #   }));
 }
