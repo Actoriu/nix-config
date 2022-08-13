@@ -4,6 +4,8 @@
     # ../../profiles/users
   ];
 
+  home.username = "actoriu";
+  home.homeDirectory = "/home/actoriu";
   programs.home-manager.enable = true;
   home.stateVersion = "22.05";
 
