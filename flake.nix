@@ -140,13 +140,14 @@
       pkgs = nixpkgs.legacyPackages.${system};
     in
     {
-      homeConfigurations.jdoe = home-manager.lib.homeManagerConfiguration {
+      homeConfigurations.actoriu = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
 
         modules = [
           ../../user/actoriu
         ];
       };
+      # packages.x86_64-linux.homeConfigurations.actoriu.activationPackage;
     };
   # {
   #   overlays.default = import ./overlays;
