@@ -16,7 +16,7 @@
           ];
         };
       })
-      ../../user/actoriu
+      ../../users/actoriu
     ];
   };
 }

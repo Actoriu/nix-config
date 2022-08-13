@@ -135,34 +135,37 @@
   };
 
   outputs = { self, ... }@inputs:
-    let
-      system = "x86_64-linux";
-      pkgs = inputs.nixpkgs.legacyPackages.${system};
-    in
-    {
-      homeConfigurations.actoriu = inputs.home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-
-        modules = [
-          ({ config, lib, pkgs, ... }: {
-            nixpkgs = {
-              config = { allowUnfree = true; };
-              overlays = [
-                # self.verlays.default
-                (final: prev: { spacemacs = inputs.spacemacs; })
-              ];
-            };
-          })
-          ./users/actoriu
-        ];
-      };
-    } //
     {
       overlays.default = import ./overlays;
       nixosConfigurations = import ./machines/nixos/default.nix { inherit self inputs; };
       nixOnDroidConfigurations = import ./machines/droid/default.nix { inherit self inputs; };
     }
-    // (inputs.flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
+    // (
+      let
+        system = "x86_64-linux";
+        pkgs = inputs.nixpkgs.legacyPackages.${system};
+      in
+      {
+        homeConfigurations = import ./machines/home/default.nix { inherit self inputs pkgs; };
+        #   homeConfigurations.actoriu = inputs.home-manager.lib.homeManagerConfiguration {
+        #     inherit pkgs;
+
+        #     modules = [
+        #       ({ config, lib, pkgs, ... }: {
+        #         nixpkgs = {
+        #           config = { allowUnfree = true; };
+        #           overlays = [
+        #             # self.verlays.default
+        #             (final: prev: { spacemacs = inputs.spacemacs; })
+        #           ];
+        #         };
+        #       })
+        #       ./users/actoriu
+        #     ];
+        #   };
+      }
+    )
+    // inputs.flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
       {
         devShells =
           let pkgs = import inputs.nixpkgs {
@@ -190,5 +193,5 @@
               '';
             };
           };
-      }));
+      });
 }
