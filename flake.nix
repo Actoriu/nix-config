@@ -162,7 +162,7 @@
               useUserPackages = true;
               # extraSpecialArgs = { inherit inputs; };
               sharedModules = [{
-                manual.manpages.enable = false;
+                # manual.manpages.enable = false;
                 # programs.home-manager.enable = true;
                 home.stateVersion = "22.05";
               }];
