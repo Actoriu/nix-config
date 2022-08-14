@@ -18,7 +18,7 @@
             nur.overlay
             nvfetcher.overlay
             (final: prev: { spacemacs = inputs.spacemacs; })
-          ];
+          ] ++ [ self.overlays.default ];
         };
         system.configurationRevision =
           inputs.nixos.lib.mkIf (self ? rev) self.rev;
