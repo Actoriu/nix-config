@@ -153,6 +153,7 @@
       ];
 
       hostDefaults = {
+        channelName = "nixos";
         modules = with inputs; [
           home.nixosModules.home-manager
           {
