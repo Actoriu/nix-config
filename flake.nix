@@ -191,7 +191,11 @@
         };
         oneplus5 = {
           system = "aarch64-linux";
-          modules = [ ./hosts/oneplus5 ];
+          modules = [
+            ./modules/nixos
+            ./profiles/nixos
+            ./hosts/oneplus5
+          ];
           output = "nixOnDroidConfigurations";
           builder = { system, modules, ... }:
             nix-on-droid.lib.nixOnDroidConfiguration {
@@ -207,10 +211,10 @@
                 #   };
                 # };
               };
-              pkgs = import nixos {
-                inherit system;
-                overlays = [ self.overlays.default ];
-              };
+              # pkgs = import nixos {
+              #   inherit system;
+              #   overlays = [ self.overlays.default ];
+              # };
             };
         };
       };
