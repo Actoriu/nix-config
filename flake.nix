@@ -134,7 +134,7 @@
     };
   };
 
-  outputs = { self, nixos, latest, flake-utils, flake-utils-plus, home, nixos-cn, nur, nvfetcher, impermanence, nix-on-droid, ... }@inputs:
+  outputs = { self, nixos, latest, flake-utils, flake-utils-plus, home, devshell, nixos-cn, nur, nvfetcher, impermanence, nix-on-droid, ... }@inputs:
     flake-utils-plus.lib.mkFlake {
       inherit self inputs;
 
@@ -145,7 +145,7 @@
       overlays.default = import ./overlays;
 
       sharedOverlays = [
-        self.overlays.default
+        # self.overlays.default
         nixos-cn.overlay
         nur.overlay
         nvfetcher.overlay
@@ -156,18 +156,18 @@
         channelName = "nixos";
         modules = [
           home.nixosModules.home-manager
-          {
-            # home-manager = {
-            #   useGlobalPkgs = true;
-            #   useUserPackages = true;
-            #   extraSpecialArgs = { inherit inputs; };
-            #   sharedModules = [{
-            #     manual.manpages.enable = false;
-            #     programs.home-manager.enable = true;
-            #     home.stateVersion = "22.05";
-            #   }];
-            # };
-          }
+          # {
+          #   home-manager = {
+          #     useGlobalPkgs = true;
+          #     useUserPackages = true;
+          #     extraSpecialArgs = { inherit inputs; };
+          #     sharedModules = [{
+          #       manual.manpages.enable = false;
+          #       programs.home-manager.enable = true;
+          #       home.stateVersion = "22.05";
+          #     }];
+          #   };
+          # }
         ];
       };
 
@@ -179,10 +179,10 @@
             impermanence.nixosModules.impermanence
             nixos-cn.nixosModules.nixos-cn-registries
             nixos-cn.nixosModules.nixos-cn
-            ({ pkgs, ... }: {
-              system.configurationRevision =
-                nixos.lib.mkIf (self ? rev) self.rev;
-            })
+            # ({ pkgs, ... }: {
+            #   system.configurationRevision =
+            #     nixos.lib.mkIf (self ? rev) self.rev;
+            # })
             ./modules/nixos
             ./profiles/nixos
             ./hosts/d630
@@ -197,14 +197,14 @@
               inherit system;
               config = {
                 imports = modules;
-                home-manager = {
-                  config = { config, lib, pkgs, ... }: {
-                    nixpkgs = {
-                      config = { allowUnfree = true; };
-                    };
-                    imports = [ ./users/nix-on-droid ];
-                  };
-                };
+                # home-manager = {
+                #   config = { config, lib, pkgs, ... }: {
+                #     nixpkgs = {
+                #       config = { allowUnfree = true; };
+                #     };
+                #     imports = [ ./users/nix-on-droid ];
+                #   };
+                # };
               };
               pkgs = import nixos {
                 inherit system;
