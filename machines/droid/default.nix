@@ -8,6 +8,7 @@
       nixpkgs = {
         config = { allowUnfree = true; };
         overlays = [
+          self.overlays.default
           (final: prev: { spacemacs = inputs.spacemacs; })
         ];
       };

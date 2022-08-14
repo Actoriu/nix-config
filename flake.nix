@@ -30,7 +30,7 @@
       flake = false;
     };
 
-    flake-utils.url = "github:numtide/flake-utils";
+    # flake-utils.url = "github:numtide/flake-utils";
 
     # flake-utils-plus.url = "github:gytis-ivaskevicius/flake-utils-plus";
 
@@ -147,22 +147,6 @@
       in
       {
         homeConfigurations = import ./machines/home/default.nix { inherit self inputs pkgs; };
-        #   homeConfigurations.actoriu = inputs.home-manager.lib.homeManagerConfiguration {
-        #     inherit pkgs;
-
-        #     modules = [
-        #       ({ config, lib, pkgs, ... }: {
-        #         nixpkgs = {
-        #           config = { allowUnfree = true; };
-        #           overlays = [
-        #             # self.verlays.default
-        #             (final: prev: { spacemacs = inputs.spacemacs; })
-        #           ];
-        #         };
-        #       })
-        #       ./users/actoriu
-        #     ];
-        #   };
       }
     )
     // inputs.flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
