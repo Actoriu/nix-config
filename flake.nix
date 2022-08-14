@@ -205,54 +205,55 @@
                   };
                 };
               };
-              pkgs = import nixpkgs {
+              pkgs = import inputs.nixos {
                 inherit system;
                 overlays = [ self.overlays.default ];
               };
             };
         };
       };
-      # {
-      #   overlays.default = import ./overlays;
-      #   nixosConfigurations = import ./machines/nixos/default.nix { inherit self inputs; };
-      #   nixOnDroidConfigurations = import ./machines/droid/default.nix { inherit self inputs; };
-      # }
-      # // (
-      #   let
-      #     system = "x86_64-linux";
-      #     pkgs = inputs.nixpkgs.legacyPackages.${system};
-      #   in
-      #   {
-      #     homeConfigurations = import ./machines/home/default.nix { inherit self inputs pkgs; };
-      #   }
-      # )
-      # // inputs.flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
-      #   {
-      #     devShells =
-      #       let pkgs = import inputs.nixpkgs {
-      #         inherit system;
-      #         overlays = [ inputs.devshell.overlay ];
-      #       };
-      #       in
-      #       {
-      #         default = pkgs.devshell.mkShell {
-      #           name = "nix-config";
-      #           imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
-      #           git.hooks.enable = true;
-      #           git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
-      #           packages = with pkgs; [
-      #             cachix
-      #             nix-build-uncached
-      #             nixpkgs-fmt
-      #             nodePackages.prettier
-      #             nodePackages.prettier-plugin-toml
-      #             shfmt
-      #             treefmt
-      #           ];
-      #           devshell.startup.nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
-      #             export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
-      #           '';
-      #         };
-      #       };
-      #   });
-    }
+    };
+  # {
+  #   overlays.default = import ./overlays;
+  #   nixosConfigurations = import ./machines/nixos/default.nix { inherit self inputs; };
+  #   nixOnDroidConfigurations = import ./machines/droid/default.nix { inherit self inputs; };
+  # }
+  # // (
+  #   let
+  #     system = "x86_64-linux";
+  #     pkgs = inputs.nixpkgs.legacyPackages.${system};
+  #   in
+  #   {
+  #     homeConfigurations = import ./machines/home/default.nix { inherit self inputs pkgs; };
+  #   }
+  # )
+  # // inputs.flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
+  #   {
+  #     devShells =
+  #       let pkgs = import inputs.nixpkgs {
+  #         inherit system;
+  #         overlays = [ inputs.devshell.overlay ];
+  #       };
+  #       in
+  #       {
+  #         default = pkgs.devshell.mkShell {
+  #           name = "nix-config";
+  #           imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
+  #           git.hooks.enable = true;
+  #           git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
+  #           packages = with pkgs; [
+  #             cachix
+  #             nix-build-uncached
+  #             nixpkgs-fmt
+  #             nodePackages.prettier
+  #             nodePackages.prettier-plugin-toml
+  #             shfmt
+  #             treefmt
+  #           ];
+  #           devshell.startup.nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
+  #             export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
+  #           '';
+  #         };
+  #       };
+  #   });
+}
