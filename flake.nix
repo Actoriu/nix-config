@@ -134,7 +134,7 @@
     };
   };
 
-  outputs = { self, nixos, latest, flake-utils-plus, home, nixos-cn, nur, nvfetcher, impermanence, nix-on-droid, ... }@inputs:
+  outputs = { self, nixos, latest, flake-utils, flake-utils-plus, home, nixos-cn, nur, nvfetcher, impermanence, nix-on-droid, ... }@inputs:
     flake-utils-plus.lib.mkFlake {
       inherit self inputs;
 
@@ -157,16 +157,16 @@
         modules = [
           home.nixosModules.home-manager
           {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              # extraSpecialArgs = { inherit inputs; };
-              # sharedModules = [{
-              #   manual.manpages.enable = false;
-              #   programs.home-manager.enable = true;
-              #   home.stateVersion = "22.05";
-              # }];
-            };
+            # home-manager = {
+            #   useGlobalPkgs = true;
+            #   useUserPackages = true;
+            #   extraSpecialArgs = { inherit inputs; };
+            #   sharedModules = [{
+            #     manual.manpages.enable = false;
+            #     programs.home-manager.enable = true;
+            #     home.stateVersion = "22.05";
+            #   }];
+            # };
           }
         ];
       };
@@ -206,7 +206,7 @@
                   };
                 };
               };
-              pkgs = import inputs.nixos {
+              pkgs = import nixos {
                 inherit system;
                 overlays = [ self.overlays.default ];
               };
