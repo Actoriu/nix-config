@@ -2,9 +2,9 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 { config
-, inputs
 , lib
 , pkgs
+, impermanence
 , ...
 }: {
   imports =
@@ -72,7 +72,7 @@
   home-manager = {
     users.${config.custom.users.userName} = {
       imports = [
-        inputs.impermanence.nixosModules.home-manager.impermanence
+        impermanence.nixosModules.home-manager.impermanence
         ../../users/actoriu
       ];
     };

@@ -134,8 +134,8 @@
     };
   };
 
-  outputs = { self, ... }@inputs:
-    inputs.flake-utils-plus.lib.mkFlake {
+  outputs = { self, nixos, latest, flake-utils-plus, home, nixos-cn, nur, nvfetcher, impermanence, nix-on-droid, ... }@inputs:
+    flake-utils-plus.lib.mkFlake {
       inherit self inputs;
 
       supportedSystems = [ "aarch64-linux" "x86_64-linux" ];
@@ -144,7 +144,7 @@
 
       overlays.default = import ./overlays;
 
-      sharedOverlays = with inputs; [
+      sharedOverlays = [
         self.overlays.default
         nixos-cn.overlay
         nur.overlay
@@ -154,13 +154,13 @@
 
       hostDefaults = {
         channelName = "nixos";
-        modules = with inputs; [
+        modules = [
           home.nixosModules.home-manager
           {
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              extraSpecialArgs = { inherit inputs; };
+              # extraSpecialArgs = { inherit inputs; };
               sharedModules = [{
                 manual.manpages.enable = false;
                 programs.home-manager.enable = true;
@@ -174,8 +174,8 @@
       hosts = {
         d630 = {
           system = "x86_64-linux";
-          specialArgs = { inherit inputs; };
-          modules = with inputs; [
+          # specialArgs = { inherit inputs; };
+          modules = [
             impermanence.nixosModules.impermanence
             nixos-cn.nixosModules.nixos-cn-registries
             nixos-cn.nixosModules.nixos-cn
@@ -193,7 +193,7 @@
           modules = [ ./hosts/oneplus5 ];
           output = "nixOnDroidConfigurations";
           builder = { system, modules, ... }:
-            inputs.nix-on-droid.lib.nixOnDroidConfiguration {
+            nix-on-droid.lib.nixOnDroidConfiguration {
               inherit system;
               config = {
                 imports = modules;
