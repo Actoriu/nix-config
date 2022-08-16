@@ -43,7 +43,7 @@ Configuration for NixOS and user home (dot files). It is provided via Nix flakes
   1. Install Nix-Darwin and apply the configuration by
 
      #+begin_example
-       nix-shell -p nixUnstable --command "nix build --experimental-features 'nix-command flakes' '$@'"
+       nix-shell -p nix --command "nix build --experimental-features 'nix-command flakes' '$@'"
        ./result/sw/bin/darwin-rebuild switch --flake '$@'
        $@ => "flake file directory#darwinConfigurations.hostname.system"
      #+end_example
@@ -60,7 +60,7 @@ Configuration for NixOS and user home (dot files). It is provided via Nix flakes
   1. Install Home Manager and apply the configuration by
 
      #+begin_example
-       nix-shell -p nixUnstable --command "nix build --no-link --experimental-features 'nix-command flakes' '$@'"
+       nix-shell -p nix --command "nix build --no-link --experimental-features 'nix-command flakes' '$@'"
        ./result/activate
        $@ => "flake file directory#homeConfigurations.username.activationPackage"
      #+end_example
