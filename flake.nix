@@ -182,24 +182,24 @@
         };
 
         hosts = {
-          d630 = {
-            system = "x86_64-linux";
-            modules = [
-              impermanence.nixosModules.impermanence
-              nixos-cn.nixosModules.nixos-cn-registries
-              nixos-cn.nixosModules.nixos-cn
-              home.nixosModules.home-manager
-              {
-                home-manager.useGlobalPkgs = true;
-                home-manager.useUserPackages = true;
-              }
-              # ({ pkgs, ... }: {
-              #   system.configurationRevision =
-              #     nixos.lib.mkIf (self ? rev) self.rev;
-              # })
-              ./hosts/d630
-            ];
-          };
+          # d630 = {
+          #   system = "x86_64-linux";
+          #   modules = [
+          #     impermanence.nixosModules.impermanence
+          #     nixos-cn.nixosModules.nixos-cn-registries
+          #     nixos-cn.nixosModules.nixos-cn
+          #     home.nixosModules.home-manager
+          #     {
+          #       home-manager.useGlobalPkgs = true;
+          #       home-manager.useUserPackages = true;
+          #     }
+          #     # ({ pkgs, ... }: {
+          #     #   system.configurationRevision =
+          #     #     nixos.lib.mkIf (self ? rev) self.rev;
+          #     # })
+          #     ./hosts/d630
+          #   ];
+          # };
 
           oneplus5 = {
             system = "aarch64-linux";
