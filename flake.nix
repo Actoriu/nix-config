@@ -189,10 +189,18 @@
               nixos-cn.nixosModules.nixos-cn-registries
               nixos-cn.nixosModules.nixos-cn
               home.nixosModules.home-manager
-              # {
-              #   home-manager.useGlobalPkgs = true;
-              #   home-manager.useUserPackages = true;
-              # }
+              {
+                home-manager = {
+                  useGlobalPkgs = true;
+                  useUserPackages = true;
+                  users.actoriu = {
+                    imports = [
+                      impermanence.nixosModules.home-manager.impermanence
+                      ./users/actoriu
+                    ];
+                  };
+                };
+              }
               # ({ pkgs, ... }: {
               #   system.configurationRevision =
               #     nixos.lib.mkIf (self ? rev) self.rev;
