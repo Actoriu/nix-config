@@ -195,7 +195,7 @@
                   useUserPackages = true;
                   users.actoriu = {
                     imports = [
-                      impermanence.nixosModules.home-manager.impermanence
+                      # impermanence.nixosModules.home-manager.impermanence
                       ./users/actoriu
                     ];
                   };
