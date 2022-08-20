@@ -2,6 +2,17 @@
 , pkgs
 , ...
 }: {
+  imports = [
+    ../../modules/nixos
+  ];
+
+  custom = {
+    users = {
+      enable = true;
+      userVersion = "22.05";
+    };
+  };
+
   nix = {
     extraConfig = ''
       experimental-features = nix-command flakes
@@ -61,6 +72,7 @@
     useGlobalPkgs = true;
     useUserPackages = true;
     config = { pkgs, ... }: {
+      home.stateVersion = config.custom.users.userVersion;
       imports = [ ../../users/nix-on-droid ];
     };
   };
