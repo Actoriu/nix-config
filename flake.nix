@@ -177,14 +177,13 @@
 
         hostDefaults = {
           channelName = "nixos";
-          modules = [ ];
-          specialArgs = { inherit inputs; };
+          # modules = [ ];
+          # specialArgs = { inherit inputs; };
         };
 
         hosts = {
           d630 = {
             system = "x86_64-linux";
-            # specialArgs = { inherit inputs; };
             modules = [
               impermanence.nixosModules.impermanence
               nixos-cn.nixosModules.nixos-cn-registries
