@@ -190,10 +190,8 @@
               nixos-cn.nixosModules.nixos-cn
               home.nixosModules.home-manager
               {
-                home-manager = {
-                  useGlobalPkgs = true;
-                  useUserPackages = true;
-                };
+                home-manager.useGlobalPkgs = true;
+                home-manager.useUserPackages = true;
               }
               # ({ pkgs, ... }: {
               #   system.configurationRevision =
