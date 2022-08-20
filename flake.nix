@@ -175,18 +175,6 @@
           (final: prev: { spacemacs = inputs.spacemacs; })
         ];
 
-        # Modules = exportModules [
-        #   ./modules/nixos
-        #   ./modules/users
-        # ];
-
-        # Profiles = exportModules [
-        #   ./profiles/nixos
-        #   ./profiles/users
-        #   ./hosts/d630
-        #   ./hosts/oneplus5
-        # ];
-
         hostDefaults = {
           channelName = "nixos";
           modules = [ ];
@@ -208,10 +196,10 @@
                   useUserPackages = true;
                 };
               }
-              ({ pkgs, ... }: {
-                system.configurationRevision =
-                  nixos.lib.mkIf (self ? rev) self.rev;
-              })
+              # ({ pkgs, ... }: {
+              #   system.configurationRevision =
+              #     nixos.lib.mkIf (self ? rev) self.rev;
+              # })
               ./hosts/d630
             ];
           };
