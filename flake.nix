@@ -193,7 +193,7 @@
                 home-manager = {
                   useGlobalPkgs = true;
                   useUserPackages = true;
-                  users.actoriu = {
+                  users.actoriu = { config, lib, pkgs, ... }: {
                     imports = [
                       # impermanence.nixosModules.home-manager.impermanence
                       ./users/actoriu
