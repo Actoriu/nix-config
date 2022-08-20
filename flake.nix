@@ -223,10 +223,10 @@
               # self.Profiles.nixos
               # self.Profiles.users
               # self.Profiles.d630
-              ./modules/users
-              ./modules/nixos
-              ./profiles/nixos
-              ./profiles/users
+              # ./modules/users
+              # ./modules/nixos
+              # ./profiles/nixos
+              # ./profiles/users
               ./hosts/d630
             ];
           };
