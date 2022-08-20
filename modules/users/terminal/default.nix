@@ -2,6 +2,6 @@
   imports = [
     ./alacritty
     ./urxvt
-    # ./xst
+    ./xst
   ];
 }

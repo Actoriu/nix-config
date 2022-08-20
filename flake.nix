@@ -218,11 +218,16 @@
                 system.configurationRevision =
                   nixos.lib.mkIf (self ? rev) self.rev;
               })
-              self.Modules.nixos
-              self.Modules.users
-              self.Profiles.nixos
-              self.Profiles.users
-              self.Profiles.d630
+              # self.Modules.nixos
+              # self.Modules.users
+              # self.Profiles.nixos
+              # self.Profiles.users
+              # self.Profiles.d630
+              ./modules/users
+              ./modules/nixos
+              ./profiles/nixos
+              ./profiles/users
+              ./hosts/d630
             ];
           };
 
