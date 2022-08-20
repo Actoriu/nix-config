@@ -69,6 +69,8 @@
     uid = 1000;
   };
 
+  home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
   home-manager = {
     users.${config.custom.users.userName} = {
       imports = [
