@@ -178,7 +178,7 @@
         hostDefaults = {
           channelName = "nixos";
           # modules = [ ];
-          # specialArgs = { inherit inputs; };
+          specialArgs = { inherit inputs; };
         };
 
         hosts = {
