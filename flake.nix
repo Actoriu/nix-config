@@ -177,13 +177,7 @@
 
         hostDefaults = {
           channelName = "nixos";
-          modules = [
-            home.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-            }
-          ];
+          # modules = [ ];
           specialArgs = { inherit inputs; };
         };
 
@@ -194,11 +188,11 @@
               impermanence.nixosModules.impermanence
               nixos-cn.nixosModules.nixos-cn-registries
               nixos-cn.nixosModules.nixos-cn
-              # home.nixosModules.home-manager
-              # {
-              #   home-manager.useGlobalPkgs = true;
-              #   home-manager.useUserPackages = true;
-              # }
+              home.nixosModules
+              {
+                home-manager.useGlobalPkgs = true;
+                home-manager.useUserPackages = true;
+              }
               # ({ pkgs, ... }: {
               #   system.configurationRevision =
               #     nixos.lib.mkIf (self ? rev) self.rev;
