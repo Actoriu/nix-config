@@ -65,7 +65,7 @@
   # Read the changelog before changing this value
   system.stateVersion = config.custom.users.userVersion;
 
-  # nix-channel --add https://github.com/rycee/home-manager/archive/release-21.11.tar.gz home-manager
+  # nix-channel --add https://github.com/rycee/home-manager/archive/release-22.05.tar.gz home-manager
   # nix-channel --update
   # you can configure home-manager in here like
   home-manager = {
