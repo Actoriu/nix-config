@@ -250,14 +250,14 @@
               };
             packages = exportPackages self.overlays channels;
           };
-      }
-    // (
-      let
-        system = "x86_64-linux";
-        pkgs = nixos.legacyPackages.${system};
-      in
-      {
-        homeConfigurations = import ./machines/home/default.nix { inherit self inputs pkgs; };
-      }
-    );
+      };
+  # // (
+  #   let
+  #     system = "x86_64-linux";
+  #     pkgs = nixos.legacyPackages.${system};
+  #   in
+  #   {
+  #     homeConfigurations = import ./machines/home/default.nix { inherit self inputs pkgs; };
+  #   }
+  # );
 }
