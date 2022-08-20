@@ -3,7 +3,7 @@
 , pkgs
 , ...
 }: {
-  actoriu = inputs.home-manager.lib.homeManagerConfiguration {
+  actoriu = inputs.home.lib.homeManagerConfiguration {
     inherit pkgs;
 
     modules = [
@@ -11,7 +11,7 @@
         nixpkgs = {
           config = { allowUnfree = true; };
           overlays = [
-            self.overlays.default
+            # self.overlay
             (final: prev: { spacemacs = inputs.spacemacs; })
           ];
         };
