@@ -57,19 +57,13 @@
   # nix-channel --add https://github.com/rycee/home-manager/archive/release-21.11.tar.gz home-manager
   # nix-channel --update
   # you can configure home-manager in here like
-  # home-manager = {
-  #   backupFileExtension = "backup";
-  #   useGlobalPkgs = true;
-  #   useUserPackages = true;
-  #   config = { pkgs, lib, ... }: {
-  #     nixpkgs = {
-  #       config = import ./profiles/shared/nixpkgs/default.nix;
-  #     };
-  #     xdg.configFile."nixpkgs/config.nix".source = ./profiles/shared/nixpkgs/default.nix;
-  #     home.stateVersion = "22.05";
-  #     imports = [ ../../users/nix-on-droid/default.nix ];
-  #   };
-  # };
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    config = { pkgs, ... }: {
+      imports = [ ../../users/nix-on-droid ];
+    };
+  };
 
 }
 
