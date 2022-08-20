@@ -184,7 +184,7 @@
         hosts = {
           d630 = {
             system = "x86_64-linux";
-            specialArgs = { inherit inputs; };
+            # specialArgs = { inherit inputs; };
             modules = [
               impermanence.nixosModules.impermanence
               nixos-cn.nixosModules.nixos-cn-registries
