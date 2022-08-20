@@ -175,17 +175,17 @@
           (final: prev: { spacemacs = inputs.spacemacs; })
         ];
 
-        Modules = exportModules [
-          ./modules/nixos
-          ./modules/users
-        ];
+        # Modules = exportModules [
+        #   ./modules/nixos
+        #   ./modules/users
+        # ];
 
-        Profiles = exportModules [
-          ./profiles/nixos
-          ./profiles/users
-          ./hosts/d630
-          ./hosts/oneplus5
-        ];
+        # Profiles = exportModules [
+        #   ./profiles/nixos
+        #   ./profiles/users
+        #   ./hosts/d630
+        #   ./hosts/oneplus5
+        # ];
 
         hostDefaults = {
           channelName = "nixos";
@@ -206,27 +206,12 @@
                 home-manager = {
                   useGlobalPkgs = true;
                   useUserPackages = true;
-                  # extraSpecialArgs = { inherit inputs; };
-                  # sharedModules = [{
-                  #   manual.manpages.enable = false;
-                  #   programs.home-manager.enable = true;
-                  #   home.stateVersion = "22.05";
-                  # }];
                 };
               }
               ({ pkgs, ... }: {
                 system.configurationRevision =
                   nixos.lib.mkIf (self ? rev) self.rev;
               })
-              # self.Modules.nixos
-              # self.Modules.users
-              # self.Profiles.nixos
-              # self.Profiles.users
-              # self.Profiles.d630
-              # ./modules/users
-              # ./modules/nixos
-              # ./profiles/nixos
-              # ./profiles/users
               ./hosts/d630
             ];
           };
@@ -234,9 +219,7 @@
           oneplus5 = {
             system = "aarch64-linux";
             modules = [
-              self.Modules.nixos
-              self.Modules.users
-              self.Profiles.oneplus5
+              ./hosts/oneplus5
             ];
             output = "nixOnDroidConfigurations";
             builder = { system, modules, ... }:

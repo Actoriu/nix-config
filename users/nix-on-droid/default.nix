@@ -1,4 +1,8 @@
 { ... }: {
+  imports = [
+    ../../modules/users
+  ];
+
   custom = {
     # development
     cc.enable = true;
