@@ -18,7 +18,13 @@ in
       programs = {
         emacs = {
           enable = cfg.enable;
-          # package = if pkgs.stdenv.isDarwin then pkgs.emacsMacport else pkgs.emacsPgtkGcc;
+          package =
+            if pkgs.stdenv.isDarwin then
+              pkgs.emacsMacport
+            else if services.xserver.enable then
+              pkgs.emacs
+            else
+              pkgs.emacs-nox;
           # extraPackages = epkgs: with epkgs; [
           #   evil
           #   helm
@@ -32,14 +38,14 @@ in
 
       home = {
         packages = with pkgs; [
-          emacs-all-the-icons-fonts
           guile_3_0
-          openssh
           ripgrep
           ripgrep-all
           translate-shell
         ];
       };
+
+      fonts.fonts = with pkgs; [ emacs-all-the-icons-fonts ];
     }
 
     (mkIf cfg.spacemacs {
