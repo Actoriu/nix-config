@@ -138,11 +138,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1648273450,
-        "narHash": "sha256-4IZBhrutNzUIZni0FWuOmshXA4JPcf4+kQHO0iVNppw=",
+        "lastModified": 1661557642,
+        "narHash": "sha256-/O5IV1Ed4TRi/HAlC8Wr9uaHEC4aXGscUIuDszEUlIw=",
         "owner": "foo-dogsquared",
         "repo": "nix-overlay-guix",
-        "rev": "efa203a2ba1bfac171ccb2be4248b67a029729cd",
+        "rev": "b4b0ba1085e643b1c22413692b333a87a770074b",
         "type": "github"
       },
       "original": {
