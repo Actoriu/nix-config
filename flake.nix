@@ -193,6 +193,7 @@
         # Laptop
         d630 = mkSystem {
           hostname = "d630";
+          username = "actoriu";
           pkgs = legacyPackages."x86_64-linux";
           persistence = true;
         };
