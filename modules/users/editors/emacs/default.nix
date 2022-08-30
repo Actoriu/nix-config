@@ -38,14 +38,13 @@ in
 
       home = {
         packages = with pkgs; [
+          emacs-all-the-icons-fonts
           guile_3_0
           ripgrep
           ripgrep-all
           translate-shell
         ];
       };
-
-      fonts.fonts = with pkgs; [ emacs-all-the-icons-fonts ];
     }
 
     (mkIf cfg.spacemacs {
