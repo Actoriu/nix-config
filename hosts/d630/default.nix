@@ -15,6 +15,8 @@
       # ../../profiles/nixos
     ];
 
+  nixpkgs.config = { allowUnfree = true; };
+
   services.xserver.enable = true;
 
   custom = {
