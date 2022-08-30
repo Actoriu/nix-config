@@ -1,5 +1,10 @@
-{ ... }: {
+{ inputs
+, hostname
+, persistence
+, ...
+}: {
   imports = [
+    inputs.impermanence.nixosModules.impermanence
     ./fonts
     ./hardware
     ./loader
@@ -8,4 +13,6 @@
     ./power-management
     ./users
   ];
+
+  networking.hostName = hostname;
 }

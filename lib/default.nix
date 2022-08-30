@@ -59,11 +59,12 @@ rec {
     , hostname ? null
     , pkgs ? outputs.nixosConfigurations.${hostname}.pkgs
     , baseModules ? [
-        ../modules/home-manager
+        ../modules/users
         {
           home = {
             inherit username;
             homeDirectory = "${homePrefix}/${username}";
+            stateVersion = "22.11";
           };
         }
       ]
@@ -79,7 +80,7 @@ rec {
         inherit inputs outputs hostname username persistence
           colorscheme wallpaper features;
       };
-      modules = baseModules ++ extraModules ++ [ ../profiles/${username} ];
+      modules = baseModules ++ extraModules ++ [ ../users/${username} ];
     };
 
   mkDroid =

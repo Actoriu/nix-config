@@ -100,12 +100,12 @@
 
     # nixos-hardware.url = "github:NixOS/nixos-hardware";
 
-    nixos-generators = {
-      url = "github:nix-community/nixos-generators";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-      };
-    };
+    # nixos-generators = {
+    #   url = "github:nix-community/nixos-generators";
+    #   inputs = {
+    #     nixpkgs.follows = "nixpkgs";
+    #   };
+    # };
 
     nur.url = "github:nix-community/NUR";
 
