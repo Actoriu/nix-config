@@ -2,17 +2,6 @@
 , pkgs
 , ...
 }: {
-  imports = [
-    ../../modules/nixos
-  ];
-
-  custom = {
-    users = {
-      enable = true;
-      userVersion = "22.05";
-    };
-  };
-
   nix = {
     extraConfig = ''
       experimental-features = nix-command flakes
@@ -63,7 +52,7 @@
   };
 
   # Read the changelog before changing this value
-  system.stateVersion = config.custom.users.userVersion;
+  system.stateVersion = 22.11;
 
   # nix-channel --add https://github.com/rycee/home-manager/archive/release-22.05.tar.gz home-manager
   # nix-channel --update
@@ -72,7 +61,7 @@
     useGlobalPkgs = true;
     useUserPackages = true;
     config = { pkgs, ... }: {
-      home.stateVersion = config.custom.users.userVersion;
+      home.stateVersion = 22.11;
       imports = [ ../../users/nix-on-droid ];
     };
   };
