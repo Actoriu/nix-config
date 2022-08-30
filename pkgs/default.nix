@@ -1,32 +1,32 @@
 { pkgs
 , ...
 }: {
-  mysources = prev.callPackage (import ./_sources/generated.nix) { };
+  mysources = pkgs.callPackage (import ./_sources/generated.nix) { };
 
-  hinalist = prev.callPackage ./dnsmasq-china-list {
+  hinalist = pkgs.callPackage ./dnsmasq-china-list {
     format = "raw";
   };
 
-  chinalist-dnsmasq = prev.callPackage ./dnsmasq-china-list {
+  chinalist-dnsmasq = pkgs.callPackage ./dnsmasq-china-list {
     format = "dnsmasq";
     enable-nftset = true;
   };
 
-  chinalist-smartdns = prev.callPackage ./dnsmasq-china-list {
+  chinalist-smartdns = pkgs.callPackage ./dnsmasq-china-list {
     format = "smartdns";
     upstream-dns = "china";
   };
 
-  gfwlist = prev.callPackage ./gfwlist {
+  gfwlist = pkgs.callPackage ./gfwlist {
     format = "raw";
   };
 
-  gfwlist-dnsmasq = prev.callPackage ./gfwlist {
+  gfwlist-dnsmasq = pkgs.callPackage ./gfwlist {
     format = "dnsmasq";
     enable-nftset = true;
   };
 
-  gfwlist-smartdns = prev.callPackage ./gfwlist {
+  gfwlist-smartdns = pkgs.callPackage ./gfwlist {
     format = "smartdns";
   };
 }
