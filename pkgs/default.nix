@@ -1,4 +1,6 @@
-final: prev: {
+{ pkgs
+, ...
+}: {
   mysources = prev.callPackage (import ./_sources/generated.nix) { };
 
   hinalist = prev.callPackage ./dnsmasq-china-list {

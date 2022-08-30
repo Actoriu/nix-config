@@ -1,16 +1,13 @@
-if builtins ? getFlake
-then builtins.getFlake (toString ./.)
-else
-  (import
-    (
-      let
-        lock = builtins.fromJSON (builtins.readFile ./flake.lock);
-        inherit (lock.nodes.flake-compat.locked) owner repo rev narHash;
-        flake-compat = fetchTarball {
-          url = "https://github.com/${owner}/${repo}/archive/${rev}.tar.gz";
-          sha256 = narHash;
-        };
-        flake = import flake-compat { src = ./.; };
-      in
-      flake
-    ).defaultNix
+{ pkgs
+, ...
+}: {
+  modules = import ./modules/nixos;
+  homeManagerModules = import ./modules/home-manager;
+}
+// (import ./pkgs { inherit pkgs; })
+  // (
+  if builtins ? getFlake then
+    builtins.getFlake (toString ./.)
+  else
+    (import ./lib/compat).defaultNix
+)
