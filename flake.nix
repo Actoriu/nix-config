@@ -185,7 +185,10 @@
         import inputs.nixpkgs {
           inherit system;
           overlays = builtins.attrValues overlays;
-          config.allowUnfree = true;
+          config = {
+            allowUnfree = true;
+            allowBroken = true;
+          };
         }
       );
 
