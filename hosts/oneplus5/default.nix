@@ -52,7 +52,7 @@
   };
 
   # Read the changelog before changing this value
-  system.stateVersion = 22.11;
+  system.stateVersion = "22.11";
 
   # nix-channel --add https://github.com/rycee/home-manager/archive/release-22.05.tar.gz home-manager
   # nix-channel --update
@@ -61,7 +61,7 @@
     useGlobalPkgs = true;
     useUserPackages = true;
     config = { pkgs, ... }: {
-      home.stateVersion = 22.11;
+      home.stateVersion = "22.11";
       imports = [ ../../users/nix-on-droid ];
     };
   };
