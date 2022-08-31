@@ -18,7 +18,7 @@ jobs:
         include:
           - nix-command: build .#nixosConfigurations.d630.config.system.build.toplevel
             system: x86_64
-          - nix-command: build .#homeConfigurations.actoriu.activationPackage
+          - nix-command: build .#homeConfigurations.actoriu@d630.activationPackage
             system: x86_64
           - nix-command: build .#nixOnDroidConfigurations.oneplus5.activationPackage --impure
             system: aarch64
