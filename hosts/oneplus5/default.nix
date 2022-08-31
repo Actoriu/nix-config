@@ -3,7 +3,7 @@
 , ...
 }: {
   nix = {
-    extraConfig = ''
+    extraOptions = ''
       experimental-features = nix-command flakes
     '';
     substituters = [
