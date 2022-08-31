@@ -1,5 +1,4 @@
 { inputs
-, pkgs
 , ...
 }:
 
@@ -9,7 +8,7 @@ let
 
   inherit (builtins) elemAt match any mapAttrs attrValues attrNames listToAttrs;
   inherit (nixpkgs.lib) nixosSystem filterAttrs genAttrs mapAttrs';
-  inherit (pkgs) stdenv;
+  inherit (nixpkgs) stdenv;
   inherit (home-manager.lib) homeManagerConfiguration;
   inherit (nix-on-droid.lib) nixOnDroidConfiguration;
 
