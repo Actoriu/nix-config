@@ -61,7 +61,7 @@
     useGlobalPkgs = true;
     useUserPackages = true;
     config = { pkgs, ... }: {
-      home.stateVersion = "22.11";
+      home.stateVersion = "22.05";
       imports = [ ../../users/nix-on-droid ];
     };
   };
