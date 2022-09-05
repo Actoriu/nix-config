@@ -8,7 +8,6 @@ let
 
   inherit (builtins) elemAt match any mapAttrs attrValues attrNames listToAttrs;
   inherit (nixpkgs.lib) nixosSystem filterAttrs genAttrs mapAttrs';
-  inherit (nixpkgs.pkgs) stdenv;
   inherit (home-manager.lib) homeManagerConfiguration;
   inherit (nix-on-droid.lib) nixOnDroidConfiguration;
 
@@ -23,24 +22,37 @@ rec {
   getUsername = string: elemAt (match "(.*)@(.*)" string) 0;
   getHostname = string: elemAt (match "(.*)@(.*)" string) 1;
 
-  systems = [
+  defaultSystems = [
     "aarch64-darwin"
     "aarch64-linux"
     "i686-linux"
     "x86_64-darwin"
     "x86_64-linux"
   ];
-  forAllSystems = genAttrs systems;
 
-  homePrefix = if stdenv.isDarwin then "/Users" else "/home";
+  eachDefaultSystem = genAttrs defaultSystems;
 
   mkSystem =
     { hostname
     , username ? null
     , pkgs
     , hardwareModules ? [ ]
+    , homextraSpecialArgs ? { }
     , baseModules ? [
         home-manager.nixosModules.home-manager
+        {
+          home-manager = {
+            useGlobalPkgs = true;
+            useUserPackages = true;
+            extraSpecialArgs = homextraSpecialArgs;
+            users.${username} = { ... }: {
+              imports = [
+                ({ ... }: { home.stateVersion = "22.11"; })
+                ../users/${username}
+              ];
+            };
+          };
+        }
         ../modules/nixos
       ]
     , extraModules ? [ ]
@@ -59,14 +71,14 @@ rec {
     , hostname ? null
     , pkgs ? outputs.nixosConfigurations.${hostname}.pkgs
     , baseModules ? [
-        ../modules/users
         {
           home = {
             inherit username;
-            homeDirectory = "${homePrefix}/${username}";
+            homeDirectory = if pkgs.stdenv.isDarwin then "/Users" else "/home" + "/${username}";
             stateVersion = "22.11";
           };
         }
+        ../modules/users
       ]
     , extraModules ? [ ]
     , persistence ? false
@@ -86,12 +98,12 @@ rec {
   mkDroid =
     { devicename
     , pkgs
-    , extraModules ? [ ]
+    , DroidextraModules ? [ ]
     , persistence ? false
     }:
     nixOnDroidConfiguration {
       inherit pkgs;
-      extraModules = extraModules;
+      extraModules = DroidextraModules;
       extraSpecialArgs = {
         inherit inputs outputs devicename persistence;
       };
