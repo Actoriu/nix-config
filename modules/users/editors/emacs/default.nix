@@ -21,7 +21,7 @@ in
           package =
             if pkgs.stdenv.isDarwin then
               pkgs.emacsMacport
-            else if services.xserver.enable then
+            else if pkgs.stdenv.isLinux then
               pkgs.emacs
             else
               pkgs.emacs-nox;

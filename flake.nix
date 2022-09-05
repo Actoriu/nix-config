@@ -56,30 +56,34 @@
       };
     };
 
-    # emacs-overlay = {
-    #   url = "github:nix-community/emacs-overlay";
-    #   inputs = {
-    #     flake-utils.follows = "flake-utils-plus/flake-utils";
-    #     nixpkgs.follows = "nixos";
-    #   };
-    # };
+    /*
+      emacs-overlay = {
+      url = "github:nix-community/emacs-overlay";
+      inputs = {
+      flake-utils.follows = "flake-utils-plus/flake-utils";
+      nixpkgs.follows = "nixos";
+      };
+      };
 
-    # guix-overlay = {
-    #   url = "github:foo-dogsquared/nix-overlay-guix";
-    #   inputs = {
-    #     nixpkgs.follows = "latest";
-    #   };
-    # };
+      guix-overlay = {
+      url = "github:foo-dogsquared/nix-overlay-guix";
+      inputs = {
+      nixpkgs.follows = "latest";
+      };
+      };
+    */
 
     impermanence.url = "github:nix-community/impermanence";
 
-    # neovim-overlay = {
-    #   url = "github:nix-community/neovim-nightly-overlay";
-    #   inputs = {
-    #     flake-compat.follows = "flake-compat";
-    #     nixpkgs.follows = "latest";
-    #   };
-    # };
+    /*
+      neovim-overlay = {
+      url = "github:nix-community/neovim-nightly-overlay";
+      inputs = {
+      flake-compat.follows = "flake-compat";
+      nixpkgs.follows = "latest";
+      };
+      };
+    */
 
     nixos-cn = {
       url = "github:nixos-cn/flakes";
@@ -98,14 +102,16 @@
       };
     };
 
-    # nixos-hardware.url = "github:NixOS/nixos-hardware";
+    /*
+      nixos-hardware.url = "github:NixOS/nixos-hardware";
 
-    # nixos-generators = {
-    #   url = "github:nix-community/nixos-generators";
-    #   inputs = {
-    #     nixpkgs.follows = "nixpkgs";
-    #   };
-    # };
+      nixos-generators = {
+      url = "github:nix-community/nixos-generators";
+      inputs = {
+      nixpkgs.follows = "nixpkgs";
+      };
+      };
+    */
 
     nur.url = "github:nix-community/NUR";
 
@@ -119,7 +125,7 @@
     };
 
     peerix = {
-      url = "github:misterio77/peerix"; # TODO change to upstream after #13 is merged
+      url = "github:misterio77/peerix";
       inputs = {
         flake-compat.follows = "flake-compat";
         flake-utils.follows = "flake-utils";
@@ -127,13 +133,15 @@
       };
     };
 
-    # ragenix = {
-    #   url = "github:yaxitech/ragenix";
-    #   inputs = {
-    #     flake-utils.follows = "flake-utils-plus/flake-utils";
-    #     nixpkgs.follows = "latest";
-    #   };
-    # };
+    /*
+      ragenix = {
+      url = "github:yaxitech/ragenix";
+      inputs = {
+      flake-utils.follows = "flake-utils-plus/flake-utils";
+      nixpkgs.follows = "latest";
+      };
+      };
+    */
 
     sops-nix = {
       url = "github:Mic92/sops-nix";
@@ -151,7 +159,7 @@
   outputs = inputs:
     let
       lib = import ./lib { inherit inputs; };
-      inherit (lib) mkSystem mkHome mkDroid mkDeploys forAllSystems;
+      inherit (lib) mkSystem mkHome mkDroid mkDeploys eachDefaultSystem;
     in
     rec {
       inherit lib;
@@ -169,11 +177,32 @@
 
       # templates = import ./templates;
 
-      devShells = forAllSystems (system: {
-        default = legacyPackages.${system}.callPackage ./shell.nix { };
-      });
+      devShells = eachDefaultSystem (system:
+        let
+          pkgs = legacyPackages.${system};
+        in
+        {
+          default = pkgs.devshell.mkShell {
+            name = "nix-config";
+            imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
+            git.hooks.enable = true;
+            git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
+            packages = with pkgs; [
+              cachix
+              nix-build-uncached
+              nixpkgs-fmt
+              nodePackages.prettier
+              nodePackages.prettier-plugin-toml
+              shfmt
+              treefmt
+            ];
+            devshell.startup.nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
+              export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
+            '';
+          };
+        });
 
-      apps = forAllSystems (system: rec {
+      apps = eachDefaultSystem (system: rec {
         deploy = {
           type = "app";
           program = "${legacyPackages.${system}.deploy-rs}/bin/deploy";
@@ -181,7 +210,7 @@
         default = deploy;
       });
 
-      legacyPackages = forAllSystems (system:
+      legacyPackages = eachDefaultSystem (system:
         import inputs.nixpkgs {
           inherit system;
           overlays = builtins.attrValues overlays;
@@ -227,120 +256,123 @@
 
       deployChecks = { };
     };
-  # let
-  #   inherit (flake-utils-plus.lib) mkFlake exportModules exportPackages exportOverlays;
-  # in
-  # mkFlake
-  #   {
-  #     inherit self inputs;
 
-  #     supportedSystems = [ "aarch64-linux" "x86_64-linux" ];
+  /*
+    let
+    inherit (flake-utils-plus.lib) mkFlake exportModules exportPackages exportOverlays;
+    in
+    mkFlake
+    {
+    inherit self inputs;
 
-  #     channelsConfig = { allowUnfree = true; };
+    supportedSystems = [ "aarch64-linux" "x86_64-linux" ];
 
-  #     overlay = import ./overlays;
+    channelsConfig = { allowUnfree = true; };
 
-  #     overlays = exportOverlays {
-  #       inherit (self) pkgs inputs;
-  #     };
+    overlay = import ./overlays;
 
-  #     sharedOverlays = [
-  #       self.overlay
-  #       devshell.overlay
-  #       nixos-cn.overlay
-  #       nur.overlay
-  #       nvfetcher.overlay
-  #       (final: prev: { spacemacs = inputs.spacemacs; })
-  #     ];
+    overlays = exportOverlays {
+    inherit (self) pkgs inputs;
+    };
 
-  #     hostDefaults = {
-  #       channelName = "nixos";
-  #       # modules = [ ];
-  #       specialArgs = { inherit inputs; };
-  #     };
+    sharedOverlays = [
+    self.overlay
+    devshell.overlay
+    nixos-cn.overlay
+    nur.overlay
+    nvfetcher.overlay
+    (final: prev: { spacemacs = inputs.spacemacs; })
+    ];
 
-  #     hosts = {
-  #       d630 = {
-  #         system = "x86_64-linux";
-  #         modules = [
-  #           impermanence.nixosModules.impermanence
-  #           nixos-cn.nixosModules.nixos-cn-registries
-  #           nixos-cn.nixosModules.nixos-cn
-  #           home.nixosModules.home-manager
-  #           {
-  #             home-manager = {
-  #               useGlobalPkgs = true;
-  #               useUserPackages = true;
-  #               users.actoriu = { config, lib, pkgs, ... }: {
-  #                 imports = [
-  #                   # impermanence.nixosModules.home-manager.impermanence
-  #                   ./users/actoriu
-  #                 ];
-  #               };
-  #             };
-  #           }
-  #           # ({ pkgs, ... }: {
-  #           #   system.configurationRevision =
-  #           #     nixos.lib.mkIf (self ? rev) self.rev;
-  #           # })
-  #           ./hosts/d630
-  #         ];
-  #       };
+    hostDefaults = {
+    channelName = "nixos";
+    # modules = [ ];
+    specialArgs = { inherit inputs; };
+    };
 
-  #       oneplus5 = {
-  #         system = "aarch64-linux";
-  #         modules = [
-  #           ./hosts/oneplus5
-  #         ];
-  #         output = "nixOnDroidConfigurations";
-  #         builder = { system, modules, ... }:
-  #           nix-on-droid.lib.nixOnDroidConfiguration {
-  #             inherit system;
-  #             config = { imports = modules; };
-  #             pkgs = import nixos {
-  #               inherit system;
-  #               overlays = [ (final: prev: { spacemacs = inputs.spacemacs; }) ];
-  #             };
-  #           };
-  #       };
-  #     };
+    hosts = {
+    d630 = {
+    system = "x86_64-linux";
+    modules = [
+    impermanence.nixosModules.impermanence
+    nixos-cn.nixosModules.nixos-cn-registries
+    nixos-cn.nixosModules.nixos-cn
+    home.nixosModules.home-manager
+    {
+    home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    users.actoriu = { config, lib, pkgs, ... }: {
+    imports = [
+    # impermanence.nixosModules.home-manager.impermanence
+    ./users/actoriu
+    ];
+    };
+    };
+    }
+    # ({ pkgs, ... }: {
+    #   system.configurationRevision =
+    #     nixos.lib.mkIf (self ? rev) self.rev;
+    # })
+    ./hosts/d630
+    ];
+    };
 
-  #     outputsBuilder = channels:
-  #       let
-  #         pkgs = channels.nixos;
-  #       in
-  #       {
-  #         devShells =
-  #           {
-  #             default = pkgs.devshell.mkShell {
-  #               name = "nix-config";
-  #               imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
-  #               git.hooks.enable = true;
-  #               git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
-  #               packages = with pkgs; [
-  #                 cachix
-  #                 nix-build-uncached
-  #                 nixpkgs-fmt
-  #                 nodePackages.prettier
-  #                 nodePackages.prettier-plugin-toml
-  #                 shfmt
-  #                 treefmt
-  #               ];
-  #               devshell.startup.nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
-  #                 export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
-  #               '';
-  #             };
-  #           };
-  #         packages = exportPackages self.overlays channels;
-  #       };
-  #   };
-  # // (
-  #   let
-  #     system = "x86_64-linux";
-  #     pkgs = nixos.legacyPackages.${system};
-  #   in
-  #   {
-  #     homeConfigurations = import ./machines/home/default.nix { inherit self inputs pkgs; };
-  #   }
-  # );
+    oneplus5 = {
+    system = "aarch64-linux";
+    modules = [
+    ./hosts/oneplus5
+    ];
+    output = "nixOnDroidConfigurations";
+    builder = { system, modules, ... }:
+    nix-on-droid.lib.nixOnDroidConfiguration {
+    inherit system;
+    config = { imports = modules; };
+    pkgs = import nixos {
+    inherit system;
+    overlays = [ (final: prev: { spacemacs = inputs.spacemacs; }) ];
+    };
+    };
+    };
+    };
+
+    outputsBuilder = channels:
+    let
+    pkgs = channels.nixos;
+    in
+    {
+    devShells =
+    {
+    default = pkgs.devshell.mkShell {
+    name = "nix-config";
+    imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
+    git.hooks.enable = true;
+    git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
+    packages = with pkgs; [
+    cachix
+    nix-build-uncached
+    nixpkgs-fmt
+    nodePackages.prettier
+    nodePackages.prettier-plugin-toml
+    shfmt
+    treefmt
+    ];
+    devshell.startup.nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
+    export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
+    '';
+    };
+    };
+    packages = exportPackages self.overlays channels;
+    };
+    };
+    // (
+    let
+    system = "x86_64-linux";
+    pkgs = nixos.legacyPackages.${system};
+    in
+    {
+    homeConfigurations = import ./machines/home/default.nix { inherit self inputs pkgs; };
+    }
+    );
+  */
 }
