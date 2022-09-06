@@ -53,10 +53,12 @@ in
       i18n.inputMethod.fcitx.engines = with pkgs.fcitx-engines; [ rime ];
     })
     (mkIf (cfg.locale != null && cfg.locale == "zh_CN" && cfg.inputMethod == "fcitx5") {
-      i18n.inputMethod.fcitx5.addons = with pkgs; [
-        fcitx5-with-addons
-        fcitx5-rime
-      ];
+      i18n.inputMethod.fcitx5 = {
+        addons = with pkgs; [
+          fcitx5-rime
+        ];
+        enableRimeData = true;
+      };
     })
     (mkIf (cfg.locale != null && cfg.locale == "zh_CN" && cfg.inputMethod == "ibus") {
       i18n.inputMethod.ibus.engines = with pkgs.ibus-engines; [ rime ];
