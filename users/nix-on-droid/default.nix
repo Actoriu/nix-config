@@ -8,9 +8,9 @@
 
   custom = {
     # development
-    cc.enable = true;
-    javascript.enable = true;
-    python.enable = true;
+    # cc.enable = true;
+    # javascript.enable = true;
+    # python.enable = true;
     # editors
     emacs = {
       enable = true;

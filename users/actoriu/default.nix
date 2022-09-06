@@ -6,10 +6,10 @@
 
   custom = {
     # development
-    cc.enable = true;
-    javascript.enable = true;
-    python.enable = true;
-    texlive.enable = true;
+    # cc.enable = true;
+    # javascript.enable = true;
+    # python.enable = true;
+    # texlive.enable = true;
     # editors
     emacs = {
       enable = true;
