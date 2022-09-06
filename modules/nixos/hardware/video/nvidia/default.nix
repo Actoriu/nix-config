@@ -23,7 +23,7 @@ in
 
   config = mkIf (cfg.enable && config.services.xserver.enable) (mkMerge [
     {
-      # boot.blacklistedKernelModules = [ "nouveau" ];
+      boot.blacklistedKernelModules = [ "nouveau" ];
 
       services.xserver = {
         videoDrivers = [ "nvidia" ];
