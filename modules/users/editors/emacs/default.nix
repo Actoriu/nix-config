@@ -84,7 +84,7 @@ in
       };
     })
 
-    (mkIf cfg.emacs-application-framework {
+    (mkIf (pkgs.stdenv.isAarch64 != true && cfg.emacs-application-framework) {
       home = {
         packages = with pkgs; [
           # eaf core
