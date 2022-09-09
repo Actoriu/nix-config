@@ -41,7 +41,7 @@ in
           emacs-all-the-icons-fonts
           guile_3_0
           ripgrep
-          ripgrep-all
+          ugrep
           translate-shell
         ];
       };
