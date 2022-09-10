@@ -172,7 +172,7 @@
         nvfetcher = inputs.nvfetcher.overlay;
         peerix = inputs.peerix.overlay;
         sops-nix = inputs.sops-nix.overlay;
-        spacemacs = final: prev: { spacemacs = inputs.spacemacs; };
+        # spacemacs = final: prev: { spacemacs = inputs.spacemacs; };
       };
 
       # templates = import ./templates;
@@ -213,7 +213,7 @@
       legacyPackages = eachDefaultSystem (system:
         import inputs.nixpkgs {
           inherit system;
-          overlays = builtins.attrValues overlays;
+          overlays = builtins.attrValues overlays ++ [ (final: prev: { spacemacs = inputs.spacemacs; }) ];
           config = {
             allowUnfree = true;
             allowBroken = true;
