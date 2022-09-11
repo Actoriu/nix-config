@@ -103,13 +103,13 @@ rec {
   mkDroid =
     { devicename
     , pkgs
-    , DroidextraModules ? [ ]
+    , extraModules ? [ ]
     , persistence ? false
     ,
     }:
     nixOnDroidConfiguration {
       inherit pkgs;
-      extraModules = DroidextraModules;
+      extraModules = extraModules;
       extraSpecialArgs = {
         inherit inputs outputs devicename persistence;
       };
