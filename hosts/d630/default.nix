@@ -9,8 +9,6 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    # ../../modules/nixos
-    # ../../profiles/nixos
   ];
 
   services.xserver.enable = true;
@@ -56,7 +54,6 @@
       enable = true;
       # defaultUserShell = true;
       package = pkgs.zsh;
-      # userName = "actoriu";
       userVersion = "22.11";
     };
   };
@@ -67,17 +64,7 @@
     uid = 1000;
   };
 
-  # home-manager.useGlobalPkgs = true;
-  # home-manager.useUserPackages = true;
-  # home-manager = {
-  #   users.${config.custom.users.userName} = {
-  #     imports = [
-  #       impermanence.nixosModules.home-manager.impermanence
-  #       ../../users/actoriu
-  #     ];
-  #   };
-  # };
-
+  services.hdapsd.enable = lib.mkDefault true;
   # console = {
   #   font = "Lat2-Terminus16";
   #   keyMap = "us";
