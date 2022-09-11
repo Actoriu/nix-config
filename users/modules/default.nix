@@ -1,7 +1,4 @@
-{ inputs
-, persistence
-, ...
-}: {
+{ inputs, ... }: {
   imports = [
     inputs.impermanence.nixosModules.home-manager.impermanence
     ./editors
@@ -13,6 +10,4 @@
     ./terminal
     ./video
   ];
-
-  systemd.user.startServices = "sd-switch";
 }
