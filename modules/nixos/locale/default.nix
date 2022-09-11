@@ -1,8 +1,10 @@
-{ config, lib, pkgs, ... }:
-
-with lib;
-
-let cfg = config.custom.locale;
+{ config
+, lib
+, pkgs
+, ...
+}:
+with lib; let
+  cfg = config.custom.locale;
 in
 {
   options.custom.locale = {

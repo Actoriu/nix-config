@@ -1,7 +1,6 @@
 { ... }: {
   imports = [
-    ../../modules/users
-    # ../../profiles/users
+    ./modules
   ];
 
   custom = {
@@ -35,7 +34,7 @@
     tmux.enable = true;
     xdg.enable = true;
     xresources.enable = true;
-    # zoxide.enable = true;
+    zoxide.enable = true;
     zsh.enable = true;
     # terminal
     alacritty.enable = true;
@@ -45,5 +44,11 @@
     mpv.enable = true;
   };
 
-  xdg.configFile."nixpkgs/config.nix".text = "{ ... }: { allowUnfree = true; }";
+  xdg.configFile."nixpkgs/config.nix".text = ''
+    { ... }: {
+      allowUnfree = true;
+      allowBroken = true;
+      allowUnsupportedSystem = true;
+    }
+  '';
 }

@@ -1,6 +1,6 @@
 { ... }: {
   imports = [
-    ../../modules/users
+    ./modules
   ];
 
   programs.home-manager.enable = true;
@@ -15,10 +15,8 @@
     emacs = {
       enable = true;
       spacemacs = true;
-      emacs-application-framework = true;
     };
     # neovim.enable = true;
-    # readers
     # shell
     bat.enable = true;
     dircolors.enable = true;
@@ -38,5 +36,12 @@
     zsh.enable = true;
   };
 
-  xdg.configFile."nixpkgs/config.nix".text = "{ ... }: { allowUnfree = true; }";
+  xdg.configFile."nixpkgs/config.nix".text = ''
+    { ... }: {
+      allowUnfree = true;
+      allowBroken = true;
+      allowUnsupportedSystem = true;
+    }
+  '';
 }
+

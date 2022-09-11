@@ -2,7 +2,6 @@
 , pkgs
 , ...
 }:
-
 let
   sshdTmpDirectory = "${config.user.home}/sshd-tmp";
   sshdDirectory = "${config.user.home}/sshd";
@@ -63,9 +62,11 @@ in
       unzip
       openssh
       nettools
-      (lib.setPrio # make bintools less prior
-        (busybox.meta.priority + 10)
-        busybox
+      (
+        lib.setPrio # make bintools less prior
+
+          (busybox.meta.priority + 10)
+          busybox
       )
     ];
 
@@ -96,12 +97,15 @@ in
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    config = { lib, pkgs, ... }: {
-      home.stateVersion = "22.11";
-      imports = [ ../../users/nix-on-droid ];
-    };
+    config =
+      { lib
+      , pkgs
+      , ...
+      }: {
+        home.stateVersion = "22.11";
+        imports = [ ../../users/nix-on-droid ];
+      };
   };
-
 }
-
 # vim: ft=nix
+
