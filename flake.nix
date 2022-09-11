@@ -231,6 +231,7 @@
           username = "actoriu";
           pkgs = legacyPackages."x86_64-linux";
           persistence = true;
+          extraModules = [ ./users/modules ];
         };
       };
 
@@ -240,6 +241,7 @@
           username = "actoriu";
           hostname = "d630";
           persistence = true;
+          extraModules = [ ./users/modules ];
         };
       };
 
