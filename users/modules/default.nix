@@ -1,6 +1,5 @@
 { inputs
 , persistence
-, features
 , ...
 }: {
   imports = [
@@ -13,9 +12,7 @@
     ./shell
     ./terminal
     ./video
-  ]
-  # Import features that have modules
-  ++ builtins.filter builtins.pathExists (map (feature: ./${feature}) features);
+  ];
 
   systemd.user.startServices = "sd-switch";
 }

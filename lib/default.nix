@@ -60,7 +60,7 @@ rec {
         ../modules/nixos
       ]
     , persistence ? false
-    ,
+    , ...
     }:
     nixosSystem {
       inherit pkgs;
@@ -90,14 +90,12 @@ rec {
       ]
     , persistence ? false
     , colorscheme ? null
-    , wallpaper ? null
-    , features ? [ ]
-    ,
+    , ...
     }:
     homeManagerConfiguration {
       inherit pkgs;
       extraSpecialArgs = {
-        inherit inputs outputs hostname username persistence colorscheme wallpaper features;
+        inherit inputs outputs hostname username persistence colorscheme;
       };
       modules = extraModules ++ sharedModules ++ [ ../users/${username} ];
     };
