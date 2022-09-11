@@ -9,10 +9,6 @@ options = ["--plugin", "prettier-plugin-toml", "--write"]
 includes = ["*.md", "*.yaml", "*.yml", "*.toml", "*.json"]
 excludes = ["./pkgs/_sources/*"]
 
-[formatter.python]
-command = "black"
-includes = ["*.py"]
-
 [formatter.shell]
 command = "shfmt"
 options = ["-bn", "-ci", "-sr", "-i", "2", "-s", "-w"]

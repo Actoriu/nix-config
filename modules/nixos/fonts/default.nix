@@ -3,10 +3,7 @@
 , pkgs
 , ...
 }:
-
-with lib;
-
-let
+with lib; let
   cfg = config.custom.fonts;
 in
 {

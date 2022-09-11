@@ -13,12 +13,14 @@
       ({ pkgs, ... }: {
         nixpkgs = {
           config = { allowUnfree = true; };
-          overlays = with inputs; [
-            nixos-cn.overlay
-            nur.overlay
-            nvfetcher.overlay
-            (final: prev: { spacemacs = inputs.spacemacs; })
-          ] ++ [ self.overlays.default ];
+          overlays = with inputs;
+            [
+              nixos-cn.overlay
+              nur.overlay
+              nvfetcher.overlay
+              (final: prev: { spacemacs = inputs.spacemacs; })
+            ]
+            ++ [ self.overlays.default ];
         };
         system.configurationRevision =
           inputs.nixos.lib.mkIf (self ? rev) self.rev;

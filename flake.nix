@@ -158,7 +158,9 @@
 
   outputs = inputs:
     let
-      lib = import ./lib { inherit inputs; };
+      lib = import ./lib {
+        inherit inputs;
+      };
       inherit (lib) mkSystem mkHome mkDroid mkDeploys eachDefaultSystem;
     in
     rec {
@@ -172,10 +174,32 @@
         nvfetcher = inputs.nvfetcher.overlay;
         peerix = inputs.peerix.overlay;
         sops-nix = inputs.sops-nix.overlay;
-        # spacemacs = final: prev: { spacemacs = inputs.spacemacs; };
       };
 
-      # templates = import ./templates;
+      legacyPackages = eachDefaultSystem (system:
+        import inputs.nixpkgs {
+          inherit system;
+          config = {
+            allowUnfree = true;
+            allowBroken = true;
+            allowUnsupportedSystem = true;
+          };
+          overlays =
+            builtins.attrValues overlays ++ [
+              (final: prev: { spacemacs = inputs.spacemacs; })
+            ];
+        }
+      );
+
+      formatter = eachDefaultSystem (system: legacyPackages.${system}.nixpkgs-fmt);
+
+      apps = eachDefaultSystem (system: rec {
+        deploy = {
+          type = "app";
+          program = "${legacyPackages.${system}.deploy-rs}/bin/deploy";
+        };
+        default = deploy;
+      });
 
       devShells = eachDefaultSystem (system:
         let
@@ -201,25 +225,6 @@
             '';
           };
         });
-
-      apps = eachDefaultSystem (system: rec {
-        deploy = {
-          type = "app";
-          program = "${legacyPackages.${system}.deploy-rs}/bin/deploy";
-        };
-        default = deploy;
-      });
-
-      legacyPackages = eachDefaultSystem (system:
-        import inputs.nixpkgs {
-          inherit system;
-          overlays = builtins.attrValues overlays ++ [ (final: prev: { spacemacs = inputs.spacemacs; }) ];
-          config = {
-            allowUnfree = true;
-            allowBroken = true;
-          };
-        }
-      );
 
       nixosConfigurations = {
         # Laptop

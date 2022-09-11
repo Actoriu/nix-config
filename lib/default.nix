@@ -6,7 +6,7 @@ let
   inherit (inputs) self home-manager nix-on-droid nixpkgs deploy-rs;
   inherit (self) outputs;
 
-  inherit (builtins) elemAt match any mapAttrs attrValues attrNames listToAttrs;
+  inherit (builtins) elemAt match any mapAttrs attrNames listToAttrs;
   inherit (nixpkgs.lib) nixosSystem filterAttrs genAttrs mapAttrs';
   inherit (home-manager.lib) homeManagerConfiguration;
   inherit (nix-on-droid.lib) nixOnDroidConfiguration;
@@ -15,7 +15,11 @@ let
 in
 rec {
   # Applies a function to a attrset's names, while keeping the values
-  mapAttrNames = f: mapAttrs' (name: value: { name = f name; inherit value; });
+  mapAttrNames = f:
+    mapAttrs' (name: value: {
+      name = f name;
+      inherit value;
+    });
 
   has = element: any (x: x == element);
 
@@ -36,15 +40,15 @@ rec {
     { hostname
     , username ? null
     , pkgs
-    , hardwareModules ? [ ]
-    , homextraSpecialArgs ? { }
-    , baseModules ? [
+    , extraModules ? [ ]
+    , extraSpecialArgs ? { }
+    , sharedModules ? [
         home-manager.nixosModules.home-manager
         {
           home-manager = {
             useGlobalPkgs = true;
             useUserPackages = true;
-            extraSpecialArgs = homextraSpecialArgs;
+            extraSpecialArgs = extraSpecialArgs;
             users.${username} = { ... }: {
               imports = [
                 ({ ... }: { home.stateVersion = "22.11"; })
@@ -55,44 +59,47 @@ rec {
         }
         ../modules/nixos
       ]
-    , extraModules ? [ ]
     , persistence ? false
+    ,
     }:
     nixosSystem {
       inherit pkgs;
       specialArgs = {
         inherit inputs outputs hostname username persistence;
       };
-      modules = baseModules ++ hardwareModules ++ extraModules ++ [ ../hosts/${hostname} ];
+      modules = extraModules ++ sharedModules ++ [ ../hosts/${hostname} ];
     };
 
   mkHome =
-    { username
-    , hostname ? null
+    { hostname ? null
+    , username
     , pkgs ? outputs.nixosConfigurations.${hostname}.pkgs
-    , baseModules ? [
+    , extraModules ? [ ]
+    , sharedModules ? [
         {
           home = {
             inherit username;
-            homeDirectory = if pkgs.stdenv.isDarwin then "/Users" else "/home" + "/${username}";
+            homeDirectory =
+              if pkgs.stdenv.isDarwin
+              then "/Users"
+              else "/home" + "/${username}";
             stateVersion = "22.11";
           };
         }
-        ../modules/users
+        ../users/modules
       ]
-    , extraModules ? [ ]
     , persistence ? false
     , colorscheme ? null
     , wallpaper ? null
     , features ? [ ]
+    ,
     }:
     homeManagerConfiguration {
       inherit pkgs;
       extraSpecialArgs = {
-        inherit inputs outputs hostname username persistence
-          colorscheme wallpaper features;
+        inherit inputs outputs hostname username persistence colorscheme wallpaper features;
       };
-      modules = baseModules ++ extraModules ++ [ ../users/${username} ];
+      modules = extraModules ++ sharedModules ++ [ ../users/${username} ];
     };
 
   mkDroid =
@@ -100,6 +107,7 @@ rec {
     , pkgs
     , DroidextraModules ? [ ]
     , persistence ? false
+    ,
     }:
     nixOnDroidConfiguration {
       inherit pkgs;
