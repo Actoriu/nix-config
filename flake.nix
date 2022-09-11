@@ -249,7 +249,6 @@
           devicename = "oneplus5";
           pkgs = legacyPackages."aarch64-linux";
           persistence = false;
-          extraModules = [ ./users/modules ];
         };
       };
 

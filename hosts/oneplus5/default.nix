@@ -102,7 +102,10 @@ in
       , ...
       }: {
         home.stateVersion = "22.11";
-        imports = [ ../../users/nix-on-droid ];
+        imports = [
+          ../../users/modules
+          ../../users/nix-on-droid
+        ];
       };
   };
 }
