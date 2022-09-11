@@ -154,7 +154,7 @@
     };
   };
 
-  outputs = { self, ... }@inputs:
+  outputs = inputs:
     let
       lib = import ./lib {
         inherit inputs;
@@ -231,7 +231,6 @@
           username = "actoriu";
           pkgs = legacyPackages."x86_64-linux";
           persistence = true;
-          extraModules = [ ./users/modules ];
         };
       };
 
