@@ -241,7 +241,6 @@
           username = "actoriu";
           hostname = "d630";
           persistence = true;
-          extraModules = [ ./users/modules ];
         };
       };
 
@@ -250,6 +249,7 @@
           devicename = "oneplus5";
           pkgs = legacyPackages."aarch64-linux";
           persistence = false;
+          extraModules = [ ./users/modules ];
         };
       };
 
