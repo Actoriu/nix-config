@@ -10,7 +10,7 @@ let
 in
 {
   nix = {
-    extraConfig = ''
+    extraOptions = ''
       experimental-features = nix-command flakes
     '';
     substituters = [
@@ -64,7 +64,6 @@ in
       nettools
       (
         lib.setPrio # make bintools less prior
-
           (busybox.meta.priority + 10)
           busybox
       )

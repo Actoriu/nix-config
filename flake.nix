@@ -103,8 +103,6 @@
     };
 
     /*
-      nixos-hardware.url = "github:NixOS/nixos-hardware";
-
       nixos-generators = {
       url = "github:nix-community/nixos-generators";
       inputs = {
@@ -156,7 +154,7 @@
     };
   };
 
-  outputs = inputs:
+  outputs = { self, ... }@inputs:
     let
       lib = import ./lib {
         inherit inputs;
