@@ -1,7 +1,7 @@
 { ... }: {
-  # imports = [
-  #   ../modules
-  # ];
+  imports = [
+    ../modules
+  ];
 
   programs.home-manager.enable = true;
 
