@@ -2,7 +2,9 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 { config
+, hostname
 , pkgs
+, username
 , ...
 }: {
   imports = [
@@ -57,13 +59,13 @@
     };
   };
 
-  users.users.actoriu = {
+  users.users.${username} = {
     isNormalUser = true;
     extraGroups = [ "wheel" ];
     uid = 1000;
   };
 
-  networking.hostName = "d630";
+  networking.hostName = hostname;
 
   # console = {
   #   font = "Lat2-Terminus16";
