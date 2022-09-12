@@ -193,6 +193,38 @@
               '';
             };
           };
+          nixosConfigurations = {
+            d630 = inputs.nixpkgs.lib.nixosSystem {
+              system = "x86_64-linux";
+              specialArgs = { inherit inputs; };
+              modules = with inputs; [
+                impermanence.nixosModules.impermanence
+                nixos-cn.nixosModules.nixos-cn-registries
+                nixos-cn.nixosModules.nixos-cn
+                home-manager.nixosModules.home-manager
+                {
+                  home-manager = {
+                    useGlobalPkgs = true;
+                    useUserPackages = true;
+                    users.actoriu = { config, pkgs, ... }: {
+                      home.stateVersion = "22.11";
+                      imports = with inputs; [
+                        impermanence.nixosModules.home-manager.impermanence
+                        ./users/modules
+                        ./users/actoriu
+                      ];
+                    };
+                  };
+                }
+                ({ pkgs, ... }: {
+                  system.configurationRevision =
+                    inputs.nixpkgs.lib.mkIf (self ? rev) self.rev;
+                })
+                ./modules/nixos
+                ./hosts/d630
+              ];
+            };
+          };
         }
       )
     // {
@@ -204,38 +236,6 @@
         nvfetcher = inputs.nvfetcher.overlay;
         peerix = inputs.peerix.overlay;
         sops-nix = inputs.sops-nix.overlay;
-      };
-      nixosConfigurations = {
-        d630 = inputs.nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs; };
-          modules = with inputs; [
-            impermanence.nixosModules.impermanence
-            nixos-cn.nixosModules.nixos-cn-registries
-            nixos-cn.nixosModules.nixos-cn
-            home-manager.nixosModules.home-manager
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                users.actoriu = { pkgs, ... }: {
-                  home.stateVersion = "22.11";
-                  imports = with inputs; [
-                    impermanence.nixosModules.home-manager.impermanence
-                    ./users/modules
-                    ./users/actoriu
-                  ];
-                };
-              };
-            }
-            ({ pkgs, ... }: {
-              system.configurationRevision =
-                inputs.nixpkgs.lib.mkIf (self ? rev) self.rev;
-            })
-            ./modules/nixos
-            ./hosts/d630
-          ];
-        };
       };
     };
   /*
