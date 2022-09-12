@@ -43,21 +43,21 @@ rec {
     , extraModules ? [ ]
     , extraSpecialArgs ? { }
     , sharedModules ? [
-        home-manager.nixosModules.home-manager
-        {
-          home-manager = {
-            useGlobalPkgs = true;
-            useUserPackages = true;
-            extraSpecialArgs = extraSpecialArgs;
-            users.${username} = { ... }: {
-              home.stateVersion = "22.11";
-              imports = [
-                ../users/modules
-                ../users/${username}
-              ];
-            };
-          };
-        }
+        # home-manager.nixosModules.home-manager
+        # {
+        #   home-manager = {
+        #     useGlobalPkgs = true;
+        #     useUserPackages = true;
+        #     extraSpecialArgs = extraSpecialArgs;
+        #     users.${username} = { ... }: {
+        #       home.stateVersion = "22.11";
+        #       imports = [
+        #         ../users/modules
+        #         ../users/${username}
+        #       ];
+        #     };
+        #   };
+        # }
       ]
     , persistence ? false
     , ...
