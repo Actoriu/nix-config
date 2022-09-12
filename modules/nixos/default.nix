@@ -1,6 +1,14 @@
-{ ...
+{ inputs
+, lib
+, hostname
+, persistence
+, ...
 }: {
-  imports = [
+  imports = with inputs; [
+    impermanence.nixosModules.impermanence
+    nixos-cn.nixosModules.nixos-cn-registries
+    nixos-cn.nixosModules.nixos-cn
+  ] ++ [
     ./fonts
     ./hardware
     ./loader

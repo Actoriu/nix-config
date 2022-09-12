@@ -52,12 +52,12 @@ rec {
             users.${username} = { ... }: {
               home.stateVersion = "22.11";
               imports = [
+                ../users/modules
                 ../users/${username}
               ];
             };
           };
         }
-        ../modules/nixos
       ]
     , persistence ? false
     , ...
@@ -86,7 +86,6 @@ rec {
             stateVersion = "22.11";
           };
         }
-        ../users/modules
       ]
     , persistence ? false
     , colorscheme ? null
