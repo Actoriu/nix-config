@@ -219,6 +219,7 @@
                 useGlobalPkgs = true;
                 useUserPackages = true;
                 users.actoriu = { ... }: {
+                  home.stateVersion = "22.11";
                   imports = with inputs; [
                     impermanence.nixosModules.home-manager.impermanence
                     ./users/modules
