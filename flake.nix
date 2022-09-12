@@ -158,7 +158,7 @@
     inputs.flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ]
       (system:
         let
-          pkgs = import nixpkgs {
+          pkgs = import inputs.nixpkgs {
             inherit system;
             config = {
               allowUnfree = true;
