@@ -155,7 +155,7 @@
   };
 
   outputs = { self, ... }@inputs:
-    flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ]
+    inputs.flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ]
       (system:
         let
           pkgs = import nixpkgs {
