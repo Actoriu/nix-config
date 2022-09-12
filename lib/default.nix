@@ -41,23 +41,23 @@ rec {
     , username ? null
     , pkgs
     , extraModules ? [ ]
-    , extraSpecialArgs ? { }
+      # , extraSpecialArgs ? { }
     , sharedModules ? [
-        home-manager.nixosModules.home-manager
-        {
-          home-manager = {
-            useGlobalPkgs = true;
-            useUserPackages = true;
-            extraSpecialArgs = extraSpecialArgs;
-            users.${username} = { ... }: {
-              home.stateVersion = "22.11";
-              imports = [
-                ../users/modules
-                ../users/${username}
-              ];
-            };
-          };
-        }
+        # home-manager.nixosModules.home-manager
+        # {
+        #   home-manager = {
+        #     useGlobalPkgs = true;
+        #     useUserPackages = true;
+        #     extraSpecialArgs = extraSpecialArgs;
+        #     users.${username} = { ... }: {
+        #       home.stateVersion = "22.11";
+        #       imports = [
+        #         ../users/modules
+        #         ../users/${username}
+        #       ];
+        #     };
+        #   };
+        # }
       ]
     , persistence ? false
     , ...
@@ -73,8 +73,7 @@ rec {
   mkHome =
     { hostname ? null
     , username
-      # , pkgs ? outputs.nixosConfigurations.${hostname}.pkgs
-    , pkgs
+    , pkgs ? outputs.nixosConfigurations.${hostname}.pkgs
     , extraModules ? [ ]
     , sharedModules ? [
         {

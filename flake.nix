@@ -240,7 +240,6 @@
         "actoriu@d630" = mkHome {
           username = "actoriu";
           hostname = "d630";
-          pkgs = legacyPackages."x86_64-linux";
           persistence = true;
           extraModules = [ ./users/modules ];
         };
