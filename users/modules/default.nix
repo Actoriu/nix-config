@@ -1,6 +1,5 @@
-{ inputs, ... }: {
+{ ... }: {
   imports = [
-    inputs.impermanence.nixosModules.home-manager.impermanence
     ./editors
     ./lang
     ./misc
