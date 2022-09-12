@@ -231,6 +231,7 @@
               system.configurationRevision =
                 inputs.nixpkgs.lib.mkIf (self ? rev) self.rev;
             })
+            ./modules/nixos
             ./hosts/d630
           ];
         };
