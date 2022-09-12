@@ -112,7 +112,12 @@ rec {
       extraSpecialArgs = {
         inherit inputs outputs devicename persistence;
       };
-      config = ../hosts/${devicename};
+      config = { ... }: {
+        imports = [
+          ../users/modules
+          ../hosts/${devicename};
+        ];
+      };
     };
 
   mkDeploys = nixosConfigs: homeConfigs:
