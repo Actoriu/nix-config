@@ -115,7 +115,7 @@ rec {
       config = { ... }: {
         imports = [
           ../users/modules
-          ../hosts/${devicename};
+          ../hosts/${devicename}
         ];
       };
     };
