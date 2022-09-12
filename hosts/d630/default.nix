@@ -57,7 +57,7 @@
     };
   };
 
-  users.users."actoriu" = {
+  users.users.actoriu = {
     isNormalUser = true;
     extraGroups = [ "wheel" ];
     uid = 1000;
