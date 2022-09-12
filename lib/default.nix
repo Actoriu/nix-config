@@ -50,8 +50,8 @@ rec {
             useUserPackages = true;
             extraSpecialArgs = extraSpecialArgs;
             users.${username} = { ... }: {
+              home.stateVersion = "22.11";
               imports = [
-                ({ ... }: { home.stateVersion = "22.11"; })
                 ../users/${username}
               ];
             };
