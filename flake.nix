@@ -220,7 +220,7 @@
             allowUnsupportedSystem = true;
           };
           overlays =
-            builtins.attrValues overlays ++ [
+            builtins.attrValues self.overlays ++ [
               (final: prev: { spacemacs = inputs.spacemacs; })
             ];
         };
