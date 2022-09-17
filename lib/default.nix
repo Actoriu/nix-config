@@ -37,7 +37,7 @@ rec {
   isDarwin = system: (elem system darwin);
 
   homePrefix =
-    if isDarwin then
+    if isDarwin system then
       "/Users"
     else
       "/home";
@@ -110,8 +110,25 @@ rec {
     { devicename
     , username
     , system ? "aarch64-linux"
+    , add_extraModules ? [ ]
     , custom_extraModules ? [ ]
     , home_extraModules ? [ ]
+    , sharedModules ? [
+        {
+          home-manager = {
+            useGlobalPkgs = true;
+            useUserPackages = true;
+            extraSpecialArgs = { inherit inputs persistence; };
+            config = { ... }: {
+              home.stateVersion = "22.11";
+              manual.manpages.enable = false;
+              imports = home_extraModules ++ [
+                ../users/${username}
+              ];
+            };
+          };
+        }
+      ]
     , persistence ? false
     , ...
     }:
@@ -120,21 +137,7 @@ rec {
       extraSpecialArgs = { inherit inputs persistence; };
       extraModules = custom_extraModules;
       config = { ... }: {
-        home-manager = {
-          useGlobalPkgs = true;
-          useUserPackages = true;
-          extraSpecialArgs = { inherit inputs persistence; };
-          config = { ... }: {
-            home.stateVersion = "22.11";
-            manual.manpages.enable = false;
-            imports = home_extraModules ++ [
-              ../users/${username}
-            ];
-          };
-        };
-        imports = [
-          ../hosts/${devicename}
-        ];
+        imports = add_extraModules ++ sharedModules ++ [ ../hosts/${devicename} ];
       };
     };
 
