@@ -154,7 +154,7 @@
     };
   };
 
-  outputs = { self, ... }@inputs:
+  outputs = inputs:
     let
       lib = import ./lib { inherit inputs; };
       inherit (lib) mkSystem mkHome mkDroid mkDeploys eachDefaultSystem;
@@ -261,47 +261,7 @@
         };
       };
 
-    }
-    // inputs.flake-utils.lib.eachDefaultSystem
-      (system:
-        let
-          pkgs = import inputs.nixpkgs {
-            inherit system;
-            config = {
-              allowUnfree = true;
-              allowBroken = true;
-              allowUnsupportedSystem = true;
-            };
-            overlays =
-              builtins.attrValues self.overlays ++ [
-                (final: prev: { spacemacs = inputs.spacemacs; })
-              ];
-          };
-        in
-        {
-          devShells = {
-            default = pkgs.devshell.mkShell {
-              name = "nix-config";
-              imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
-              git.hooks.enable = true;
-              git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
-              packages = with pkgs; [
-                cachix
-                nix-build-uncached
-                nixpkgs-fmt
-                nodePackages.prettier
-                nodePackages.prettier-plugin-toml
-                shfmt
-                treefmt
-              ];
-              devshell.startup.nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
-                export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
-              '';
-            };
-          };
-
-          formatter = pkgs.nixpkgs-fmt;
-        });
+    };
   /*
     let
     inherit (flake-utils-plus.lib) mkFlake exportModules exportPackages exportOverlays;
