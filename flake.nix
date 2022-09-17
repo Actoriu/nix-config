@@ -210,7 +210,7 @@
       };
 
     }
-    // flake-utils.lib.eachDefaultSystem (system:
+    // inputs.flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import inputs.nixpkgs {
           inherit system;
