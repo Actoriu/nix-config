@@ -33,10 +33,10 @@ rec {
 
   eachDefaultSystem = genAttrs defaultSystems;
 
-  isDarwin = system: (builtins.elem system nixpkgs.lib.platforms.darwin);
+  isDarwin = nixpkgs.lib.platforms.darwin;
 
-  homePrefix = system:
-    if isDarwin system
+  homePrefix =
+    if isDarwin
     then "/Users"
     else "/home";
 
