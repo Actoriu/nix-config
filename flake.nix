@@ -212,7 +212,7 @@
             };
           });
 
-      formatter = legacyPackages.${system}.nixpkgs-fmt;
+      formatter = eachDefaultSystem (system: legacyPackages.${system}.nixpkgs-fmt);
 
       nixosConfigurations = {
         d630 = mkSystem {
