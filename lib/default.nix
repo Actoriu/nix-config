@@ -36,7 +36,7 @@ rec {
 
   isDarwin = system: (elem system darwin);
 
-  homePrefix =
+  homePrefix = system:
     if isDarwin system then
       "/Users"
     else
