@@ -223,7 +223,7 @@
             inputs.nixos-cn.nixosModules.nixos-cn-registries
             inputs.nixos-cn.nixosModules.nixos-cn
             {
-              nixpkgs = legacyPackages.${system};
+              nixpkgs = legacyPackages."x86_64-linux";
             }
             ./modules/nixos
             ./profiles/nixos
@@ -242,7 +242,7 @@
           extraModules = [
             inputs.impermanence.nixosModules.home-manager.impermanence
             {
-              nixpkgs = legacyPackages.${system};
+              nixpkgs = legacyPackages."x86_64-linux";
             }
             ./users/modules
           ];
@@ -254,7 +254,7 @@
           devicename = "oneplus5";
           custom_extraModules = [
             {
-              nixpkgs = legacyPackages.${system};
+              nixpkgs = legacyPackages."aarch64-linux";
             }
           ];
           home_extraModules = [ ./users/modules ];
