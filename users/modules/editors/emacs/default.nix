@@ -21,11 +21,12 @@ in
         emacs = {
           enable = cfg.enable;
           package =
-            if pkgs.stdenv.isDarwin
-            then pkgs.emacsMacport
-            else if pkgs.stdenv.isLinux
-            then pkgs.emacs
-            else pkgs.emacs-nox;
+            if pkgs.stdenv.isDarwin then
+              pkgs.emacsMacport
+            else if pkgs.stdenv.isAarch64 then
+              pkgs.emacs-nox
+            else
+              pkgs.emacs;
           # extraPackages = epkgs: with epkgs; [
           #   evil
           #   helm

@@ -253,6 +253,7 @@
       nixOnDroidConfigurations = {
         oneplus5 = mkDroid {
           devicename = "oneplus5";
+          username = "nix-on-droid";
           system = "aarch64-linux";
           custom_extraModules = [
             {
