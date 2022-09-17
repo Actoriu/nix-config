@@ -223,9 +223,9 @@
             inputs.impermanence.nixosModules.impermanence
             inputs.nixos-cn.nixosModules.nixos-cn-registries
             inputs.nixos-cn.nixosModules.nixos-cn
-            {
-              nixpkgs = legacyPackages."x86_64-linux";
-            }
+            # {
+            #   nixpkgs = legacyPackages."x86_64-linux";
+            # }
             ./modules/nixos
             ./profiles/nixos
           ];
@@ -242,9 +242,9 @@
           hostname = "d630";
           extraModules = [
             inputs.impermanence.nixosModules.home-manager.impermanence
-            {
-              nixpkgs = legacyPackages."x86_64-linux";
-            }
+            # {
+            #   nixpkgs = legacyPackages."x86_64-linux";
+            # }
             ./users/modules
           ];
         };
@@ -255,9 +255,9 @@
           devicename = "oneplus5";
           pkgs = legacyPackages."aarch64-linux";
           custom_extraModules = [
-            {
-              nixpkgs = legacyPackages."aarch64-linux";
-            }
+            # {
+            #   nixpkgs = legacyPackages."aarch64-linux";
+            # }
           ];
           home_extraModules = [ ./users/modules ];
         };

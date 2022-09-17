@@ -68,7 +68,7 @@ rec {
     , ...
     }:
     nixosSystem {
-      inherit system;
+      inherit pkgs;
       specialArgs = {
         inherit inputs outputs hostname username persistence;
       };
@@ -96,7 +96,7 @@ rec {
     , ...
     }:
     homeManagerConfiguration {
-      pkgs = nixpkgs.legacyPackages.${system};
+      inherit pkgs;
       extraSpecialArgs = {
         inherit inputs outputs hostname username persistence colorscheme;
       };
@@ -113,7 +113,7 @@ rec {
     , ...
     }:
     nixOnDroidConfiguration {
-      inherit system;
+      inherit pkgs;
       extraSpecialArgs = { inherit inputs persistence; };
       extraModules = custom_extraModules;
       config = { ... }: {
