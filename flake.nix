@@ -255,11 +255,7 @@
           devicename = "oneplus5";
           username = "nix-on-droid";
           system = "aarch64-linux";
-          add_extraModules = [
-            {
-              nixpkgs = { inherit (legacyPackages."aarch64-linux") config overlays; };
-            }
-          ];
+          pkgs = legacyPackages."aarch64-linux";
           home_extraModules = [ ./users/modules ];
         };
       };

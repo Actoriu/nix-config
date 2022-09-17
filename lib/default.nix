@@ -110,7 +110,10 @@ rec {
     { devicename
     , username
     , system ? "aarch64-linux"
-    , add_extraModules ? [ ]
+    , pkgs
+    , add_extraModules ? [
+        { nixpkgs = { inherit (pkgs) config overlays; }; }
+      ]
     , custom_extraModules ? [ ]
     , home_extraModules ? [ ]
     , sharedModules ? [
