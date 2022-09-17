@@ -1,6 +1,4 @@
-{ inputs
-, ...
-}:
+{ inputs, ... }:
 let
   inherit (inputs) self home-manager nix-on-droid nixpkgs deploy-rs;
   inherit (self) outputs;
@@ -45,7 +43,7 @@ rec {
   mkSystem =
     { hostname
     , username ? null
-    , system ? "x86_64-linux"
+    , pkgs
     , extraModules ? [ ]
     , home_extraModules ? [ ]
     , sharedModules ? [
@@ -80,7 +78,7 @@ rec {
   mkHome =
     { hostname ? null
     , username
-    , system ? "x86_64-linux"
+    , pkgs ? outputs.nixosConfigurations.${hostname}.pkgs
     , extraModules ? [ ]
     , sharedModules ? [
         {
@@ -108,7 +106,7 @@ rec {
   mkDroid =
     { devicename
     , username
-    , system ? "aarch64-linux"
+    , pkgs
     , custom_extraModules ? [ ]
     , home_extraModules ? [ ]
     , persistence ? false

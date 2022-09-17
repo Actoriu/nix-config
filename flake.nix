@@ -218,6 +218,7 @@
         d630 = mkSystem {
           hostname = "d630";
           username = "actoriu";
+          pkgs = legacyPackages."x86_64-linux";
           extraModules = [
             inputs.impermanence.nixosModules.impermanence
             inputs.nixos-cn.nixosModules.nixos-cn-registries
@@ -252,6 +253,7 @@
       nixOnDroidConfigurations = {
         oneplus5 = mkDroid {
           devicename = "oneplus5";
+          pkgs = legacyPackages."aarch64-linux";
           custom_extraModules = [
             {
               nixpkgs = legacyPackages."aarch64-linux";
