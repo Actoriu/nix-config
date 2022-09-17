@@ -43,7 +43,7 @@ rec {
   mkSystem =
     { hostname
     , username ? null
-    , pkgs
+    , system ? "x86_64-linux"
     , extraModules ? [ ]
     , home_extraModules ? [ ]
     , sharedModules ? [
@@ -68,7 +68,7 @@ rec {
     , ...
     }:
     nixosSystem {
-      inherit pkgs;
+      inherit system;
       specialArgs = {
         inherit inputs outputs hostname username persistence;
       };
@@ -78,7 +78,7 @@ rec {
   mkHome =
     { hostname ? null
     , username
-    , pkgs ? outputs.nixosConfigurations.${hostname}.pkgs
+    , pkgs
     , extraModules ? [ ]
     , sharedModules ? [
         {
@@ -106,14 +106,14 @@ rec {
   mkDroid =
     { devicename
     , username
-    , pkgs
+    , system ? "aarch64-linux"
     , custom_extraModules ? [ ]
     , home_extraModules ? [ ]
     , persistence ? false
     , ...
     }:
     nixOnDroidConfiguration {
-      inherit pkgs;
+      inherit system;
       extraSpecialArgs = { inherit inputs persistence; };
       extraModules = custom_extraModules;
       config = { ... }: {
