@@ -31,14 +31,14 @@
 
     flake-utils.url = "github:numtide/flake-utils";
 
-    # deploy-rs = {
-    #   url = "github:serokell/deploy-rs";
-    #   inputs = {
-    #     flake-compat.follows = "flake-compat";
-    #     utils.follows = "flake-utils";
-    #     nixpkgs.follows = "nixpkgs";
-    #   };
-    # };
+    deploy-rs = {
+      url = "github:serokell/deploy-rs";
+      inputs = {
+        flake-compat.follows = "flake-compat";
+        utils.follows = "flake-utils";
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
 
     devshell = {
       url = "github:numtide/devshell";
