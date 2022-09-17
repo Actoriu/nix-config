@@ -177,16 +177,19 @@
         d630 = mkSystem {
           hostname = "d630";
           username = "actoriu";
-          home_extraModules = [
-            inputs.impermanence.nixosModules.home-manager.impermanence
-            ./users/modules
-          ];
           extraModules = [
             inputs.impermanence.nixosModules.impermanence
             inputs.nixos-cn.nixosModules.nixos-cn-registries
             inputs.nixos-cn.nixosModules.nixos-cn
+            {
+              nixpkgs = self.pkgs;
+            }
             ./modules/nixos
             ./profiles/nixos
+          ];
+          home_extraModules = [
+            inputs.impermanence.nixosModules.home-manager.impermanence
+            ./users/modules
           ];
         };
       };
@@ -197,6 +200,9 @@
           hostname = "d630";
           extraModules = [
             inputs.impermanence.nixosModules.home-manager.impermanence
+            {
+              nixpkgs = self.pkgs;
+            }
             ./users/modules
           ];
         };
@@ -205,50 +211,56 @@
       nixOnDroidConfigurations = {
         oneplus5 = mkDroid {
           devicename = "oneplus5";
+          custom_extraModules = [
+            {
+              nixpkgs = self.pkgs;
+            }
+          ];
           home_extraModules = [ ./users/modules ];
         };
       };
 
     }
-    // inputs.flake-utils.lib.eachDefaultSystem (system:
-      let
-        pkgs = import inputs.nixpkgs {
-          inherit system;
-          config = {
-            allowUnfree = true;
-            allowBroken = true;
-            allowUnsupportedSystem = true;
+    // inputs.flake-utils.lib.eachDefaultSystem
+      (system:
+        let
+          pkgs = import inputs.nixpkgs {
+            inherit system;
+            config = {
+              allowUnfree = true;
+              allowBroken = true;
+              allowUnsupportedSystem = true;
+            };
+            overlays =
+              builtins.attrValues self.overlays ++ [
+                (final: prev: { spacemacs = inputs.spacemacs; })
+              ];
           };
-          overlays =
-            builtins.attrValues self.overlays ++ [
-              (final: prev: { spacemacs = inputs.spacemacs; })
-            ];
-        };
-      in
-      {
-        devShells = {
-          default = pkgs.devshell.mkShell {
-            name = "nix-config";
-            imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
-            git.hooks.enable = true;
-            git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
-            packages = with pkgs; [
-              cachix
-              nix-build-uncached
-              nixpkgs-fmt
-              nodePackages.prettier
-              nodePackages.prettier-plugin-toml
-              shfmt
-              treefmt
-            ];
-            devshell.startup.nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
-              export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
-            '';
+        in
+        {
+          devShells = {
+            default = pkgs.devshell.mkShell {
+              name = "nix-config";
+              imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
+              git.hooks.enable = true;
+              git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
+              packages = with pkgs; [
+                cachix
+                nix-build-uncached
+                nixpkgs-fmt
+                nodePackages.prettier
+                nodePackages.prettier-plugin-toml
+                shfmt
+                treefmt
+              ];
+              devshell.startup.nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
+                export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
+              '';
+            };
           };
-        };
 
-        formatter = pkgs.nixpkgs-fmt;
-      });
+          formatter = pkgs.nixpkgs-fmt;
+        });
   /*
     let
     inherit (flake-utils-plus.lib) mkFlake exportModules exportPackages exportOverlays;
