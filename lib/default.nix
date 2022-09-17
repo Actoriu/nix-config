@@ -3,8 +3,9 @@ let
   inherit (inputs) self home-manager nix-on-droid nixpkgs deploy-rs;
   inherit (self) outputs;
 
-  inherit (builtins) elemAt match any mapAttrs attrNames listToAttrs;
+  inherit (builtins) elem elemAt match any mapAttrs attrNames listToAttrs;
   inherit (nixpkgs.lib) nixosSystem filterAttrs genAttrs mapAttrs';
+  inherit (nixpkgs.lib.platforms) darwin;
   inherit (home-manager.lib) homeManagerConfiguration;
   inherit (nix-on-droid.lib) nixOnDroidConfiguration;
 
@@ -33,12 +34,13 @@ rec {
 
   eachDefaultSystem = genAttrs defaultSystems;
 
-  isDarwin = nixpkgs.lib.platforms.darwin;
+  isDarwin = system: (elem system darwin);
 
   homePrefix =
-    if isDarwin
-    then "/Users"
-    else "/home";
+    if isDarwin then
+      "/Users"
+    else
+      "/home";
 
   mkSystem =
     { hostname
@@ -78,13 +80,14 @@ rec {
   mkHome =
     { hostname ? null
     , username
+    , system ? "x86_64-linux"
     , pkgs
     , extraModules ? [ ]
     , sharedModules ? [
         {
           home = {
             inherit username;
-            homeDirectory = "${homePrefix}/${username}";
+            homeDirectory = "${homePrefix system}/${username}";
             stateVersion = "22.11";
           };
           programs.home-manager.enable = true;
