@@ -60,8 +60,6 @@ rec {
               programs.home-manager.enable = true;
               manual.manpages.enable = false;
               imports = home_extraModules ++ [
-                # inputs.impermanence.nixosModules.home-manager.impermanence
-                # ./users/modules
                 ../users/${username}
               ];
             };
@@ -129,7 +127,6 @@ rec {
             home.stateVersion = "22.11";
             manual.manpages.enable = false;
             imports = home_extraModules ++ [
-              # ../users/modules
               ../users/${username}
             ];
           };
