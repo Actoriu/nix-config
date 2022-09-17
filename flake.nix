@@ -181,9 +181,9 @@
             inputs.impermanence.nixosModules.impermanence
             inputs.nixos-cn.nixosModules.nixos-cn-registries
             inputs.nixos-cn.nixosModules.nixos-cn
-            {
+            ({ pkgs, ... }: {
               nixpkgs = self.pkgs;
-            }
+            })
             ./modules/nixos
             ./profiles/nixos
           ];
@@ -200,9 +200,9 @@
           hostname = "d630";
           extraModules = [
             inputs.impermanence.nixosModules.home-manager.impermanence
-            {
+            ({ pkgs, ... }: {
               nixpkgs = self.pkgs;
-            }
+            })
             ./users/modules
           ];
         };
@@ -212,9 +212,9 @@
         oneplus5 = mkDroid {
           devicename = "oneplus5";
           custom_extraModules = [
-            {
+            ({ pkgs, ... }: {
               nixpkgs = self.pkgs;
-            }
+            })
           ];
           home_extraModules = [ ./users/modules ];
         };
