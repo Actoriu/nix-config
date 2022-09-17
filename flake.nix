@@ -157,7 +157,7 @@
   outputs = { self, ... }@inputs:
     let
       lib = import ./lib { inherit inputs; };
-      inherit (lib) mkSystem mkHome mkDroid mkDeploys;
+      inherit (lib) mkSystem mkHome mkDroid mkDeploys eachDefaultSystem;
     in
     rec
     {
@@ -171,7 +171,48 @@
         nvfetcher = inputs.nvfetcher.overlay;
         peerix = inputs.peerix.overlay;
         sops-nix = inputs.sops-nix.overlay;
+        spacemacs = final: prev: { spacemacs = inputs.spacemacs; };
       };
+
+      legacyPackages = eachDefaultSystem (system:
+        import inputs.nixpkgs {
+          inherit system;
+          config = {
+            allowUnfree = true;
+            allowBroken = true;
+            allowUnsupportedSystem = true;
+          };
+          overlays = builtins.attrValues overlays;
+        }
+      );
+
+      devShells = eachDefaultSystem
+        (system:
+          let
+            pkgs = legacyPackages.${system};
+          in
+          {
+            default = pkgs.devshell.mkShell {
+              name = "nix-config";
+              imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
+              git.hooks.enable = true;
+              git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
+              packages = with pkgs; [
+                cachix
+                nix-build-uncached
+                nixpkgs-fmt
+                nodePackages.prettier
+                nodePackages.prettier-plugin-toml
+                shfmt
+                treefmt
+              ];
+              devshell.startup.nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
+                export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
+              '';
+            };
+          });
+
+      formatter = legacyPackages.${system}.nixpkgs-fmt;
 
       nixosConfigurations = {
         d630 = mkSystem {
@@ -181,9 +222,9 @@
             inputs.impermanence.nixosModules.impermanence
             inputs.nixos-cn.nixosModules.nixos-cn-registries
             inputs.nixos-cn.nixosModules.nixos-cn
-            ({ pkgs, ... }: {
-              nixpkgs = pkgs;
-            })
+            {
+              nixpkgs = legacyPackages.${system};
+            }
             ./modules/nixos
             ./profiles/nixos
           ];
@@ -200,9 +241,9 @@
           hostname = "d630";
           extraModules = [
             inputs.impermanence.nixosModules.home-manager.impermanence
-            ({ pkgs, ... }: {
-              nixpkgs = pkgs;
-            })
+            {
+              nixpkgs = legacyPackages.${system};
+            }
             ./users/modules
           ];
         };
@@ -212,9 +253,9 @@
         oneplus5 = mkDroid {
           devicename = "oneplus5";
           custom_extraModules = [
-            ({ pkgs, ... }: {
-              nixpkgs = pkgs;
-            })
+            {
+              nixpkgs = legacyPackages.${system};
+            }
           ];
           home_extraModules = [ ./users/modules ];
         };
