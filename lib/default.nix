@@ -84,7 +84,7 @@ rec {
         {
           home = {
             inherit username;
-            homeDirectory = "${homePrefix system}/${username}";
+            homeDirectory = "${homePrefix}/${username}";
             stateVersion = "22.11";
           };
           programs.home-manager.enable = true;
