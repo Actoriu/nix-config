@@ -1,7 +1,6 @@
 { inputs
 , ...
 }:
-
 let
   inherit (inputs) self home-manager nix-on-droid nixpkgs deploy-rs;
   inherit (self) outputs;
@@ -36,34 +35,44 @@ rec {
 
   eachDefaultSystem = genAttrs defaultSystems;
 
+  isDarwin = system: (builtins.elem system nixpkgs.lib.platforms.darwin);
+
+  homePrefix = system:
+    if isDarwin system
+    then "/Users"
+    else "/home";
+
   mkSystem =
     { hostname
     , username ? null
-    , pkgs
+    , system ? "x86_64-linux"
     , extraModules ? [ ]
-      # , extraSpecialArgs ? { }
+    , home_extraModules ? [ ]
     , sharedModules ? [
-        # home-manager.nixosModules.home-manager
-        # {
-        #   home-manager = {
-        #     useGlobalPkgs = true;
-        #     useUserPackages = true;
-        #     extraSpecialArgs = extraSpecialArgs;
-        #     users.${username} = { ... }: {
-        #       home.stateVersion = "22.11";
-        #       imports = [
-        #         ../users/modules
-        #         ../users/${username}
-        #       ];
-        #     };
-        #   };
-        # }
+        home-manager.nixosModules.home-manager
+        {
+          home-manager = {
+            useGlobalPkgs = true;
+            useUserPackages = true;
+            extraSpecialArgs = { inherit inputs persistence; };
+            users.${username} = { ... }: {
+              home.stateVersion = "22.11";
+              programs.home-manager.enable = true;
+              manual.manpages.enable = false;
+              imports = home_extraModules ++ [
+                # inputs.impermanence.nixosModules.home-manager.impermanence
+                # ./users/modules
+                ../users/${username}
+              ];
+            };
+          };
+        }
       ]
     , persistence ? false
     , ...
     }:
     nixosSystem {
-      inherit pkgs;
+      inherit system;
       specialArgs = {
         inherit inputs outputs hostname username persistence;
       };
@@ -73,18 +82,17 @@ rec {
   mkHome =
     { hostname ? null
     , username
-    , pkgs ? outputs.nixosConfigurations.${hostname}.pkgs
+    , system ? "x86_64-linux"
     , extraModules ? [ ]
     , sharedModules ? [
         {
           home = {
             inherit username;
-            homeDirectory =
-              if pkgs.stdenv.isDarwin
-              then "/Users"
-              else "/home" + "/${username}";
+            homeDirectory = "${homePrefix system}/${username}";
             stateVersion = "22.11";
           };
+          programs.home-manager.enable = true;
+          manual.manpages.enable = false;
         }
       ]
     , persistence ? false
@@ -92,7 +100,7 @@ rec {
     , ...
     }:
     homeManagerConfiguration {
-      inherit pkgs;
+      pkgs = nixpkgs.legacyPackages.${system};
       extraSpecialArgs = {
         inherit inputs outputs hostname username persistence colorscheme;
       };
@@ -101,20 +109,32 @@ rec {
 
   mkDroid =
     { devicename
-    , pkgs
-    , extraModules ? [ ]
+    , username
+    , system ? "aarch64-linux"
+    , custom_extraModules ? [ ]
+    , home_extraModules ? [ ]
     , persistence ? false
-    ,
+    , ...
     }:
     nixOnDroidConfiguration {
-      inherit pkgs;
-      extraModules = extraModules;
-      extraSpecialArgs = {
-        inherit inputs outputs devicename persistence;
-      };
+      inherit system;
+      extraSpecialArgs = { inherit inputs persistence; };
+      extraModules = custom_extraModules;
       config = { ... }: {
+        home-manager = {
+          useGlobalPkgs = true;
+          useUserPackages = true;
+          extraSpecialArgs = { inherit inputs persistence; };
+          config = { ... }: {
+            home.stateVersion = "22.11";
+            manual.manpages.enable = false;
+            imports = home_extraModules ++ [
+              # ../users/modules
+              ../users/${username}
+            ];
+          };
+        };
         imports = [
-          ../users/modules
           ../hosts/${devicename}
         ];
       };
