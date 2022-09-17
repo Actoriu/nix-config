@@ -257,7 +257,7 @@
           system = "aarch64-linux";
           add_extraModules = [
             {
-              nixpkgs = { inherit (legacyPackages."x86_64-linux") config overlays; };
+              nixpkgs = { inherit (legacyPackages."aarch64-linux") config overlays; };
             }
           ];
           home_extraModules = [ ./users/modules ];
