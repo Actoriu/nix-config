@@ -1,12 +1,5 @@
-{ inputs
-, lib
-, username
-, persistence
-, ...
-}: {
-  imports = with inputs; [
-    impermanence.nixosModules.home-manager.impermanence
-  ] ++ [
+{ ... }: {
+  imports = [
     ./editors
     ./lang
     ./misc
