@@ -242,9 +242,9 @@
           hostname = "d630";
           extraModules = [
             inputs.impermanence.nixosModules.home-manager.impermanence
-            # {
-            #   nixpkgs = legacyPackages."x86_64-linux";
-            # }
+            {
+              nixpkgs = { inherit (legacyPackages."x86_64-linux") config overlays; };
+            }
             ./users/modules
           ];
         };
@@ -255,9 +255,9 @@
           devicename = "oneplus5";
           pkgs = legacyPackages."aarch64-linux";
           custom_extraModules = [
-            # {
-            #   nixpkgs = legacyPackages."aarch64-linux";
-            # }
+            {
+              nixpkgs = { inherit (legacyPackages."x86_64-linux") config overlays; };
+            }
           ];
           home_extraModules = [ ./users/modules ];
         };
