@@ -224,7 +224,7 @@
             inputs.nixos-cn.nixosModules.nixos-cn-registries
             inputs.nixos-cn.nixosModules.nixos-cn
             {
-              nixpkgs = pkgs;
+              nixpkgs = legacyPackages."x86_64-linux";
             }
             ./modules/nixos
             ./profiles/nixos
