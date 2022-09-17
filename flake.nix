@@ -223,9 +223,9 @@
             inputs.impermanence.nixosModules.impermanence
             inputs.nixos-cn.nixosModules.nixos-cn-registries
             inputs.nixos-cn.nixosModules.nixos-cn
-            # {
-            #   nixpkgs = legacyPackages."x86_64-linux";
-            # }
+            {
+              nixpkgs = pkgs;
+            }
             ./modules/nixos
             ./profiles/nixos
           ];
