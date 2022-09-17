@@ -237,7 +237,7 @@
       };
 
       homeConfigurations = {
-        actoriu@d630 = mkHome {
+        "actoriu@d630" = mkHome {
           username = "actoriu";
           hostname = "d630";
           extraModules = [
