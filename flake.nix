@@ -154,7 +154,7 @@
     };
   };
 
-  outputs = inputs:
+  outputs = { self, ... }@inputs:
     let
       lib = import ./lib { inherit inputs; };
       inherit (lib) mkSystem mkHome mkDroid mkDeploys;
