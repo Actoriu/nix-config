@@ -206,6 +206,14 @@
                 shfmt
                 treefmt
               ];
+              commands = with pkgs; [
+                {
+                  category = "update";
+                  name = nvfetcher-bin.pname;
+                  help = nvfetcher-bin.meta.description;
+                  command = "cd $PRJ_ROOT/pkgs; ${nvfetcher-bin}/bin/nvfetcher -c ./sources.toml $@";
+                }
+              ];
               devshell.startup.nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
                 export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
               '';
