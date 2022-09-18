@@ -3,17 +3,23 @@
 #+CATEGORY: nix-config
 #+DESCRIPTION: A literate programming style exposition of my NixOS and user home (dot files) configuration
 #+LANGUAGE: en
-#+STARTUP: overview indent align
+#+STARTUP: overview indent align hideblocks
 #+BABEL: :cache yes
 #+OPTIONS: ^:nil num:nil tags:nil \n:t
 #+PROPERTY: header-args :comments link
 
+#+HUGO_BASE_DIR: docs
+#+HUGO_AUTO_SET_LASTMOD: t
+#+HUGO_SECTION:
+#+HUGO_DRAFT: false
+#+EXPORT_FILE_NAME: dotfiles
+
 # Badge
-# [[https://nixos.org][https://img.shields.io/badge/NixOS-v22.05-blue.svg?style=flat-square&logo=NixOS&logoColor=white]]
+# [[https://nixos.org][https://img.shields.io/badge/NixOS-unstable-blue.svg?style=flat-square&logo=NixOS&logoColor=white]]
 # [[https://mit-license.org/][https://img.shields.io/badge/license-MIT-green.svg?dummy]]
 
 #+html: <p align="center">
-#+html: <a href="https://nixos.org"><img src="https://img.shields.io/badge/NixOS-v22.05-blue?style=flat-square&logo=NixOS&logoColor=white"></a>
+#+html: <a href="https://nixos.org"><img src="https://img.shields.io/badge/NixOS-unstable-blue?style=flat-square&logo=NixOS&logoColor=white"></a>
 #+html: <a href="https://mozilla.org"><img src="https://img.shields.io/badge/Browser-Firefox-red?style=flat-square&logo=firefox&logoColor=white"></a>
 #+html: <a href="https://www.gnu.org/software/emacs/"><img src="https://img.shields.io/badge/IDE-Emacs-%237f5ab6?style=flat-square&logo=Gnu Emacs&logoColor=white"></a>
 #+HTML: <a href="https://orgmode.org"><img src="https://img.shields.io/badge/Notes-Org-%2377aa99?style=flat-square&logo=org&logoColor=white"></a>
@@ -21,60 +27,173 @@
 #+html: </p>
 # -----
 
+#+NAME: description
+#+begin_example
+  Configuration for NixOS and user home (dot files). It is provided via Nix flakes and includes the following components:
+#+end_example
+
+#+ATTR_ORG: :width 800px
+#+ATTR_HTML: :width 800px
+#+ATTR_LATEX: :width 800px
+[[./docs/static/images/desktop.png]]
+
+* Table of Contents                                       :TOC_4_gh:noexport:
+- [[#introduction][Introduction]]
+  - [[#getting-started][Getting Started]]
+  - [[#making-changes][Making Changes]]
+- [[#operating-system][Operating System]]
+  - [[#nixpkgs][Nixpkgs]]
+  - [[#flake-utils][Flake-utils]]
+  - [[#home-manager][Home Manager]]
+  - [[#nix-on-droid][Nix-on-droid]]
+- [[#development-shells][Development Shells]]
+  - [[#nix][Nix]]
+- [[#relevant-projects][Relevant projects]]
+
 * Introduction
 
-Configuration for NixOS and user home (dot files). It is provided via Nix flakes and includes the following components:
+This is my personal configuration for [[https://linux.org][GNU/Linux]] systems. It enables a consistent experience and computing environment across all of my machines. This project is written with [[https://gnu.org/software/emacs/][GNU/Emacs]], leveraging its capabilities for [[https://doi.org/10.1093/comjnl/27.2.97][Literate Programming]], a technique where programs are written in a natural language, such as English, interspersed with snippets of code to describe a software project.
 
-** Usage
+** Getting Started
 
-*** With Flake
+1) [[https://nixos.org/download.html][Download the latest version of NixOS]]
+2) [[https://nixos.org/manual/nixos/stable/#sec-installation-partitioning][Partition your drives and mount the file system]]
+3) Clone the project  ~git clone git@github.com:Actoriu/nix-config /mnt/etc/nix-config~
+4) Load the default shell ~nix-shell /mnt/etc/nix-config~
+5) Install the system ~sudo nixos-install --impure --flake /mnt/etc/nix-config#hostname~
+6) Reboot, login and start a graphical system ~startx~
 
-[[https://nixos.wiki/wiki/Flakes][wiki Flakes]]
+** Making Changes
 
-- NixOS module
+The ~nixos-rebuild~ command updates the system so that it corresponds to the configuration specified in the module. It builds the new system in =/nix/store/=, runs the activation scripts, and restarts and system services (if needed). The command has one required argument, which specifies the desired operation:
 
-  #+begin_example
-    sudo nixos-rebuild switch --flake '$@'
-    $@ => "flake file directory#hostname"
-  #+end_example
+#+NAME: rebuild-command-table
+| Command  | Description                                                                     |
+|----------+---------------------------------------------------------------------------------|
+| boot     | Build the new configuration and make it the boot default, without activation    |
+| test     | Build and activate the new configuration, without adding it to the boot menu    |
+| switch   | Build and activate the new configuration, making it the new boot default        |
+| build    | Build the new configuration, without activation, nor adding it to the boot menu |
+| build-vm | Build a script that starts a virtual machine with the desired configuration     |
 
-- Nix-Darwin module
+After making changes to the configuration the ~switch~ command will build and activate a new configuration.
 
-  1. Install Nix-Darwin and apply the configuration by
+#+begin_example
+# Build and activate a new configuration.
+sudo nixos-rebuild switch --flake $FLAKE#$HOSTNAME
+#+end_example
 
-     #+begin_example
-       nix-shell -p nix --command "nix build --experimental-features 'nix-command flakes' '$@'"
-       ./result/sw/bin/darwin-rebuild switch --flake '$@'
-       $@ => "flake file directory#darwinConfigurations.hostname.system"
-     #+end_example
+Instead of building a new configuration, it's possible to rollback to a previous generation using the ~nixos-rebuild~ command, by supplying the ~--rollback~ argument.
 
-  2. Since the release 22.05, building a flake-based configuration is as simple as
+#+begin_example
+# Rollback to the previous generation.
+sudo nixos-rebuild switch --rollback
+#+end_example
 
-     #+begin_example
-       darwin-rebuild switch --flake '$@'
-       $@ => "flake file directory#hostname"
-     #+end_example
+* Operating System
 
-- Non-Nixos
+#+ATTR_ORG: :width 400px
+#+ATTR_HTML: :width 400px
+#+ATTR_LATEX: :width 400px
+[[./docs/static/images/nixos.png]]
 
-  1. Install Home Manager and apply the configuration by
+[[https://nixos.org][NixOS]] is a purely functional Linux distribution built on top of the [[https://nixos.org/manual/nix/unstable/][Nix Package Manager]]. It uses a declarative configuration language to define entire computer systems, and allows reliable system upgrades and rollbacks. [[https://nixos.org][NixOS]] also has tool dedicated to DevOps and deployment tasks, and makes it trivial to share development environments.
 
-     #+begin_example
-       nix-shell -p nix --command "nix build --no-link --experimental-features 'nix-command flakes' '$@'"
-       ./result/activate
-       $@ => "flake file directory#homeConfigurations.username.activationPackage"
-     #+end_example
+#+begin_example
+  # <<file-warning>>
+  {
+    description = "<<description>>";
 
-  2. Since the release 22.05, building a flake-based configuration is as simple as
+    inputs = {
+      <<os-nixpkgs>>
+      <<os-flake-utils>>
+      <<os-home-manager>>
+    };
 
-     #+begin_example
-       home-manager switch --flake '$@'
-       $@ => "flake file directory#username"
-     #+end_example
+    outputs = { self, nixpkgs, ... }@inputs: {
+      <<host-configurations>>
+    } //
+    <<development-shells>>
+  }
+#+end_example
 
-- Nix-on-droid
+** Nixpkgs
 
-  #+begin_example
-    nix-on-droid switch --flake '$@'
-    $@ => "flake file directory#devicename"
-  #+end_example
+[[https://nixos.org/manual/nixpkgs/unstable][Nixpkgs]] is a collection of over 80,000 software packages that can be installed with the [[https://nixos.org/manual/nix/stable/Nix][Nix Package Manager]]. Two main branches are offered:
+
+1) The Unstable branch following the latest development
+
+#+NAME: os-nixpkgs
+#+begin_example
+  nixpkgs.url = "github:nixpkgs/nixos-unstable";
+#+end_example
+
+** Flake-utils
+
+[[https://github.com/numtide/flake-utils][Flake-utils]] is a collection of pure Nix functions that don't depend on Nixpkgs, and that are useful in the context of writing other Nix Flakes.
+
+#+NAME: os-flake-utils
+#+begin_example
+  flake-utils.url = "github:numtide/flake-utils";
+#+end_example
+
+** Home Manager
+
+[[https://nix-community.github.io/home-manager/][Home Manager]] provides a basic system for managing user environments using the [[https://nixos.org/manual/nix/unstable/][Nix Package Manager]] together with the Nix libraries found in [[https://nixos.org/manual/nixpkgs/unstable][Nixpkgs]]. It allows declarative configuration of user specific (non-global) packages and files.
+
+#+NAME: os-home-manager
+#+begin_example
+  home-manager = {
+    url = "github:nix-community/home-manager";
+    inputs = {
+      utils.follows = "flake-utils";
+      nixpkgs.follows = "nixpkgs";
+    };
+  };
+#+end_example
+
+
+** Nix-on-droid
+
+ [[https://nixos.org/manual/nix/stable/Nix][Nix Package Manager]] on Android, in a single-click installable package. This is not full NixOS running inside Android, but you get easy access to [[https://nixos.org/manual/nixpkgs/stable][nixpkgs']] vast collection of (precompiled!) software and the best package manager under the sun. It's prototype-grade quality as of now, but hey, it works!
+
+#+NAME: os-home-manager
+#+begin_example
+  home-manager = {
+    url = "github:nix-community/home-manager";
+    inputs = {
+      utils.follows = "flake-utils";
+      nixpkgs.follows = "nixpkgs";
+    };
+  };
+#+end_example
+
+* Development Shells
+
+The command ~nix develop~ will run a bash shell that provides the build environment of a derivation. It's an experimental replacement for the ~nix-shell~ command that is compliant with Nix Flakes. It provides an interactive build environment nearly identical to what Nix would use to build /installable/. Inside this shell, environment variables and shell functions are set up so that you can interactively and incrementally build your package(s).
+
+#+NAME: development-shells
+#+begin_example
+  devshell = {
+    url = "github:numtide/devshell";
+    inputs = {
+      flake-utils.follows = "flake-utils";
+      nixpkgs.follows = "nixpkgs";
+    };
+  };
+#+end_example
+
+** Nix
+
+#+ATTR_ORG: :width 300px
+#+ATTR_HTML: :width 300px
+#+ATTR_LATEX: :width 300px
+[[./docs/static/images/nix.png]]
+
+This shell adds a version of the ~nix~ command that is pre-configured to support Flakes. Flakes are the unit for packaging Nix code in a reproducible and discoverable way. They can have dependencies on other flakes, making it possible to have multi-repository Nix projects. A flake is a filesystem tree that contains a file named =flake.nix=. It specifies some metadata about the flake such as dependencies (inputs), as well as the values such as packages or modules (outputs).
+
+Import this shell with ~nix develop $nix-config~
+
+* Relevant projects
+
++ [[https://github.com/Misterio77/nix-config][nix-config]] (pulled by =nix-config=)
