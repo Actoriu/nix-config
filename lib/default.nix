@@ -59,6 +59,7 @@ rec {
               home.stateVersion = "22.11";
               programs.home-manager.enable = true;
               manual.manpages.enable = false;
+              systemd.user.startServices = "sd-switch";
               imports = home_extraModules ++ [
                 ../users/${username}
               ];
@@ -92,6 +93,7 @@ rec {
           };
           programs.home-manager.enable = true;
           manual.manpages.enable = false;
+          systemd.user.startServices = "sd-switch";
         }
       ]
     , persistence ? false

@@ -1,11 +1,4 @@
 { ... }: {
-  # imports = [
-  #   ../modules
-  # ];
-
-  programs.home-manager.enable = true;
-  manual.manpages.enable = false;
-
   custom = {
     # development
     # cc.enable = true;
@@ -29,9 +22,7 @@
     gnupg.enable = true;
     openssh.enable = true;
     password-store.enable = true;
-    # tmux.enable = true;
     xdg.enable = true;
-    # xresources.enable = true;
     zoxide.enable = true;
     zsh.enable = true;
   };
