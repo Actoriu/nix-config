@@ -238,7 +238,7 @@
           ];
           home_extraModules = [
             inputs.impermanence.nixosModules.home-manager.impermanence
-            ./users/modules
+            ./modules/users
           ];
         };
       };
@@ -253,7 +253,7 @@
             {
               nixpkgs = { inherit (legacyPackages."x86_64-linux") config overlays; };
             }
-            ./users/modules
+            ./modules/users
           ];
         };
       };
@@ -271,7 +271,7 @@
             }
           ];
           home_extraModules = [
-            ./users/modules
+            ./modules/users
           ];
         };
       };
