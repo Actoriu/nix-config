@@ -1,0 +1,594 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2022-09-18 日 17:38 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Nix-Config</title>
+<meta name="author" content="Actoriu" />
+<meta name="description" content="A literate programming style exposition of my NixOS and user home (dot files) configuration" />
+<meta name="generator" content="Org Mode" />
+<style>
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+<script>
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+// @license-end
+</script>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Nix-Config</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org0c29a90">Introduction</a>
+<ul>
+<li><a href="#org2483283">Getting Started</a></li>
+<li><a href="#orgceeddd2">Making Changes</a></li>
+</ul>
+</li>
+<li><a href="#orge7e5d30">Operating System</a>
+<ul>
+<li><a href="#org278329d">Nixpkgs</a></li>
+<li><a href="#orgac28334">Flake Utils</a></li>
+<li><a href="#orgf5716b0">Home Manager</a></li>
+</ul>
+</li>
+<li><a href="#org8e3f054">Development Shells</a>
+<ul>
+<li><a href="#orgd31812e">Nix</a></li>
+</ul>
+</li>
+<li><a href="#org0a9bdeb">Relevant projects</a></li>
+</ul>
+</div>
+</div>
+<p align="center">
+<a href="https://nixos.org"><img src="https://img.shields.io/badge/NixOS-unstable-blue?style=flat-square&logo=NixOS&logoColor=white"></a>
+<a href="https://mozilla.org"><img src="https://img.shields.io/badge/Browser-Firefox-red?style=flat-square&logo=firefox&logoColor=white"></a>
+<a href="https://www.gnu.org/software/emacs/"><img src="https://img.shields.io/badge/IDE-Emacs-%237f5ab6?style=flat-square&logo=Gnu Emacs&logoColor=white"></a>
+<a href="https://orgmode.org"><img src="https://img.shields.io/badge/Notes-Org-%2377aa99?style=flat-square&logo=org&logoColor=white"></a>
+<a href="https://mit-license.org/"><img src="https://img.shields.io/badge/license-MIT-%23555555?style=flat-square&labelColor=%2377aa99&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjgwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBhcmlhLWhpZGRlbj0idHJ1ZSIgdmVyc2lvbj0iMS4xIiBkYXRhLXZpZXctY29tcG9uZW50PSJ0cnVlIiBjbGFzcz0ib2N0aWNvbiBvY3RpY29uLWxhdyBjb2xvci1mZy1kZWZhdWx0IGZsb2F0LWxlZnQgbXItMiI+CiA8Zz4KICA8dGl0bGU+TGF5ZXIgMTwvdGl0bGU+CiAgPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBkPSJtNDI1Ljc2OTI2LDM0LjE1Mzc4YTI1Ljc5Njk4LDI5LjY2Mjc0IDAgMCAwIC01MS41OTM5NywwbDAsNjkuMjEzMDdsLTY3Ljg5NzY2LDBhNjAuMTkyOTYsNjkuMjEzMDcgMCAwIDAgLTMzLjg4MDA0LDExLjk4Mzc1bC01OC4zMDExOCw0NS42NDEwN2E4LjU5ODk5LDkuODg3NTggMCAwIDEgLTQuODQ5ODMsMS43MDA2NmwtMTQxLjA5MjMsMGEyNS43OTY5OCwyOS42NjI3NCAwIDEgMCAwLDU5LjMyNTQ5bDU0LjI0MjQ2LDBsLTExNS44MTEyNiwzMDMuNzQ2NDlhMjYuMjA5NzQsMzAuMTM3MzUgMCAwIDAgNy4yMjMxNiwzNC44MDQyOWMyLjc1MTY4LDIuNTMxMjIgNS41Mzc3NSw0Ljk0Mzc5IDEwLjYyODM2LDguNzQwNjJjNi4zOTc2NSw0Ljc4NTU5IDE1LjU0Njk4LDEwLjk5NDk5IDI3LjI0MTYxLDE3LjEyNTI5YzIzLjM4OTI3LDEyLjMwMDE1IDU3LjE2NjEyLDI0LjUyMTIgOTguOTIyODMsMjQuNTIxMmEyMzcuOTg1NzcsMjczLjY0ODcgMCAwIDAgOTguOTIyODMsLTI0LjUyMTJjMTEuNjk0NjMsLTYuMTMwMyAyMC44NDM5NiwtMTIuMzM5NyAyNy4yNDE2MSwtMTcuMTI1MjljNS4xNTk0LC0zLjgzNjM4IDcuOTExMDgsLTYuMjQ4OTUgMTAuNjYyNzUsLTguODE5NzJhMjUuNzk2OTgsMjkuNjYyNzQgMCAwIDAgNy4xODg3NiwtMzQuNzI1MThsLTExNS44NDU2NiwtMzAzLjc0NjQ5bDMwLjQ3NDg0LDBjMTIuMDcyOTksMCAyMy44NzA4MSwtNC4xOTIzMyAzMy44NDU2NCwtMTEuOTgzNzVsNTguMzM1NTgsLTQ1LjY0MTA3YTguNTk4OTksOS44ODc1OCAwIDAgMSA0LjgxNTQ0LC0xLjcwMDY2bDY3LjkzMjA2LDBsMCw1NzMuNDc5NzFsLTE1NC4zMzQ3NiwwYTI1Ljc5Njk4LDI5LjY2Mjc0IDAgMCAwIDAsNTkuMzI1NDlsMzYwLjI2MzQ4LDBhMjUuNzk2OTgsMjkuNjYyNzQgMCAwIDAgMCwtNTkuMzI1NDlsLTE1NC4zMzQ3NiwwbDAsLTU3My40Nzk3MWw2Ny44OTc2NiwwYzEuNzE5OCwwIDMuNDM5NiwwLjU5MzI1IDQuODE1NDQsMS43MDA2Nmw1OC4zNjk5OCw0NS42NDEwN2M5Ljk3NDgzLDcuNzkxNDEgMjEuNzcyNjUsMTEuOTgzNzUgMzMuODQ1NjQsMTEuOTgzNzVsMzAuNDc0ODQsMGwtMTE1Ljg0NTY2LDMwMy43NDY0OWEyNS43OTY5OCwyOS42NjI3NCAwIDAgMCA3LjkxMTA4LDM1LjQzNzA5YzAuNDEyNzUsMC4zNTU5NSAwLDAgMC4wNjg3OSwwYTEwOC40ODQ5MiwxMjQuNzQxNzIgMCAwIDAgMTAuNjYyNzUsOC4xNDczN2M2LjM2MzI2LDQuNDI5NjQgMTUuNDc4MTksMTAuMTI0ODggMjcuMTcyODIsMTUuODIwMTNhMjUyLjU2OTY3LDI5MC40MTgwMyAwIDAgMCA5OC4yMDA1MiwyMi40NjQ1OGEyNTIuNTY5NjcsMjkwLjQxODAzIDAgMCAwIDk4LjIzNDkxLC0yMi41MDQxM2MxMS42MjU4NCwtNS42NTU3IDIwLjc3NTE3LC0xMS4zNTA5NCAyNy4xNzI4MiwtMTUuNzgwNThhMTIwLjM4NTkyLDEzOC40MjYxNCAwIDAgMCAxMC42NjI3NSwtOC4xNDczN2EyNS43OTY5OCwyOS42NjI3NCAwIDAgMCA3LjkxMTA4LC0zNS40MzcwOWwtMTE1Ljc3Njg2LC0zMDMuNzQ2NDlsNTQuMjc2ODUsMGEyNS43OTY5OCwyOS42NjI3NCAwIDAgMCAwLC01OS4zMjU0OWwtMTQxLjA5MjMsMGE4LjU5ODk5LDkuODg3NTggMCAwIDEgLTQuODE1NDQsLTEuNzAwNjZsLTU4LjM2OTk4LC00NS42NDEwN2E2MC4xOTI5Niw2OS4yMTMwNyAwIDAgMCAtMzMuODQ1NjQsLTExLjk4Mzc1bC02Ny45MzIwNiwwbDAsLTY5LjIxMzA3em0tMzYzLjExODM0LDQ5Mi4zMjI0NGExODYuMzU3NDEsMjE0LjI4MzY2IDAgMCAwIDg3Ljk1MDUyLDI1LjExNDQ2YTE4Ni4zNTc0MSwyMTQuMjgzNjYgMCAwIDAgODcuOTUwNTIsLTI1LjExNDQ2bC04Ny45NTA1MiwtMjMwLjU3ODM5bC04Ny45NTA1MiwyMzAuNTc4Mzl6bTQ5OS4wODU2NSwtMC45NDkyMWMyLjgyMDQ3LDEuNTgyMDEgNS45ODQ5LDMuMjgyNjggOS40NTg4OSw0Ljk4MzM0YzE4LjIyOTg3LDguODE5NzIgNDQuODg2NzUsMTcuNzk3NjUgNzguMTQ3NjYsMTcuNzk3NjVhMjAxLjA3ODg5LDIzMS4yMTEyIDAgMCAwIDg3LjYwNjU2LC0yMi43ODA5OWwtODcuNjA2NTYsLTIyOS42Njg3M2wtODcuNjA2NTYsMjI5LjY2ODczeiIgaWQ9InN2Z18xIi8+CiA8L2c+Cgo8L3N2Zz4="></a>
+</p>
+
+<pre class="example" id="orgea49317">
+Configuration for NixOS and user home (dot files). It is provided via Nix flakes and includes the following components:
+</pre>
+
+
+<div id="orgc8ac5e8" class="figure">
+<p><img src="./docs/static/images/desktop.png" alt="desktop.png" width="800px" /><br />
+</p>
+</div>
+
+<div id="outline-container-org0c29a90" class="outline-2">
+<h2 id="org0c29a90">Introduction</h2>
+<div class="outline-text-2" id="text-org0c29a90">
+<p>
+This is my personal configuration for <a href="https://linux.org">GNU/Linux</a> systems. It enables a consistent experience and computing environment across all of my machines. This project is written with <a href="https://gnu.org/software/emacs/">GNU/Emacs</a>, leveraging its capabilities for <a href="https://doi.org/10.1093/comjnl/27.2.97">Literate Programming</a>, a technique where programs are written in a natural language, such as English, interspersed with snippets of code to describe a software project.<br />
+</p>
+</div>
+
+<div id="outline-container-org2483283" class="outline-3">
+<h3 id="org2483283">Getting Started</h3>
+<div class="outline-text-3" id="text-org2483283">
+<ol class="org-ol">
+<li><a href="https://nixos.org/download.html">Download the latest version of NixOS</a><br /></li>
+<li><a href="https://nixos.org/manual/nixos/stable/#sec-installation-partitioning">Partition your drives and mount the file system</a><br /></li>
+<li>Clone the project  <code>git clone git@github.com:Actoriu/nix-config /mnt/etc/nix-config</code><br /></li>
+<li>Load the default shell <code>nix-shell /mnt/etc/nix-config</code><br /></li>
+<li>Install the system <code>sudo nixos-install --impure --flake /mnt/etc/nix-config#hostname</code><br /></li>
+<li>Reboot, login and start a graphical system <code>startx</code><br /></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgceeddd2" class="outline-3">
+<h3 id="orgceeddd2">Making Changes</h3>
+<div class="outline-text-3" id="text-orgceeddd2">
+<p>
+The <code>nixos-rebuild</code> command updates the system so that it corresponds to the configuration specified in the module. It builds the new system in <code>/nix/store/</code>, runs the activation scripts, and restarts and system services (if needed). The command has one required argument, which specifies the desired operation:<br />
+</p>
+
+<table id="org95d02a3" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Command</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">boot</td>
+<td class="org-left">Build the new configuration and make it the boot default, without activation</td>
+</tr>
+
+<tr>
+<td class="org-left">test</td>
+<td class="org-left">Build and activate the new configuration, without adding it to the boot menu</td>
+</tr>
+
+<tr>
+<td class="org-left">switch</td>
+<td class="org-left">Build and activate the new configuration, making it the new boot default</td>
+</tr>
+
+<tr>
+<td class="org-left">build</td>
+<td class="org-left">Build the new configuration, without activation, nor adding it to the boot menu</td>
+</tr>
+
+<tr>
+<td class="org-left">build-vm</td>
+<td class="org-left">Build a script that starts a virtual machine with the desired configuration</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+After making changes to the configuration the <code>switch</code> command will build and activate a new configuration.<br />
+</p>
+
+<pre class="example" id="org9c60387">
+# Build and activate a new configuration.
+sudo nixos-rebuild switch --flake $FLAKE#$HOSTNAME
+</pre>
+
+<p>
+Instead of building a new configuration, it's possible to rollback to a previous generation using the <code>nixos-rebuild</code> command, by supplying the <code>--rollback</code> argument.<br />
+</p>
+
+<pre class="example" id="org4af40a9">
+# Rollback to the previous generation.
+sudo nixos-rebuild switch --rollback
+</pre>
+
+<p>
+<a href="https://nixos.wiki/wiki/Flakes">wiki Flakes</a><br />
+</p>
+
+<ul class="org-ul">
+<li><p>
+NixOS module<br />
+</p>
+
+<pre class="example" id="org95f3afd">
+sudo nixos-rebuild switch --flake '$@'
+$@ =&gt; "flake file directory#hostname"
+</pre></li>
+
+<li>Nix-Darwin module<br />
+
+<ol class="org-ol">
+<li><p>
+Install Nix-Darwin and apply the configuration by<br />
+</p>
+
+<pre class="example" id="org22dc3a5">
+nix-shell -p nix --command "nix build --experimental-features 'nix-command flakes' '$@'"
+./result/sw/bin/darwin-rebuild switch --flake '$@'
+$@ =&gt; "flake file directory#darwinConfigurations.hostname.system"
+</pre></li>
+
+<li><p>
+Since the release 22.05, building a flake-based configuration is as simple as<br />
+</p>
+
+<pre class="example" id="org57f934f">
+darwin-rebuild switch --flake '$@'
+$@ =&gt; "flake file directory#hostname"
+</pre></li>
+</ol></li>
+
+<li>Non-Nixos<br />
+
+<ol class="org-ol">
+<li><p>
+Install Home Manager and apply the configuration by<br />
+</p>
+
+<pre class="example" id="org9bf5125">
+nix-shell -p nix --command "nix build --no-link --experimental-features 'nix-command flakes' '$@'"
+./result/activate
+$@ =&gt; "flake file directory#homeConfigurations.username.activationPackage"
+</pre></li>
+
+<li><p>
+Since the release 22.05, building a flake-based configuration is as simple as<br />
+</p>
+
+<pre class="example" id="orgb7aa1ac">
+home-manager switch --flake '$@'
+$@ =&gt; "flake file directory#username"
+</pre></li>
+</ol></li>
+
+<li><p>
+Nix-on-droid<br />
+</p>
+
+<pre class="example" id="org61d6b65">
+nix-on-droid switch --flake '$@'
+$@ =&gt; "flake file directory#devicename"
+</pre></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orge7e5d30" class="outline-2">
+<h2 id="orge7e5d30">Operating System</h2>
+<div class="outline-text-2" id="text-orge7e5d30">
+
+<div id="org1eabfd5" class="figure">
+<p><img src="./docs/static/images/nixos.png" alt="nixos.png" width="400px" /><br />
+</p>
+</div>
+
+<p>
+<a href="https://nixos.org">NixOS</a> is a purely functional Linux distribution built on top of the <a href="https://nixos.org/manual/nix/stable/Nix">Nix Package Manager</a>. It uses a declarative configuration language to define entire computer systems, and allows reliable system upgrades and rollbacks. <a href="https://nixos.org">NixOS</a> also has tool dedicated to DevOps and deployment tasks, and makes it trivial to share development environments.<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-nix"><span style="color: #2aa1ae; background-color: #292e34;"># </span>
+<span style="color: #4f97d7;">{</span>
+  <span style="color: #7590db;">description</span> = <span style="color: #2d9574;">""</span>;
+
+  <span style="color: #7590db;">inputs</span> = <span style="color: #bc6ec5;">{</span>
+
+
+
+
+
+  <span style="color: #bc6ec5;">}</span>;
+
+  <span style="color: #7590db;">outputs</span> = <span style="color: #dd1e9f3f5f24;">inputs</span> @ <span style="color: #bc6ec5;">{</span> <span style="color: #0000bb7aef6f;">self</span>, <span style="color: #e8158ef7caae;">nixpkgs</span>, <span style="color: #f1748bd5bb8e;">nixpkgs-unstable</span>, ... <span style="color: #bc6ec5;">}</span>: <span style="color: #bc6ec5;">{</span>
+
+  <span style="color: #bc6ec5;">}</span> //
+
+<span style="color: #4f97d7;">}</span>
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org278329d" class="outline-3">
+<h3 id="org278329d">Nixpkgs</h3>
+<div class="outline-text-3" id="text-org278329d">
+<p>
+<a href="https://nixos.org/manual/nixpkgs/stable">Nixpkgs</a> is a collection of over 80,000 software packages that can be installed with the <a href="https://nixos.org/manual/nix/stable/Nix">Nix Package Manager</a>. Two main branches are offered:<br />
+</p>
+
+<ol class="org-ol">
+<li>The Unstable branch following the latest development<br /></li>
+</ol>
+
+<pre class="example" id="orgbfafbba">
+nixpkgs.url = "github:nixpkgs/nixos-unstable";
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgac28334" class="outline-3">
+<h3 id="orgac28334">Flake Utils</h3>
+<div class="outline-text-3" id="text-orgac28334">
+<p>
+<a href="https://github.com/numtide/flake-utils">Flake Utils</a> is a collection of pure Nix functions that don't depend on Nixpkgs, and that are useful in the context of writing other Nix Flakes.<br />
+</p>
+
+<pre class="example" id="orga191bd5">
+flake-utils.url = "github:numtide/flake-utils";
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgf5716b0" class="outline-3">
+<h3 id="orgf5716b0">Home Manager</h3>
+<div class="outline-text-3" id="text-orgf5716b0">
+<p>
+<a href="https://nixos.wiki/wiki/Home_Manager">Home Manager</a> provides a basic system for managing user environments using the <a href="https://nixos.org/manual/nix/stable/Nix">Nix Package Manager</a> together with the Nix libraries found in <a href="https://nixos.org/manual/nixpkgs/stable">Nixpkgs</a>. It allows declarative configuration of user specific (non-global) packages and files.<br />
+</p>
+
+<pre class="example" id="orga479e90">
+home-manager.url = "github:nix-community/home-manager";
+home-manager.inputs.nixpkgs.follows = "nixpkgs";
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8e3f054" class="outline-2">
+<h2 id="org8e3f054">Development Shells</h2>
+<div class="outline-text-2" id="text-org8e3f054">
+<p>
+The command <code>nix develop</code> will run a bash shell that provides the build environment of a derivation. It's an experimental replacement for the <code>nix-shell</code> command that is compliant with Nix Flakes. It provides an interactive build environment nearly identical to what Nix would use to build <i>installable</i>. Inside this shell, environment variables and shell functions are set up so that you can interactively and incrementally build your package(s).<br />
+</p>
+
+<pre class="example" id="org5358eff">
+inputs.flake-utils.lib.eachDefaultSystem (system:
+  let
+    pkgs = inputs.nixpkgs.legacyPackages.${system};
+  in
+    rec {
+      devShells = {
+        default = import ./shell.nix { inherit pkgs; };
+        cc = import ./shells/cc.nix { inherit pkgs; };
+        go = import ./shells/go.nix { inherit pkgs; };
+        grpc = import ./shells/grpc.nix { inherit pkgs; };
+        java = import ./shells/java.nix { inherit pkgs; };
+        node = import ./shells/node.nix { inherit pkgs; };
+        python = import ./shells/python.nix { inherit pkgs; };
+        rust = import ./shells/rust.nix { inherit pkgs; };
+      };
+    }
+);
+</pre>
+</div>
+
+<div id="outline-container-orgd31812e" class="outline-3">
+<h3 id="orgd31812e">Nix</h3>
+<div class="outline-text-3" id="text-orgd31812e">
+
+<div id="org2ec758f" class="figure">
+<p><img src="./docs/static/images/nix.png" alt="nix.png" width="300px" /><br />
+</p>
+</div>
+
+<p>
+This shell adds a version of the <code>nix</code> command that is pre-configured to support Flakes. Flakes are the unit for packaging Nix code in a reproducible and discoverable way. They can have dependencies on other flakes, making it possible to have multi-repository Nix projects. A flake is a filesystem tree that contains a file named <code>flake.nix</code>. It specifies some metadata about the flake such as dependencies (inputs), as well as the values such as packages or modules (outputs).<br />
+</p>
+
+<p>
+Import this shell with <code>nix develop $DOTFILES</code><br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-nix"><span style="color: #2aa1ae; background-color: #292e34;"># </span>
+<span style="color: #4f97d7;">{</span> <span style="color: #9966b5d3635c;">pkgs</span> ? <span style="color: #4f97d7;">import</span> <span style="color: #a45bad;">&lt;nixpkgs&gt;</span> <span style="color: #bc6ec5;">{</span> <span style="color: #bc6ec5;">}</span> <span style="color: #4f97d7;">}</span>:
+
+<span style="color: #4f97d7; font-weight: bold;">with</span> <span style="color: #9966b5d3635c;">pkgs</span>;
+
+<span style="color: #4f97d7; font-weight: bold;">let</span>
+  <span style="color: #7590db;">myNix</span> = <span style="color: #ebf7972c6c07;">writeShellScriptBin</span> <span style="color: #2d9574;">"nix"</span> <span style="color: #2d9574;">''</span>
+<span style="color: #2d9574;">    exec </span><span style="color: #bc6ec5;">$</span><span style="color: #4f97d7;">{</span><span style="color: #c857a829584b;">nixFlakes</span><span style="color: #4f97d7;">}</span><span style="color: #2d9574;">/bin/nix --option experimental-features "nix-command flakes" "$@"</span>
+<span style="color: #2d9574;">  ''</span>;
+
+<span style="color: #4f97d7; font-weight: bold;">in</span> <span style="color: #c5ac9a86e889;">mkShell</span> <span style="color: #4f97d7;">{</span>
+  <span style="color: #7590db;">buildInputs</span> = <span style="color: #bc6ec5;">[</span>
+    <span style="color: #c892a8135852;">git</span>
+    <span style="color: #0000c121beeb;">myNix</span>
+  <span style="color: #bc6ec5;">]</span>;
+  <span style="color: #7590db;">shellHook</span> = <span style="color: #2d9574;">''</span>
+<span style="color: #2d9574;">    export DOTFILES="$(pwd)"</span>
+<span style="color: #2d9574;">  ''</span>;
+<span style="color: #4f97d7;">}</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0a9bdeb" class="outline-2">
+<h2 id="org0a9bdeb">Relevant projects</h2>
+<div class="outline-text-2" id="text-org0a9bdeb">
+<ul class="org-ul">
+<li><a href="https://github.com/Misterio77/nix-config">nix-config</a> (pulled by <code>nix-config</code>)<br /></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Actoriu</p>
+<p class="date">Created: 2022-09-18 日 17:38</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
