@@ -256,13 +256,17 @@
           username = "nix-on-droid";
           system = "aarch64-linux";
           add_extraModules = [
+            inputs.impermanence.nixosModules.impermanence
             {
               home-manager.config = {
                 nixpkgs = { inherit (legacyPackages."x86_64-linux") config overlays; };
               };
             }
           ];
-          home_extraModules = [ ./users/modules ];
+          home_extraModules = [
+            inputs.impermanence.nixosModules.home-manager.impermanence
+            ./users/modules
+          ];
         };
       };
 
