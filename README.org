@@ -14,12 +14,6 @@
 #+HUGO_DRAFT: false
 
 # -----
-#+NAME: description
-#+begin_example
-  Configuration for NixOS and user home (dot files). It is provided via Nix flakes and includes the following components:
-#+end_example
-
-# -----
 # Badge
 # [[https://nixos.org][https://img.shields.io/badge/NixOS-unstable-blue.svg?style=flat-square&logo=NixOS&logoColor=white]]
 # [[https://mit-license.org/][https://img.shields.io/badge/license-MIT-green.svg?dummy]]
@@ -31,45 +25,41 @@
 #+HTML: <a href="https://orgmode.org"><img src="https://img.shields.io/badge/Notes-Org-%2377aa99?style=flat-square&logo=org&logoColor=white"></a>
 #+html: <a href="https://mit-license.org/"><img src="https://img.shields.io/badge/license-MIT-%23555555?style=flat-square&labelColor=%2377aa99&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjgwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBhcmlhLWhpZGRlbj0idHJ1ZSIgdmVyc2lvbj0iMS4xIiBkYXRhLXZpZXctY29tcG9uZW50PSJ0cnVlIiBjbGFzcz0ib2N0aWNvbiBvY3RpY29uLWxhdyBjb2xvci1mZy1kZWZhdWx0IGZsb2F0LWxlZnQgbXItMiI+CiA8Zz4KICA8dGl0bGU+TGF5ZXIgMTwvdGl0bGU+CiAgPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBkPSJtNDI1Ljc2OTI2LDM0LjE1Mzc4YTI1Ljc5Njk4LDI5LjY2Mjc0IDAgMCAwIC01MS41OTM5NywwbDAsNjkuMjEzMDdsLTY3Ljg5NzY2LDBhNjAuMTkyOTYsNjkuMjEzMDcgMCAwIDAgLTMzLjg4MDA0LDExLjk4Mzc1bC01OC4zMDExOCw0NS42NDEwN2E4LjU5ODk5LDkuODg3NTggMCAwIDEgLTQuODQ5ODMsMS43MDA2NmwtMTQxLjA5MjMsMGEyNS43OTY5OCwyOS42NjI3NCAwIDEgMCAwLDU5LjMyNTQ5bDU0LjI0MjQ2LDBsLTExNS44MTEyNiwzMDMuNzQ2NDlhMjYuMjA5NzQsMzAuMTM3MzUgMCAwIDAgNy4yMjMxNiwzNC44MDQyOWMyLjc1MTY4LDIuNTMxMjIgNS41Mzc3NSw0Ljk0Mzc5IDEwLjYyODM2LDguNzQwNjJjNi4zOTc2NSw0Ljc4NTU5IDE1LjU0Njk4LDEwLjk5NDk5IDI3LjI0MTYxLDE3LjEyNTI5YzIzLjM4OTI3LDEyLjMwMDE1IDU3LjE2NjEyLDI0LjUyMTIgOTguOTIyODMsMjQuNTIxMmEyMzcuOTg1NzcsMjczLjY0ODcgMCAwIDAgOTguOTIyODMsLTI0LjUyMTJjMTEuNjk0NjMsLTYuMTMwMyAyMC44NDM5NiwtMTIuMzM5NyAyNy4yNDE2MSwtMTcuMTI1MjljNS4xNTk0LC0zLjgzNjM4IDcuOTExMDgsLTYuMjQ4OTUgMTAuNjYyNzUsLTguODE5NzJhMjUuNzk2OTgsMjkuNjYyNzQgMCAwIDAgNy4xODg3NiwtMzQuNzI1MThsLTExNS44NDU2NiwtMzAzLjc0NjQ5bDMwLjQ3NDg0LDBjMTIuMDcyOTksMCAyMy44NzA4MSwtNC4xOTIzMyAzMy44NDU2NCwtMTEuOTgzNzVsNTguMzM1NTgsLTQ1LjY0MTA3YTguNTk4OTksOS44ODc1OCAwIDAgMSA0LjgxNTQ0LC0xLjcwMDY2bDY3LjkzMjA2LDBsMCw1NzMuNDc5NzFsLTE1NC4zMzQ3NiwwYTI1Ljc5Njk4LDI5LjY2Mjc0IDAgMCAwIDAsNTkuMzI1NDlsMzYwLjI2MzQ4LDBhMjUuNzk2OTgsMjkuNjYyNzQgMCAwIDAgMCwtNTkuMzI1NDlsLTE1NC4zMzQ3NiwwbDAsLTU3My40Nzk3MWw2Ny44OTc2NiwwYzEuNzE5OCwwIDMuNDM5NiwwLjU5MzI1IDQuODE1NDQsMS43MDA2Nmw1OC4zNjk5OCw0NS42NDEwN2M5Ljk3NDgzLDcuNzkxNDEgMjEuNzcyNjUsMTEuOTgzNzUgMzMuODQ1NjQsMTEuOTgzNzVsMzAuNDc0ODQsMGwtMTE1Ljg0NTY2LDMwMy43NDY0OWEyNS43OTY5OCwyOS42NjI3NCAwIDAgMCA3LjkxMTA4LDM1LjQzNzA5YzAuNDEyNzUsMC4zNTU5NSAwLDAgMC4wNjg3OSwwYTEwOC40ODQ5MiwxMjQuNzQxNzIgMCAwIDAgMTAuNjYyNzUsOC4xNDczN2M2LjM2MzI2LDQuNDI5NjQgMTUuNDc4MTksMTAuMTI0ODggMjcuMTcyODIsMTUuODIwMTNhMjUyLjU2OTY3LDI5MC40MTgwMyAwIDAgMCA5OC4yMDA1MiwyMi40NjQ1OGEyNTIuNTY5NjcsMjkwLjQxODAzIDAgMCAwIDk4LjIzNDkxLC0yMi41MDQxM2MxMS42MjU4NCwtNS42NTU3IDIwLjc3NTE3LC0xMS4zNTA5NCAyNy4xNzI4MiwtMTUuNzgwNThhMTIwLjM4NTkyLDEzOC40MjYxNCAwIDAgMCAxMC42NjI3NSwtOC4xNDczN2EyNS43OTY5OCwyOS42NjI3NCAwIDAgMCA3LjkxMTA4LC0zNS40MzcwOWwtMTE1Ljc3Njg2LC0zMDMuNzQ2NDlsNTQuMjc2ODUsMGEyNS43OTY5OCwyOS42NjI3NCAwIDAgMCAwLC01OS4zMjU0OWwtMTQxLjA5MjMsMGE4LjU5ODk5LDkuODg3NTggMCAwIDEgLTQuODE1NDQsLTEuNzAwNjZsLTU4LjM2OTk4LC00NS42NDEwN2E2MC4xOTI5Niw2OS4yMTMwNyAwIDAgMCAtMzMuODQ1NjQsLTExLjk4Mzc1bC02Ny45MzIwNiwwbDAsLTY5LjIxMzA3em0tMzYzLjExODM0LDQ5Mi4zMjI0NGExODYuMzU3NDEsMjE0LjI4MzY2IDAgMCAwIDg3Ljk1MDUyLDI1LjExNDQ2YTE4Ni4zNTc0MSwyMTQuMjgzNjYgMCAwIDAgODcuOTUwNTIsLTI1LjExNDQ2bC04Ny45NTA1MiwtMjMwLjU3ODM5bC04Ny45NTA1MiwyMzAuNTc4Mzl6bTQ5OS4wODU2NSwtMC45NDkyMWMyLjgyMDQ3LDEuNTgyMDEgNS45ODQ5LDMuMjgyNjggOS40NTg4OSw0Ljk4MzM0YzE4LjIyOTg3LDguODE5NzIgNDQuODg2NzUsMTcuNzk3NjUgNzguMTQ3NjYsMTcuNzk3NjVhMjAxLjA3ODg5LDIzMS4yMTEyIDAgMCAwIDg3LjYwNjU2LC0yMi43ODA5OWwtODcuNjA2NTYsLTIyOS42Njg3M2wtODcuNjA2NTYsMjI5LjY2ODczeiIgaWQ9InN2Z18xIi8+CiA8L2c+Cgo8L3N2Zz4="></a>
 #+html: </p>
-# -----
 
-* Table of Contents                                       :TOC_4_gh:noexport:
-- [[#mein-dotfiles][Mein dotfiles]]
-  - [[#introduction][Introduction]]
-    - [[#getting-started][Getting Started]]
-    - [[#making-changes][Making Changes]]
-  - [[#operating-system][Operating System]]
-    - [[#nixpkgs][Nixpkgs]]
-    - [[#flake-utils][Flake-utils]]
-    - [[#home-manager][Home Manager]]
-    - [[#nix-on-droid][Nix-on-droid]]
-  - [[#development-shells][Development Shells]]
-    - [[#nix][Nix]]
-- [[#relevant-projects][Relevant projects]]
-
-* Mein dotfiles
-
-A tidy =$HOME= is a tidy mind.
+#+NAME: description
+#+begin_example
+  Configuration for NixOS and user home (dot files). It is provided via Nix flakes and includes the
+  following components:
+#+end_example
 
 #+ATTR_ORG: :width 800px
 #+ATTR_HTML: :width 800px
 #+ATTR_LATEX: :width 800px
 [[./docs/static/images/desktop.png]]
 
-These are my dotfiles, designed primarily for Arch Linux, MacOS and Nixos. They
-are my specific breed of madness, split into 2-level topics (e.g. =shell/zsh=)
-that strive for minimum =$HOME= presence (adhering to XDG standards where
-possible).
-
 + wm: awesome
 + shell: zsh
 + Monofont: Iosevka Term
 
-** Introduction
+-----
+* Table of Contents                                       :TOC_4_gh:noexport:
+- [[#introduction][Introduction]]
+  - [[#getting-started][Getting Started]]
+  - [[#making-changes][Making Changes]]
+- [[#operating-system][Operating System]]
+  - [[#nixpkgs][Nixpkgs]]
+  - [[#flake-utils][Flake-utils]]
+  - [[#home-manager][Home Manager]]
+  - [[#nix-on-droid][Nix-on-droid]]
+- [[#development-shells][Development Shells]]
+  - [[#nix][Nix]]
+- [[#relevant-projects][Relevant projects]]
+
+* Introduction
 
 This is my personal configuration for [[https://linux.org][GNU/Linux]] systems. It enables a consistent experience and computing environment across all of my machines. This project is written with [[https://gnu.org/software/emacs/][GNU/Emacs]], leveraging its capabilities for [[https://doi.org/10.1093/comjnl/27.2.97][Literate Programming]], a technique where programs are written in a natural language, such as English, interspersed with snippets of code to describe a software project.
 
-*** Getting Started
+** Getting Started
 
 1) [[https://nixos.org/download.html][Download the latest version of NixOS]]
 2) [[https://nixos.org/manual/nixos/stable/#sec-installation-partitioning][Partition your drives and mount the file system]]
@@ -78,7 +68,7 @@ This is my personal configuration for [[https://linux.org][GNU/Linux]] systems. 
 5) Install the system ~sudo nixos-install --impure --flake /mnt/etc/nix-config#hostname~
 6) Reboot, login and start a graphical system ~startx~
 
-*** Making Changes
+** Making Changes
 
 The ~nixos-rebuild~ command updates the system so that it corresponds to the configuration specified in the module. It builds the new system in =/nix/store/=, runs the activation scripts, and restarts and system services (if needed). The command has one required argument, which specifies the desired operation:
 
@@ -105,7 +95,7 @@ Instead of building a new configuration, it's possible to rollback to a previous
 sudo nixos-rebuild switch --rollback
 #+end_example
 
-** Operating System
+* Operating System
 
 #+ATTR_ORG: :width 400px
 #+ATTR_HTML: :width 400px
@@ -132,7 +122,7 @@ sudo nixos-rebuild switch --rollback
   }
 #+end_example
 
-*** Nixpkgs
+** Nixpkgs
 
 [[https://nixos.org/manual/nixpkgs/unstable][Nixpkgs]] is a collection of over 80,000 software packages that can be installed with the [[https://nixos.org/manual/nix/stable/Nix][Nix Package Manager]]. Two main branches are offered:
 
@@ -143,7 +133,7 @@ sudo nixos-rebuild switch --rollback
   nixpkgs.url = "github:nixpkgs/nixos-unstable";
 #+end_example
 
-*** Flake-utils
+** Flake-utils
 
 [[https://github.com/numtide/flake-utils][Flake-utils]] is a collection of pure Nix functions that don't depend on Nixpkgs, and that are useful in the context of writing other Nix Flakes.
 
@@ -152,7 +142,7 @@ sudo nixos-rebuild switch --rollback
   flake-utils.url = "github:numtide/flake-utils";
 #+end_example
 
-*** Home Manager
+** Home Manager
 
 [[https://nix-community.github.io/home-manager/][Home Manager]] provides a basic system for managing user environments using the [[https://nixos.org/manual/nix/unstable/][Nix Package Manager]] together with the Nix libraries found in [[https://nixos.org/manual/nixpkgs/unstable][Nixpkgs]]. It allows declarative configuration of user specific (non-global) packages and files.
 
@@ -167,8 +157,7 @@ sudo nixos-rebuild switch --rollback
   };
 #+end_example
 
-
-*** Nix-on-droid
+** Nix-on-droid
 
 [[https://nixos.org/manual/nix/stable/Nix][Nix Package Manager]] on Android, in a single-click installable package. This is not full NixOS running inside Android, but you get easy access to [[https://nixos.org/manual/nixpkgs/stable][nixpkgs']] vast collection of (precompiled!) software and the best package manager under the sun. It's prototype-grade quality as of now, but hey, it works!
 
@@ -184,7 +173,7 @@ sudo nixos-rebuild switch --rollback
   };
 #+end_example
 
-** Development Shells
+* Development Shells
 
 The command ~nix develop~ will run a bash shell that provides the build environment of a derivation. It's an experimental replacement for the ~nix-shell~ command that is compliant with Nix Flakes. It provides an interactive build environment nearly identical to what Nix would use to build /installable/. Inside this shell, environment variables and shell functions are set up so that you can interactively and incrementally build your package(s).
 
@@ -199,7 +188,7 @@ The command ~nix develop~ will run a bash shell that provides the build environm
   };
 #+end_example
 
-*** Nix
+** Nix
 
 #+ATTR_ORG: :width 300px
 #+ATTR_HTML: :width 300px
