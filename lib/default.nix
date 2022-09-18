@@ -111,9 +111,7 @@ rec {
     , username
     , system ? "aarch64-linux"
     , pkgs
-    , add_extraModules ? [
-        { nixpkgs = { inherit (pkgs) config overlays; }; }
-      ]
+    , add_extraModules ? [ ]
     , custom_extraModules ? [ ]
     , home_extraModules ? [ ]
     , sharedModules ? [
