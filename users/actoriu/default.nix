@@ -1,11 +1,4 @@
 { ... }: {
-  imports = [
-    ../modules
-  ];
-
-  # programs.home-manager.enable = true;
-  systemd.user.startServices = "sd-switch";
-
   custom = {
     # development
     # cc.enable = true;

@@ -59,21 +59,7 @@
   # nix-channel --add https://github.com/rycee/home-manager/archive/release-22.11.tar.gz home-manager
   # nix-channel --update
   # you can configure home-manager in here like
-  # home-manager = {
-  #   useGlobalPkgs = true;
-  #   useUserPackages = true;
-  #   config =
-  #     { lib
-  #     , pkgs
-  #     , ...
-  #     }: {
-  #       home.stateVersion = "22.11";
-  #       imports = [
-  #         ../../users/modules
-  #         ../../users/nix-on-droid
-  #       ];
-  #     };
-  # };
 }
+
 # vim: ft=nix
 
