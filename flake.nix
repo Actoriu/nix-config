@@ -256,6 +256,11 @@
           username = "nix-on-droid";
           system = "aarch64-linux";
           pkgs = legacyPackages."aarch64-linux";
+          add_extraModules = [
+            home-manager.config = {
+            nixpkgs = { inherit (legacyPackages."x86_64-linux") config overlays; };
+          };
+          ];
           home_extraModules = [ ./users/modules ];
         };
       };
