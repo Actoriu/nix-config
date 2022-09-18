@@ -12,8 +12,14 @@
 #+HUGO_AUTO_SET_LASTMOD: t
 #+HUGO_SECTION:
 #+HUGO_DRAFT: false
-#+EXPORT_FILE_NAME: dotfiles
 
+# -----
+#+NAME: description
+#+begin_example
+  Configuration for NixOS and user home (dot files). It is provided via Nix flakes and includes the following components:
+#+end_example
+
+# -----
 # Badge
 # [[https://nixos.org][https://img.shields.io/badge/NixOS-unstable-blue.svg?style=flat-square&logo=NixOS&logoColor=white]]
 # [[https://mit-license.org/][https://img.shields.io/badge/license-MIT-green.svg?dummy]]
@@ -27,34 +33,43 @@
 #+html: </p>
 # -----
 
-#+NAME: description
-#+begin_example
-  Configuration for NixOS and user home (dot files). It is provided via Nix flakes and includes the following components:
-#+end_example
+* Table of Contents                                       :TOC_4_gh:noexport:
+- [[#mein-dotfiles][Mein dotfiles]]
+  - [[#introduction][Introduction]]
+    - [[#getting-started][Getting Started]]
+    - [[#making-changes][Making Changes]]
+  - [[#operating-system][Operating System]]
+    - [[#nixpkgs][Nixpkgs]]
+    - [[#flake-utils][Flake-utils]]
+    - [[#home-manager][Home Manager]]
+    - [[#nix-on-droid][Nix-on-droid]]
+  - [[#development-shells][Development Shells]]
+    - [[#nix][Nix]]
+- [[#relevant-projects][Relevant projects]]
+
+* Mein dotfiles
+
+A tidy =$HOME= is a tidy mind.
 
 #+ATTR_ORG: :width 800px
 #+ATTR_HTML: :width 800px
 #+ATTR_LATEX: :width 800px
 [[./docs/static/images/desktop.png]]
 
-* Table of Contents                                       :TOC_4_gh:noexport:
-- [[#introduction][Introduction]]
-  - [[#getting-started][Getting Started]]
-  - [[#making-changes][Making Changes]]
-- [[#operating-system][Operating System]]
-  - [[#nixpkgs][Nixpkgs]]
-  - [[#flake-utils][Flake-utils]]
-  - [[#home-manager][Home Manager]]
-  - [[#nix-on-droid][Nix-on-droid]]
-- [[#development-shells][Development Shells]]
-  - [[#nix][Nix]]
-- [[#relevant-projects][Relevant projects]]
+These are my dotfiles, designed primarily for Arch Linux, MacOS and Nixos. They
+are my specific breed of madness, split into 2-level topics (e.g. =shell/zsh=)
+that strive for minimum =$HOME= presence (adhering to XDG standards where
+possible).
 
-* Introduction
++ wm: awesome
++ shell: zsh
++ Monofont: Iosevka Term
+
+** Introduction
 
 This is my personal configuration for [[https://linux.org][GNU/Linux]] systems. It enables a consistent experience and computing environment across all of my machines. This project is written with [[https://gnu.org/software/emacs/][GNU/Emacs]], leveraging its capabilities for [[https://doi.org/10.1093/comjnl/27.2.97][Literate Programming]], a technique where programs are written in a natural language, such as English, interspersed with snippets of code to describe a software project.
 
-** Getting Started
+*** Getting Started
 
 1) [[https://nixos.org/download.html][Download the latest version of NixOS]]
 2) [[https://nixos.org/manual/nixos/stable/#sec-installation-partitioning][Partition your drives and mount the file system]]
@@ -63,7 +78,7 @@ This is my personal configuration for [[https://linux.org][GNU/Linux]] systems. 
 5) Install the system ~sudo nixos-install --impure --flake /mnt/etc/nix-config#hostname~
 6) Reboot, login and start a graphical system ~startx~
 
-** Making Changes
+*** Making Changes
 
 The ~nixos-rebuild~ command updates the system so that it corresponds to the configuration specified in the module. It builds the new system in =/nix/store/=, runs the activation scripts, and restarts and system services (if needed). The command has one required argument, which specifies the desired operation:
 
@@ -90,7 +105,7 @@ Instead of building a new configuration, it's possible to rollback to a previous
 sudo nixos-rebuild switch --rollback
 #+end_example
 
-* Operating System
+** Operating System
 
 #+ATTR_ORG: :width 400px
 #+ATTR_HTML: :width 400px
@@ -117,7 +132,7 @@ sudo nixos-rebuild switch --rollback
   }
 #+end_example
 
-** Nixpkgs
+*** Nixpkgs
 
 [[https://nixos.org/manual/nixpkgs/unstable][Nixpkgs]] is a collection of over 80,000 software packages that can be installed with the [[https://nixos.org/manual/nix/stable/Nix][Nix Package Manager]]. Two main branches are offered:
 
@@ -128,7 +143,7 @@ sudo nixos-rebuild switch --rollback
   nixpkgs.url = "github:nixpkgs/nixos-unstable";
 #+end_example
 
-** Flake-utils
+*** Flake-utils
 
 [[https://github.com/numtide/flake-utils][Flake-utils]] is a collection of pure Nix functions that don't depend on Nixpkgs, and that are useful in the context of writing other Nix Flakes.
 
@@ -137,7 +152,7 @@ sudo nixos-rebuild switch --rollback
   flake-utils.url = "github:numtide/flake-utils";
 #+end_example
 
-** Home Manager
+*** Home Manager
 
 [[https://nix-community.github.io/home-manager/][Home Manager]] provides a basic system for managing user environments using the [[https://nixos.org/manual/nix/unstable/][Nix Package Manager]] together with the Nix libraries found in [[https://nixos.org/manual/nixpkgs/unstable][Nixpkgs]]. It allows declarative configuration of user specific (non-global) packages and files.
 
@@ -153,22 +168,23 @@ sudo nixos-rebuild switch --rollback
 #+end_example
 
 
-** Nix-on-droid
+*** Nix-on-droid
 
- [[https://nixos.org/manual/nix/stable/Nix][Nix Package Manager]] on Android, in a single-click installable package. This is not full NixOS running inside Android, but you get easy access to [[https://nixos.org/manual/nixpkgs/stable][nixpkgs']] vast collection of (precompiled!) software and the best package manager under the sun. It's prototype-grade quality as of now, but hey, it works!
+[[https://nixos.org/manual/nix/stable/Nix][Nix Package Manager]] on Android, in a single-click installable package. This is not full NixOS running inside Android, but you get easy access to [[https://nixos.org/manual/nixpkgs/stable][nixpkgs']] vast collection of (precompiled!) software and the best package manager under the sun. It's prototype-grade quality as of now, but hey, it works!
 
 #+NAME: os-home-manager
 #+begin_example
-  home-manager = {
-    url = "github:nix-community/home-manager";
+  nix-on-droid = {
+    url = "github:t184256/nix-on-droid";
     inputs = {
-      utils.follows = "flake-utils";
+      flake-utils.follows = "flake-utils";
+      home-manager.follows = "home-manager";
       nixpkgs.follows = "nixpkgs";
     };
   };
 #+end_example
 
-* Development Shells
+** Development Shells
 
 The command ~nix develop~ will run a bash shell that provides the build environment of a derivation. It's an experimental replacement for the ~nix-shell~ command that is compliant with Nix Flakes. It provides an interactive build environment nearly identical to what Nix would use to build /installable/. Inside this shell, environment variables and shell functions are set up so that you can interactively and incrementally build your package(s).
 
@@ -183,7 +199,7 @@ The command ~nix develop~ will run a bash shell that provides the build environm
   };
 #+end_example
 
-** Nix
+*** Nix
 
 #+ATTR_ORG: :width 300px
 #+ATTR_HTML: :width 300px
