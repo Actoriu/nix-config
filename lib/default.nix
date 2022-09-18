@@ -110,7 +110,6 @@ rec {
     { devicename
     , username
     , system ? "aarch64-linux"
-    , pkgs
     , add_extraModules ? [ ]
     , custom_extraModules ? [ ]
     , home_extraModules ? [ ]
