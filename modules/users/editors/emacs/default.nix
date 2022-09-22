@@ -78,10 +78,10 @@ in
             source = pkgs.spacemacs;
             recursive = true;
           };
-          # ".spacemacs.d" = {
-          #   source = spacemacs.d;
-          #   recursive = true;
-          # };
+          ".spacemacs.d" = {
+             source = ./spacemacs.d;
+             recursive = true;
+          };
         };
       };
     })
