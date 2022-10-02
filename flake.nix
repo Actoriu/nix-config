@@ -154,14 +154,19 @@
     };
   };
 
-  outputs = inputs:
+  outputs = { self, ... }@inputs:
     let
-      lib = import ./lib { inherit inputs; };
-      inherit (lib) mkSystem mkHome mkDroid mkDeploys eachDefaultSystem;
+      # lib = import ./lib { inherit inputs; };
+      # inherit (lib) mkSystem mkHome mkDroid mkDeploys eachDefaultSystem;
+      inherit (darwin.lib) darwinSystem;
+      inherit (nixpkgs.lib) nixosSystem;
+      inherit (home-manager.lib) homeManagerConfiguration;
+      inherit (nix-on-droid.lib) nixOnDroidConfiguration;
+      inherit (flake-utils.lib) eachDefaultSystem eachSystem;
     in
-    rec
+    # rec
     {
-      inherit lib;
+      # inherit lib;
 
       overlays = {
         default = import ./overlays { inherit inputs; };
