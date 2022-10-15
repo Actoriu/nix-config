@@ -50,7 +50,7 @@ jobs:
           signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
           extraPullNames: nix-community,nix-on-droid
       - name: ${{ matrix.job_name }}
-        uses: nick-invision/retry@v2.8.1
+        uses: nick-invision/retry@v2.8.2
         with:
           max_attempts: 2
           timeout_minutes: 720
