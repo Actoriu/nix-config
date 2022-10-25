@@ -171,9 +171,9 @@
         }
       );
 
-      formatterPackArgsPerSystem = eachDefaultSystem (system: {
+      formatterPackArgsFor = eachDefaultSystem (system: {
         inherit nixpkgs system;
-        pkgs = self.legacyPackages.${system};
+        pkgs = legacyPackages.${system};
         checkFiles = [ ./. ];
         config = {
           tools = {
