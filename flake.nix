@@ -165,7 +165,6 @@
         devshell = inputs.devshell.overlay;
         nixos-cn = inputs.nixos-cn.overlay;
         nur = inputs.nur.overlay;
-        nvfetcher = inputs.nvfetcher.overlay;
         peerix = inputs.peerix.overlay;
         sops-nix = inputs.sops-nix.overlay;
         spacemacs = final: prev: { spacemacs = inputs.spacemacs; };

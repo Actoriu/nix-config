@@ -1,31 +1,5 @@
 {
   "nodes": {
-    "deploy-rs": {
-      "inputs": {
-        "flake-compat": [
-          "flake-compat"
-        ],
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "utils": [
-          "flake-utils"
-        ]
-      },
-      "locked": {
-        "lastModified": 1659725433,
-        "narHash": "sha256-1ZxuK67TL29YLw88vQ18Y2Y6iYg8Jb7I6/HVzmNB6nM=",
-        "owner": "serokell",
-        "repo": "deploy-rs",
-        "rev": "41f15759dd8b638e7b4f299730d94d5aa46ab7eb",
-        "type": "github"
-      },
-      "original": {
-        "owner": "serokell",
-        "repo": "deploy-rs",
-        "type": "github"
-      }
-    },
     "devshell": {
       "inputs": {
         "flake-utils": [
@@ -118,6 +92,27 @@
         "type": "github"
       }
     },
+    "nix-formatter-pack": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "nmt": "nmt"
+      },
+      "locked": {
+        "lastModified": 1666210597,
+        "narHash": "sha256-RZ92Csml8gtK87ufaLXIJi/mnO6Ni/+se7waw4Q99Qc=",
+        "owner": "Gerschtli",
+        "repo": "nix-formatter-pack",
+        "rev": "ff62942fea0bc19b781d62f686b9ccb70b300005",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Gerschtli",
+        "repo": "nix-formatter-pack",
+        "type": "github"
+      }
+    },
     "nix-on-droid": {
       "inputs": {
         "flake-utils": [
@@ -199,6 +194,22 @@
         "type": "github"
       }
     },
+    "nmt": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1648075362,
+        "narHash": "sha256-u36WgzoA84dMVsGXzml4wZ5ckGgfnvS0ryzo/3zn/Pc=",
+        "owner": "rycee",
+        "repo": "nmt",
+        "rev": "d83601002c99b78c89ea80e5e6ba21addcfe12ae",
+        "type": "gitlab"
+      },
+      "original": {
+        "owner": "rycee",
+        "repo": "nmt",
+        "type": "gitlab"
+      }
+    },
     "nur": {
       "locked": {
         "lastModified": 1663481266,
@@ -211,32 +222,6 @@
       "original": {
         "owner": "nix-community",
         "repo": "NUR",
-        "type": "github"
-      }
-    },
-    "nvfetcher": {
-      "inputs": {
-        "flake-compat": [
-          "flake-compat"
-        ],
-        "flake-utils": [
-          "flake-utils"
-        ],
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1654975372,
-        "narHash": "sha256-wkNZ16akgKViuZzE/IM+bux4uaJ04KIwUeexH8gBjgw=",
-        "owner": "berberman",
-        "repo": "nvfetcher",
-        "rev": "d4b237c10f14f72f8266b0f658faad822e491e55",
-        "type": "github"
-      },
-      "original": {
-        "owner": "berberman",
-        "repo": "nvfetcher",
         "type": "github"
       }
     },
@@ -268,17 +253,16 @@
     },
     "root": {
       "inputs": {
-        "deploy-rs": "deploy-rs",
         "devshell": "devshell",
         "flake-compat": "flake-compat",
         "flake-utils": "flake-utils",
         "home-manager": "home-manager",
         "impermanence": "impermanence",
+        "nix-formatter-pack": "nix-formatter-pack",
         "nix-on-droid": "nix-on-droid",
         "nixos-cn": "nixos-cn",
         "nixpkgs": "nixpkgs",
         "nur": "nur",
-        "nvfetcher": "nvfetcher",
         "peerix": "peerix",
         "sops-nix": "sops-nix",
         "spacemacs": "spacemacs"
