@@ -142,7 +142,7 @@
     }@inputs:
     let
       inherit (nixpkgs.lib) filterAttrs traceVal;
-      inherit (builtins) mapAttrs elem;
+      inherit (builtins) attrValues mapAttrs elem;
       inherit (self) outputs;
       notBroken = x: !(x.meta.broken or false);
       inherit (flake-utils.lib) eachDefaultSystem eachSystem;
@@ -167,7 +167,7 @@
             allowBroken = true;
             allowUnsupportedSystem = true;
           };
-          overlays = builtins.attrValues overlays;
+          overlays = attrValues self.overlays;
         }
       );
 
