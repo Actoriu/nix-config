@@ -45,7 +45,7 @@ rec {
   mkSystem =
     { hostname
     , username ? null
-    , system ? "x86_64-linux"
+    , pkgs
     , extraModules ? [ ]
     , home_extraModules ? [ ]
     , sharedModules ? [
