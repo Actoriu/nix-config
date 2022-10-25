@@ -146,7 +146,19 @@
       inherit (self) outputs;
       notBroken = x: !(x.meta.broken or false);
       inherit (flake-utils.lib) eachDefaultSystem eachSystem;
+      formatterPackArgsFor = eachDefaultSystem (system: {
+        inherit nixpkgs system;
+        checkFiles = [ ./. ];
+        config = {
+          tools = {
+            deadnix.enable = true;
+            nixpkgs-fmt.enable = true;
+            statix.enable = true;
+          };
+        };
+      });
     in
+    rec
     {
       overlays = {
         default = import ./overlays { inherit inputs; };
@@ -170,19 +182,6 @@
           overlays = attrValues self.overlays;
         }
       );
-
-      formatterPackArgsFor = eachDefaultSystem (system: {
-        inherit nixpkgs system;
-        # pkgs = legacyPackages.${system};
-        checkFiles = [ ./. ];
-        config = {
-          tools = {
-            deadnix.enable = true;
-            nixpkgs-fmt.enable = true;
-            statix.enable = true;
-          };
-        };
-      });
 
       checks = eachDefaultSystem (system: {
         nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgsFor.${system};
