@@ -227,11 +227,11 @@
           };
         });
 
-      hydraJobs = {
-        packages = mapAttrs (sys: filterAttrs (_: pkg: (elem sys pkg.meta.platforms && notBroken pkg))) packages;
-        nixos = mapAttrs (_: cfg: cfg.config.system.build.toplevel) nixosConfigurations;
-        home = mapAttrs (_: cfg: cfg.activationPackage) homeConfigurations;
-      };
+      # hydraJobs = {
+      #   packages = mapAttrs (sys: filterAttrs (_: pkg: (elem sys pkg.meta.platforms && notBroken pkg))) packages;
+      #   nixos = mapAttrs (_: cfg: cfg.config.system.build.toplevel) nixosConfigurations;
+      #   home = mapAttrs (_: cfg: cfg.activationPackage) homeConfigurations;
+      # };
 
       nixosConfigurations = {
         d630 = nixpkgs.lib.nixosSystem {
