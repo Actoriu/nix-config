@@ -154,19 +154,18 @@
               statix.enable = true;
             };
           };
-        };
-        in
-        rec
-        {
-        overlays = {
-        default = import ./overlays { inherit inputs;
-      };
-      devshell = inputs.devshell.overlay;
-      nixos-cn = inputs.nixos-cn.overlay;
-      nur = inputs.nur.overlay;
-      peerix = inputs.peerix.overlay;
-      sops-nix = inputs.sops-nix.overlay;
-      spacemacs = final: prev: { spacemacs = inputs.spacemacs; };
+        });
+    in
+    rec
+    {
+      overlays = {
+        default = import ./overlays { inherit inputs; };
+        devshell = inputs.devshell.overlay;
+        nixos-cn = inputs.nixos-cn.overlay;
+        nur = inputs.nur.overlay;
+        peerix = inputs.peerix.overlay;
+        sops-nix = inputs.sops-nix.overlay;
+        spacemacs = final: prev: { spacemacs = inputs.spacemacs; };
       };
 
       legacyPackages = eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
@@ -306,5 +305,5 @@
         };
       };
 
-      };
-      }
+    };
+}
