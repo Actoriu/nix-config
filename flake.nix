@@ -228,9 +228,9 @@
             home-manager.nixosModules.home-manager
             {
               home-manager = {
-                useGlobalPkgs = true;
+                # useGlobalPkgs = true;
                 useUserPackages = true;
-                extraSpecialArgs = { inherit inputs; };
+                extraSpecialArgs = { inherit inputs pkgs; };
                 users.actoriu = { ... }: {
                   home.stateVersion = "22.11";
                   programs.home-manager.enable = true;
@@ -254,7 +254,7 @@
       homeConfigurations = {
         "actoriu@d630" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
-          extraSpecialArgs = { inherit inputs; };
+          extraSpecialArgs = { inherit inputs pkgs; };
           modules = [
             inputs.impermanence.nixosModules.home-manager.impermanence
             {
