@@ -166,11 +166,13 @@
         };
       in
       {
-        legacyPackages = pkgs;
+        # legacyPackages = pkgs;
 
-        checks.${system}.nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgs;
+        checks = {
+          nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgs.${system};
+        };
 
-        formatter.${system} = nix-formatter-pack.lib.mkFormatter formatterPackArgs;
+        formatter = nix-formatter-pack.lib.mkFormatter formatterPackArgs.${system};
 
         packages = import ./pkgs { inherit pkgs; };
 
