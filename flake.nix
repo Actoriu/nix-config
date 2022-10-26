@@ -262,11 +262,11 @@
           system = "aarch64-linux";
           extraSpecialArgs = { inherit inputs; };
           config = { ... }: {
-            nixpkgs = { inherit (legacyPackages."aarch64-linux") config overlays; };
+            # nixpkgs = { inherit (legacyPackages."aarch64-linux") config overlays; };
             imports = [
               {
                 home-manager = {
-                  useGlobalPkgs = true;
+                  # useGlobalPkgs = true;
                   useUserPackages = true;
                   extraSpecialArgs = { inherit inputs; };
                   config = { ... }: {
