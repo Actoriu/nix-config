@@ -27,11 +27,11 @@
     zsh.enable = true;
   };
 
-  xdg.configFile."nixpkgs/config.nix".text = ''
-    { ... }: {
-      allowUnfree = true;
-      allowBroken = true;
-      allowUnsupportedSystem = true;
-    }
-  '';
+  # xdg.configFile."nixpkgs/config.nix".text = ''
+  #   { ... }: {
+  #     allowUnfree = true;
+  #     allowBroken = true;
+  #     allowUnsupportedSystem = true;
+  #   }
+  # '';
 }
