@@ -174,7 +174,7 @@
 
         formatter = nix-formatter-pack.lib.mkFormatter formatterPackArgs;
 
-        packages = import ./pkgs { inherit pkgs; };
+        # packages = import ./pkgs { inherit pkgs; };
 
         devShells = {
           default = pkgs.devshell.mkShell {
