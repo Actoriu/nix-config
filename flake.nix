@@ -168,9 +168,9 @@
       {
         # legacyPackages = pkgs;
 
-        checks = {
-          nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgs;
-        };
+        # checks = {
+        #   nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgs;
+        # };
 
         formatter = nix-formatter-pack.lib.mkFormatter formatterPackArgs;
 
