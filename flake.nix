@@ -218,7 +218,7 @@
       nixosConfigurations = {
         d630 = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          specialArgs = { inherit inputs outputs; };
+          specialArgs = { inherit inputs; };
           modules = [
             inputs.impermanence.nixosModules.impermanence
             inputs.nixos-cn.nixosModules.nixos-cn-registries
@@ -228,7 +228,7 @@
               home-manager = {
                 useGlobalPkgs = true;
                 useUserPackages = true;
-                extraSpecialArgs = { inherit inputs outputs; };
+                extraSpecialArgs = { inherit inputs; };
                 users.actoriu = { ... }: {
                   imports = [
                     inputs.impermanence.nixosModules.home-manager.impermanence
@@ -248,7 +248,7 @@
       homeConfigurations = {
         "actoriu@d630" = home-manager.lib.homeManagerConfiguration {
           pkgs = legacyPackages."x86_64-linux";
-          extraSpecialArgs = { inherit inputs outputs; };
+          extraSpecialArgs = { inherit inputs; };
           modules = [
             inputs.impermanence.nixosModules.home-manager.impermanence
             ./modules/users
@@ -260,7 +260,7 @@
       nixOnDroidConfigurations = {
         oneplus5 = nix-on-droid.lib.nixOnDroidConfiguration {
           system = "aarch64-linux";
-          extraSpecialArgs = { inherit inputs outputs; };
+          extraSpecialArgs = { inherit inputs; };
           config = { ... }: {
             nixpkgs = { inherit (legacyPackages."aarch64-linux") config overlays; };
             imports = [
@@ -268,7 +268,7 @@
                 home-manager = {
                   useGlobalPkgs = true;
                   useUserPackages = true;
-                  extraSpecialArgs = { inherit inputs outputs; };
+                  extraSpecialArgs = { inherit inputs; };
                   config = { ... }: {
                     home.stateVersion = "22.11";
                     manual.manpages.enable = false;
