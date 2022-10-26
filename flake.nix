@@ -169,10 +169,10 @@
         # legacyPackages = pkgs;
 
         checks = {
-          nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgs.${system};
+          nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgs;
         };
 
-        formatter = nix-formatter-pack.lib.mkFormatter formatterPackArgs.${system};
+        formatter = nix-formatter-pack.lib.mkFormatter formatterPackArgs;
 
         packages = import ./pkgs { inherit pkgs; };
 
