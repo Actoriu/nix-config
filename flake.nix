@@ -140,64 +140,41 @@
     , nix-formatter-pack
     , ...
     }@inputs:
-    let
-      inherit (nixpkgs.lib) filterAttrs traceVal;
-      inherit (builtins) attrValues mapAttrs elem;
-      inherit (self) outputs;
-      notBroken = x: !(x.meta.broken or false);
-      inherit (flake-utils.lib) eachDefaultSystem eachSystem;
-      formatterPackArgsFor = eachDefaultSystem (system: {
-        inherit nixpkgs system;
-        checkFiles = [ ./. ];
-        config = {
-          tools = {
-            deadnix.enable = true;
-            nixpkgs-fmt.enable = true;
-            statix.enable = true;
-          };
-        };
-      });
-    in
-    rec
-    {
-      overlays = {
-        default = import ./overlays { inherit inputs; };
-        devshell = inputs.devshell.overlay;
-        nixos-cn = inputs.nixos-cn.overlay;
-        nur = inputs.nur.overlay;
-        peerix = inputs.peerix.overlay;
-        sops-nix = inputs.sops-nix.overlay;
-        spacemacs = final: prev: { spacemacs = inputs.spacemacs; };
-      };
-
-      legacyPackages = eachDefaultSystem (system:
-        import nixpkgs {
+    flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ]
+      (system:
+      let
+        pkgs = import nixpkgs {
           inherit system;
           config = {
             allowUnfree = true;
             allowBroken = true;
             allowUnsupportedSystem = true;
           };
-          overlays = attrValues self.overlays;
-        }
-      );
+          overlays = builtins.attrValues self.overlays;
+        };
 
-      checks = eachDefaultSystem (system: {
-        nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgsFor.${system};
-      });
+        formatterPackArgs = {
+          inherit nixpkgs system;
+          checkFiles = [ ./. ];
+          config = {
+            tools = {
+              deadnix.enable = true;
+              nixpkgs-fmt.enable = true;
+              statix.enable = true;
+            };
+          };
+        };
+      in
+      {
+        legacyPackages = pkgs;
 
-      formatter = eachDefaultSystem (system:
-        nix-formatter-pack.lib.mkFormatter formatterPackArgsFor.${system});
+        checks.${system}.nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgs;
 
-      packages = eachDefaultSystem (system:
-        import ./pkgs { pkgs = legacyPackages.${system}; }
-      );
+        formatter.${system} = nix-formatter-pack.lib.mkFormatter formatterPackArgs;
 
-      devShells = eachDefaultSystem (system:
-        let
-          pkgs = legacyPackages.${system};
-        in
-        {
+        packages = import ./pkgs { inherit pkgs; };
+
+        devShells = {
           default = pkgs.devshell.mkShell {
             name = "nix-config";
             imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
@@ -225,18 +202,22 @@
               export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
             '';
           };
-        });
-
-      # hydraJobs = {
-      #   packages = mapAttrs (sys: filterAttrs (_: pkg: (elem sys pkg.meta.platforms && notBroken pkg))) packages;
-      #   nixos = mapAttrs (_: cfg: cfg.config.system.build.toplevel) nixosConfigurations;
-      #   home = mapAttrs (_: cfg: cfg.activationPackage) homeConfigurations;
-      # };
+        };
+      })
+    // {
+      overlays = {
+        default = import ./overlays { inherit inputs; };
+        devshell = inputs.devshell.overlay;
+        nixos-cn = inputs.nixos-cn.overlay;
+        nur = inputs.nur.overlay;
+        peerix = inputs.peerix.overlay;
+        sops-nix = inputs.sops-nix.overlay;
+        spacemacs = final: prev: { spacemacs = inputs.spacemacs; };
+      };
 
       nixosConfigurations = {
         d630 = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          pkgs = legacyPackages."x86_64-linux";
           specialArgs = { inherit inputs outputs; };
           modules = [
             inputs.impermanence.nixosModules.impermanence
