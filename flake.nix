@@ -143,31 +143,33 @@
     let
       inherit (self) outputs;
       inherit (flake-utils.lib) eachDefaultSystem eachSystem;
-      formatterPackArgs = {
-        inherit nixpkgs system;
-        checkFiles = [ ./. ];
-        config = {
-          tools = {
-            deadnix.enable = true;
-            nixpkgs-fmt.enable = true;
-            statix.enable = true;
+      formatterPackArgs = eachSystem [ "aarch64-linux" "x86_64-linux" ]
+        (system: {
+          inherit nixpkgs system;
+          checkFiles = [ ./. ];
+          config = {
+            tools = {
+              deadnix.enable = true;
+              nixpkgs-fmt.enable = true;
+              statix.enable = true;
+            };
           };
         };
+        in
+        rec
+        {
+        overlays = {
+        default = import ./overlays { inherit inputs;
       };
-    in
-    rec
-    {
-      overlays = {
-        default = import ./overlays { inherit inputs; };
-        devshell = inputs.devshell.overlay;
-        nixos-cn = inputs.nixos-cn.overlay;
-        nur = inputs.nur.overlay;
-        peerix = inputs.peerix.overlay;
-        sops-nix = inputs.sops-nix.overlay;
-        spacemacs = final: prev: { spacemacs = inputs.spacemacs; };
+      devshell = inputs.devshell.overlay;
+      nixos-cn = inputs.nixos-cn.overlay;
+      nur = inputs.nur.overlay;
+      peerix = inputs.peerix.overlay;
+      sops-nix = inputs.sops-nix.overlay;
+      spacemacs = final: prev: { spacemacs = inputs.spacemacs; };
       };
 
-      legacyPackages = forAllSystems (system:
+      legacyPackages = eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
         import nixpkgs {
           inherit system;
           config = {
@@ -179,11 +181,11 @@
         }
       );
 
-      packages = forAllSystems (system:
+      packages = eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
         import ./pkgs { pkgs = legacyPackages.${system}; }
       );
 
-      devShells = forAllSystems
+      devShells = eachSystem [ "aarch64-linux" "x86_64-linux" ]
         (system:
           let
             pkgs = legacyPackages.${system};
@@ -304,5 +306,5 @@
         };
       };
 
-    };
-}
+      };
+      }
