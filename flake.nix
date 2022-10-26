@@ -247,7 +247,7 @@
 
       homeConfigurations = {
         "actoriu@d630" = home-manager.lib.homeManagerConfiguration {
-          pkgs = legacyPackages."x86_64-linux";
+          pkgs = nixpkgs.legacyPackages."x86_64-linux";
           extraSpecialArgs = { inherit inputs; };
           modules = [
             inputs.impermanence.nixosModules.home-manager.impermanence
