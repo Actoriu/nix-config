@@ -232,6 +232,10 @@
                 useUserPackages = true;
                 extraSpecialArgs = { inherit inputs; };
                 users.actoriu = { ... }: {
+                  home.stateVersion = "22.11";
+                  programs.home-manager.enable = true;
+                  manual.manpages.enable = false;
+                  systemd.user.startServices = "sd-switch";
                   imports = [
                     inputs.impermanence.nixosModules.home-manager.impermanence
                     ./modules/users
@@ -247,45 +251,51 @@
         };
       };
 
-      # homeConfigurations = {
-      #   "actoriu@d630" = home-manager.lib.homeManagerConfiguration {
-      #     pkgs = nixpkgs.legacyPackages."x86_64-linux";
-      #     extraSpecialArgs = { inherit inputs; };
-      #     modules = [
-      #       inputs.impermanence.nixosModules.home-manager.impermanence
-      #       ./modules/users
-      #       ./users/actoriu
-      #     ];
-      #   };
-      # };
+      homeConfigurations = {
+        "actoriu@d630" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages."x86_64-linux";
+          extraSpecialArgs = { inherit inputs; };
+          modules = [
+            inputs.impermanence.nixosModules.home-manager.impermanence
+            {
+              home.stateVersion = "22.11";
+              programs.home-manager.enable = true;
+              manual.manpages.enable = false;
+              systemd.user.startServices = "sd-switch";
+            }
+            ./modules/users
+            ./users/actoriu
+          ];
+        };
+      };
 
-      # nixOnDroidConfigurations = {
-      #   oneplus5 = nix-on-droid.lib.nixOnDroidConfiguration {
-      #     system = "aarch64-linux";
-      #     extraSpecialArgs = { inherit inputs; };
-      #     config = { ... }: {
-      #       # nixpkgs = { inherit (legacyPackages."aarch64-linux") config overlays; };
-      #       imports = [
-      #         {
-      #           home-manager = {
-      #             # useGlobalPkgs = true;
-      #             useUserPackages = true;
-      #             extraSpecialArgs = { inherit inputs; };
-      #             config = { ... }: {
-      #               home.stateVersion = "22.11";
-      #               manual.manpages.enable = false;
-      #               imports = [
-      #                 ./modules/users
-      #                 ./users/nix-on-droid
-      #               ];
-      #             };
-      #           };
-      #         }
-      #         ./hosts/oneplus5
-      #       ];
-      #     };
-      #   };
-      # };
+      nixOnDroidConfigurations = {
+        oneplus5 = nix-on-droid.lib.nixOnDroidConfiguration {
+          system = "aarch64-linux";
+          extraSpecialArgs = { inherit inputs; };
+          config = { ... }: {
+            # nixpkgs = { inherit (legacyPackages."aarch64-linux") config overlays; };
+            imports = [
+              {
+                home-manager = {
+                  # useGlobalPkgs = true;
+                  useUserPackages = true;
+                  extraSpecialArgs = { inherit inputs; };
+                  config = { ... }: {
+                    home.stateVersion = "22.11";
+                    manual.manpages.enable = false;
+                    imports = [
+                      ./modules/users
+                      ./users/nix-on-droid
+                    ];
+                  };
+                };
+              }
+              ./hosts/oneplus5
+            ];
+          };
+        };
+      };
 
     };
 }
