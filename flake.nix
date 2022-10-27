@@ -144,6 +144,17 @@
     }@inputs:
     let
       inherit (flake-utils.lib) eachDefaultSystem eachSystem;
+      pkgs = eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
+        import nixpkgs {
+          inherit system;
+          config = {
+            allowUnfree = true;
+            allowBroken = true;
+            allowUnsupportedSystem = true;
+          };
+          overlays = builtins.attrValues self.overlays;
+        });
+
       formatterPackArgs = eachSystem [ "aarch64-linux" "x86_64-linux" ]
         (system: {
           inherit nixpkgs system;
@@ -168,17 +179,7 @@
         spacemacs = final: prev: { spacemacs = inputs.spacemacs; };
       };
 
-      legacyPackages = eachSystem [ "aarch64-linux" "x86_64-linux" ]
-        (system:
-          import nixpkgs {
-            inherit system;
-            config = {
-              allowUnfree = true;
-              allowBroken = true;
-              allowUnsupportedSystem = true;
-            };
-            overlays = builtins.attrValues self.overlays;
-          });
+      legacyPackages = pkgs;
 
       checks = eachSystem [ "aarch64-linux" "x86_64-linux" ]
         (system: {
