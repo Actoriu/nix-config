@@ -147,12 +147,10 @@
         (system: {
           inherit nixpkgs system;
           checkFiles = [ ./. ];
-          config = {
-            tools = {
-              deadnix.enable = true;
-              nixpkgs-fmt.enable = true;
-              statix.enable = true;
-            };
+          config.tools = {
+            deadnix.enable = true;
+            nixpkgs-fmt.enable = true;
+            statix.enable = true;
           };
         });
     in
@@ -179,6 +177,16 @@
           overlays = builtins.attrValues self.overlays;
         }
       );
+
+      checks = eachSystem [ "aarch64-linux" "x86_64-linux" ]
+        (system: {
+          nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgs.${system};
+        });
+
+      formatter = eachSystem [ "aarch64-linux" "x86_64-linux" ]
+        (system:
+          nix-formatter-pack.lib.mkFormatter formatterPackArgs.${system}
+        );
 
       packages = eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
         import ./pkgs { pkgs = legacyPackages.${system}; }
