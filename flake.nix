@@ -226,7 +226,7 @@
             inputs.nixos-cn.nixosModules.nixos-cn
             home-manager.nixosModules.home-manager
             {
-              nixpkgs = { inherit (legacyPackages."x86_64-linux") config overlays; };
+              nixpkgs = { inherit (pkgs."x86_64-linux") config overlays; };
               home-manager = {
                 useGlobalPkgs = true;
                 useUserPackages = true;
@@ -258,7 +258,7 @@
           modules = [
             inputs.impermanence.nixosModules.home-manager.impermanence
             {
-              nixpkgs = { inherit (legacyPackages."aarch64-linux") config overlays; };
+              nixpkgs = { inherit (pkgs."aarch64-linux") config overlays; };
               home = {
                 username = "actoriu";
                 homeDirectory = "/home/actoriu";
@@ -279,11 +279,11 @@
           system = "aarch64-linux";
           extraSpecialArgs = { inherit inputs; };
           config = { ... }: {
-            nixpkgs = { inherit (legacyPackages."aarch64-linux") config overlays; };
+            nixpkgs = { inherit (pkgs."aarch64-linux") config overlays; };
             imports = [
               {
                 home-manager = {
-                  # useGlobalPkgs = true;
+                  useGlobalPkgs = true;
                   useUserPackages = true;
                   extraSpecialArgs = { inherit inputs; };
                   config = { ... }: {
