@@ -190,10 +190,10 @@
           nix-formatter-pack.lib.mkFormatter formatterPackArgs.${system}
         );
 
-      packages = eachSystem [ "aarch64-linux" "x86_64-linux" ]
-        (system:
-          import ./pkgs { pkgs = legacyPackages.${system}; }
-        );
+      # packages = eachSystem [ "aarch64-linux" "x86_64-linux" ]
+      #   (system:
+      #     import ./pkgs { pkgs = legacyPackages.${system}; }
+      #   );
 
       devShells = eachSystem [ "aarch64-linux" "x86_64-linux" ]
         (system: {
