@@ -141,7 +141,6 @@
     , ...
     }@inputs:
     let
-      inherit (self) outputs;
       inherit (flake-utils.lib) eachDefaultSystem eachSystem;
       formatterPackArgs = eachSystem [ "aarch64-linux" "x86_64-linux" ]
         (system: {
@@ -178,15 +177,15 @@
         }
       );
 
-      checks = eachSystem [ "aarch64-linux" "x86_64-linux" ]
-        (system: {
-          nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgs.${system};
-        });
+      # checks = eachSystem [ "aarch64-linux" "x86_64-linux" ]
+      #   (system: {
+      #     nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgs.${system};
+      #   });
 
-      formatter = eachSystem [ "aarch64-linux" "x86_64-linux" ]
-        (system:
-          nix-formatter-pack.lib.mkFormatter formatterPackArgs.${system}
-        );
+      # formatter = eachSystem [ "aarch64-linux" "x86_64-linux" ]
+      #   (system:
+      #     nix-formatter-pack.lib.mkFormatter formatterPackArgs.${system}
+      #   );
 
       packages = eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
         import ./pkgs { pkgs = legacyPackages.${system}; }
