@@ -166,6 +166,7 @@
           };
         });
     in
+    rec
     {
       overlays = {
         default = import ./overlays {
