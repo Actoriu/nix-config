@@ -144,19 +144,6 @@
     }@inputs:
     let
       inherit (flake-utils.lib) eachDefaultSystem eachSystem;
-    in
-    {
-      legacyPackages = eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
-        import nixpkgs {
-          inherit system;
-          config = {
-            allowUnfree = true;
-            allowBroken = true;
-            allowUnsupportedSystem = true;
-          };
-          overlays = builtins.attrValues self.overlays;
-        });
-
       formatterPackArgs = eachSystem [ "aarch64-linux" "x86_64-linux" ]
         (system: {
           inherit nixpkgs system;
@@ -167,49 +154,12 @@
             statix.enable = true;
           };
         });
-
-      checks = eachSystem [ "aarch64-linux" "x86_64-linux" ]
-        (system: {
-          nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgs.${system};
-        });
-
-      formatter = eachSystem [ "aarch64-linux" "x86_64-linux" ]
-        (system: nix-formatter-pack.lib.mkFormatter formatterPackArgs.${system});
-
-      packages = import ./pkgs { pkgs = legacyPackages.${system}; };
-
-      devShells = {
-        default = pkgs.devshell.mkShell {
-          name = "nix-config";
-          imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
-          git.hooks.enable = true;
-          git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
-          packages = with pkgs; [
-            cachix
-            nix-build-uncached
-            nixpkgs-fmt
-            nodePackages.prettier
-            nodePackages.prettier-plugin-toml
-            nvfetcher
-            shfmt
-            treefmt
-          ];
-          commands = with pkgs; [
-            {
-              category = "update";
-              name = nvfetcher-bin.pname;
-              help = nvfetcher-bin.meta.description;
-              command = "cd $PRJ_ROOT/pkgs; ${nvfetcher-bin}/bin/nvfetcher -c ./sources.toml $@";
-            }
-          ];
-          devshell.startup.nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
-            export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
-          '';
-        };
-      };
-
+    in
+    {
       overlays = {
-        default = import ./overlays { inherit inputs; };
+        default = import ./overlays {
+          inherit inputs;
+        };
         devshell = inputs.devshell.overlay;
         nixos-cn = inputs.nixos-cn.overlay;
         nur = inputs.nur.overlay;
@@ -217,6 +167,61 @@
         sops-nix = inputs.sops-nix.overlay;
         spacemacs = final: prev: { spacemacs = inputs.spacemacs; };
       };
+
+      legacyPackages = eachSystem [ "aarch64-linux" "x86_64-linux" ]
+        (system:
+          import nixpkgs {
+            inherit system;
+            config = {
+              allowUnfree = true;
+              allowBroken = true;
+              allowUnsupportedSystem = true;
+            };
+            overlays = builtins.attrValues self.overlays;
+          });
+
+      checks = eachSystem [ "aarch64-linux" "x86_64-linux" ]
+        (system: {
+          nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgs.${system};
+        });
+
+      formatter = eachSystem [ "aarch64-linux" "x86_64-linux" ]
+        (system:
+          nix-formatter-pack.lib.mkFormatter formatterPackArgs.${system}
+        );
+
+      packages = import ./pkgs { pkgs = legacyPackages.${system}; };
+
+      devShells = eachSystem [ "aarch64-linux" "x86_64-linux" ]
+        (system: {
+          default = pkgs.devshell.mkShell {
+            name = "nix-config";
+            imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
+            git.hooks.enable = true;
+            git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
+            packages = with pkgs; [
+              cachix
+              nix-build-uncached
+              nixpkgs-fmt
+              nodePackages.prettier
+              nodePackages.prettier-plugin-toml
+              nvfetcher
+              shfmt
+              treefmt
+            ];
+            commands = with pkgs; [
+              {
+                category = "update";
+                name = nvfetcher-bin.pname;
+                help = nvfetcher-bin.meta.description;
+                command = "cd $PRJ_ROOT/pkgs; ${nvfetcher-bin}/bin/nvfetcher -c ./sources.toml $@";
+              }
+            ];
+            devshell.startup.nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
+              export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
+            '';
+          };
+        });
 
       nixosConfigurations = {
         d630 = nixpkgs.lib.nixosSystem {
