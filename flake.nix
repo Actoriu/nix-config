@@ -168,16 +168,17 @@
         spacemacs = final: prev: { spacemacs = inputs.spacemacs; };
       };
 
-      legacyPackages = eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
-        import nixpkgs {
-          inherit system;
-          config = {
-            allowUnfree = true;
-            allowBroken = true;
-            allowUnsupportedSystem = true;
-          };
-          overlays = builtins.attrValues overlays;
-        });
+      legacyPackages = eachSystem [ "aarch64-linux" "x86_64-linux" ]
+        (localSystem:
+          import nixpkgs {
+            inherit localSystem;
+            config = {
+              allowUnfree = true;
+              allowBroken = true;
+              allowUnsupportedSystem = true;
+            };
+            overlays = builtins.attrValues overlays;
+          });
 
       checks = eachSystem [ "aarch64-linux" "x86_64-linux" ]
         (system: {
