@@ -191,7 +191,7 @@
       };
 
       homeConfigurations = {
-        "actoriu@d630" = home-manager.lib.homeManagerConfiguration {
+        "actoriu@d630" = inputs.home-manager.lib.homeManagerConfiguration {
           pkgs = inputs.nixpkgs.legacyPackages."x86_64-linux";
           extraSpecialArgs = { inherit inputs; };
           modules = [
@@ -222,7 +222,7 @@
       };
 
       nixOnDroidConfigurations = {
-        oneplus5 = nix-on-droid.lib.nixOnDroidConfiguration {
+        oneplus5 = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
           system = "aarch64-linux";
           extraSpecialArgs = { inherit inputs self; };
           config = ./hosts/oneplus5/default.nix;
