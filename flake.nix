@@ -158,15 +158,16 @@
                 nixpkgs-fmt
                 nodePackages.prettier
                 nodePackages.prettier-plugin-toml
+                nvfetcher
                 shfmt
                 treefmt
               ];
-              commands = [
+              commands = with pkgs; [
                 {
                   category = "update";
-                  name = pkgs.nvfetcher-bin.pname;
-                  help = pkgs.nvfetcher-bin.meta.description;
-                  command = "cd $PRJ_ROOT/pkgs; ${pkgs.nvfetcher-bin}/bin/nvfetcher -c ./sources.toml $@";
+                  name = nvfetcher.pname;
+                  help = nvfetcher.meta.description;
+                  command = "cd $PRJ_ROOT/pkgs; ${nvfetcher}/bin/nvfetcher -c ./sources.toml $@";
                 }
               ];
               devshell.startup.nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''

@@ -11,7 +11,6 @@ inputs.nixpkgs.lib.nixosSystem {
         config = {
           allowUnfree = true;
           allowBroken = true;
-          allowUnsupportedSystem = true;
         };
         overlays = builtins.attrValues self.overlays;
       };
