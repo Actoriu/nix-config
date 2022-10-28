@@ -142,10 +142,32 @@
     , nix-formatter-pack
     , ...
     }@inputs:
-    flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ]
-      (system:
-      let
-        pkgs = import nixpkgs {
+    let
+      inherit (flake-utils.lib) eachSystem;
+
+      formatterPackArgs = eachSystem [ "aarch64-linux" "x86_64-linux" ] (system: {
+        inherit nixpkgs system;
+        checkFiles = [ ./. ];
+        config.tools = {
+          deadnix.enable = true;
+          nixpkgs-fmt.enable = true;
+          statix.enable = true;
+        };
+      });
+    in
+    rec {
+      overlays = {
+        # default = import ./overlays { inherit inputs; };
+        devshell = inputs.devshell.overlay;
+        nixos-cn = inputs.nixos-cn.overlay;
+        nur = inputs.nur.overlay;
+        peerix = inputs.peerix.overlay;
+        sops-nix = inputs.sops-nix.overlay;
+        spacemacs = final: prev: { spacemacs = inputs.spacemacs; };
+      };
+
+      legacyPackages = eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
+        import nixpkgs {
           inherit system;
           config = {
             allowUnfree = true;
@@ -153,30 +175,25 @@
             allowUnsupportedSystem = true;
           };
           overlays = builtins.attrValues self.overlays;
-        };
+        });
 
-        formatterPackArgs = {
-          inherit nixpkgs system;
-          checkFiles = [ ./. ];
-          config.tools = {
-            deadnix.enable = true;
-            nixpkgs-fmt.enable = true;
-            statix.enable = true;
-          };
-        };
-      in
-      {
-        legacyPackages = pkgs;
+      checks = eachSystem [ "aarch64-linux" "x86_64-linux" ] (system: {
+        nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgs.${system};
+      });
 
-        checks = {
-          nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgs;
-        };
+      formatter = eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
+        nix-formatter-pack.lib.mkFormatter formatterPackArgs.${system}
+      );
 
-        formatter = nix-formatter-pack.lib.mkFormatter formatterPackArgs;
+      # packages = eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
+      #   import ./pkgs { pkgs = legacyPackages.${system}; }
+      # );
 
-        # packages = import ./pkgs { inherit pkgs; };
-
-        devShells = {
+      devShells = eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
+        let
+          pkgs = legacyPackages.${system};
+        in
+        {
           default = pkgs.devshell.mkShell {
             name = "nix-config";
             imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
@@ -204,18 +221,7 @@
               export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
             '';
           };
-        };
-      })
-    // {
-      overlays = {
-        # default = import ./overlays { inherit inputs; };
-        devshell = inputs.devshell.overlay;
-        nixos-cn = inputs.nixos-cn.overlay;
-        nur = inputs.nur.overlay;
-        peerix = inputs.peerix.overlay;
-        sops-nix = inputs.sops-nix.overlay;
-        spacemacs = final: prev: { spacemacs = inputs.spacemacs; };
-      };
+        });
 
       nixosConfigurations = {
         d630 = nixpkgs.lib.nixosSystem {
@@ -227,7 +233,7 @@
             inputs.nixos-cn.nixosModules.nixos-cn
             home-manager.nixosModules.home-manager
             {
-              nixpkgs = { inherit (self.pkgs) config overlays; };
+              nixpkgs = { inherit (legacyPackages.${system}) config overlays; };
               home-manager = {
                 useGlobalPkgs = true;
                 useUserPackages = true;
@@ -254,12 +260,12 @@
 
       homeConfigurations = {
         "actoriu@d630" = home-manager.lib.homeManagerConfiguration {
-          pkgs = self.pkgs;
+          pkgs = legacyPackages.${system};
           extraSpecialArgs = { inherit inputs; };
           modules = [
             inputs.impermanence.nixosModules.home-manager.impermanence
             {
-              nixpkgs = { inherit (self.pkgs) config overlays; };
+              nixpkgs = { inherit (legacyPackages.${system}) config overlays; };
               home = {
                 username = "actoriu";
                 homeDirectory = "/home/actoriu";
@@ -280,7 +286,7 @@
           system = "aarch64-linux";
           extraSpecialArgs = { inherit inputs; };
           config = { ... }: {
-            nixpkgs = { inherit (self.pkgs) config overlays; };
+            nixpkgs = { inherit (legacyPackages.${system}) config overlays; };
             imports = [
               {
                 home-manager = {
