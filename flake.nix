@@ -166,24 +166,24 @@
         spacemacs = final: prev: { spacemacs = inputs.spacemacs; };
       };
 
-      legacyPackages = eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
-        import nixpkgs {
-          inherit system;
-          config = {
-            allowUnfree = true;
-            allowBroken = true;
-            allowUnsupportedSystem = true;
-          };
-          overlays = builtins.attrValues self.overlays;
-        });
+      # legacyPackages = eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
+      #   import nixpkgs {
+      #     inherit system;
+      #     config = {
+      #       allowUnfree = true;
+      #       allowBroken = true;
+      #       allowUnsupportedSystem = true;
+      #     };
+      #     overlays = builtins.attrValues self.overlays;
+      #   });
 
-      # checks = eachSystem [ "aarch64-linux" "x86_64-linux" ] (system: {
-      #   nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgs.${system};
-      # });
+      checks = eachSystem [ "aarch64-linux" "x86_64-linux" ] (system: {
+        nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgs.${system};
+      });
 
-      # formatter = eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
-      #   nix-formatter-pack.lib.mkFormatter formatterPackArgs.${system}
-      # );
+      formatter = eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
+        nix-formatter-pack.lib.mkFormatter formatterPackArgs.${system}
+      );
 
       # packages = eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
       #   import ./pkgs { pkgs = legacyPackages.${system}; }
@@ -228,14 +228,23 @@
           system = "x86_64-linux";
           specialArgs = { inherit inputs; };
           modules = [
+            ({ ... }: {
+              nixpkgs = {
+                config = {
+                  allowUnfree = true;
+                  allowBroken = true;
+                  allowUnsupportedSystem = true;
+                };
+                overlays = builtins.attrValues self.overlays;
+              };
+            };)
             inputs.impermanence.nixosModules.impermanence
             inputs.nixos-cn.nixosModules.nixos-cn-registries
             inputs.nixos-cn.nixosModules.nixos-cn
             home-manager.nixosModules.home-manager
             {
-              # nixpkgs = { inherit (legacyPackages."x86_64-linux") config overlays; };
               home-manager = {
-                # useGlobalPkgs = true;
+                useGlobalPkgs = true;
                 useUserPackages = true;
                 extraSpecialArgs = { inherit inputs; };
                 users.actoriu = { ... }: {
@@ -260,12 +269,21 @@
 
       homeConfigurations = {
         "actoriu@d630" = home-manager.lib.homeManagerConfiguration {
-          pkgs = legacyPackages."x86_64-linux";
+          pkgs = nixpkgs.legacyPackages."x86_64-linux";
           extraSpecialArgs = { inherit inputs; };
           modules = [
+            ({ ... }: {
+              nixpkgs = {
+                config = {
+                  allowUnfree = true;
+                  allowBroken = true;
+                  allowUnsupportedSystem = true;
+                };
+                overlays = builtins.attrValues self.overlays;
+              };
+            };)
             inputs.impermanence.nixosModules.home-manager.impermanence
             {
-              # nixpkgs = { inherit (legacyPackages."x86_64-linux") config overlays; };
               home = {
                 username = "actoriu";
                 homeDirectory = "/home/actoriu";
@@ -286,11 +304,18 @@
           system = "aarch64-linux";
           extraSpecialArgs = { inherit inputs; };
           config = { ... }: {
-            # nixpkgs = { inherit (legacyPackages."aarch64-linux") config overlays; };
+            nixpkgs = {
+              config = {
+                allowUnfree = true;
+                allowBroken = true;
+                allowUnsupportedSystem = true;
+              };
+              overlays = builtins.attrValues self.overlays;
+            };
             imports = [
               {
                 home-manager = {
-                  # useGlobalPkgs = true;
+                  useGlobalPkgs = true;
                   useUserPackages = true;
                   extraSpecialArgs = { inherit inputs; };
                   config = { ... }: {
