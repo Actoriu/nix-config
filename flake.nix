@@ -168,11 +168,13 @@
       {
         legacyPackages = pkgs;
 
-        checks.${system}.nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgs;
+        checks = {
+          nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgs;
+        };
 
-        formatter.${system} = nix-formatter-pack.lib.mkFormatter formatterPackArgs;
+        formatter = nix-formatter-pack.lib.mkFormatter formatterPackArgs;
 
-        packages = import ./pkgs { inherit pkgs; };
+        # packages = import ./pkgs { inherit pkgs; };
 
         devShells = {
           default = pkgs.devshell.mkShell {
@@ -206,7 +208,7 @@
       })
     // {
       overlays = {
-        default = import ./overlays { inherit inputs; };
+        # default = import ./overlays { inherit inputs; };
         devshell = inputs.devshell.overlay;
         nixos-cn = inputs.nixos-cn.overlay;
         nur = inputs.nur.overlay;
