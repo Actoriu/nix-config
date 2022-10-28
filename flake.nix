@@ -165,11 +165,11 @@
         };
       in
       {
-        checks.${system} = {
-          nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgs;
-        };
+        # checks.${system} = {
+        #   nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgs;
+        # };
 
-        formatter.${system} = nix-formatter-pack.lib.mkFormatter formatterPackArgs;
+        # formatter.${system} = nix-formatter-pack.lib.mkFormatter formatterPackArgs;
 
         # packages = import ./pkgs { inherit pkgs; };
 
