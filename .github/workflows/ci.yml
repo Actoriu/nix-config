@@ -13,16 +13,22 @@ jobs:
       matrix:
         include:
           - slug: Check
-            job_name: Check the nix configuration with flakes
-            nix-command: flake check --no-build
+            job_name: Check the nix configuration
+            nix-command: flake check
+          - slug: Formatter
+            job_name: Format the nix configuration
+            nix-command: fmt
+          - slug: Develop
+            job_name: That provides the build environment of a derivation
+            nix-command: develop
           - slug: Nixos
-            job_name: NixOS system configuration
+            job_name: Build NixOS system configuration
             nix-command: build .#nixosConfigurations.d630.config.system.build.toplevel
           - slug: Home-manager
-            job_name: Home Manager user configuration
+            job_name: Build NixOS user configuration
             nix-command: build .#homeConfigurations."actoriu@d630".activationPackage
           - slug: Nix-on-droid
-            job_name: Nix-on-droid user configuration
+            job_name: Build Nix-on-droid user configuration
             nix-command: build .#nixOnDroidConfigurations.oneplus5.activationPackage --impure
     name: ${{ matrix.slug }}
     steps:
