@@ -49,11 +49,6 @@
       };
     };
 
-    nix-formatter-pack = {
-      url = "github:Gerschtli/nix-formatter-pack";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     /*
       emacs-overlay = {
       url = "github:nix-community/emacs-overlay";
@@ -133,77 +128,53 @@
     };
   };
 
-  outputs =
-    { self
-    , nixpkgs
-    , home-manager
-    , nix-on-droid
-    , flake-utils
-    , nix-formatter-pack
-    , ...
-    }@inputs:
-    flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ]
+  outputs = { self, ... }@inputs:
+    inputs.flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ]
       (system:
-      let
-        pkgs = import nixpkgs {
-          inherit system;
-          config = {
-            allowUnfree = true;
-            allowBroken = true;
-            allowUnsupportedSystem = true;
+        let
+          pkgs = import inputs.nixpkgs {
+            inherit system;
+            config = {
+              allowUnfree = true;
+              allowBroken = true;
+            };
+            overlays = builtins.attrValues self.overlays;
           };
-          overlays = builtins.attrValues self.overlays;
-        };
+        in
+        {
+          formatter.${system} = inputs.nixpkgs.legacyPackages.${system}.nixpkgs-fmt;
 
-        formatterPackArgs = {
-          inherit nixpkgs system;
-          checkFiles = [ ./. ];
-          config.tools = {
-            deadnix.enable = true;
-            nixpkgs-fmt.enable = true;
-            statix.enable = true;
+          # packages = import ./pkgs { inherit pkgs; };
+
+          devShells = {
+            default = pkgs.devshell.mkShell {
+              name = "nix-config";
+              imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
+              git.hooks.enable = true;
+              git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
+              packages = with pkgs; [
+                cachix
+                nix-build-uncached
+                nixpkgs-fmt
+                nodePackages.prettier
+                nodePackages.prettier-plugin-toml
+                shfmt
+                treefmt
+              ];
+              commands = [
+                {
+                  category = "update";
+                  name = pkgs.nvfetcher-bin.pname;
+                  help = pkgs.nvfetcher-bin.meta.description;
+                  command = "cd $PRJ_ROOT/pkgs; ${pkgs.nvfetcher-bin}/bin/nvfetcher -c ./sources.toml $@";
+                }
+              ];
+              devshell.startup.nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
+                export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
+              '';
+            };
           };
-        };
-      in
-      {
-        # checks.${system} = {
-        #   nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgs;
-        # };
-
-        # formatter.${system} = nix-formatter-pack.lib.mkFormatter formatterPackArgs;
-
-        # packages = import ./pkgs { inherit pkgs; };
-
-        devShells = {
-          default = pkgs.devshell.mkShell {
-            name = "nix-config";
-            imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
-            git.hooks.enable = true;
-            git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
-            packages = with pkgs; [
-              cachix
-              nix-build-uncached
-              nixpkgs-fmt
-              nodePackages.prettier
-              nodePackages.prettier-plugin-toml
-              nvfetcher
-              shfmt
-              treefmt
-            ];
-            commands = with pkgs; [
-              {
-                category = "update";
-                name = nvfetcher-bin.pname;
-                help = nvfetcher-bin.meta.description;
-                command = "cd $PRJ_ROOT/pkgs; ${nvfetcher-bin}/bin/nvfetcher -c ./sources.toml $@";
-              }
-            ];
-            devshell.startup.nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
-              export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
-            '';
-          };
-        };
-      })
+        })
     // {
       overlays = {
         # default = import ./overlays { inherit inputs; };
@@ -216,52 +187,12 @@
       };
 
       nixosConfigurations = {
-        d630 = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs; };
-          modules = [
-            ({ ... }: {
-              nixpkgs = {
-                config = {
-                  allowUnfree = true;
-                  allowBroken = true;
-                  allowUnsupportedSystem = true;
-                };
-                overlays = builtins.attrValues self.overlays;
-              };
-            })
-            inputs.impermanence.nixosModules.impermanence
-            inputs.nixos-cn.nixosModules.nixos-cn-registries
-            inputs.nixos-cn.nixosModules.nixos-cn
-            home-manager.nixosModules.home-manager
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                extraSpecialArgs = { inherit inputs; };
-                users.actoriu = { ... }: {
-                  home.stateVersion = "22.11";
-                  programs.home-manager.enable = true;
-                  manual.manpages.enable = false;
-                  systemd.user.startServices = "sd-switch";
-                  imports = [
-                    inputs.impermanence.nixosModules.home-manager.impermanence
-                    ./modules/users
-                    ./users/actoriu
-                  ];
-                };
-              };
-            }
-            ./modules/nixos
-            ./profiles/nixos
-            ./hosts/d630
-          ];
-        };
+        d630 = import ./hosts/d630/default.nix { inherit inputs self; };
       };
 
       homeConfigurations = {
         "actoriu@d630" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages."x86_64-linux";
+          pkgs = inputs.nixpkgs.legacyPackages."x86_64-linux";
           extraSpecialArgs = { inherit inputs; };
           modules = [
             ({ ... }: {
@@ -269,7 +200,6 @@
                 config = {
                   allowUnfree = true;
                   allowBroken = true;
-                  allowUnsupportedSystem = true;
                 };
                 overlays = builtins.attrValues self.overlays;
               };
@@ -294,7 +224,7 @@
       nixOnDroidConfigurations = {
         oneplus5 = nix-on-droid.lib.nixOnDroidConfiguration {
           system = "aarch64-linux";
-          extraSpecialArgs = { inherit self inputs; };
+          extraSpecialArgs = { inherit inputs self; };
           config = ./hosts/oneplus5/default.nix;
         };
       };

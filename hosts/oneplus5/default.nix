@@ -1,7 +1,7 @@
 { config
+, inputs
 , pkgs
 , self
-, inputs
 , ...
 }: {
   nix = {
@@ -70,7 +70,6 @@
         config = {
           allowUnfree = true;
           allowBroken = true;
-          allowUnsupportedSystem = true;
         };
         overlays = builtins.attrValues self.overlays;
       };
