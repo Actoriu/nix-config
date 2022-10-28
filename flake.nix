@@ -237,7 +237,7 @@
                 };
                 overlays = builtins.attrValues self.overlays;
               };
-            };)
+            })
             inputs.impermanence.nixosModules.impermanence
             inputs.nixos-cn.nixosModules.nixos-cn-registries
             inputs.nixos-cn.nixosModules.nixos-cn
@@ -281,7 +281,7 @@
                 };
                 overlays = builtins.attrValues self.overlays;
               };
-            };)
+            })
             inputs.impermanence.nixosModules.home-manager.impermanence
             {
               home = {
