@@ -1,5 +1,7 @@
 { config
 , pkgs
+, self
+, inputs
 , ...
 }: {
   nix = {
@@ -12,6 +14,15 @@
       "https://cache.nixos.org/"
       "https://nix-on-droid.cachix.org"
     ];
+  };
+
+  nixpkgs = {
+    config = {
+      allowUnfree = true;
+      allowBroken = true;
+      allowUnsupportedSystem = true;
+    };
+    overlays = builtins.attrValues self.overlays;
   };
 
   time = {
@@ -59,6 +70,19 @@
   # nix-channel --add https://github.com/rycee/home-manager/archive/release-22.11.tar.gz home-manager
   # nix-channel --update
   # you can configure home-manager in here like
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    extraSpecialArgs = { inherit inputs; };
+    config = { ... }: {
+      home.stateVersion = "22.11";
+      manual.manpages.enable = false;
+      imports = [
+        ../../modules/users
+        ../../users/nix-on-droid
+      ];
+    };
+  };
 }
 
 # vim: ft=nix
