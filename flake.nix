@@ -165,11 +165,11 @@
         };
       in
       {
-        checks = {
-          nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgs.${system};
+        checks.${system} = {
+          nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgs;
         };
 
-        formatter = nix-formatter-pack.lib.mkFormatter formatterPackArgs.${system};
+        formatter.${system} = nix-formatter-pack.lib.mkFormatter formatterPackArgs;
 
         # packages = import ./pkgs { inherit pkgs; };
 
@@ -293,35 +293,10 @@
       nixOnDroidConfigurations = {
         oneplus5 = nix-on-droid.lib.nixOnDroidConfiguration {
           system = "aarch64-linux";
-          extraSpecialArgs = { inherit inputs; };
-          config = { ... }: {
-            nixpkgs = {
-              config = {
-                allowUnfree = true;
-                allowBroken = true;
-                allowUnsupportedSystem = true;
-              };
-              overlays = builtins.attrValues self.overlays;
-            };
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              extraSpecialArgs = { inherit inputs; };
-              config = { ... }: {
-                home.stateVersion = "22.11";
-                manual.manpages.enable = false;
-                imports = [
-                  ./modules/users
-                  ./users/nix-on-droid
-                ];
-              };
-            };
-            imports = [
-              ./hosts/oneplus5
-            ];
-          };
+          extraSpecialArgs = { inherit self inputs; };
+          config = ./hosts/oneplus5/default.nix;
         };
       };
-
     };
+
 }
