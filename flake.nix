@@ -188,47 +188,50 @@
       };
 
       nixosConfigurations = {
-        d630 = import ./hosts/d630/default.nix { inherit inputs self; };
-      };
+        d630 = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs self; };
+          modules = [ ./hosts/d630 ];
+        };
 
-      homeConfigurations = {
-        "actoriu@d630" = inputs.home-manager.lib.homeManagerConfiguration {
-          pkgs = inputs.nixpkgs.legacyPackages."x86_64-linux";
-          extraSpecialArgs = { inherit inputs; };
-          modules = [
-            ({ ... }: {
-              nixpkgs = {
-                config = {
-                  allowUnfree = true;
-                  allowBroken = true;
+        homeConfigurations = {
+          "actoriu@d630" = inputs.home-manager.lib.homeManagerConfiguration {
+            pkgs = inputs.nixpkgs.legacyPackages."x86_64-linux";
+            extraSpecialArgs = { inherit inputs self; };
+            modules = [
+              ({ ... }: {
+                nixpkgs = {
+                  config = {
+                    allowUnfree = true;
+                    allowBroken = true;
+                  };
+                  overlays = builtins.attrValues self.overlays;
                 };
-                overlays = builtins.attrValues self.overlays;
-              };
-            })
-            inputs.impermanence.nixosModules.home-manager.impermanence
-            {
-              home = {
-                username = "actoriu";
-                homeDirectory = "/home/actoriu";
-                stateVersion = "22.11";
-              };
-              programs.home-manager.enable = true;
-              manual.manpages.enable = false;
-              systemd.user.startServices = "sd-switch";
-            }
-            ./modules/users
-            ./users/actoriu
-          ];
+              })
+              inputs.impermanence.nixosModules.home-manager.impermanence
+              {
+                home = {
+                  username = "actoriu";
+                  homeDirectory = "/home/actoriu";
+                  stateVersion = "22.11";
+                };
+                programs.home-manager.enable = true;
+                manual.manpages.enable = false;
+                systemd.user.startServices = "sd-switch";
+              }
+              ./modules/users
+              ./users/actoriu
+            ];
+          };
+        };
+
+        nixOnDroidConfigurations = {
+          oneplus5 = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
+            system = "aarch64-linux";
+            extraSpecialArgs = { inherit inputs self; };
+            config = ./hosts/oneplus5/default.nix;
+          };
         };
       };
 
-      nixOnDroidConfigurations = {
-        oneplus5 = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
-          system = "aarch64-linux";
-          extraSpecialArgs = { inherit inputs self; };
-          config = ./hosts/oneplus5/default.nix;
-        };
-      };
-    };
-
-}
+    }

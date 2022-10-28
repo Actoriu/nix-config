@@ -1,11 +1,8 @@
 { inputs
 , self
 , ...
-}:
-inputs.nixpkgs.lib.nixosSystem {
-  system = "x86_64-linux";
-  specialArgs = { inherit inputs; };
-  modules = [
+}: {
+  imports = [
     ({ ... }: {
       nixpkgs = {
         config = {
@@ -24,7 +21,7 @@ inputs.nixpkgs.lib.nixosSystem {
       home-manager = {
         useGlobalPkgs = true;
         useUserPackages = true;
-        extraSpecialArgs = { inherit inputs; };
+        extraSpecialArgs = { inherit inputs self; };
         users.actoriu = { config, pkgs, ... }: {
           home.stateVersion = "22.11";
           programs.home-manager.enable = true;
