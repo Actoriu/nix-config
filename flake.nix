@@ -142,6 +142,8 @@
           };
         in
         {
+          legacyPackages = pkgs;
+
           formatter.${system} = inputs.nixpkgs.legacyPackages.${system}.nixpkgs-fmt;
 
           # packages = import ./pkgs { inherit pkgs; };

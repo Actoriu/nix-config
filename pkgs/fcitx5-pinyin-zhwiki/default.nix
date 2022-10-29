@@ -1,10 +1,10 @@
 { stdenv
 , lib
-, mysources
+, sources
 ,
 }:
 stdenv.mkDerivation rec {
-  inherit (mysources) pname version src;
+  inherit (sources) pname version src;
 
   dontUnpack = true;
   dontBuild = true;
