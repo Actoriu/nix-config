@@ -4,11 +4,11 @@
 , upstream-dns ? "114.114.114.114"
 , enable-ipset ? false
 , enable-nftset ? false
-, mysources
+, sources
 , ...
 }:
 stdenv.mkDerivation rec {
-  inherit (mysources) pname version src;
+  inherit (sources) pname version src;
 
   dontUnpack = true;
   dontBuild = true;
