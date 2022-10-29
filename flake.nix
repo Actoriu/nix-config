@@ -49,11 +49,6 @@
       };
     };
 
-    nix-formatter-pack = {
-      url = "github:Gerschtli/nix-formatter-pack";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     /*
       emacs-overlay = {
       url = "github:nix-community/emacs-overlay";
@@ -138,13 +133,14 @@
     , home-manager
     , flake-utils
     , nix-on-droid
-    , nix-formatter-pack
     , ...
     }@inputs:
     let
       forEachSystem = nixpkgs.lib.genAttrs [ "aarch64-linux" "x86_64-linux" ];
-
-      pkgs = forEachSystem (system:
+    in
+    rec
+    {
+      legacyPackages = forEachSystem (system:
         import nixpkgs {
           inherit system;
           config = {
@@ -153,23 +149,6 @@
           };
           overlays = builtins.attrValues self.overlays;
         });
-
-      formatterPackArgs = forEachSystem (system: {
-        inherit nixpkgs system;
-        checkFiles = [ ./. ];
-        config.tools = {
-          deadnix = {
-            enable = true;
-            noLambdaPatternNames = true;
-          };
-          nixpkgs-fmt.enable = true;
-          statix.enable = true;
-        };
-      });
-    in
-    rec
-    {
-      legacyPackages = pkgs;
 
       overlays = {
         # default = import ./overlays { inherit inputs; };
@@ -181,13 +160,7 @@
         spacemacs = final: prev: { spacemacs = inputs.spacemacs; };
       };
 
-      # checks = forEachSystem (system: {
-      #   nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgs.${system};
-      # });
-
-      formatter = forEachSystem (system:
-        nix-formatter-pack.lib.mkFormatter formatterPackArgs.${system}
-      );
+      formatter = forEachSystem (system: legacyPackages.${system}.nixpkgs-fmt);
 
       # packages = forEachSystem (system:
       #   import ./pkgs { pkgs = legacyPackages.${system}; }
