@@ -144,6 +144,16 @@
     let
       forEachSystem = nixpkgs.lib.genAttrs [ "aarch64-linux" "x86_64-linux" ];
 
+      pkgs = forEachSystem (system:
+        import nixpkgs {
+          inherit system;
+          config = {
+            allowUnfree = true;
+            allowBroken = true;
+          };
+          overlays = builtins.attrValues self.overlays;
+        });
+
       formatterPackArgs = forEachSystem (system: {
         inherit nixpkgs system;
         checkFiles = [ ./. ];
@@ -159,6 +169,8 @@
     in
     rec
     {
+      legacyPackages = pkgs;
+
       overlays = {
         # default = import ./overlays { inherit inputs; };
         devshell = inputs.devshell.overlay;
@@ -168,16 +180,6 @@
         sops-nix = inputs.sops-nix.overlay;
         spacemacs = final: prev: { spacemacs = inputs.spacemacs; };
       };
-
-      legacyPackages = forEachSystem (system:
-        import nixpkgs {
-          inherit system;
-          config = {
-            allowUnfree = true;
-            allowBroken = true;
-          };
-          overlays = builtins.attrValues self.overlays;
-        });
 
       # checks = forEachSystem (system: {
       #   nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgs.${system};
@@ -246,7 +248,7 @@
                 useGlobalPkgs = true;
                 useUserPackages = true;
                 extraSpecialArgs = { inherit inputs self; };
-                users.actoriu = { config, pkgs, ... }: {
+                users.actoriu = { ... }: {
                   home.stateVersion = "22.11";
                   programs.home-manager.enable = true;
                   manual.manpages.enable = false;
