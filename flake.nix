@@ -170,11 +170,11 @@
       {
         legacyPackages = pkgs;
 
-        checks = {
-          nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgs.${system};
+        checks.${system} = {
+          nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgs;
         };
 
-        formatter = nix-formatter-pack.lib.mkFormatter formatterPackArgs.${system};
+        formatter.${system} = nix-formatter-pack.lib.mkFormatter formatterPackArgs;
 
         # formatter.${system} = nixpkgs.legacyPackages.${system}.nixpkgs-fmt;
 
