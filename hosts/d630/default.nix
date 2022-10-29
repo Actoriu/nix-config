@@ -5,11 +5,7 @@
   imports = [
     ({ ... }: {
       nixpkgs = {
-        config = {
-          allowUnfree = true;
-          allowBroken = true;
-        };
-        overlays = builtins.attrValues self.overlays;
+        inherit (self.legacyPackages."x86_64-linux") config overlays;
       };
     })
     inputs.impermanence.nixosModules.impermanence
