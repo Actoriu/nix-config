@@ -62,17 +62,17 @@
   # nix-channel --update
   # you can configure home-manager in here like
   home-manager = {
-    useGlobalPkgs = true;
+    # useGlobalPkgs = true;
     useUserPackages = true;
     extraSpecialArgs = { inherit inputs self; };
     config = { ... }: {
-      # nixpkgs = {
-      #   config = {
-      #     allowUnfree = true;
-      #     allowBroken = true;
-      #   };
-      #   overlays = builtins.attrValues self.overlays;
-      # };
+      nixpkgs = {
+        config = {
+          allowUnfree = true;
+          allowBroken = true;
+        };
+        overlays = builtins.attrValues self.overlays;
+      };
       home.stateVersion = "22.11";
       manual.manpages.enable = false;
       imports = [
