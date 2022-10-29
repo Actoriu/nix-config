@@ -180,7 +180,7 @@
         });
 
       checks = forEachSystem (system: {
-        nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgs.${system};
+        nix-formatter-pack = nix-formatter-pack.lib.mkCheck formatterPackArgs.${system};
       });
 
       formatter = forEachSystem (system:
@@ -228,8 +228,8 @@
 
       nixosConfigurations = {
         d630 = nixpkgs.lib.nixosSystem {
-          # system = "x86_64-linux";
-          pkgs = legacyPackages."x86_64-linux";
+          system = "x86_64-linux";
+          # pkgs = legacyPackages."x86_64-linux";
           specialArgs = { inherit inputs self; };
           modules = [ ./hosts/d630 ];
         };
