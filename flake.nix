@@ -24,7 +24,7 @@
   };
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs";
 
     flake-compat = {
       url = "github:edolstra/flake-compat";
@@ -94,7 +94,6 @@
     nix-on-droid = {
       url = "github:t184256/nix-on-droid";
       inputs = {
-        flake-utils.follows = "flake-utils";
         home-manager.follows = "home-manager";
         nixpkgs.follows = "nixpkgs";
       };
@@ -142,74 +141,77 @@
     , nix-formatter-pack
     , ...
     }@inputs:
-    flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ]
-      (system:
-      let
-        pkgs = import nixpkgs {
+    let
+      forEachSystem = nixpkgs.lib.genAttrs [ "aarch64-linux" "x86_64-linux" ];
+
+      pkgs = forEachSystem (system:
+        import nixpkgs {
           inherit system;
           config = {
             allowUnfree = true;
             allowBroken = true;
           };
           overlays = builtins.attrValues self.overlays;
-        };
+        });
 
-        formatterPackArgs = {
-          inherit nixpkgs system;
-          checkFiles = [ ./. ];
-          config.tools = {
-            deadnix = {
-              enable = true;
-              noLambdaPatternNames = true;
-            };
-            nixpkgs-fmt.enable = true;
-            statix.enable = true;
+      formatterPackArgs = forEachSystem (system: {
+        inherit nixpkgs system;
+        checkFiles = [ ./. ];
+        config.tools = {
+          deadnix = {
+            enable = true;
+            noLambdaPatternNames = true;
           };
+          nixpkgs-fmt.enable = true;
+          statix.enable = true;
         };
-      in
-      {
-        legacyPackages = pkgs;
+      });
+    in
+    {
+      legacyPackages = pkgs;
 
-        checks.${system} = {
-          nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgs;
+      checks = forEachSystem (system: {
+        nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgs.${system};
+      });
+
+      formatter = forEachSystem (system:
+        nix-formatter-pack.lib.mkFormatter formatterPackArgs.${system}
+      );
+
+      # packages = forEachSystem (system:
+      #   import ./pkgs { inherit pkgs; }
+      # );
+
+      devShells = {
+        default = pkgs.devshell.mkShell {
+          name = "nix-config";
+          imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
+          git.hooks.enable = true;
+          git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
+          packages = with pkgs; [
+            cachix
+            nix-build-uncached
+            nixpkgs-fmt
+            nodePackages.prettier
+            nodePackages.prettier-plugin-toml
+            nvfetcher
+            shfmt
+            treefmt
+          ];
+          commands = with pkgs; [
+            {
+              category = "update";
+              name = nvfetcher.pname;
+              help = nvfetcher.meta.description;
+              command = "cd $PRJ_ROOT/pkgs; ${nvfetcher}/bin/nvfetcher -c ./sources.toml $@";
+            }
+          ];
+          devshell.startup.nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
+            export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
+          '';
         };
-
-        formatter.${system} = nix-formatter-pack.lib.mkFormatter formatterPackArgs;
-
-        # formatter.${system} = nixpkgs.legacyPackages.${system}.nixpkgs-fmt;
-
-        # packages = import ./pkgs { inherit pkgs; };
-
-        devShells = {
-          default = pkgs.devshell.mkShell {
-            name = "nix-config";
-            imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
-            git.hooks.enable = true;
-            git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
-            packages = with pkgs; [
-              cachix
-              nix-build-uncached
-              nixpkgs-fmt
-              nodePackages.prettier
-              nodePackages.prettier-plugin-toml
-              nvfetcher
-              shfmt
-              treefmt
-            ];
-            commands = with pkgs; [
-              {
-                category = "update";
-                name = nvfetcher.pname;
-                help = nvfetcher.meta.description;
-                command = "cd $PRJ_ROOT/pkgs; ${nvfetcher}/bin/nvfetcher -c ./sources.toml $@";
-              }
-            ];
-            devshell.startup.nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
-              export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
-            '';
-          };
-        };
-      })
+      };
+    }
     // {
       overlays = {
         # default = import ./overlays { inherit inputs; };
