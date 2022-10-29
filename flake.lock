@@ -92,24 +92,44 @@
         "type": "github"
       }
     },
+    "nix-formatter-pack": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "nmd": "nmd",
+        "nmt": "nmt"
+      },
+      "locked": {
+        "lastModified": 1666782100,
+        "narHash": "sha256-j7A9QDOgB0XSj0k6uO2gKd9XRv9t7jeFXXVj8jqoLYw=",
+        "owner": "Gerschtli",
+        "repo": "nix-formatter-pack",
+        "rev": "d63aa3421d2c7301d228a9fe91e031bb0bb8f879",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Gerschtli",
+        "repo": "nix-formatter-pack",
+        "type": "github"
+      }
+    },
     "nix-on-droid": {
       "inputs": {
-        "flake-utils": [
-          "flake-utils"
-        ],
         "home-manager": [
           "home-manager"
         ],
         "nixpkgs": [
           "nixpkgs"
-        ]
+        ],
+        "nixpkgs-for-bootstrap": "nixpkgs-for-bootstrap"
       },
       "locked": {
-        "lastModified": 1665517021,
-        "narHash": "sha256-by8E2Ne97i6Ah7dqMRsVaccZ7xO9Cc90Xx+T4ocGegk=",
+        "lastModified": 1666972347,
+        "narHash": "sha256-co1thMrkU5xYnRgLflI/Am83acDW1eB3qGQvIMOeork=",
         "owner": "t184256",
         "repo": "nix-on-droid",
-        "rev": "2ef9a7faa2f59bd26eb250384096c3eb1f76d7e9",
+        "rev": "5772a879a1a7e42ae9b571d8d797234a74bb860a",
         "type": "github"
       },
       "original": {
@@ -128,11 +148,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1666924393,
-        "narHash": "sha256-XlF10oGrk0pWdsmiPcE5/oKKTSG5M4c4MLnthXmgl4o=",
+        "lastModified": 1667009502,
+        "narHash": "sha256-osH8wPCnrWBDVJrHdKLqW/neafgYmZQtY4SY9kjfmXI=",
         "owner": "nixos-cn",
         "repo": "flakes",
-        "rev": "b0c7dbbaede9a468d2dbe6b5254a33346ee3248e",
+        "rev": "9e6c5cc3155176d926bc54902d68d49031f55bd8",
         "type": "github"
       },
       "original": {
@@ -173,13 +193,61 @@
         "type": "github"
       }
     },
+    "nixpkgs-for-bootstrap": {
+      "locked": {
+        "lastModified": 1656265786,
+        "narHash": "sha256-A9RkoGrxzsmMm0vily18p92Rasb+MbdDMaSnzmywXKw=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "cd90e773eae83ba7733d2377b6cdf84d45558780",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "cd90e773eae83ba7733d2377b6cdf84d45558780",
+        "type": "github"
+      }
+    },
+    "nmd": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1666190571,
+        "narHash": "sha256-Z1hc7M9X6L+H83o9vOprijpzhTfOBjd0KmUTnpHAVjA=",
+        "owner": "rycee",
+        "repo": "nmd",
+        "rev": "b75d312b4f33bd3294cd8ae5c2ca8c6da2afc169",
+        "type": "gitlab"
+      },
+      "original": {
+        "owner": "rycee",
+        "repo": "nmd",
+        "type": "gitlab"
+      }
+    },
+    "nmt": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1648075362,
+        "narHash": "sha256-u36WgzoA84dMVsGXzml4wZ5ckGgfnvS0ryzo/3zn/Pc=",
+        "owner": "rycee",
+        "repo": "nmt",
+        "rev": "d83601002c99b78c89ea80e5e6ba21addcfe12ae",
+        "type": "gitlab"
+      },
+      "original": {
+        "owner": "rycee",
+        "repo": "nmt",
+        "type": "gitlab"
+      }
+    },
     "nur": {
       "locked": {
-        "lastModified": 1666958778,
-        "narHash": "sha256-mTUEk1XfuBghMjFyvvk35s9cz6bQh3jkJH4gRnN6XOo=",
+        "lastModified": 1667025500,
+        "narHash": "sha256-88akaieCIrqta3Uyha7Zv3FJWzKJebb2BrOdZba1zdI=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "95fb33402828ef98e92f69f7d294ca9a697f444f",
+        "rev": "21dd192519af12a01f1348bbfa86cde47f7aa392",
         "type": "github"
       },
       "original": {
@@ -221,6 +289,7 @@
         "flake-utils": "flake-utils",
         "home-manager": "home-manager",
         "impermanence": "impermanence",
+        "nix-formatter-pack": "nix-formatter-pack",
         "nix-on-droid": "nix-on-droid",
         "nixos-cn": "nixos-cn",
         "nixpkgs": "nixpkgs",
