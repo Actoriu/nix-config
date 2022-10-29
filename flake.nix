@@ -229,7 +229,6 @@
       nixosConfigurations = {
         d630 = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          # pkgs = legacyPackages."x86_64-linux";
           specialArgs = { inherit inputs self; };
           modules = [ ./hosts/d630 ];
         };
@@ -242,11 +241,7 @@
           modules = [
             ({ ... }: {
               nixpkgs = {
-                config = {
-                  allowUnfree = true;
-                  allowBroken = true;
-                };
-                overlays = builtins.attrValues self.overlays;
+                inherit (legacyPackages."x86_64-linux") config overlays;
               };
             })
             inputs.impermanence.nixosModules.home-manager.impermanence
