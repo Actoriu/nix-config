@@ -144,16 +144,6 @@
     let
       forEachSystem = nixpkgs.lib.genAttrs [ "aarch64-linux" "x86_64-linux" ];
 
-      # pkgs = forEachSystem (system:
-      #   import nixpkgs {
-      #     inherit system;
-      #     config = {
-      #       allowUnfree = true;
-      #       allowBroken = true;
-      #     };
-      #     overlays = builtins.attrValues self.overlays;
-      #   });
-
       formatterPackArgs = forEachSystem (system: {
         inherit nixpkgs system;
         checkFiles = [ ./. ];
@@ -189,9 +179,9 @@
           overlays = builtins.attrValues self.overlays;
         });
 
-      # checks = forEachSystem (system: {
-      #   nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgs.${system};
-      # });
+      checks = forEachSystem (system: {
+        nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgs.${system};
+      });
 
       formatter = forEachSystem (system:
         nix-formatter-pack.lib.mkFormatter formatterPackArgs.${system}
@@ -238,7 +228,8 @@
 
       nixosConfigurations = {
         d630 = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
+          # system = "x86_64-linux";
+          pkgs = legacyPackages."x86_64-linux";
           specialArgs = { inherit inputs self; };
           modules = [ ./hosts/d630 ];
         };
