@@ -128,11 +128,11 @@
     };
   };
 
-  outputs = { self, ... }@inputs:
-    inputs.flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ]
+  outputs = { self, nixpkgs, home-manager, flake-utils, ... }@inputs:
+    flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ]
       (system:
         let
-          pkgs = import inputs.nixpkgs {
+          pkgs = import nixpkgs {
             inherit system;
             config = {
               allowUnfree = true;
@@ -142,7 +142,7 @@
           };
 
           formatterPackArgs = {
-            inherit inputs.nixpkgs system;
+            inherit nixpkgs system;
             checkFiles = [ ./. ];
             config.tools = {
               deadnix = {
@@ -163,7 +163,7 @@
 
           formatter = nix-formatter-pack.lib.mkFormatter formatterPackArgs.${system};
 
-          # formatter.${system} = inputs.nixpkgs.legacyPackages.${system}.nixpkgs-fmt;
+          # formatter.${system} = nixpkgs.legacyPackages.${system}.nixpkgs-fmt;
 
           # packages = import ./pkgs { inherit pkgs; };
 
@@ -209,7 +209,7 @@
       };
 
       nixosConfigurations = {
-        d630 = inputs.nixpkgs.lib.nixosSystem {
+        d630 = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           specialArgs = { inherit inputs self; };
           modules = [ ./hosts/d630 ];
@@ -217,8 +217,8 @@
       };
 
       homeConfigurations = {
-        "actoriu@d630" = inputs.home-manager.lib.homeManagerConfiguration {
-          pkgs = inputs.nixpkgs.legacyPackages."x86_64-linux";
+        "actoriu@d630" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages."x86_64-linux";
           extraSpecialArgs = { inherit inputs self; };
           modules = [
             ({ ... }: {
@@ -248,7 +248,7 @@
       };
 
       nixOnDroidConfigurations = {
-        oneplus5 = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
+        oneplus5 = nix-on-droid.lib.nixOnDroidConfiguration {
           system = "aarch64-linux";
           extraSpecialArgs = { inherit inputs self; };
           config = ./hosts/oneplus5/default.nix;
