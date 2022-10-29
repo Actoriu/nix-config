@@ -140,11 +140,30 @@
             };
             overlays = builtins.attrValues self.overlays;
           };
+
+          formatterPackArgs = {
+            inherit inputs.nixpkgs system;
+            checkFiles = [ ./. ];
+            config.tools = {
+              deadnix = {
+                enable = true;
+                noLambdaPatternNames = true;
+              };
+              nixpkgs-fmt.enable = true;
+              statix.enable = true;
+            };
+          };
         in
         {
           legacyPackages = pkgs;
 
-          formatter.${system} = inputs.nixpkgs.legacyPackages.${system}.nixpkgs-fmt;
+          checks = {
+            nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgs.${system};
+          };
+
+          formatter = nix-formatter-pack.lib.mkFormatter formatterPackArgs.${system};
+
+          # formatter.${system} = inputs.nixpkgs.legacyPackages.${system}.nixpkgs-fmt;
 
           # packages = import ./pkgs { inherit pkgs; };
 
