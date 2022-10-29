@@ -138,6 +138,7 @@
     , nixpkgs
     , home-manager
     , flake-utils
+    , nix-on-droid
     , nix-formatter-pack
     , ...
     }@inputs:
