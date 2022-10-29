@@ -64,7 +64,7 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    extraSpecialArgs = { inherit inputs; };
+    extraSpecialArgs = { inherit inputs self; };
     config = { ... }: {
       # nixpkgs = {
       #   config = {
@@ -82,6 +82,3 @@
     };
   };
 }
-
-# vim: ft=nix
-
