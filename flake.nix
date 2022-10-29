@@ -297,7 +297,12 @@
         oneplus5 = nix-on-droid.lib.nixOnDroidConfiguration {
           system = "aarch64-linux";
           extraSpecialArgs = { inherit inputs self; };
-          config = ./hosts/oneplus5/default.nix;
+          config = { ... }: {
+            nixpkgs = {
+              inherit (legacyPackages."aarch64-linux") config overlays;
+            };
+            imports = [ ./hosts/oneplus5 ];
+          };
         };
       };
     };
