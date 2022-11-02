@@ -148,15 +148,15 @@
           overlays = builtins.attrValues self.overlays;
         });
 
-      lib = nixpkgs.lib.extend
-        (self: super: { my = import ./lib { inherit forEachSystem inputs pkgs; lib = self; }; });
+      lib = nixpkgs.lib.extend (final: prev:
+        import ./lib {
+          inherit pkgs inputs;
+          lib = final;
+        });
 
       inherit (lib.my) mkSystem mkHome mkDroid;
     in
-    rec
     {
-      lib = lib.my;
-
       legacyPackages = pkgs;
 
       overlays = {
@@ -166,52 +166,53 @@
         nur = inputs.nur.overlay;
         peerix = inputs.peerix.overlay;
         sops-nix = inputs.sops-nix.overlay;
+        my = final: prev: { my = self.packages; };
         spacemacs = final: prev: { spacemacs = inputs.spacemacs; };
       };
 
-      formatter = forEachSystem (system: legacyPackages.${system}.nixpkgs-fmt);
+      # formatter = forEachSystem (system: legacyPackages.${system}.nixpkgs-fmt);
 
-      # packages = forEachSystem (system:
-      #   import ./pkgs { pkgs = legacyPackages.${system}; }
-      # );
+      packages = forEachSystem (system:
+        import ./pkgs { pkgs = self.pkgs; }
+      );
 
-      devShells = forEachSystem
-        (system:
-          let
-            pkgs = legacyPackages.${system};
-          in
-          {
-            default = pkgs.devshell.mkShell {
-              name = "nix-config";
-              imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
-              git.hooks.enable = true;
-              git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
-              packages = with pkgs; [
-                cachix
-                nix-build-uncached
-                nixpkgs-fmt
-                nodePackages.prettier
-                nodePackages.prettier-plugin-toml
-                nvfetcher
-                shfmt
-                treefmt
-              ];
-              commands = with pkgs; [
-                {
-                  category = "update";
-                  name = nvfetcher.pname;
-                  help = nvfetcher.meta.description;
-                  command = "cd $PRJ_ROOT/pkgs; ${nvfetcher}/bin/nvfetcher -c ./sources.toml $@";
-                }
-              ];
-              devshell.startup.nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
-                export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
-              '';
-            };
-          });
+      # devShells = forEachSystem
+      #   (system:
+      #     let
+      #       pkgs = legacyPackages.${system};
+      #     in
+      #     {
+      #       default = pkgs.devshell.mkShell {
+      #         name = "nix-config";
+      #         imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
+      #         git.hooks.enable = true;
+      #         git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
+      #         packages = with pkgs; [
+      #           cachix
+      #           nix-build-uncached
+      #           nixpkgs-fmt
+      #           nodePackages.prettier
+      #           nodePackages.prettier-plugin-toml
+      #           nvfetcher
+      #           shfmt
+      #           treefmt
+      #         ];
+      #         commands = with pkgs; [
+      #           {
+      #             category = "update";
+      #             name = nvfetcher.pname;
+      #             help = nvfetcher.meta.description;
+      #             command = "cd $PRJ_ROOT/pkgs; ${nvfetcher}/bin/nvfetcher -c ./sources.toml $@";
+      #           }
+      #         ];
+      #         devshell.startup.nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
+      #           export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
+      #         '';
+      #       };
+      #     });
 
       nixosConfigurations = {
-        d630 = mkSystem {
+        d630 = import ./lib/nixos.nix {
           hostname = "d630";
           username = "actoriu";
           extraModules = [
@@ -219,9 +220,9 @@
             inputs.nixos-cn.nixosModules.nixos-cn-registries
             inputs.nixos-cn.nixosModules.nixos-cn
             inputs.sops-nix.nixosModules.sops
-            {
-              nixpkgs = { inherit (legacyPackages."x86_64-linux") config overlays; };
-            }
+            # ({
+            #   nixpkgs = { inherit (legacyPackages."x86_64-linux") config overlays; };
+            # })
             ./modules/nixos
             ./profiles/nixos
           ];
@@ -306,5 +307,5 @@
       #       config = import ./hosts/oneplus5/default.nix;
       #     };
       #   };
-      # };
-    }
+    };
+}

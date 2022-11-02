@@ -1,10 +1,11 @@
 { inputs
+, lib
 , ...
 }:
 
 let
-  inherit (inputs) self home-manager;
-  inherit (home-manager.lib) homeManagerConfiguration;
+  inherit (inputs) self;
+  inherit (inputs.home-manager.lib) homeManagerConfiguration;
 in
 {
   mkHome =

@@ -1,30 +1,28 @@
 { inputs
+, lib
 , ...
 }:
 
 let
-  inherit (inputs) self nixpkgs;
-  inherit (nixpkgs.lib) nixosSystem;
+  inherit (inputs) self;
+  inherit (inputs.nix-on-droid.lib) nixOnDroidConfiguration;
 in
 {
-  mkSystem =
-    { hostname
+  mkDroid =
+    { devicename
     , username ? null
-    , system ? "x86_64-linux"
-    , extraModules ? [ ]
+    , system ? "aarch64-linux"
+    , add_extraModules ? [ ]
+    , custom_extraModules ? [ ]
     , home_extraModules ? [ ]
     , sharedModules ? [
-        home-manager.nixosModules.home-manager
         {
           home-manager = {
-            useGlobalPkgs = true;
             useUserPackages = true;
             extraSpecialArgs = { inherit inputs self persistence; };
-            users.${username} = { ... }: {
+            config = { ... }: {
               home.stateVersion = "22.11";
-              programs.home-manager.enable = true;
               manual.manpages.enable = false;
-              systemd.user.startServices = "sd-switch";
               imports = home_extraModules ++ [
                 ../users/${username}
               ];
@@ -35,11 +33,12 @@ in
     , persistence ? false
     , ...
     }:
-    nixosSystem {
+    nixOnDroidConfiguration {
       inherit system;
-      specialArgs = {
-        inherit inputs self hostname username persistence;
+      extraSpecialArgs = { inherit inputs self persistence; };
+      extraModules = custom_extraModules;
+      config = { ... }: {
+        imports = add_extraModules ++ sharedModules ++ [ ../hosts/${devicename} ];
       };
-      modules = extraModules ++ sharedModules ++ [ ../hosts/${hostname} ];
     };
 }
