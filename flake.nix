@@ -154,7 +154,7 @@
           lib = final;
         });
 
-      inherit (lib.my) mkSystem mkHome mkDroid;
+      inherit (lib.my) mkNixOS mkHome mkDroid;
     in
     {
       legacyPackages = pkgs;
