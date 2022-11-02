@@ -1,12 +1,22 @@
 { inputs
 , lib
+, pkgs
 , ...
 }:
 
-{
-  my = {
-    mkNixOS = import ./mkNixOS.nix { inherit inputs lib; };
-    mkHome = import ./mkHome.nix { inherit inputs lib; };
-    mkDroid = import ./mkDroid { inherit inputs lib; };
+let
+  inherit (lib) makeExtensible attrValues foldr;
+  inherit (modules) mapModules;
+
+  modules = import ./modules.nix {
+    inherit lib;
+    self.attrs = import ./attrs.nix { inherit lib; self = { }; };
   };
-}
+
+  mylib = makeExtensible (self:
+    with self; mapModules ./.
+      (file: import file { inherit self lib pkgs inputs; }));
+in
+mylib.extend
+  (self: super:
+    foldr (a: b: a // b) { } (attrValues super))
