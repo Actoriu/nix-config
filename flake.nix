@@ -154,7 +154,7 @@
           lib = final;
         });
 
-      inherit (lib.my) mkNixOS mkHome mkDroid;
+      # inherit (lib.my) mkNixOS mkHome mkDroid;
     in
     {
       legacyPackages = pkgs;
@@ -212,7 +212,7 @@
       #     });
 
       nixosConfigurations = {
-        d630 = mkNixOS {
+        d630 = lib.my.mkNixOS {
           hostname = "d630";
           username = "actoriu";
           extraModules = [
