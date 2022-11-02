@@ -148,16 +148,20 @@
           overlays = builtins.attrValues self.overlays;
         });
 
-      lib = nixpkgs.lib.extend (final: prev:
-        import ./lib {
-          inherit pkgs inputs;
-          lib = final;
+      lib = nixpkgs.lib.extend
+        (self: super: {
+          my = import ./lib {
+            inherit pkgs inputs;
+            lib = self;
+          };
         });
 
-      # inherit (lib.my) mkNixOS mkHome mkDroid;
+      inherit (lib.my) mkNixOS mkHome mkDroid;
     in
     {
-      legacyPackages = pkgs;
+      lib = lib.my;
+
+      # legacyPackages = pkgs;
 
       overlays = {
         # default = import ./overlays { inherit inputs; };
@@ -212,7 +216,7 @@
       #     });
 
       nixosConfigurations = {
-        d630 = lib.my.mkNixOS {
+        d630 = mkNixOS {
           hostname = "d630";
           username = "actoriu";
           extraModules = [
