@@ -15,7 +15,7 @@ in
     , extraModules ? [ ]
     , home_extraModules ? [ ]
     , sharedModules ? [
-        home-manager.nixosModules.home-manager
+        inputs.home-manager.nixosModules.home-manager
         {
           home-manager = {
             useGlobalPkgs = true;
