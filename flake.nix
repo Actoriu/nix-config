@@ -172,9 +172,9 @@
 
       # formatter = forEachSystem (system: legacyPackages.${system}.nixpkgs-fmt);
 
-      packages = forEachSystem (system:
-        import ./pkgs { pkgs = self.pkgs; }
-      );
+      # packages = forEachSystem (system:
+      #   import ./pkgs { pkgs = self.pkgs; }
+      # );
 
       # devShells = forEachSystem
       #   (system:
