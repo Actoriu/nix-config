@@ -227,6 +227,15 @@
             # ({
             #   nixpkgs = { inherit (legacyPackages."x86_64-linux") config overlays; };
             # })
+            ({
+              nixpkgs = {
+                config = {
+                  allowUnfree = true;
+                  allowBroken = true;
+                };
+                overlays = builtins.attrValues self.overlays;
+              };
+            })
             ./modules/nixos
             ./profiles/nixos
           ];
