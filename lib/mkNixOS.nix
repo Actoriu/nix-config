@@ -8,7 +8,7 @@ let
   inherit (inputs.nixpkgs.lib) nixosSystem;
 in
 {
-  mkSystem =
+  mkNixOS =
     { hostname
     , username ? null
     , system ? "x86_64-linux"
