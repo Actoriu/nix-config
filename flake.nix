@@ -212,7 +212,7 @@
       #     });
 
       nixosConfigurations = {
-        d630 = import ./lib/nixos.nix {
+        d630 = mkNixOS {
           hostname = "d630";
           username = "actoriu";
           extraModules = [
