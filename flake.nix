@@ -158,7 +158,7 @@
       inherit (lib.my) mkDroid mkHome mkNixOS;
     in
     {
-      # lib = lib.my;
+      lib = lib.my;
 
       # legacyPackages = pkgs;
 
