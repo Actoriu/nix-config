@@ -1,7 +1,7 @@
 if builtins ? getFlake then
   builtins.getFlake (toString ./.)
 else
-  (
+  (import (
     let
       lock = builtins.fromJSON (builtins.readFile ../../flake.lock);
       inherit (lock.nodes.flake-compat.locked) owner repo rev narHash;
@@ -12,7 +12,4 @@ else
       flake = import flake-compat { src = ../../.; };
     in
     flake
-  ).defaultNix
-
-
-
+  )).defaultNix
