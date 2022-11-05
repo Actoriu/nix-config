@@ -153,8 +153,7 @@
           import ./lib {
             inherit inputs pkgs;
             lib = final;
-          };
-        );
+          });
 
       inherit (lib.mylib) mkDroid mkHome mkNixOS;
     in
