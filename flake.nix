@@ -169,7 +169,7 @@
         nur = inputs.nur.overlay;
         peerix = inputs.peerix.overlay;
         sops-nix = inputs.sops-nix.overlay;
-        lib = final: prev: { inherit lib; };
+        # lib = final: prev: { inherit lib; };
         spacemacs = final: prev: { spacemacs = inputs.spacemacs; };
       };
 
