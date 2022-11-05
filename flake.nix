@@ -148,14 +148,14 @@
           overlays = builtins.attrValues self.overlays;
         });
 
-      lib = nixpkgs.lib.extend
+      mylib = nixpkgs.lib.extend
         (final: prev:
           import ./lib {
             inherit inputs pkgs;
             lib = final;
           });
 
-      inherit (lib.mylib) mkDroid mkHome mkNixOS;
+      inherit (mylib) mkDroid mkHome mkNixOS;
     in
     {
       # lib = lib.my;
