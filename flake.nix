@@ -148,19 +148,18 @@
           overlays = builtins.attrValues self.overlays;
         });
 
-      mylib = nixpkgs.lib.extend
-        (final: prev:
-          import ./lib {
+      lib = nixpkgs.lib.extend
+        (self: super: {
+          my = import ./lib {
             inherit inputs pkgs;
-            lib = final;
-          });
+            lib = super;
+          };
+        });
 
-      inherit (mylib) mkDroid mkHome mkNixOS;
+      inherit (lib.my) mkDroid mkHome mkNixOS;
     in
     {
-      # lib = lib.my;
-
-      # legacyPackages = pkgs;
+      legacyPackages = pkgs;
 
       overlays = {
         # default = import ./overlays { inherit inputs; };
@@ -169,11 +168,11 @@
         nur = inputs.nur.overlay;
         peerix = inputs.peerix.overlay;
         sops-nix = inputs.sops-nix.overlay;
-        # lib = final: prev: { inherit lib; };
+        lib = final: prev: { inherit lib; };
         spacemacs = final: prev: { spacemacs = inputs.spacemacs; };
       };
 
-      # formatter = forEachSystem (system: legacyPackages.${system}.nixpkgs-fmt);
+      formatter = forEachSystem (system: pkgs.${system}.nixpkgs-fmt);
 
       # packages = forEachSystem (system:
       #   import ./pkgs { pkgs = self.pkgs; }
