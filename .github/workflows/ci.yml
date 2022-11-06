@@ -15,6 +15,9 @@ jobs:
           - slug: Check
             job_name: Check the nix configuration
             nix-command: flake check
+          - slug: Develop
+            job_name: Check the nix configuration
+            nix-command: develop -c cd pkgs && nvfetcher -c sources.toml $@
           - slug: Nixos
             job_name: Build NixOS system configuration
             nix-command: build .#nixosConfigurations.d630.config.system.build.toplevel
