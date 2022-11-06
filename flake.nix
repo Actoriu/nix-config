@@ -181,7 +181,7 @@
       devShells = forEachSystem
         (system:
           let
-            pkgs = pkgs.${system};
+            pkgs = self.pkgs.${system};
           in
           {
             default = pkgs.devshell.mkShell {
