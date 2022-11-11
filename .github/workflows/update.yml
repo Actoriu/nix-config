@@ -58,6 +58,9 @@ jobs:
           nix_path: nixpkgs=channel:nixos-unstable
           extra_nix_config: |
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+      - name: Update pkgs
+        run: |
+          nix develop --command nvfetcher
       - name: Generate token
         uses: tibdex/github-app-token@v1.7.0
         id: generate-token
