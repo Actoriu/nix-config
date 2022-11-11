@@ -50,6 +50,9 @@ jobs:
           authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
           signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
           extraPullNames: nix-community,nix-on-droid
+      - name: Update pkgs
+        run: |
+          nix develop --command nvfetcher
       - name: ${{ matrix.job_name }}
         uses: nick-invision/retry@v2.8.2
         with:
