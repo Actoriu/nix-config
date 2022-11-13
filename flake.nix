@@ -303,8 +303,8 @@
               inherit (legacyPackages."aarch64-linux") config;
               overlays = [
                 nix-on-droid.overlays.default
-                (inherit (legacyPackages."aarch64-linux") overlays)
-              ];
+              ] ++
+              builtins.attrValues self.overlays;
             };
             extraSpecialArgs = { inherit inputs self; };
             modules = [ ./hosts/oneplus5 ];
