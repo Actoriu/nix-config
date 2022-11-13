@@ -182,9 +182,9 @@
           overlays = builtins.attrValues self.overlays;
         });
 
-      checks = forEachSystem (system: {
-        nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgsFor.${system};
-      });
+      # checks = forEachSystem (system: {
+      #   nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgsFor.${system};
+      # });
 
       formatter = forEachSystem (system:
         nix-formatter-pack.lib.mkFormatter formatterPackArgsFor.${system}
