@@ -172,6 +172,14 @@
         spacemacs = final: prev: { spacemacs = inputs.spacemacs; };
       };
 
+      overlays = {
+        # default = import ./overlays { inherit inputs; };
+        nixos-cn = nixos-cn.overlay;
+        nur = nur.overlay;
+        peerix = peerix.overlay;
+        sops-nix = sops-nix.overlay;
+      };
+
       legacyPackages = forEachSystem (system:
         import nixpkgs {
           inherit system;
@@ -301,10 +309,9 @@
           oneplus5 = nix-on-droid.lib.nixOnDroidConfiguration {
             pkgs = {
               inherit (legacyPackages."aarch64-linux") config;
-              overlays = [
+              overlays = (builtins.attrValues self.overlays) ++ [
                 nix-on-droid.overlays.default
-              ] ++
-              (builtins.attrValues self.overlays);
+              ];
             };
             extraSpecialArgs = { inherit inputs self; };
             modules = [ ./hosts/oneplus5 ];
