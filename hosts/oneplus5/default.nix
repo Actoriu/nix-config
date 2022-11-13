@@ -47,8 +47,6 @@
       xz
       zip
       unzip
-      openssh
-      nettools
     ];
 
     # Backup etc files instead of failing to activate generation if a file already exists in /etc
@@ -62,17 +60,10 @@
   # nix-channel --update
   # you can configure home-manager in here like
   home-manager = {
-    # useGlobalPkgs = true;
+    useGlobalPkgs = true;
     useUserPackages = true;
     extraSpecialArgs = { inherit inputs self; };
-    config = { ... }: {
-      nixpkgs = {
-        config = {
-          allowUnfree = true;
-          allowBroken = true;
-        };
-        overlays = builtins.attrValues self.overlays;
-      };
+    config = { config, lib, pkgs, ... }: {
       home.stateVersion = "22.11";
       manual.manpages.enable = false;
       imports = [
