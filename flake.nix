@@ -168,7 +168,7 @@
             allowUnfree = true;
             allowBroken = true;
           };
-          overlays = builtins.attrValues self.overlays;
+          overlays = builtins.attrValues overlays;
         });
 
       formatter = forEachSystem (system: legacyPackages.${system}.nixpkgs-fmt);
@@ -254,7 +254,7 @@
 
         homeConfigurations = {
           "actoriu@d630" = home-manager.lib.homeManagerConfiguration {
-            pkgs = pkgs."x86_64-linux";
+            pkgs = legacyPackages."x86_64-linux";
             extraSpecialArgs = { inherit inputs self; };
             modules = [
               ({ ... }: {
