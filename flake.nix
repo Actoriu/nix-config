@@ -169,7 +169,7 @@
             allowBroken = true;
           };
           overlays = builtins.attrValues self.overlays;
-        });;
+        });
 
       formatter = forEachSystem (system: legacyPackages.${system}.nixpkgs-fmt);
 
