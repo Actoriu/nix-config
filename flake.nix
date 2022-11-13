@@ -204,12 +204,7 @@
       #   import ./pkgs { pkgs = self.pkgs.${system}; }
       # );
 
-      devShells = forEachSystem
-        (system:
-          let
-            pkgs = self.pkgs.${system};
-          in
-          {
+      devShells = {
             default = pkgs.devshell.mkShell {
               name = "nix-config";
               imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
@@ -237,7 +232,7 @@
                 export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
               '';
             };
-          });
+          };
 
         nixosConfigurations = {
           d630 = nixpkgs.lib.nixosSystem {
@@ -246,7 +241,7 @@
             modules = [
               ({ ... }: {
                 nixpkgs = {
-                  inherit (self.pkgs."x86_64-linux") config overlays;
+                  inherit (pkgs."x86_64-linux") config overlays;
                 };
               })
               inputs.impermanence.nixosModules.impermanence
@@ -281,12 +276,12 @@
 
         homeConfigurations = {
           "actoriu@d630" = home-manager.lib.homeManagerConfiguration {
-            pkgs = self.pkgs."x86_64-linux";
+            pkgs = pkgs."x86_64-linux";
             extraSpecialArgs = { inherit inputs self; };
             modules = [
               ({ ... }: {
                 nixpkgs = {
-                  inherit (self.pkgs."x86_64-linux") config overlays;
+                  inherit (pkgs."x86_64-linux") config overlays;
                 };
               })
               inputs.impermanence.nixosModules.home-manager.impermanence
@@ -309,7 +304,7 @@
         nixOnDroidConfigurations = {
           oneplus5 = nix-on-droid.lib.nixOnDroidConfiguration {
             pkgs = {
-              inherit (self.pkgs."aarch64-linux") config;
+              inherit (pkgs."aarch64-linux") config;
               overlays = (builtins.attrValues self.overlays) ++ [
                 nix-on-droid.overlays.default
               ];
