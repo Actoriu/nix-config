@@ -210,7 +210,7 @@
                 export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
               '';
             };
-          };
+          });
 
         nixosConfigurations = {
           d630 = nixpkgs.lib.nixosSystem {
