@@ -3,8 +3,6 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 { config
 , pkgs
-, hostname
-, username
 , ...
 }: {
   imports = [
@@ -59,13 +57,13 @@
     };
   };
 
-  users.users.${username} = {
+  users.users.actoriu = {
     isNormalUser = true;
     extraGroups = [ "wheel" ];
     uid = 1000;
   };
 
-  networking.hostName = hostname;
+  networking.hostName = "d630";
 
   # console = {
   #   font = "Lat2-Terminus16";
