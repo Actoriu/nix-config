@@ -144,6 +144,23 @@
       inherit (self) outputs;
       forEachSystem = nixpkgs.lib.genAttrs [ "aarch64-linux" "x86_64-linux" ];
 
+      lib = nixpkgs.lib.extend (final: prev: {
+        my = import ./lib {
+          inherit inputs pkgs;
+          lib = final;
+        };
+      });
+
+      pkgs = forEachSystem (system:
+        import nixpkgs {
+          inherit system;
+          config = {
+            allowUnfree = true;
+            allowBroken = true;
+          };
+          overlays = builtins.attrValues self.overlays;
+        });
+
       formatterPackArgsFor = forEachSystem (system: {
         inherit nixpkgs system;
         checkFiles = [ ./. ];
@@ -157,7 +174,6 @@
         };
       });
     in
-    rec
     {
       # nixosModules = import ./modules/nixos;
       # homeManagerModules = import ./modules/home-manager;
@@ -169,18 +185,11 @@
         nur = inputs.nur.overlay;
         peerix = inputs.peerix.overlay;
         sops-nix = inputs.sops-nix.overlay;
+        # lib = final: prev: { inherit lib; };
         spacemacs = final: prev: { spacemacs = inputs.spacemacs; };
       };
 
-      legacyPackages = forEachSystem (system:
-        import nixpkgs {
-          inherit system;
-          config = {
-            allowUnfree = true;
-            allowBroken = true;
-          };
-          overlays = builtins.attrValues self.overlays;
-        });
+      legacyPackages = pkgs;
 
       # checks = forEachSystem (system: {
       #   nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgsFor.${system};
@@ -192,13 +201,13 @@
 
 
       # packages = forEachSystem (system:
-      #   import ./pkgs { pkgs = legacyPackages.${system}; }
+      #   import ./pkgs { pkgs = self.pkgs.${system}; }
       # );
 
       devShells = forEachSystem
         (system:
           let
-            pkgs = legacyPackages.${system};
+            pkgs = self.pkgs.${system};
           in
           {
             default = pkgs.devshell.mkShell {
@@ -237,7 +246,7 @@
             modules = [
               ({ ... }: {
                 nixpkgs = {
-                  inherit (legacyPackages."x86_64-linux") config overlays;
+                  inherit (self.pkgs."x86_64-linux") config overlays;
                 };
               })
               inputs.impermanence.nixosModules.impermanence
@@ -272,12 +281,12 @@
 
         homeConfigurations = {
           "actoriu@d630" = home-manager.lib.homeManagerConfiguration {
-            pkgs = legacyPackages."x86_64-linux";
+            pkgs = self.pkgs."x86_64-linux";
             extraSpecialArgs = { inherit inputs self; };
             modules = [
               ({ ... }: {
                 nixpkgs = {
-                  inherit (legacyPackages."x86_64-linux") config overlays;
+                  inherit (self.pkgs."x86_64-linux") config overlays;
                 };
               })
               inputs.impermanence.nixosModules.home-manager.impermanence
@@ -300,7 +309,7 @@
         nixOnDroidConfigurations = {
           oneplus5 = nix-on-droid.lib.nixOnDroidConfiguration {
             pkgs = {
-              inherit (legacyPackages."aarch64-linux") config;
+              inherit (self.pkgs."aarch64-linux") config;
               overlays = (builtins.attrValues self.overlays) ++ [
                 nix-on-droid.overlays.default
               ];
