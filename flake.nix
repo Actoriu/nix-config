@@ -49,11 +49,6 @@
       };
     };
 
-    nix-formatter-pack = {
-      url = "github:Gerschtli/nix-formatter-pack";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     /*
       emacs-overlay = {
       url = "github:nix-community/emacs-overlay";
@@ -137,43 +132,20 @@
     , nixpkgs
     , home-manager
     , nix-on-droid
-    , nix-formatter-pack
     , ...
     }@inputs:
     let
       inherit (self) outputs;
       forEachSystem = nixpkgs.lib.genAttrs [ "aarch64-linux" "x86_64-linux" ];
 
-      lib = nixpkgs.lib.extend (final: prev: {
-        my = import ./lib {
-          inherit inputs pkgs;
-          lib = final;
-        };
-      });
-
-      pkgs = forEachSystem (system:
-        import nixpkgs {
-          inherit system;
-          config = {
-            allowUnfree = true;
-            allowBroken = true;
-          };
-          overlays = builtins.attrValues self.overlays;
-        });
-
-      formatterPackArgsFor = forEachSystem (system: {
-        inherit nixpkgs system;
-        checkFiles = [ ./. ];
-        config.tools = {
-          deadnix = {
-            enable = true;
-            noLambdaPatternNames = true;
-          };
-          nixpkgs-fmt.enable = true;
-          statix.enable = true;
-        };
-      });
+      # lib = nixpkgs.lib.extend (final: prev: {
+      #   my = import ./lib {
+      #     inherit inputs pkgs;
+      #     lib = final;
+      #   };
+      # });
     in
+    rec
     {
       # nixosModules = import ./modules/nixos;
       # homeManagerModules = import ./modules/home-manager;
@@ -189,22 +161,28 @@
         spacemacs = final: prev: { spacemacs = inputs.spacemacs; };
       };
 
-      legacyPackages = pkgs;
+      legacyPackages = forEachSystem (system:
+        import nixpkgs {
+          inherit system;
+          config = {
+            allowUnfree = true;
+            allowBroken = true;
+          };
+          overlays = builtins.attrValues self.overlays;
+        });;
 
-      # checks = forEachSystem (system: {
-      #   nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgsFor.${system};
-      # });
-
-      formatter = forEachSystem (system:
-        nix-formatter-pack.lib.mkFormatter formatterPackArgsFor.${system}
-      );
+      formatter = forEachSystem (system: legacyPackages.${system}.nixpkgs-fmt);
 
 
       # packages = forEachSystem (system:
-      #   import ./pkgs { pkgs = self.pkgs.${system}; }
+      #   import ./pkgs { pkgs = legacyPackages.${system}; }
       # );
 
-      devShells = {
+      devShells = forEachSystem (system:
+        let
+          pkgs = legacyPackages.${system};
+        in
+          {
             default = pkgs.devshell.mkShell {
               name = "nix-config";
               imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
@@ -241,7 +219,7 @@
             modules = [
               ({ ... }: {
                 nixpkgs = {
-                  inherit (pkgs."x86_64-linux") config overlays;
+                  inherit (legacyPackages."x86_64-linux") config overlays;
                 };
               })
               inputs.impermanence.nixosModules.impermanence
@@ -281,7 +259,7 @@
             modules = [
               ({ ... }: {
                 nixpkgs = {
-                  inherit (pkgs."x86_64-linux") config overlays;
+                  inherit (legacyPackages."x86_64-linux") config overlays;
                 };
               })
               inputs.impermanence.nixosModules.home-manager.impermanence
@@ -304,7 +282,7 @@
         nixOnDroidConfigurations = {
           oneplus5 = nix-on-droid.lib.nixOnDroidConfiguration {
             pkgs = {
-              inherit (pkgs."aarch64-linux") config;
+              inherit (legacyPackages."aarch64-linux") config;
               overlays = (builtins.attrValues self.overlays) ++ [
                 nix-on-droid.overlays.default
               ];
