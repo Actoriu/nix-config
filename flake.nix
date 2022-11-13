@@ -172,14 +172,6 @@
         spacemacs = final: prev: { spacemacs = inputs.spacemacs; };
       };
 
-      overlays = {
-        # default = import ./overlays { inherit inputs; };
-        nixos-cn = nixos-cn.overlay;
-        nur = nur.overlay;
-        peerix = peerix.overlay;
-        sops-nix = sops-nix.overlay;
-      };
-
       legacyPackages = forEachSystem (system:
         import nixpkgs {
           inherit system;
