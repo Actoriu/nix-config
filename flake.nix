@@ -304,7 +304,7 @@
               overlays = [
                 nix-on-droid.overlays.default
               ] ++
-              inherit (legacyPackages."aarch64-linux") overlays;
+              (inherit (legacyPackages."aarch64-linux") overlays);
             };
             extraSpecialArgs = { inherit inputs self; };
             modules = [ ./hosts/oneplus5 ];
