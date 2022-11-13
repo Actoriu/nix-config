@@ -159,8 +159,8 @@
     in
     rec
     {
-      nixosModules = import ./modules/nixos;
-      homeManagerModules = import ./modules/home-manager;
+      # nixosModules = import ./modules/nixos;
+      # homeManagerModules = import ./modules/home-manager;
 
       overlays = {
         # default = import ./overlays { inherit inputs; };
