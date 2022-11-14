@@ -282,6 +282,7 @@
         nixOnDroidConfigurations = {
           oneplus5 = nix-on-droid.lib.nixOnDroidConfiguration {
             pkgs = {
+              system = "aarch64-linux";
               inherit (legacyPackages."aarch64-linux") config;
               overlays = (builtins.attrValues self.overlays) ++ [
                 nix-on-droid.overlays.default
