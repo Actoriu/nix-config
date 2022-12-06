@@ -54,7 +54,7 @@
   };
 
   # Read the changelog before changing this value
-  system.stateVersion = "22.05";
+  system.stateVersion = "22.11";
 
   # nix-channel --add https://github.com/rycee/home-manager/archive/release-22.11.tar.gz home-manager
   # nix-channel --update
