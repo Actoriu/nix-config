@@ -24,7 +24,7 @@ let
             ];
         });
       };
-      nvidia_x11_legacy340 = nvidiaPackages.legacy_340;
+      # nvidia_x11_legacy340 = nvidiaPackages.legacy_340;
     });
   };
 in
