@@ -151,7 +151,7 @@
       # homeManagerModules = import ./modules/home-manager;
 
       overlays = {
-        # default = import ./overlays { inherit inputs; };
+        default = import ./overlays { inherit inputs; };
         devshell = inputs.devshell.overlay;
         nixos-cn = inputs.nixos-cn.overlay;
         nur = inputs.nur.overlay;
@@ -174,9 +174,9 @@
       formatter = forEachSystem (system: legacyPackages.${system}.nixpkgs-fmt);
 
 
-      # packages = forEachSystem (system:
-      #   import ./pkgs { pkgs = legacyPackages.${system}; }
-      # );
+      packages = forEachSystem (system:
+        import ./pkgs { pkgs = legacyPackages.${system}; }
+      );
 
       devShells = forEachSystem (system:
         let
