@@ -6,11 +6,11 @@
     # python.enable = true;
     # texlive.enable = true;
     # editors
-    emacs = {
-      enable = true;
-      spacemacs = true;
-      emacs-application-framework = true;
-    };
+    # emacs = {
+    #   enable = true;
+    #   spacemacs = true;
+    #   emacs-application-framework = true;
+    # };
     neovim.enable = true;
     # readers
     zathura.enable = true;
