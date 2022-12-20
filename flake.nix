@@ -234,7 +234,7 @@
                     };
                   };
                 }
-                ./modules/home-manager
+                ./modules/nixos
                 ./profiles/nixos
                 ./hosts/d630
               ];
