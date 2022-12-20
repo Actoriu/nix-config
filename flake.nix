@@ -114,23 +114,23 @@
       #   };
       # });
 
-      pkgs = forEachSystem (system:
-        import nixpkgs {
-          inherit system;
-          config = {
-            allowUnfree = true;
-            allowBroken = true;
-            allowUnsupportedSystem = true;
-          };
-          overlays = [
-            inputs.devshell.overlay;
-            inputs.nixos-cn.overlay;
-            inputs.nur.overlay;
-            inputs.peerix.overlay;
-            inputs.sops-nix.overlay;
-            (final: prev: { spacemacs = inputs.spacemacs; })
-          ];
-        });
+      # pkgs = forEachSystem (system:
+      #   import nixpkgs {
+      #     inherit system;
+      #     config = {
+      #       allowUnfree = true;
+      #       allowBroken = true;
+      #       allowUnsupportedSystem = true;
+      #     };
+      #     overlays = [
+      #       inputs.devshell.overlay;
+      #       inputs.nixos-cn.overlay;
+      #       inputs.nur.overlay;
+      #       inputs.peerix.overlay;
+      #       inputs.sops-nix.overlay;
+      #       (final: prev: { spacemacs = inputs.spacemacs; })
+      #     ];
+      #   });
     in
       rec
         {
@@ -166,7 +166,10 @@
 
           devShells = forEachSystem (system:
             let
-              pkgs = nixpkgs.legacyPackages.${system};
+              pkgs = import nixpkgs {
+                inherit system;
+                overlays = [ inputs.devshell.overlay ];
+              };
             in
               {
                 default = pkgs.devshell.mkShell {
