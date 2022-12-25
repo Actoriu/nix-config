@@ -10,7 +10,6 @@ pkgs.devshell.mkShell {
   git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
   packages = with pkgs; [
     cachix
-    nix-build-uncached
     nixpkgs-fmt
     nodePackages.prettier
     nodePackages.prettier-plugin-toml
@@ -27,6 +26,6 @@ pkgs.devshell.mkShell {
     }
   ];
   devshell.startup.nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
-      export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
-    '';
+    export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
+  '';
 }
