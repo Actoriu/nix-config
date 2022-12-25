@@ -159,8 +159,9 @@
             pkgs = self.legacyPackages.${system};
           in
             {
-              default = import ./shell/devshell.nix { inherit pkgs; };
-            });
+              default = import ./shells/devshell.nix { inherit pkgs; };
+            }
+        );
 
         nixosConfigurations = {
           d630 = nixpkgs.lib.nixosSystem {
