@@ -146,13 +146,15 @@
         # to have the various tools on the PATH.
         #
         # It also assumes that the project root has a flake.nix (override this by setting `projectRootFile`).
-        formatter = pkgs.treefmt.withConfig {
-          settings = nixpkgs.lib.importTOML ./treefmt.toml;
-          projectRootFile = "flake.nix";
-        };
+        formatter = forEachSystem (system:
+          self.legacyPackages.$(system).treefmt.withConfig {
+            settings = nixpkgs.lib.importTOML ./treefmt.toml;
+            projectRootFile = "flake.nix";
+          }
+        );
 
         # packages = forEachSystem (system:
-        #   import ./pkgs { pkgs =  self.legacyPackages.${system}; }
+        #   import ./pkgs { pkgs = self.legacyPackages.${system}; }
         # );
 
         devShells = forEachSystem (system:
