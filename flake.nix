@@ -147,7 +147,7 @@
         #
         # It also assumes that the project root has a flake.nix (override this by setting `projectRootFile`).
         formatter = forEachSystem (system:
-          self.legacyPackages.$(system).treefmt.withConfig {
+          self.legacyPackages.${system}.treefmt.withConfig {
             settings = nixpkgs.lib.importTOML ./treefmt.toml;
             projectRootFile = "flake.nix";
           }
