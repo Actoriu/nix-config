@@ -99,13 +99,14 @@
   outputs =
     { self
     , nixpkgs
-    , flake-utils
     , home-manager
     , nix-on-droid
     , ...
     }@inputs:
     let
       inherit (self) outputs;
+
+      forEachSystem = nixpkgs.lib.genAttrs [ "aarch64-linux" "x86_64-linux" ];
 
       # lib = nixpkgs.lib.extend (final: prev: {
       #   my = import ./lib {
@@ -114,9 +115,21 @@
       #   };
       # });
     in
-      flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ] (system:
-        let
-          pkgs = import nixpkgs {
+      {
+        # nixosModules = import ./modules/nixos;
+        # homeManagerModules = import ./modules/home-manager;
+
+        overlays = {
+          # default = import ./overlays { inherit inputs; };
+          devshell = inputs.devshell.overlay;
+          nixos-cn = inputs.nixos-cn.overlay;
+          nur = inputs.nur.overlay;
+          sops-nix = inputs.sops-nix.overlay;
+          spacemacs = final: prev: { spacemacs = inputs.spacemacs; };
+        };
+
+        legacyPackages = forEachSystem (system:
+          import nixpkgs {
             inherit system;
             config = {
               allowUnfree = true;
@@ -124,14 +137,29 @@
               allowUnsupportedSystem = true;
             };
             overlays = builtins.attrValues self.overlays;
-          };
-        in
-          {
-            legacyPackages = pkgs;
-            formatter = pkgs.nixpkgs-fmt;
-            # packages = import ./pkgs { inherit pkgs };
+          });
 
-            devShells = {
+        # In Nix 2.8 you can run `nix fmt` to format this whole repo.
+        #
+        # Because we load the treefmt.toml and don't define links to the
+        # packages in Nix, the formatter has to run inside of `nix develop`
+        # to have the various tools on the PATH.
+        #
+        # It also assumes that the project root has a flake.nix (override this by setting `projectRootFile`).
+        formatter = pkgs.treefmt.withConfig {
+          settings = nixpkgs.lib.importTOML ./treefmt.toml;
+          projectRootFile = "flake.nix";
+        };
+
+        # packages = forEachSystem (system:
+        #   import ./pkgs { pkgs =  self.legacyPackages.${system}; }
+        # );
+
+        devShells = forEachSystem (system:
+          let
+            pkgs = self.legacyPackages.${system};
+          in
+            {
               default = pkgs.devshell.mkShell {
                 name = "nix-config";
                 imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
@@ -159,32 +187,18 @@
                 export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
               '';
               };
-            };
-          }
-      )
-      // {
-        # nixosModules = import ./modules/nixos;
-        # homeManagerModules = import ./modules/home-manager;
-
-        overlays = {
-          # default = import ./overlays { inherit inputs; };
-          devshell = inputs.devshell.overlay;
-          nixos-cn = inputs.nixos-cn.overlay;
-          nur = inputs.nur.overlay;
-          sops-nix = inputs.sops-nix.overlay;
-          spacemacs = final: prev: { spacemacs = inputs.spacemacs; };
-        };
+            });
 
         nixosConfigurations = {
           d630 = nixpkgs.lib.nixosSystem {
             # system = "x86_64-linux";
             specialArgs = { inherit inputs self; };
             modules = [
-              # ({ ... }: {
-              #   nixpkgs = {
-              #     inherit (legacyPackages."x86_64-linux") config overlays;
-              #   };
-              # })
+              ({ ... }: {
+                nixpkgs = {
+                  inherit (self.legacyPackages."x86_64-linux") config overlays;
+                };
+              })
               inputs.impermanence.nixosModules.impermanence
               inputs.nixos-cn.nixosModules.nixos-cn-registries
               inputs.nixos-cn.nixosModules.nixos-cn
@@ -220,11 +234,11 @@
             pkgs = nixpkgs.legacyPackages."x86_64-linux";
             extraSpecialArgs = { inherit inputs self; };
             modules = [
-              # ({ ... }: {
-              #   nixpkgs = {
-              #     inherit (legacyPackages."x86_64-linux") config overlays;
-              #   };
-              # })
+              ({ ... }: {
+                nixpkgs = {
+                  inherit (self.legacyPackages."x86_64-linux") config overlays;
+                };
+              })
               inputs.impermanence.nixosModules.home-manager.impermanence
               {
                 home = {
@@ -246,7 +260,10 @@
           oneplus5 = nix-on-droid.lib.nixOnDroidConfiguration {
             pkgs = import nixpkgs {
               system = "aarch64-linux";
-              overlays = [ nix-on-droid.overlays.default ];
+              inherit (self.legacyPackages."aarch64-linux") config;
+              overlays = (builtins.attrValues self.overlays) ++ [
+                nix-on-droid.overlays.default
+              ];
             };
             extraSpecialArgs = { inherit inputs self; };
             home-manager-path = home-manager.outPath;
