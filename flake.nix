@@ -52,7 +52,7 @@
     # guix-overlay = {
     #   url = "github:foo-dogsquared/nix-overlay-guix";
     #   inputs = {
-    #     nixpkgs.follows = "latest";
+    #     nixpkgs.follows = "nixpkgs";
     #   };
     # };
 
@@ -116,9 +116,6 @@
       # });
     in
       {
-        # nixosModules = import ./modules/nixos;
-        # homeManagerModules = import ./modules/home-manager;
-
         overlays = {
           # default = import ./overlays { inherit inputs; };
           devshell = inputs.devshell.overlay;
