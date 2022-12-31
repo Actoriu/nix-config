@@ -115,134 +115,134 @@
       #   };
       # });
     in
-      {
-        overlays = {
-          # default = import ./overlays { inherit inputs; };
-          devshell = inputs.devshell.overlay;
-          nixos-cn = inputs.nixos-cn.overlay;
-          nur = inputs.nur.overlay;
-          sops-nix = inputs.sops-nix.overlay;
-          spacemacs = final: prev: { spacemacs = inputs.spacemacs; };
-        };
+    {
+      overlays = {
+        # default = import ./overlays { inherit inputs; };
+        devshell = inputs.devshell.overlay;
+        nixos-cn = inputs.nixos-cn.overlay;
+        nur = inputs.nur.overlay;
+        sops-nix = inputs.sops-nix.overlay;
+        spacemacs = final: prev: { spacemacs = inputs.spacemacs; };
+      };
 
-        legacyPackages = forEachSystem (system:
-          import nixpkgs {
-            inherit system;
-            config = {
-              allowUnfree = true;
-              allowBroken = true;
-              allowUnsupportedSystem = true;
-            };
-            overlays = builtins.attrValues self.overlays;
-          });
+      legacyPackages = forEachSystem (system:
+        import nixpkgs {
+          inherit system;
+          config = {
+            allowUnfree = true;
+            allowBroken = true;
+            allowUnsupportedSystem = true;
+          };
+          overlays = builtins.attrValues self.overlays;
+        });
 
-        # In Nix 2.8 you can run `nix fmt` to format this whole repo.
-        #
-        # Because we load the treefmt.toml and don't define links to the
-        # packages in Nix, the formatter has to run inside of `nix develop`
-        # to have the various tools on the PATH.
-        #
-        # It also assumes that the project root has a flake.nix (override this by setting `projectRootFile`).
-        formatter = forEachSystem (system:
-          self.legacyPackages.${system}.treefmt.withConfig {
-            settings = nixpkgs.lib.importTOML ./treefmt.toml;
-            projectRootFile = "flake.nix";
-          }
-        );
+      # In Nix 2.8 you can run `nix fmt` to format this whole repo.
+      #
+      # Because we load the treefmt.toml and don't define links to the
+      # packages in Nix, the formatter has to run inside of `nix develop`
+      # to have the various tools on the PATH.
+      #
+      # It also assumes that the project root has a flake.nix (override this by setting `projectRootFile`).
+      formatter = forEachSystem (system:
+        self.legacyPackages.${system}.treefmt.withConfig {
+          settings = nixpkgs.lib.importTOML ./treefmt.toml;
+          projectRootFile = "flake.nix";
+        }
+      );
 
-        # packages = forEachSystem (system:
-        #   import ./pkgs { pkgs = self.legacyPackages.${system}; }
-        # );
+      # packages = forEachSystem (system:
+      #   import ./pkgs { pkgs = self.legacyPackages.${system}; }
+      # );
 
-        devShells = forEachSystem (system:
-          let
-            pkgs = self.legacyPackages.${system};
-          in
+      devShells = forEachSystem (system:
+        let
+          pkgs = self.legacyPackages.${system};
+        in
+        {
+          default = import ./shells/devshell.nix { inherit pkgs; };
+        }
+      );
+
+      nixosConfigurations = {
+        d630 = nixpkgs.lib.nixosSystem {
+          # system = "x86_64-linux";
+          specialArgs = { inherit inputs self; };
+          modules = [
+            ({ ... }: {
+              nixpkgs = {
+                inherit (self.legacyPackages."x86_64-linux") config overlays;
+              };
+            })
+            inputs.impermanence.nixosModules.impermanence
+            inputs.nixos-cn.nixosModules.nixos-cn-registries
+            inputs.nixos-cn.nixosModules.nixos-cn
+            inputs.sops-nix.nixosModules.sops
+            inputs.home-manager.nixosModules.home-manager
             {
-              default = import ./shells/devshell.nix { inherit pkgs; };
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                extraSpecialArgs = { inherit inputs self; };
+                users.actoriu = { ... }: {
+                  home.stateVersion = "22.11";
+                  programs.home-manager.enable = true;
+                  manual.manpages.enable = false;
+                  systemd.user.startServices = "sd-switch";
+                  imports = [
+                    inputs.impermanence.nixosModules.home-manager.impermanence
+                    ./modules/home-manager
+                    ./users/actoriu
+                  ];
+                };
+              };
             }
-        );
-
-        nixosConfigurations = {
-          d630 = nixpkgs.lib.nixosSystem {
-            # system = "x86_64-linux";
-            specialArgs = { inherit inputs self; };
-            modules = [
-              ({ ... }: {
-                nixpkgs = {
-                  inherit (self.legacyPackages."x86_64-linux") config overlays;
-                };
-              })
-              inputs.impermanence.nixosModules.impermanence
-              inputs.nixos-cn.nixosModules.nixos-cn-registries
-              inputs.nixos-cn.nixosModules.nixos-cn
-              inputs.sops-nix.nixosModules.sops
-              inputs.home-manager.nixosModules.home-manager
-              {
-                home-manager = {
-                  useGlobalPkgs = true;
-                  useUserPackages = true;
-                  extraSpecialArgs = { inherit inputs self; };
-                  users.actoriu = { ... }: {
-                    home.stateVersion = "22.11";
-                    programs.home-manager.enable = true;
-                    manual.manpages.enable = false;
-                    systemd.user.startServices = "sd-switch";
-                    imports = [
-                      inputs.impermanence.nixosModules.home-manager.impermanence
-                      ./modules/home-manager
-                      ./users/actoriu
-                    ];
-                  };
-                };
-              }
-              ./modules/nixos
-              ./profiles/nixos
-              ./hosts/d630
-            ];
-          };
-        };
-
-        homeConfigurations = {
-          "actoriu@d630" = home-manager.lib.homeManagerConfiguration {
-            pkgs = nixpkgs.legacyPackages."x86_64-linux";
-            extraSpecialArgs = { inherit inputs self; };
-            modules = [
-              ({ ... }: {
-                nixpkgs = {
-                  inherit (self.legacyPackages."x86_64-linux") config overlays;
-                };
-              })
-              inputs.impermanence.nixosModules.home-manager.impermanence
-              {
-                home = {
-                  username = "actoriu";
-                  homeDirectory = "/home/actoriu";
-                  stateVersion = "22.11";
-                };
-                programs.home-manager.enable = true;
-                manual.manpages.enable = false;
-                systemd.user.startServices = "sd-switch";
-              }
-              ./modules/home-manager
-              ./users/actoriu
-            ];
-          };
-        };
-
-        nixOnDroidConfigurations = {
-          oneplus5 = nix-on-droid.lib.nixOnDroidConfiguration {
-            pkgs = import nixpkgs {
-              system = "aarch64-linux";
-              inherit (self.legacyPackages."aarch64-linux") config;
-              overlays = (builtins.attrValues self.overlays) ++ [
-                nix-on-droid.overlays.default
-              ];
-            };
-            extraSpecialArgs = { inherit inputs self; };
-            home-manager-path = home-manager.outPath;
-            modules = [ ./hosts/oneplus5 ];
-          };
+            ./modules/nixos
+            ./profiles/nixos
+            ./hosts/d630
+          ];
         };
       };
+
+      homeConfigurations = {
+        "actoriu@d630" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages."x86_64-linux";
+          extraSpecialArgs = { inherit inputs self; };
+          modules = [
+            ({ ... }: {
+              nixpkgs = {
+                inherit (self.legacyPackages."x86_64-linux") config overlays;
+              };
+            })
+            inputs.impermanence.nixosModules.home-manager.impermanence
+            {
+              home = {
+                username = "actoriu";
+                homeDirectory = "/home/actoriu";
+                stateVersion = "22.11";
+              };
+              programs.home-manager.enable = true;
+              manual.manpages.enable = false;
+              systemd.user.startServices = "sd-switch";
+            }
+            ./modules/home-manager
+            ./users/actoriu
+          ];
+        };
+      };
+
+      nixOnDroidConfigurations = {
+        oneplus5 = nix-on-droid.lib.nixOnDroidConfiguration {
+          pkgs = import nixpkgs {
+            system = "aarch64-linux";
+            inherit (self.legacyPackages."aarch64-linux") config;
+            overlays = (builtins.attrValues self.overlays) ++ [
+              nix-on-droid.overlays.default
+            ];
+          };
+          extraSpecialArgs = { inherit inputs self; };
+          home-manager-path = home-manager.outPath;
+          modules = [ ./hosts/oneplus5 ];
+        };
+      };
+    };
 }

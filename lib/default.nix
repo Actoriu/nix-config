@@ -1,3 +1,3 @@
 { lib }:
 
-lib.makeExtensible (self: {})
+lib.makeExtensible (self: { })
