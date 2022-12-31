@@ -1,6 +1,5 @@
-{
-  pkgs
-  , ...
+{ pkgs
+, ...
 }:
 
 pkgs.devshell.mkShell {
@@ -13,7 +12,6 @@ pkgs.devshell.mkShell {
     nixpkgs-fmt
     nodePackages.prettier
     nodePackages.prettier-plugin-toml
-    # nvfetcher
     shfmt
     treefmt
   ];
