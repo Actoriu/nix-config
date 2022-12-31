@@ -13,7 +13,7 @@ pkgs.devshell.mkShell {
     nixpkgs-fmt
     nodePackages.prettier
     nodePackages.prettier-plugin-toml
-    nvfetcher
+    # nvfetcher
     shfmt
     treefmt
   ];
