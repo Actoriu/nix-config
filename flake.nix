@@ -106,6 +106,7 @@
     , nixpkgs
     , home-manager
     , nix-on-droid
+    , nix-formatter-pack
     , ...
     }@inputs:
     let
