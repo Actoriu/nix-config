@@ -20,7 +20,7 @@ jobs:
         with:
           swap-size-gb: 10
       - name: Checkout repository
-        uses: actions/checkout@v3.2.0
+        uses: actions/checkout@v3.3.0
         with:
           fetch-depth: 0
       - name: Install nix
@@ -55,7 +55,7 @@ jobs:
         with:
           swap-size-gb: 10
       - name: Checkout repository
-        uses: actions/checkout@v3.2.0
+        uses: actions/checkout@v3.3.0
         with:
           fetch-depth: 0
       - name: Install nix
