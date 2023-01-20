@@ -1,7 +1,7 @@
 { ... }: {
   imports = [
     ./nix
-    ./shared
+    # ./shared
     ./security
     ./services
   ];
