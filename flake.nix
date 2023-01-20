@@ -121,6 +121,17 @@
       #   };
       # });
 
+      nixpkgsFor = forEachSystem (system:
+        import nixpkgs {
+          inherit system;
+          config = {
+            allowUnfree = true;
+            allowBroken = true;
+            allowUnsupportedSystem = true;
+          };
+          overlays = builtins.attrValues self.overlays;
+        });
+
       formatterPackArgsFor = forEachSystem (system: {
         inherit nixpkgs system;
         checkFiles = [ ./. ];
@@ -145,16 +156,7 @@
           spacemacs = final: prev: { spacemacs = inputs.spacemacs; };
         };
 
-        # legacyPackages = forEachSystem (system:
-        #   import nixpkgs {
-        #     inherit system;
-        #     config = {
-        #       allowUnfree = true;
-        #       allowBroken = true;
-        #       allowUnsupportedSystem = true;
-        #     };
-        #     overlays = builtins.attrValues self.overlays;
-        #   });
+        # legacyPackages = nixpkgsFor;
 
         checks = forEachSystem (system: {
           nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgsFor.${system};
@@ -168,7 +170,7 @@
         # );
 
         devShells = forEachSystem (system: {
-          default = nixpkgs.legacyPackages.${system}.callPackage ./shell.nix { };
+          # default = nixpkgs.legacyPackages.${system}.callPackage ./shell.nix { };
           devshell =
             let
               pkgs = import nixpkgs {
@@ -184,30 +186,29 @@
           d630 = nixpkgs.lib.nixosSystem {
             specialArgs = { inherit inputs outputs; };
             modules = [
-              # ({ ... }: {
-              #   nixpkgs = {
-              #     inherit (self.legacyPackages."x86_64-linux") config overlays;
-              #   };
-              # })
-              # inputs.impermanence.nixosModules.impermanence
-              # inputs.nixos-cn.nixosModules.nixos-cn-registries
-              # inputs.nixos-cn.nixosModules.nixos-cn
-              # inputs.sops-nix.nixosModules.sops
+              ({ ... }: {
+                nixpkgs = {
+                  inherit (nixpkgsFor."x86_64-linux") config overlays;
+                };
+              })
+              inputs.impermanence.nixosModules.impermanence
+              inputs.nixos-cn.nixosModules.nixos-cn-registries
+              inputs.nixos-cn.nixosModules.nixos-cn
+              inputs.sops-nix.nixosModules.sops
               inputs.home-manager.nixosModules.home-manager
               {
                 home-manager = {
-                  #   useGlobalPkgs = true;
-                  #   useUserPackages = true;
-                  #   extraSpecialArgs = { inherit inputs self; };
+                  useGlobalPkgs = true;
+                  useUserPackages = true;
+                  extraSpecialArgs = { inherit inputs self; };
                   users.actoriu = { ... }: {
-                    #     home.stateVersion = "22.11";
-                    #     programs.home-manager.enable = true;
-                    #     manual.manpages.enable = false;
-                    #     systemd.user.startServices = "sd-switch";
+                    home.stateVersion = "22.11";
+                    programs.home-manager.enable = true;
+                    manual.manpages.enable = false;
+                    systemd.user.startServices = "sd-switch";
                     imports = [
-                      # inputs.impermanence.nixosModules.home-manager.impermanence
+                      inputs.impermanence.nixosModules.home-manager.impermanence
                       ./modules/home-manager
-                      ./profiles/home-manager
                       ./users/actoriu
                     ];
                   };
@@ -225,24 +226,23 @@
             pkgs = nixpkgs.legacyPackages."x86_64-linux";
             extraSpecialArgs = { inherit inputs self; };
             modules = [
-              # ({ ... }: {
-              #   nixpkgs = {
-              #     inherit (self.legacyPackages."x86_64-linux") config overlays;
-              #   };
-              # })
-              # inputs.impermanence.nixosModules.home-manager.impermanence
-              # {
-              #   home = {
-              #     username = "actoriu";
-              #     homeDirectory = "/home/actoriu";
-              #     stateVersion = "22.11";
-              #   };
-              #   programs.home-manager.enable = true;
-              #   manual.manpages.enable = false;
-              #   systemd.user.startServices = "sd-switch";
-              # }
+              ({ ... }: {
+                nixpkgs = {
+                  inherit (nixpkgsFor."x86_64-linux") config overlays;
+                };
+              })
+              inputs.impermanence.nixosModules.home-manager.impermanence
+              {
+                home = {
+                  username = "actoriu";
+                  homeDirectory = "/home/actoriu";
+                  stateVersion = "22.11";
+                };
+                programs.home-manager.enable = true;
+                manual.manpages.enable = false;
+                systemd.user.startServices = "sd-switch";
+              }
               ./modules/home-manager
-              ./profiles/home-manager
               ./users/actoriu
             ];
           };
