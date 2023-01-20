@@ -121,17 +121,6 @@
       #   };
       # });
 
-      nixpkgsFor = forEachSystem (system:
-        import nixpkgs {
-          inherit system;
-          config = {
-            allowUnfree = true;
-            allowBroken = true;
-            allowUnsupportedSystem = true;
-          };
-          overlays = builtins.attrValues self.overlays;
-        });
-
       formatterPackArgsFor = forEachSystem (system: {
         inherit nixpkgs system;
         checkFiles = [ ./. ];
@@ -156,11 +145,11 @@
           spacemacs = final: prev: { spacemacs = inputs.spacemacs; };
         };
 
-        # legacyPackages = nixpkgsFor;
+        # legacyPackages = pkgs;
 
-        # checks = forEachSystem (system: {
-        #   nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgsFor.${system};
-        # });
+        checks = forEachSystem (system: {
+          nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgsFor.${system};
+        });
 
         formatter = forEachSystem (system:
           nix-formatter-pack.lib.mkFormatter formatterPackArgsFor.${system});
@@ -188,7 +177,12 @@
             modules = [
               ({ ... }: {
                 nixpkgs = {
-                  inherit (nixpkgsFor."x86_64-linux") config overlays;
+                  config = {
+                    allowUnfree = true;
+                    allowBroken = true;
+                    allowUnsupportedSystem = true;
+                  };
+                  overlays = builtins.attrValues self.overlays;
                 };
               })
               inputs.impermanence.nixosModules.impermanence
@@ -228,7 +222,12 @@
             modules = [
               ({ ... }: {
                 nixpkgs = {
-                  inherit (nixpkgsFor."x86_64-linux") config overlays;
+                  config = {
+                    allowUnfree = true;
+                    allowBroken = true;
+                    allowUnsupportedSystem = true;
+                  };
+                  overlays = builtins.attrValues self.overlays;
                 };
               })
               inputs.impermanence.nixosModules.home-manager.impermanence
