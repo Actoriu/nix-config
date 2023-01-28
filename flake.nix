@@ -159,8 +159,7 @@
         # );
 
         devShells = forEachSystem (system: {
-          # default = nixpkgs.legacyPackages.${system}.callPackage ./shell.nix { };
-          devshell =
+          default =
             let
               pkgs = import nixpkgs {
                 inherit system;

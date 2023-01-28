@@ -9,6 +9,7 @@ pkgs.devshell.mkShell {
   git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
   packages = with pkgs; [
     cachix
+    home-manager
     nixpkgs-fmt
     nodePackages.prettier
     nodePackages.prettier-plugin-toml
