@@ -101,11 +101,11 @@
         "nmt": "nmt"
       },
       "locked": {
-        "lastModified": 1669935516,
-        "narHash": "sha256-ojcstfUDxQHYUzho8aMiKGBk5O5w3+JaPrm4+d0dkDo=",
+        "lastModified": 1674847323,
+        "narHash": "sha256-SBM5YI6RNhmJlYkBGmMfHEPcaaKXmf/f+dhx6M2h7Jc=",
         "owner": "Gerschtli",
         "repo": "nix-formatter-pack",
-        "rev": "c77a934457b7df7b0f03545a036e25ce4d4e9aa6",
+        "rev": "c3f5299c8eaeb56bd89a085c1a8f236f98341617",
         "type": "github"
       },
       "original": {
