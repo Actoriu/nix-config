@@ -171,7 +171,7 @@
       # );
 
       devShells = forEachSystem (system:
-        default = import ./devshell/default.nix { inherit pkgs; };
+        default = import ./shell/default.nix { inherit pkgs; };
       );
 
       nixosConfigurations = {
