@@ -157,7 +157,7 @@
         spacemacs = final: prev: { spacemacs = inputs.spacemacs; };
       };
 
-      legacyPackages = pkgs;
+      # legacyPackages = pkgs;
 
       # checks = forEachSystem (system: {
       #   nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgsFor.${system};
