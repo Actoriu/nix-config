@@ -114,12 +114,12 @@
 
       forEachSystem = nixpkgs.lib.genAttrs [ "aarch64-linux" "x86_64-linux" ];
 
-      # lib = nixpkgs.lib.extend (final: prev: {
-      #   my = import ./lib {
-      #     inherit inputs pkgs;
-      #     lib = final;
-      #   };
-      # });
+      lib = nixpkgs.lib.extend (final: prev: {
+        my = import ./lib {
+          inherit inputs pkgs;
+          lib = final;
+        };
+      });
 
       pkgs = forEachSystem (system:
         import nixpkgs {
@@ -157,7 +157,7 @@
         spacemacs = final: prev: { spacemacs = inputs.spacemacs; };
       };
 
-      # legacyPackages = pkgs;
+      legacyPackages = pkgs;
 
       # checks = forEachSystem (system: {
       #   nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgsFor.${system};
