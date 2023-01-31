@@ -2,7 +2,7 @@
   description = "Nix configuration with flakes";
 
   nixConfig = {
-    extra-experimental-features = "nix-command flakes recursive-nix";
+    extra-experimental-features = "nix-command flakes";
     substituters = [
       "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
       "https://mirrors.ustc.edu.cn/nix-channels/store"
@@ -24,7 +24,7 @@
   };
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";
 
     flake-compat = {
       url = "github:edolstra/flake-compat";
@@ -157,9 +157,9 @@
           overlays = builtins.attrValues self.overlays;
         });
 
-      # checks = forEachSystem (system: {
-      #   nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgsFor.${system};
-      # });
+      checks = forEachSystem (system: {
+        nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgsFor.${system};
+      });
 
       formatter = forEachSystem (system:
         nix-formatter-pack.lib.mkFormatter formatterPackArgsFor.${system});
