@@ -8,7 +8,7 @@ let
   inherit (inputs) self;
   inherit (inputs.nix-on-droid.lib) nixOnDroidConfiguration;
 in
-{
+rec {
   mkDroid =
     { devicename
     , username ? null
@@ -17,20 +17,20 @@ in
     , custom_extraModules ? [ ]
     , home_extraModules ? [ ]
     , sharedModules ? [
-        {
-          home-manager = {
-            useUserPackages = true;
-            extraSpecialArgs = { inherit inputs self persistence; };
-            config = { ... }: {
-              home.stateVersion = "22.11";
-              manual.manpages.enable = false;
-              imports = home_extraModules ++ [
-                ../users/${username}
-              ];
-            };
+      {
+        home-manager = {
+          useUserPackages = true;
+          extraSpecialArgs = { inherit inputs self persistence; };
+          config = { ... }: {
+            home.stateVersion = "22.11";
+            manual.manpages.enable = false;
+            imports = home_extraModules ++ [
+              ../users/${username}
+            ];
           };
-        }
-      ]
+        };
+      }
+    ]
     , persistence ? false
     , ...
     }:
