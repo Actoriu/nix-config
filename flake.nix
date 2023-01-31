@@ -177,7 +177,7 @@
             overlays = [ inputs.devshell.overlay ];
           };
         in {
-          default = (import ./shell { inherit pkgs; });
+          default = import ./shell/default.nix { inherit pkgs; };
         });
 
       nixosConfigurations = {
