@@ -5,10 +5,6 @@ on:
     - cron: '0 0 * * 0'
   workflow_dispatch:
 
-concurrency:
-  group: ${{ github.repository }}-${{ github.head_ref || github.sha }}-${{ github.workflow }}
-  cancel-in-progress: true
-
 jobs:
   get-flakes:
     runs-on: ubuntu-latest
@@ -20,7 +16,7 @@ jobs:
         with:
           swap-size-gb: 10
       - name: Checkout repository
-        uses: actions/checkout@v3.2.0
+        uses: actions/checkout@v3.3.0
         with:
           fetch-depth: 0
       - name: Install nix
@@ -55,7 +51,7 @@ jobs:
         with:
           swap-size-gb: 10
       - name: Checkout repository
-        uses: actions/checkout@v3.2.0
+        uses: actions/checkout@v3.3.0
         with:
           fetch-depth: 0
       - name: Install nix
@@ -65,13 +61,13 @@ jobs:
           extra_nix_config: |
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
       - name: Generate token
-        uses: tibdex/github-app-token@v1.7.0
+        uses: tibdex/github-app-token@v1.8.0
         id: generate-token
         with:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
       - name: update-${{ matrix.flake }}
-        uses: cpcloud/flake-update-action@v1.0.2
+        uses: cpcloud/flake-update-action@v1.0.4
         with:
           dependency: ${{ matrix.flake }}
           github-token: ${{ secrets.GITHUB_TOKEN }}

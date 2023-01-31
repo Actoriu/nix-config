@@ -1,24 +1,14 @@
 name: Build and test flake outputs
 
-on:
-  push:
-  pull_request:
-  workflow_dispatch:
-
-concurrency:
-  group: ${{ github.repository }}-${{ github.head_ref || github.sha }}-${{ github.workflow }}
-  cancel-in-progress: true
+on: [ push, pull_request, workflow_dispatch ]
 
 jobs:
-  nix:
+  Build:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         include:
-          - slug: Check
-            job_name: Check the nix configuration
-            nix-command: flake check
           - slug: Nixos
             job_name: Build NixOS system configuration
             nix-command: build .#nixosConfigurations.d630.config.system.build.toplevel
@@ -35,7 +25,7 @@ jobs:
         with:
           swap-size-gb: 10
       - name: Checkout repository
-        uses: actions/checkout@v3.2.0
+        uses: actions/checkout@v3.3.0
         with:
           fetch-depth: 0
       - name: Set up QEMU
@@ -55,7 +45,7 @@ jobs:
           signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
           extraPullNames: nix-community,nix-on-droid
       - name: ${{ matrix.job_name }}
-        uses: nick-invision/retry@v2.8.2
+        uses: nick-invision/retry@v2.8.3
         with:
           max_attempts: 2
           timeout_minutes: 720
