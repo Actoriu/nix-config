@@ -170,9 +170,9 @@
       #   import ./pkgs { inherit pkgs; }
       # );
 
-      devShells = forEachSystem (system: {
+      devShells = forEachSystem (system:
         default = import ./devshell/default.nix { inherit pkgs; };
-      });
+      );
 
       nixosConfigurations = {
         d630 = nixpkgs.lib.nixosSystem {
