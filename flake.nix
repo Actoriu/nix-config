@@ -170,15 +170,16 @@
       #   import ./pkgs { inherit pkgs; }
       # );
 
-      devShells = forEachSystem (system:
-        let
-          pkgs = import nixpkgs {
-            inherit system;
-            overlays = [ inputs.devshell.overlay ];
-          };
-        in {
-          default = import ./shell/devshell.nix { inherit pkgs; };
-        });
+      devShells = forEachSystem (system: {
+        default =
+          let
+            pkgs = import nixpkgs {
+              inherit system;
+              overlays = [ inputs.devshell.overlay ];
+            };
+          in
+            import ./shell/devshell.nix { inherit pkgs; };
+      });
 
       nixosConfigurations = {
         d630 = nixpkgs.lib.nixosSystem {
