@@ -150,7 +150,7 @@
 
       overlays = {
         # default = import ./overlays { inherit inputs; };
-        # devshell = inputs.devshell.overlay;
+        devshell = inputs.devshell.overlay;
         nixos-cn = inputs.nixos-cn.overlay;
         nur = inputs.nur.overlay;
         sops-nix = inputs.sops-nix.overlay;
