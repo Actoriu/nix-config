@@ -116,7 +116,7 @@
 
       lib = nixpkgs.lib.extend (final: prev: {
         my = import ./lib {
-          inherit inputs pkgs;
+          inherit inputs;
           lib = final;
         };
       });
