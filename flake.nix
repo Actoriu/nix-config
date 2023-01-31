@@ -222,6 +222,7 @@
       homeConfigurations = {
         "actoriu@d630" = home-manager.lib.homeManagerConfiguration {
           # pkgs = nixpkgs.legacyPackages."x86_64-linux";
+          pkgs = self.legacyPackages."x86_64-linux";
           extraSpecialArgs = { inherit inputs self; };
           modules = [
             ({ ... }: {
