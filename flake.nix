@@ -121,17 +121,6 @@
       #   };
       # });
 
-      pkgs = forEachSystem (system:
-        import nixpkgs {
-          inherit system;
-          config = {
-            allowUnfree = true;
-            allowBroken = true;
-            allowUnsupportedSystem = true;
-          };
-          overlays = builtins.attrValues self.overlays;
-        });
-
       formatterPackArgsFor = forEachSystem (system: {
         inherit nixpkgs system;
         checkFiles = [ ./. ];
@@ -155,7 +144,16 @@
         spacemacs = final: prev: { spacemacs = inputs.spacemacs; };
       };
 
-      # legacyPackages = pkgs;
+      legacyPackages = forEachSystem (system:
+        import nixpkgs {
+          inherit system;
+          config = {
+            allowUnfree = true;
+            allowBroken = true;
+            allowUnsupportedSystem = true;
+          };
+          overlays = builtins.attrValues self.overlays;
+        });
 
       # checks = forEachSystem (system: {
       #   nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgsFor.${system};
@@ -165,19 +163,22 @@
         nix-formatter-pack.lib.mkFormatter formatterPackArgsFor.${system});
 
       # packages = forEachSystem (system:
-      #   import ./pkgs { pkgs = nixpkgs.legacyPackages.${system}; }
+      #   import ./pkgs { pkgs = self.legacyPackages.${system}; }
       # );
 
-      devShells = forEachSystem (system: {
-        default =
-          # let
-          #   pkgs = import nixpkgs {
-          #     inherit system;
-          #     overlays = [ inputs.devshell.overlay ];
-          #   };
-          # in
-          import ./shell/devshell.nix { inherit pkgs; };
-      });
+      devShells = forEachSystem (system:
+        let
+          pkgs = self.legacyPackages.${system};
+        in {
+          default =
+            # let
+            #   pkgs = import nixpkgs {
+            #     inherit system;
+            #     overlays = [ inputs.devshell.overlay ];
+            #   };
+            # in
+            import ./shell/devshell.nix { inherit pkgs; };
+        });
 
       nixosConfigurations = {
         d630 = nixpkgs.lib.nixosSystem {
