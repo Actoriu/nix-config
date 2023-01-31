@@ -179,10 +179,10 @@
           specialArgs = { inherit inputs outputs; };
           modules = [
             ({ ... }: {
-              # nixpkgs = {
-              #   inherit (pkgs) config overlays;
-              # };
-              # nixpkgs.pkgs = pkgs;
+              nixpkgs = {
+                inherit (pkgs) config overlays;
+              };
+              nixpkgs.pkgs = pkgs;
             })
             inputs.impermanence.nixosModules.impermanence
             inputs.nixos-cn.nixosModules.nixos-cn-registries
