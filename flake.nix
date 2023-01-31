@@ -138,7 +138,7 @@
       {
         overlays = {
           # default = import ./overlays { inherit inputs; };
-          # devshell = inputs.devshell.overlay;
+          devshell = inputs.devshell.overlay;
           nixos-cn = inputs.nixos-cn.overlay;
           nur = inputs.nur.overlay;
           sops-nix = inputs.sops-nix.overlay;
@@ -160,15 +160,14 @@
 
         devShells = forEachSystem (system: {
           default =
-            let
-              pkgs = import nixpkgs {
-                inherit system;
-                overlays = [ inputs.devshell.overlay ];
-              };
-            in
-              import ./shell/devshell.nix { inherit pkgs; };
-        }
-        );
+            # let
+            #   pkgs = import nixpkgs {
+            #     inherit system;
+            #     overlays = [ inputs.devshell.overlay ];
+            #   };
+            # in
+            import ./shell/devshell.nix { inherit pkgs; };
+        });
 
         nixosConfigurations = {
           d630 = nixpkgs.lib.nixosSystem {
