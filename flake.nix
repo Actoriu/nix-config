@@ -186,12 +186,7 @@
           modules = [
             ({ ... }: {
               nixpkgs = {
-                config = {
-                  allowUnfree = true;
-                  allowBroken = true;
-                  allowUnsupportedSystem = true;
-                };
-                overlays = builtins.attrValues self.overlays;
+                inherit (self.legacyPackages."x86_64-linux") config overlays;
               };
             })
             inputs.impermanence.nixosModules.impermanence
@@ -231,12 +226,7 @@
           modules = [
             ({ ... }: {
               nixpkgs = {
-                config = {
-                  allowUnfree = true;
-                  allowBroken = true;
-                  allowUnsupportedSystem = true;
-                };
-                overlays = builtins.attrValues self.overlays;
+                inherit (self.legacyPackages."x86_64-linux") config overlays;
               };
             })
             inputs.impermanence.nixosModules.home-manager.impermanence
