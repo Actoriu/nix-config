@@ -1,5 +1,10 @@
-{ lib }: {
-  droid = import ./droid.nix;
-  home = import ./home.nix;
-  nixos = import ./nixos.nix;
-}
+{ lib }:
+
+lib = makeExtensible (self: let
+  callLibs = file: import file { lib = self; };
+in
+  {
+    droid = callLibs ./droid.nix;
+    home = callLibs ./home.nix;
+    nixos = callLibs ./nixos.nix;
+  })
