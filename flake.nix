@@ -112,6 +112,8 @@
     let
       inherit (self) outputs;
 
+      inherit (lib.my) mkDroidConfig mkHomeConfig mkNixosConfig;
+
       forEachSystem = nixpkgs.lib.genAttrs [ "aarch64-linux" "x86_64-linux" ];
 
       lib = nixpkgs.lib.extend (final: prev: {
@@ -183,7 +185,7 @@
         });
 
       nixosConfigurations = {
-        d630 = lib.my.mkNixosConfig {
+        d630 = mkNixosConfig {
           extraModules = [
             ({ ... }: {
               nixpkgs = {
