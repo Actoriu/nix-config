@@ -114,12 +114,12 @@
 
       forEachSystem = nixpkgs.lib.genAttrs [ "aarch64-linux" "x86_64-linux" ];
 
-      # lib = nixpkgs.lib.extend (final: prev: {
-      #   my = import ./lib {
-      #     inherit inputs;
-      #     lib = final;
-      #   };
-      # });
+      lib = nixpkgs.lib.extend (final: prev: {
+        my = import ./lib {
+          inherit inputs;
+          lib = final;
+        };
+      });
 
       formatterPackArgsFor = forEachSystem (system: {
         inherit nixpkgs system;
@@ -136,13 +136,6 @@
       });
     in {
       # lib = lib.my;
-
-      lib = nixpkgs.lib.extend (final: prev: {
-        my = import ./lib {
-          inherit inputs;
-          lib = final;
-        };
-      });
 
       overlays = {
         # default = import ./overlays { inherit inputs; };
