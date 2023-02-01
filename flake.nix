@@ -183,7 +183,7 @@
         });
 
       nixosConfigurations = {
-        d630 = my.mkNixosConfig {
+        d630 = nixpkgs.lib.my.mkNixosConfig {
           extraModules = [
             ({ ... }: {
               nixpkgs = {
