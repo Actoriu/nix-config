@@ -6,8 +6,7 @@
 let
   inherit (inputs) self;
   inherit (inputs.home-manager.lib) homeManagerConfiguration;
-in
-rec {
+in {
   mkHomeConfig =
     { hostname ? null
     , username
