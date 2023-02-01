@@ -6,8 +6,7 @@
 let
   inherit (inputs) self;
   inherit (inputs.nixpkgs.lib) nixosSystem;
-in
-rec {
+in {
   mkNixosConfig =
     { hostname
     , username ? null

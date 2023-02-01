@@ -189,22 +189,22 @@
             import ./shell/devshell.nix { inherit pkgs; };
         });
 
-      # nixosConfigurations = {
-      #   d630 = lib.my.mkNixosConfig {
-      #     extraModules = [
-      #       ({ ... }: {
-      #         nixpkgs = {
-      #           inherit (self.legacyPackages."x86_64-linux") config overlays;
-      #         };
-      #       })
-      #       inputs.impermanence.nixosModules.impermanence
-      #       inputs.nixos-cn.nixosModules.nixos-cn-registries
-      #       inputs.nixos-cn.nixosModules.nixos-cn
-      #       inputs.sops-nix.nixosModules.sops
-      #       ./profiles/nixos
-      #     ];
-      #   };
-      # };
+      nixosConfigurations = {
+        d630 = lib.my.mkNixosConfig {
+          extraModules = [
+            ({ ... }: {
+              nixpkgs = {
+                inherit (self.legacyPackages."x86_64-linux") config overlays;
+              };
+            })
+            inputs.impermanence.nixosModules.impermanence
+            inputs.nixos-cn.nixosModules.nixos-cn-registries
+            inputs.nixos-cn.nixosModules.nixos-cn
+            inputs.sops-nix.nixosModules.sops
+            ./profiles/nixos
+          ];
+        };
+      };
 
       #   nixosConfigurations = {
       #     d630 = nixpkgs.lib.nixosSystem {

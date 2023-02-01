@@ -6,8 +6,7 @@
 let
   inherit (inputs) nixpkgs self;
   inherit (inputs.nix-on-droid.lib) nixOnDroidConfiguration;
-in
-rec {
+in {
   mkDroidConfig =
     { devicename ? default
     , username ? null
