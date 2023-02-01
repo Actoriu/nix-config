@@ -135,7 +135,7 @@
         };
       });
     in {
-      lib = lib.my;
+      # lib = lib.my;
 
       overlays = {
         # default = import ./overlays { inherit inputs; };
@@ -183,7 +183,7 @@
         });
 
       nixosConfigurations = {
-        d630 = nixpkgs.lib.my.mkNixosConfig {
+        d630 = lib.my.mkNixosConfig {
           extraModules = [
             ({ ... }: {
               nixpkgs = {
