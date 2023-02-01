@@ -8,12 +8,10 @@ let
   inherit (inputs.home-manager.lib) homeManagerConfiguration;
 in
 rec {
-  mkHome =
+  mkHomeConfig =
     { hostname ? null
     , username
     , system ? "x86_64-linux"
-    , pkgs
-    , extraModules ? [ ]
     , sharedModules ? [
       {
         home = {
@@ -25,12 +23,14 @@ rec {
         manual.manpages.enable = false;
         systemd.user.startServices = "sd-switch";
       }
+      ./modules/home-manager
     ]
+    , extraModules ? [ ]
     , persistence ? false
     , ...
     }:
     homeManagerConfiguration {
-      inherit pkgs;
+      pkgs = self.legacyPackages."x86_64-linux";
       extraSpecialArgs = {
         inherit inputs self hostname username persistence;
       };

@@ -1,16 +1,15 @@
 { inputs
 , lib
-, self
 , ...
 }:
 
 let
-  inherit (inputs) self;
+  inherit (inputs) nixpkgs self;
   inherit (inputs.nix-on-droid.lib) nixOnDroidConfiguration;
 in
 rec {
-  mkDroid =
-    { devicename
+  mkDroidConfig =
+    { devicename ? default
     , username ? null
     , system ? "aarch64-linux"
     , add_extraModules ? [ ]
@@ -19,12 +18,14 @@ rec {
     , sharedModules ? [
       {
         home-manager = {
+          useGlobalPkgs = true;
           useUserPackages = true;
-          extraSpecialArgs = { inherit inputs self persistence; };
+          extraSpecialArgs = { inherit inputs self; };
           config = { ... }: {
             home.stateVersion = "22.11";
             manual.manpages.enable = false;
             imports = home_extraModules ++ [
+              ../modules/home-manager
               ../users/${username}
             ];
           };
@@ -35,11 +36,14 @@ rec {
     , ...
     }:
     nixOnDroidConfiguration {
-      inherit system;
-      extraSpecialArgs = { inherit inputs self persistence; };
-      extraModules = custom_extraModules;
-      config = { ... }: {
-        imports = add_extraModules ++ sharedModules ++ [ ../hosts/${devicename} ];
+      pkgs = import nixpkgs {
+        inherit system;
+        overlays = [
+          nix-on-droid.overlays.default
+        ];
       };
+      extraSpecialArgs = { inherit inputs self persistence; };
+      home-manager-path = home-manager.outPath;
+      modules = add_extraModules ++ sharedModules ++ [ ../hosts/${devicename} ];
     };
 }

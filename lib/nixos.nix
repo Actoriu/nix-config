@@ -8,7 +8,7 @@ let
   inherit (inputs.nixpkgs.lib) nixosSystem;
 in
 rec {
-  mkNixos =
+  mkNixosConfig =
     { hostname
     , username ? null
     , system ? "x86_64-linux"
@@ -27,17 +27,18 @@ rec {
             manual.manpages.enable = false;
             systemd.user.startServices = "sd-switch";
             imports = home_extraModules ++ [
+              ../modules/home-manager
               ../users/${username}
             ];
           };
         };
       }
+      ../modules/nixos
     ]
     , persistence ? false
     , ...
     }:
     nixosSystem {
-      inherit system;
       specialArgs = {
         inherit inputs self hostname username persistence;
       };
