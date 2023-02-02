@@ -1,9 +1,8 @@
-{ inputs
-, outputs
-, ...
-}:
-
 {
+  inputs,
+  outputs,
+  ...
+}: {
   imports = [
     inputs.impermanence.nixosModules.home-manager.impermanence
   ];
@@ -21,5 +20,4 @@
   home.stateVersion = "22.11";
   # manual.manpages.enable = false;
   systemd.user.startServices = "sd-switch";
-
 }

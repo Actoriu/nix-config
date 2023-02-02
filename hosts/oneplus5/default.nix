@@ -1,8 +1,9 @@
-{ config
-, inputs
-, pkgs
-, self
-, ...
+{
+  config,
+  inputs,
+  pkgs,
+  self,
+  ...
 }: {
   nix = {
     extraOptions = ''
@@ -62,8 +63,13 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    extraSpecialArgs = { inherit inputs self; };
-    config = { config, lib, pkgs, ... }: {
+    extraSpecialArgs = {inherit inputs self;};
+    config = {
+      config,
+      lib,
+      pkgs,
+      ...
+    }: {
       home.stateVersion = "22.11";
       manual.manpages.enable = false;
       imports = [

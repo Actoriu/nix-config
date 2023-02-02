@@ -1,11 +1,11 @@
-{ config
-, lib
-, ...
+{
+  config,
+  lib,
+  ...
 }:
 with lib; let
   cfg = config.custom.redshift;
-in
-{
+in {
   options.custom.redshift = {
     enable = mkEnableOption "Enable support for redshift.";
   };

@@ -1,9 +1,8 @@
-{ inputs
-, outputs
-, ...
-}:
-
 {
+  inputs,
+  outputs,
+  ...
+}: {
   imports = [
     inputs.impermanence.nixosModules.impermanence
     inputs.nixos-cn.nixosModules.nixos-cn-registries
@@ -24,7 +23,6 @@
   home-manager = {
     # useGlobalPkgs = true;
     useUserPackages = true;
-    extraSpecialArgs = { inherit inputs outputs; };
+    extraSpecialArgs = {inherit inputs outputs;};
   };
-
 }

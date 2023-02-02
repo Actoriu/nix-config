@@ -1,11 +1,11 @@
-{ config
-, lib
-, ...
+{
+  config,
+  lib,
+  ...
 }:
 with lib; let
   cfg = config.custom.xresources;
-in
-{
+in {
   options.custom.xresources = {
     enable = mkEnableOption "Enable support for xresources.";
   };

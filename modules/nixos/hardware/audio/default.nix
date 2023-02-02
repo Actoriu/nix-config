@@ -1,12 +1,12 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 with lib; let
   cfg = config.custom.audio;
-in
-{
+in {
   options.custom.audio = {
     enable = mkEnableOption "Enable support for audio.";
     pipewire = mkEnableOption "Enable support for pipewire.";

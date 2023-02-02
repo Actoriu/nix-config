@@ -1,12 +1,12 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 with lib; let
   cfg = config.custom.rofi;
-in
-{
+in {
   options.custom.rofi = {
     enable = mkEnableOption "Enable support for rofi.";
   };

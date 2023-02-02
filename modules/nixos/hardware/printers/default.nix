@@ -1,12 +1,12 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 with lib; let
   cfg = config.custom.printers;
-in
-{
+in {
   options.custom.printers = {
     enable = mkEnableOption "Enable support for printer.";
   };

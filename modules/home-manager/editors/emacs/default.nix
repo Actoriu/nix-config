@@ -1,12 +1,12 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 with lib; let
   cfg = config.custom.emacs;
-in
-{
+in {
   options.custom.emacs = {
     enable = mkEnableOption "Enable support for emacs.";
     doom-emacs = mkEnableOption "Enable support for doom-emacs.";
@@ -21,12 +21,11 @@ in
         emacs = {
           enable = cfg.enable;
           package =
-            if pkgs.stdenv.isDarwin then
-              pkgs.emacsMacport
-            else if pkgs.stdenv.isAarch64 then
-              pkgs.emacs-nox
-            else
-              pkgs.emacs;
+            if pkgs.stdenv.isDarwin
+            then pkgs.emacsMacport
+            else if pkgs.stdenv.isAarch64
+            then pkgs.emacs-nox
+            else pkgs.emacs;
           # extraPackages = epkgs: with epkgs; [
           #   evil
           #   helm

@@ -1,11 +1,12 @@
-{ stdenv
-, lib
-, format ? "raw"
-, upstream-dns ? "114.114.114.114"
-, enable-ipset ? false
-, enable-nftset ? false
-, sources
-, ...
+{
+  stdenv,
+  lib,
+  format ? "raw",
+  upstream-dns ? "114.114.114.114",
+  enable-ipset ? false,
+  enable-nftset ? false,
+  sources,
+  ...
 }:
 stdenv.mkDerivation rec {
   inherit (sources) pname version src;

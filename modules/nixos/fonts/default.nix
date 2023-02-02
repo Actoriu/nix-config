@@ -1,12 +1,12 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 with lib; let
   cfg = config.custom.fonts;
-in
-{
+in {
   options.custom.fonts = {
     enable = mkEnableOption "Enable support for fonts.";
   };
@@ -14,7 +14,7 @@ in
   config = mkIf cfg.enable {
     fonts = {
       fonts = with pkgs; [
-        (nerdfonts.override { fonts = [ "Iosevka" ]; })
+        (nerdfonts.override {fonts = ["Iosevka"];})
         noto-fonts
         noto-fonts-extra
         noto-fonts-emoji
@@ -23,7 +23,7 @@ in
       enableGhostscriptFonts = true;
       fontconfig = {
         defaultFonts = {
-          emoji = [ "Noto Color Emoji" ];
+          emoji = ["Noto Color Emoji"];
         };
       };
     };

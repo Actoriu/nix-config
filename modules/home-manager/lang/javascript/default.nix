@@ -1,12 +1,12 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 with lib; let
   cfg = config.custom.javascript;
-in
-{
+in {
   options.custom.javascript = {
     enable = mkEnableOption "Enable support for javascript language.";
   };

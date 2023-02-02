@@ -1,5 +1,5 @@
-{ pkgs ? null }: {
-  sources = pkgs.callPackage (import ./_sources/generated.nix) { };
+{pkgs ? null}: {
+  sources = pkgs.callPackage (import ./_sources/generated.nix) {};
 
   hinalist = pkgs.callPackage ./dnsmasq-china-list {
     format = "raw";

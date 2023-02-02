@@ -1,12 +1,12 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 with lib; let
   cfg = config.custom.users;
-in
-{
+in {
   options.custom.users = {
     enable = mkEnableOption "Enable support for user shell.";
 
@@ -36,7 +36,7 @@ in
     };
 
     userVersion = mkOption {
-      type = types.nullOr (types.enum [ "22.05" "22.11" ]);
+      type = types.nullOr (types.enum ["22.05" "22.11"]);
       default = null;
       example = "22.05";
       description = "Enable support for stateVersion.";
@@ -46,7 +46,7 @@ in
   config = mkIf cfg.enable (mkMerge [
     # (mkIf (cfg.package.pname == "fish") { programs.fish.enable = true; })
     # (mkIf (cfg.package.pname == "zsh") { programs.zsh.enable = true; })
-    (mkIf cfg.defaultUserShell { users.defaultUserShell = cfg.package; })
-    (mkIf (cfg.userVersion != null) { system.stateVersion = cfg.userVersion; })
+    (mkIf cfg.defaultUserShell {users.defaultUserShell = cfg.package;})
+    (mkIf (cfg.userVersion != null) {system.stateVersion = cfg.userVersion;})
   ]);
 }

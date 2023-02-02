@@ -1,9 +1,10 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }: {
-  imports = [ ./cachix ];
+  imports = [./cachix];
 
   nix = {
     extraOptions = ''
@@ -18,15 +19,15 @@
     optimise.automatic = true;
 
     settings = {
-      allowed-users = [ "@wheel" ];
+      allowed-users = ["@wheel"];
       auto-optimise-store = true;
       fallback = true;
       keep-outputs = true;
       keep-derivations = true;
       min-free = 1024 * 1024 * 1024;
       sandbox = true;
-      system-features = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
-      trusted-users = [ "root" "@wheel" ];
+      system-features = ["nixos-test" "benchmark" "big-parallel" "kvm"];
+      trusted-users = ["root" "@wheel"];
     };
   };
 }

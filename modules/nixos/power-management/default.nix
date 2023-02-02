@@ -1,12 +1,12 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 with lib; let
   cfg = config.custom.powerManagement;
-in
-{
+in {
   options.custom.powerManagement = {
     enable = mkEnableOption "Enable support for power management.";
     acpid = mkEnableOption ''

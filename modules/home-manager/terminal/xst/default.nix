@@ -1,12 +1,12 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 with lib; let
   cfg = config.custom.xst;
-in
-{
+in {
   options.custom.xst = {
     enable = mkEnableOption "Enable support for st terminal emulator.";
   };
@@ -20,7 +20,7 @@ in
         genericName = "Default terminal";
         icon = "utilities-terminal";
         exec = "${xst}/bin/xst";
-        categories = [ "System" "TerminalEmulator" ];
+        categories = ["System" "TerminalEmulator"];
       })
     ];
   };

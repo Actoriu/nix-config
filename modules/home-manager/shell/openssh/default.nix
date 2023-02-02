@@ -1,11 +1,11 @@
-{ config
-, lib
-, ...
+{
+  config,
+  lib,
+  ...
 }:
 with lib; let
   cfg = config.custom.openssh;
-in
-{
+in {
   options.custom.openssh = {
     enable = mkEnableOption "Enable support for openssh.";
   };
