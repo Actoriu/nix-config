@@ -141,7 +141,7 @@
     #   pre-commit-check = pre-commit-hooks.lib.${system}.run {
     #     src = ./.;
     #     hooks = {
-    #       nixpkgs-fmt.enable = true;
+    #       alejandra.enable = true;
     #     };
     #   };
     # });
