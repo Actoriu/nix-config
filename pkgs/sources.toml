@@ -7,7 +7,7 @@ fetch.github = "felixonmars/dnsmasq-china-list"
 src.github = "hosxy/Fcitx5-Material-Color"
 fetch.github = "hosxy/Fcitx5-Material-Color"
 
-[ fcitx5-pinyin-moegirl]
+[fcitx5-pinyin-moegirl]
 src.github = "outloudvi/mw2fcitx"
 fetch.url = "https://github.com/outloudvi/mw2fcitx/releases/download/20220218/moegirl.dict"
 
