@@ -116,11 +116,12 @@
 
       forEachSystem = nixpkgs.lib.genAttrs [ "aarch64-linux" "x86_64-linux" ];
 
-      lib = nixpkgs.lib.extend (final: prev:
-        import ./lib {
+      lib = nixpkgs.lib.extend (final: prev: {
+        my = import ./lib {
           inherit inputs;
           lib = final;
-        });
+        };
+      });
 
       formatterPackArgsFor = forEachSystem (system: {
         inherit nixpkgs system;
@@ -184,7 +185,7 @@
         });
 
       nixosConfigurations = {
-        d630 = lib.mkNixosConfig {
+        d630 = lib.my.mkNixosConfig {
           extraModules = [
             ({ ... }: {
               nixpkgs = {
