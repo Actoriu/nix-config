@@ -147,7 +147,7 @@
       #   };
       # });
 
-      formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.treefmt);
+      formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
 
       # packages = forEachSystem (system:
       #   import ./pkgs { pkgs = self.legacyPackages.${system}; }
