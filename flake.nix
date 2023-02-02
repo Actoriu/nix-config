@@ -137,7 +137,7 @@
         };
       });
     in {
-      inherit lib;
+      # inherit lib;
 
       overlays = {
         # default = import ./overlays { inherit inputs; };
