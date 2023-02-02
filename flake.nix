@@ -186,6 +186,8 @@
 
       nixosConfigurations = {
         d630 = lib.my.mkNixosConfig {
+          hostname = "d630";
+          username = "actoriu";
           extraModules = [
             ({ ... }: {
               nixpkgs = {
