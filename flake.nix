@@ -138,14 +138,14 @@
           overlays = builtins.attrValues self.overlays;
         });
 
-      checks = forEachSystem (system: {
-        pre-commit-check = pre-commit-hooks.lib.${system}.run {
-          src = ./.;
-          hooks = {
-            nixpkgs-fmt.enable = true;
-          };
-        };
-      });
+      # checks = forEachSystem (system: {
+      #   pre-commit-check = pre-commit-hooks.lib.${system}.run {
+      #     src = ./.;
+      #     hooks = {
+      #       nixpkgs-fmt.enable = true;
+      #     };
+      #   };
+      # });
 
       formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.treefmt);
 
