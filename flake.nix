@@ -33,15 +33,24 @@
 
     flake-utils.url = "github:numtide/flake-utils";
 
-    nix-formatter-pack = {
-      url = "github:Gerschtli/nix-formatter-pack";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # nix-formatter-pack = {
+    #   url = "github:Gerschtli/nix-formatter-pack";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
 
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs = {
         utils.follows = "flake-utils";
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
+
+    pre-commit-hooks = {
+      url = "github:cachix/pre-commit-hooks.nix";
+      inputs = {
+        flake-compat.follows = "flake-compat";
+        flake-utils.follows = "flake-utils";
         nixpkgs.follows = "nixpkgs";
       };
     };
