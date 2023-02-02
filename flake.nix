@@ -117,7 +117,8 @@
           lib = final;
         };
       });
-    in {
+    in
+    {
       overlays = {
         # default = import ./overlays { inherit inputs; };
         devshell = inputs.devshell.overlay;
@@ -156,7 +157,8 @@
       devShells = forEachSystem (system:
         let
           pkgs = self.legacyPackages.${system};
-        in {
+        in
+        {
           default =
             # let
             #   pkgs = import nixpkgs {
