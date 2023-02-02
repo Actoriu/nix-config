@@ -104,15 +104,10 @@
   outputs =
     { self
     , nixpkgs
-    , home-manager
-    , nix-on-droid
-    , nix-formatter-pack
     , ...
     }@inputs:
     let
       inherit (self) outputs;
-
-      # inherit (lib.my) mkDroidConfig mkHomeConfig mkNixosConfig;
 
       forEachSystem = nixpkgs.lib.genAttrs [ "aarch64-linux" "x86_64-linux" ];
 
@@ -122,23 +117,7 @@
           lib = final;
         };
       });
-
-      formatterPackArgsFor = forEachSystem (system: {
-        inherit nixpkgs system;
-        checkFiles = [ ./. ];
-
-        config.tools = {
-          deadnix = {
-            enable = true;
-            noLambdaPatternNames = true;
-          };
-          nixpkgs-fmt.enable = true;
-          statix.enable = true;
-        };
-      });
     in {
-      # inherit lib;
-
       overlays = {
         # default = import ./overlays { inherit inputs; };
         devshell = inputs.devshell.overlay;
@@ -159,12 +138,16 @@
           overlays = builtins.attrValues self.overlays;
         });
 
-      # checks = forEachSystem (system: {
-      #   nix-formatter-pack-check = nix-formatter-pack.lib.mkCheck formatterPackArgsFor.${system};
-      # });
+      checks = forEachSystem (system: {
+        pre-commit-check = pre-commit-hooks.lib.${system}.run {
+          src = ./.;
+          hooks = {
+            nixpkgs-fmt.enable = true;
+          };
+        };
+      });
 
-      formatter = forEachSystem (system:
-        nix-formatter-pack.lib.mkFormatter formatterPackArgsFor.${system});
+      formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.treefmt);
 
       # packages = forEachSystem (system:
       #   import ./pkgs { pkgs = self.legacyPackages.${system}; }
