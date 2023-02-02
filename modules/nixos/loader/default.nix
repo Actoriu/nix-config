@@ -1,31 +1,31 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 with lib; let
   cfg = config.custom.loader;
-in
-{
+in {
   options.custom.loader = {
     enable = mkEnableOption "Enable support for loader.";
 
     biostype = mkOption {
-      type = types.nullOr (types.enum [ "gpt" "legacy" ]);
+      type = types.nullOr (types.enum ["gpt" "legacy"]);
       default = null;
       example = "legacy";
       description = "Enable support for bios type.";
     };
 
     bootloader = mkOption {
-      type = types.nullOr (types.enum [ "grub" "systemd-boot" ]);
+      type = types.nullOr (types.enum ["grub" "systemd-boot"]);
       default = null;
       example = "grub";
       description = "Enable support for Bootloader.";
     };
 
     disktype = mkOption {
-      type = types.nullOr (types.enum [ "uefi" "mbr" ]);
+      type = types.nullOr (types.enum ["uefi" "mbr"]);
       default = null;
       example = "mbr";
       description = "Enable support for disk partition table type.";

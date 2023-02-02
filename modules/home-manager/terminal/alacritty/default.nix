@@ -1,12 +1,12 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 with lib; let
   cfg = config.custom.alacritty;
-in
-{
+in {
   options.custom.alacritty = {
     enable = mkEnableOption "Enable support for alacritty.";
   };

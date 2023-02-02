@@ -1,12 +1,12 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 with lib; let
   cfg = config.custom.video.nvidia;
-in
-{
+in {
   options.custom.video.nvidia = {
     enable = mkEnableOption "Enable support for the graphical interface nvidia drives.";
 
@@ -20,10 +20,10 @@ in
 
   config = mkIf (cfg.enable && config.services.xserver.enable) (mkMerge [
     {
-      boot.blacklistedKernelModules = [ "nouveau" ];
+      boot.blacklistedKernelModules = ["nouveau"];
 
       services.xserver = {
-        videoDrivers = [ "nvidia" ];
+        videoDrivers = ["nvidia"];
       };
     }
     (mkIf (cfg.drivers != null && cfg.drivers == "nvidia-340") {

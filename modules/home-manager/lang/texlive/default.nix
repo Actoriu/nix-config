@@ -1,12 +1,12 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 with lib; let
   cfg = config.custom.texlive;
-in
-{
+in {
   options.custom.texlive = {
     enable = mkEnableOption "Enable support for texlive language.";
   };

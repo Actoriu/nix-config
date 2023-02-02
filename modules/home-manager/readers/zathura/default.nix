@@ -1,12 +1,12 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 with lib; let
   cfg = config.custom.zathura;
-in
-{
+in {
   options.custom.zathura = {
     enable = mkEnableOption "Enable support for zathura.";
   };

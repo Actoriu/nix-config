@@ -1,11 +1,11 @@
-{ config
-, lib
-, ...
+{
+  config,
+  lib,
+  ...
 }:
 with lib; let
   cfg = config.custom.xdg;
-in
-{
+in {
   options.custom.xdg = {
     enable = mkEnableOption "Enable support for xdg.";
   };

@@ -1,4 +1,4 @@
-{ ... }: {
+{...}: {
   imports = [
     ./editors
     ./lang

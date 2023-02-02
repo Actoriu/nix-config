@@ -1,11 +1,11 @@
-{ config
-, lib
-, ...
+{
+  config,
+  lib,
+  ...
 }:
 with lib; let
   cfg = config.custom.lorri;
-in
-{
+in {
   options.custom.lorri = {
     enable = mkEnableOption "Enable support for lorri.";
   };

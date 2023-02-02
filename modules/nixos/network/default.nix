@@ -1,11 +1,11 @@
-{ config
-, lib
-, ...
+{
+  config,
+  lib,
+  ...
 }:
 with lib; let
   cfg = config.custom.network;
-in
-{
+in {
   options.custom.network = {
     enable = mkEnableOption "Enable support for networkmanagement.";
     networkmanager = mkEnableOption "Enable support for networkmanager.";

@@ -1,12 +1,12 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 with lib; let
   cfg = config.custom.git;
-in
-{
+in {
   options.custom.git = {
     enable = mkEnableOption "Enable support for git.";
     delta = mkEnableOption "Enable support for delta.";

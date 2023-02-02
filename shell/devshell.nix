@@ -1,16 +1,13 @@
-{ pkgs
-, ...
-}:
-
+{pkgs, ...}:
 pkgs.devshell.mkShell {
   name = "nix-config";
-  imports = [ (pkgs.devshell.extraModulesDir + "/git/hooks.nix") ];
+  imports = [(pkgs.devshell.extraModulesDir + "/git/hooks.nix")];
   git.hooks.enable = true;
   git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
   packages = with pkgs; [
     cachix
     home-manager
-    nixpkgs-fmt
+    alejandra
     nodePackages.prettier
     nodePackages.prettier-plugin-toml
     shfmt

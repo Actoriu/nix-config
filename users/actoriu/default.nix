@@ -1,4 +1,4 @@
-{ ... }: {
+{...}: {
   custom = {
     # development
     # cc.enable = true;

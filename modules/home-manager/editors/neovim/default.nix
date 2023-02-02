@@ -1,12 +1,12 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 with lib; let
   cfg = config.custom.neovim;
-in
-{
+in {
   options.custom.neovim = {
     enable = mkEnableOption "Enable support for neovim.";
   };

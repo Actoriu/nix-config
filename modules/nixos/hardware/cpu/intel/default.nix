@@ -1,11 +1,11 @@
-{ config
-, lib
-, ...
+{
+  config,
+  lib,
+  ...
 }:
 with lib; let
   cfg = config.custom.cpu.intel;
-in
-{
+in {
   options.custom.cpu.intel = {
     enable = mkEnableOption "Enable support for intel cpu.";
   };

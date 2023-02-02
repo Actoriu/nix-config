@@ -1,11 +1,11 @@
-{ config
-, lib
-, ...
+{
+  config,
+  lib,
+  ...
 }:
 with lib; let
   cfg = config.custom.cpu.amd;
-in
-{
+in {
   options.custom.cpu.amd = {
     enable = mkEnableOption "Enable support for amd cpu.";
   };

@@ -1,11 +1,11 @@
-{ config
-, lib
-, ...
+{
+  config,
+  lib,
+  ...
 }:
 with lib; let
   cfg = config.custom.bat;
-in
-{
+in {
   options.custom.bat = {
     enable = mkEnableOption "Enable support for bat.";
   };

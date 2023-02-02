@@ -1,12 +1,12 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 with lib; let
   cfg = config.custom.urxvt;
-in
-{
+in {
   options.custom.urxvt = {
     enable = mkEnableOption "Enable support for rxvt-unicode terminal emulator.";
   };

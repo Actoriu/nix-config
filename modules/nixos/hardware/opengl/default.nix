@@ -1,12 +1,12 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 with lib; let
   cfg = config.custom.opengl;
-in
-{
+in {
   options.custom.opengl = {
     enable = mkEnableOption "Enable support for the graphical interface nvidia drives.";
 

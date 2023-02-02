@@ -1,11 +1,11 @@
-{ config
-, lib
-, ...
+{
+  config,
+  lib,
+  ...
 }:
 with lib; let
   cfg = config.custom.xsettingsd;
-in
-{
+in {
   options.custom.xsettingsd = {
     enable = mkEnableOption "Enable support for xsettingsd.";
   };
