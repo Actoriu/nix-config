@@ -185,7 +185,7 @@
         });
 
       nixosConfigurations = {
-        d630 = nixos {
+        d630 = lib.nixos {
           extraModules = [
             ({ ... }: {
               nixpkgs = {
