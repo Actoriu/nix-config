@@ -9,7 +9,7 @@ fetch.github = "hosxy/Fcitx5-Material-Color"
 
 [fcitx5-pinyin-moegirl]
 src.git = "https://github.com/outloudvi/mw2fcitx"
-fetch.url = "https://github.com/outloudvi/mw2fcitx/releases/download/$ver/moegirl.dict.yaml"
+fetch.url = "https://github.com/outloudvi/mw2fcitx/releases/download/20230114/moegirl.dict.yaml"
 
 [fcitx5-pinyin-zhwiki]
 src.git = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki"
