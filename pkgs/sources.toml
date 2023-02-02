@@ -9,11 +9,11 @@ fetch.github = "hosxy/Fcitx5-Material-Color"
 
 [fcitx5-pinyin-moegirl]
 src.github = "outloudvi/mw2fcitx"
-fetch.url = "https://github.com/outloudvi/mw2fcitx/releases/download/20220218/moegirl.dict"
+fetch.url = "https://github.com/outloudvi/mw2fcitx/releases/download/20230114/moegirl.dict.yaml"
 
 [fcitx5-pinyin-zhwiki]
 src.github_tag = "felixonmars/fcitx5-pinyin-zhwiki"
-fetch.url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.4/zhwiki-$ver.dict"
+fetch.url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.4/zhwiki-20230128.dict.yaml"
 
 [gfwlist]
 src.github = "gfwlist/gfwlist"
