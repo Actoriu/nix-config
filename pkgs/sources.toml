@@ -1,20 +1,21 @@
 # nvfetcher.toml
 [dnsmasq-china-list]
-src.github = "felixonmars/dnsmasq-china-list"
+src.git = "https://github.com/felixonmars/dnsmasq-china-list"
 fetch.github = "felixonmars/dnsmasq-china-list"
 
 [fcitx5-material-color]
-src.github = "hosxy/Fcitx5-Material-Color"
+src.git = "https://github.com/hosxy/Fcitx5-Material-Color"
 fetch.github = "hosxy/Fcitx5-Material-Color"
 
 [fcitx5-pinyin-moegirl]
-src.github = "outloudvi/mw2fcitx"
-fetch.url = "https://github.com/outloudvi/mw2fcitx/releases/download/20230114/moegirl.dict.yaml"
+src.git = "https://github.com/outloudvi/mw2fcitx"
+fetch.url = "https://github.com/outloudvi/mw2fcitx/releases/download/$ver/moegirl.dict.yaml"
 
 [fcitx5-pinyin-zhwiki]
-src.github = "felixonmars/fcitx5-pinyin-zhwiki"
-fetch.url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.4/zhwiki-20230128.dict.yaml"
+src.git = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki"
+src.prefix = "0.2.4."
+fetch.url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.4/zhwiki-$ver.dict.yaml"
 
 [gfwlist]
-src.github = "gfwlist/gfwlist"
+src.git = "https://github.com/gfwlist/gfwlist"
 fetch.github = "gfwlist/gfwlist"
