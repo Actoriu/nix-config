@@ -7,11 +7,10 @@ in rec {
   array = list: func: forEach list (name: getAttrFromPath [name] func);
   filter = name: func: attrs: filterAttrs name (mapAttrs' func attrs);
   list = func: foldl' (x: y: x + y + " ") "" (attrNames func);
-  dirctory = dir: filterSource (path: type: !(type == "directory" && baseNameOf path == "compat")) dir;
 
   ## Files Map
   # Top Level
-  files = dir: func: extension:
+  files = dir: (filterSource (path: type: !(type == "directory" && baseNameOf path == "compat")) dir) func: extension:
     filter (name: type: type != null && !(hasPrefix "_" name)) (name: type: let
       path = "${toString dir}/${name}";
     in
@@ -70,7 +69,7 @@ in rec {
   # Module Imports
   module = dir: attrValues (modules dir id);
   module' = dir: attrNames (modules dir id);
-  modules = dir: func: files directory func ".nix";
+  modules = dir: func: files dir func ".nix";
   modules' = dir: func: files' dir func ".nix";
 
   # 'sops' Encrypted Secrets
