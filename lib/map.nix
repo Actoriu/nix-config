@@ -1,30 +1,7 @@
 {lib, ...}: let
-  inherit
-    (builtins)
-    attrNames
-    attrValues
-    foldl'
-    isPath
-    pathExists
-    readDir
-    toString
-    ;
+  inherit (builtins) attrNames attrValues foldl' isPath pathExists readDir toString;
 
-  inherit
-    (lib)
-    flatten
-    filterAttrs
-    forEach
-    getAttrFromPath
-    hasPrefix
-    hasSuffix
-    id
-    mapAttrs'
-    mapAttrsToList
-    mkIf
-    nameValuePair
-    removeSuffix
-    ;
+  inherit (lib) flatten filterAttrs forEach getAttrFromPath hasPrefix hasSuffix id mapAttrs' mapAttrsToList mkIf nameValuePair removeSuffix;
 in rec {
   ## Mapping Functions ##
   array = list: func: forEach list (name: getAttrFromPath [name] func);
