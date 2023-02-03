@@ -126,8 +126,6 @@
       };
     });
   in {
-    # lib = lib.my;
-
     overlays = {
       # default = import ./overlays { inherit inputs; };
       devshell = inputs.devshell.overlay;
@@ -191,6 +189,9 @@
           inputs.nixos-cn.nixosModules.nixos-cn
           inputs.sops-nix.nixosModules.sops
           ./profiles/nixos
+        ];
+        home_extraModules = [
+          inputs.impermanence.nixosModules.home-manager.impermanence
         ];
       };
     };
