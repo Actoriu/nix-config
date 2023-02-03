@@ -1,5 +1,5 @@
 {lib, ...}: let
-  inherit (builtins) attrNames attrValues filterSource foldl' isPath pathExists readDir toString;
+  inherit (builtins) attrNames attrValues foldl' isPath pathExists readDir toString;
 
   inherit (lib) flatten filterAttrs forEach getAttrFromPath hasPrefix hasSuffix id mapAttrs' mapAttrsToList mkIf nameValuePair removeSuffix;
 in rec {
@@ -33,7 +33,7 @@ in rec {
         && hasSuffix extension name
       then nameValuePair (removeSuffix extension name) (func path)
       else if (type == "directory" && baseNameOf path == "compat")
-      then filterSource (path: type: !(type == "directory" && baseNameOf path == "compat")) dir
+      then nameValuePair "" null
       else nameValuePair "" null) (readDir dir);
 
   # Recursive
