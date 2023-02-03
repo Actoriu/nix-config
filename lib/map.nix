@@ -1,5 +1,5 @@
 {lib, ...}: let
-  inherit (builtins) attrNames attrValues foldl' isPath pathExists readDir toString;
+  inherit (builtins) attrNames attrValues filterSource foldl' isPath pathExists readDir toString;
 
   inherit (lib) flatten filterAttrs forEach getAttrFromPath hasPrefix hasSuffix id mapAttrs' mapAttrsToList mkIf nameValuePair removeSuffix;
 in rec {
@@ -7,6 +7,7 @@ in rec {
   array = list: func: forEach list (name: getAttrFromPath [name] func);
   filter = name: func: attrs: filterAttrs name (mapAttrs' func attrs);
   list = func: foldl' (x: y: x + y + " ") "" (attrNames func);
+  dirctory = dir: filterSource (path: type: !(type == "directory" && baseNameOf path == "compat")) dir;
 
   ## Files Map
   # Top Level
@@ -69,7 +70,7 @@ in rec {
   # Module Imports
   module = dir: attrValues (modules dir id);
   module' = dir: attrNames (modules dir id);
-  modules = dir: func: files dir func ".nix";
+  modules = dir: func: files directory func ".nix";
   modules' = dir: func: files' dir func ".nix";
 
   # 'sops' Encrypted Secrets
