@@ -190,9 +190,9 @@
           inputs.sops-nix.nixosModules.sops
           ./profiles/nixos
         ];
-        # home_extraModules = [
-        #   inputs.impermanence.nixosModules.home-manager.impermanence
-        # ];
+        home_extraModules = [
+          inputs.impermanence.nixosModules.home-manager.impermanence
+        ];
       };
     };
 
