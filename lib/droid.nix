@@ -43,7 +43,7 @@ in {
         ];
       };
       extraSpecialArgs = {inherit inputs self persistence;};
-      home-manager-path = home-manager.outPath;
+      home-manager-path = inputs.home-manager.outPath;
       modules = add_extraModules ++ sharedModules ++ [../hosts/${devicename}];
     };
 }
