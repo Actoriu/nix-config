@@ -12,10 +12,7 @@ in rec {
   # Top Level
   files = dir: func: extension:
     filter (name: type: type != null && !(hasPrefix "_" name)) (name: type: let
-      # if (type == "directory" && baseNameOf path == "compat")
-      #   then builtins.filterSource (path: type: !(type == "directory" && baseNameOf path == "cmopat")) path
-      # else
-        path = "${toString dir}/${name}";
+      path = "${toString dir}/${name}";
     in
       if
         (type == "directory" || type == "symlink")
@@ -35,8 +32,6 @@ in rec {
         )
         && hasSuffix extension name
       then nameValuePair (removeSuffix extension name) (func path)
-      else if (type == "directory" && pathExists ("${path}" == "compat"))
-      then nameValuePair "" null
       else nameValuePair "" null) (readDir dir);
 
   # Recursive
