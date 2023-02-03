@@ -121,11 +121,13 @@
 
     lib = nixpkgs.lib.extend (final: prev: {
       my = import ./lib {
-        inherit inputs;
+        inherit self inputs;
         lib = final;
       };
     });
   in {
+    lib = lib.my;
+
     overlays = {
       # default = import ./overlays { inherit inputs; };
       devshell = inputs.devshell.overlay;
