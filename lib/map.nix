@@ -11,7 +11,7 @@ in rec {
 
   ## Files Map
   # Top Level
-  files = dir: func: extension:
+  files = dir func: extension:
     filter (name: type: type != null && !(hasPrefix "_" name)) (name: type: let
       path = "${toString dir}/${name}";
     in
