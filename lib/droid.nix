@@ -39,7 +39,7 @@ in {
       pkgs = import nixpkgs {
         inherit system;
         overlays = [
-          nix-on-droid.overlays.default
+          inputs.nix-on-droid.overlays.default
         ];
       };
       extraSpecialArgs = {inherit inputs self persistence;};
