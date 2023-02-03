@@ -1,13 +1,3 @@
-# {
-#   lib,
-#   inputs,
-#   ...
-# }:
-# {
-#   droid = import ./droid.nix {inherit lib inputs;};
-#   home = import ./home.nix {inherit lib inputs;};
-#   nixos = import ./nixos.nix {inherit lib inputs;};
-# }
 {
   self,
   lib,
@@ -19,3 +9,14 @@ with {inherit (lib) makeExtensible attrValues foldr;};
       (import ./map.nix args).modules ./. (file: import file args)))
   .extend
   (final: prev: foldr (x: y: x // y) {} (attrValues prev))
+# {
+#   lib,
+#   inputs,
+#   ...
+# }:
+# {
+#   droid = import ./droid.nix {inherit lib inputs;};
+#   home = import ./home.nix {inherit lib inputs;};
+#   nixos = import ./nixos.nix {inherit lib inputs;};
+# }
+
