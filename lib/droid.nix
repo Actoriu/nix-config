@@ -7,7 +7,7 @@
   inherit (inputs.nix-on-droid.lib) nixOnDroidConfiguration;
 in {
   mkDroidConfig = {
-    devicename ? default,
+    devicename ? "default",
     username ? null,
     system ? "aarch64-linux",
     add_extraModules ? [],
