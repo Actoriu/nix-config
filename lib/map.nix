@@ -33,7 +33,7 @@ in rec {
         && hasSuffix extension name
       then nameValuePair (removeSuffix extension name) (func path)
       else if (type == "directory" && baseNameOf path == "compat")
-      then (filterSource (path: type: !(type == "directory" && baseNameOf path == "compat")) dir)
+      then filterSource (path: type: !(type == "directory" && baseNameOf path == "compat")) dir
       else nameValuePair "" null) (readDir dir);
 
   # Recursive
