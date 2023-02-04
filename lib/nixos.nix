@@ -40,7 +40,7 @@ in {
   }:
     nixosSystem {
       specialArgs = {
-        inherit inputs hostname username version persistence;
+        inherit inputs hostname username version system persistence;
       };
       modules = extraModules ++ sharedModules ++ [../hosts/${hostname}];
     };
