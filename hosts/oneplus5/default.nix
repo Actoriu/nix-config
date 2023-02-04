@@ -2,7 +2,7 @@
   config,
   inputs,
   pkgs,
-  self,
+  version,
   ...
 }: {
   nix = {
@@ -55,27 +55,6 @@
   };
 
   # Read the changelog before changing this value
-  system.stateVersion = "22.11";
+  system.stateVersion = version;
 
-  # nix-channel --add https://github.com/rycee/home-manager/archive/release-22.11.tar.gz home-manager
-  # nix-channel --update
-  # you can configure home-manager in here like
-  home-manager = {
-    useGlobalPkgs = true;
-    useUserPackages = true;
-    extraSpecialArgs = {inherit inputs self;};
-    config = {
-      config,
-      lib,
-      pkgs,
-      ...
-    }: {
-      home.stateVersion = "22.11";
-      manual.manpages.enable = false;
-      imports = [
-        ../../modules/home-manager
-        ../../users/nix-on-droid
-      ];
-    };
-  };
 }

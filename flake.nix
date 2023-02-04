@@ -119,8 +119,6 @@
 
     forEachSystem = nixpkgs.lib.genAttrs ["aarch64-linux" "x86_64-linux"];
 
-    # version = nixpkgs.lib.fileContents ./.version;
-
     lib = nixpkgs.lib.extend (final: prev: {
       my = import ./lib {
         inherit inputs outputs;

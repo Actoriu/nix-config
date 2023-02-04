@@ -2,10 +2,9 @@
   lib,
   inputs,
   outputs,
-  ...
+  version
 }: let
   inherit (inputs.nix-on-droid.lib) nixOnDroidConfiguration;
-  inherit (outputs) myversion;
 in {
   mkDroidConfig = {
     devicename ? "default",
@@ -21,7 +20,7 @@ in {
           useUserPackages = true;
           extraSpecialArgs = {inherit inputs;};
           config = {...}: {
-            home.stateVersion = "${myversion}";
+            home.stateVersion = version;
             manual.manpages.enable = false;
             imports =
               home_extraModules
@@ -43,7 +42,7 @@ in {
           inputs.nix-on-droid.overlays.default
         ];
       };
-      extraSpecialArgs = {inherit inputs persistence;};
+      extraSpecialArgs = {inherit inputs version persistence;};
       home-manager-path = inputs.home-manager.outPath;
       modules = add_extraModules ++ sharedModules ++ [../hosts/${devicename}];
     };
