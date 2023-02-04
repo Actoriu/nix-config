@@ -2,7 +2,7 @@
   lib,
   inputs,
   outputs,
-  version
+  version,
 }: let
   inherit (inputs.nix-on-droid.lib) nixOnDroidConfiguration;
 in {

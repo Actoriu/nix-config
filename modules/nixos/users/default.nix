@@ -36,9 +36,9 @@ in {
     };
 
     userVersion = mkOption {
-      type = types.nullOr (types.enum [ "22.11" "23.05" ]);
+      type = types.nullOr (types.enum ["22.11" "23.05"]);
       default = null;
-      example = "22.05";
+      example = "22.11";
       description = "Enable support for stateVersion.";
     };
   };
