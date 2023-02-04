@@ -2,8 +2,9 @@
   lib,
   inputs,
   outputs,
+  version,
 }: {
-  droid = import ./droid.nix {inherit lib inputs outputs;};
-  home = import ./home.nix {inherit lib inputs outputs;};
-  nixos = import ./nixos.nix {inherit lib inputs outputs;};
+  droid = import ./droid.nix {inherit lib inputs outputs version;};
+  home = import ./home.nix {inherit lib inputs outputs version;};
+  nixos = import ./nixos.nix {inherit lib inputs outputs version;};
 }
