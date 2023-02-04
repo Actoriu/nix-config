@@ -126,7 +126,7 @@
       };
     });
 
-    version = nixpkgs.lib.fileContents ./.version;
+    myversion = nixpkgs.lib.fileContents ./.version;
   in {
     overlays = {
       # default = import ./overlays { inherit inputs; };
