@@ -21,7 +21,7 @@ in {
           useUserPackages = true;
           extraSpecialArgs = {inherit inputs persistence;};
           users.${username} = {...}: {
-            home.stateVersion = self.version;
+            home.stateVersion = ${self.version};
             programs.home-manager.enable = true;
             manual.manpages.enable = false;
             systemd.user.startServices = "sd-switch";
