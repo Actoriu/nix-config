@@ -7,7 +7,7 @@
   hostname,
   username,
   system,
-  version
+  version,
   ...
 }: {
   imports = [
