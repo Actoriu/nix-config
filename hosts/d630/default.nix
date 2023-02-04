@@ -6,11 +6,13 @@
   pkgs,
   hostname,
   username,
+  system,
+  version
   ...
 }: {
   imports = [
     # Include the results of the hardware scan.
-    ./hardware-configuration.nix
+    (./hardware-configuration.nix {inherit system;};)
   ];
 
   services.xserver.enable = true;
@@ -56,7 +58,7 @@
       enable = true;
       # defaultUserShell = true;
       package = pkgs.zsh;
-      userVersion = "22.11";
+      userVersion = version;
     };
   };
 
