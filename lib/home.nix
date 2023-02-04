@@ -1,6 +1,7 @@
 {
-  inputs,
   lib,
+  inputs,
+  outputs,
   ...
 }: let
   inherit (inputs) self;

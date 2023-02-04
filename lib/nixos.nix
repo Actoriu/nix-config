@@ -1,6 +1,6 @@
 {
-  inputs,
   lib,
+  inputs,
   outputs,
   ...
 }: let
