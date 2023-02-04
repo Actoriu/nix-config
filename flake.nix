@@ -115,15 +115,15 @@
     nixpkgs,
     ...
   } @ inputs: let
-    # inherit (self) outputs;
+    inherit (self) outputs;
 
     forEachSystem = nixpkgs.lib.genAttrs ["aarch64-linux" "x86_64-linux"];
 
-    version = nixpkgs.lib.fileContents ./.version;
+    # version = nixpkgs.lib.fileContents ./.version;
 
     lib = nixpkgs.lib.extend (final: prev: {
       my = import ./lib {
-        inherit inputs;
+        inherit inputs outputs;
         lib = final;
       };
     });

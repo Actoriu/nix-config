@@ -1,10 +1,10 @@
 {
   lib,
   inputs,
+  outputs,
+  version
 }: let
-  inherit (inputs) self;
   inherit (inputs.nixpkgs.lib) nixosSystem;
-  inherit (self.outputs) version;
 in {
   mkNixosConfig = {
     hostname,
