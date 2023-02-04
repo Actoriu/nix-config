@@ -5,6 +5,7 @@
 }: let
   inherit (inputs) self;
   inherit (inputs.home-manager.lib) homeManagerConfiguration;
+  inherit (outputs) version;
 in {
   mkHomeConfig = {
     hostname ? null,
@@ -15,7 +16,7 @@ in {
         home = {
           inherit username;
           homeDirectory = "home/${username}";
-          stateVersion = "22.11";
+          stateVersion = "${version}";
         };
         programs.home-manager.enable = true;
         manual.manpages.enable = false;

@@ -121,10 +121,12 @@
 
     lib = nixpkgs.lib.extend (final: prev: {
       my = import ./lib {
-        inherit inputs;
+        inherit inputs outputs;
         lib = final;
       };
     });
+
+    version = nixpkgs.lib.fileContents ./.version;
   in {
     overlays = {
       # default = import ./overlays { inherit inputs; };
@@ -193,6 +195,28 @@
         home_extraModules = [
           inputs.impermanence.nixosModules.home-manager.impermanence
         ];
+      };
+    };
+
+    homeConfigurations = {
+      "actoriu@d630" = lib.my.mkHomeConfig {
+        hostname = "d630";
+        username = "actoriu";
+        extraModules = [
+          ({...}: {
+            nixpkgs = {
+              inherit (self.legacyPackages."x86_64-linux") config overlays;
+            };
+          })
+          inputs.impermanence.nixosModules.home-manager.impermanence
+        ];
+      };
+    };
+
+    nixOnDroidConfigurations = {
+      oneplus5 = lib.my.mkDroidConfig {
+        devicename = "oneplus5";
+        username = "nix-on-droid";
       };
     };
 

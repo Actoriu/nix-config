@@ -1,10 +1,12 @@
 {
   inputs,
   lib,
+  outputs,
   ...
 }: let
   inherit (inputs) nixpkgs self;
   inherit (inputs.nix-on-droid.lib) nixOnDroidConfiguration;
+  inherit (outputs) version;
 in {
   mkDroidConfig = {
     devicename ? "default",
@@ -20,7 +22,7 @@ in {
           useUserPackages = true;
           extraSpecialArgs = {inherit inputs self;};
           config = {...}: {
-            home.stateVersion = "22.11";
+            home.stateVersion = "${version}";
             manual.manpages.enable = false;
             imports =
               home_extraModules
