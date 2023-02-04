@@ -119,14 +119,14 @@
 
     forEachSystem = nixpkgs.lib.genAttrs ["aarch64-linux" "x86_64-linux"];
 
+    version = nixpkgs.lib.fileContents ./.version;
+
     lib = nixpkgs.lib.extend (final: prev: {
       my = import ./lib {
         inherit inputs outputs;
         lib = final;
       };
     });
-
-    myversion = nixpkgs.lib.fileContents ./.version;
   in {
     overlays = {
       # default = import ./overlays { inherit inputs; };
