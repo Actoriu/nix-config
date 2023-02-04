@@ -12,7 +12,7 @@
 }: {
   imports = [
     # Include the results of the hardware scan.
-    (import ./hardware-configuration.nix {inherit system;})
+    ./hardware-configuration.nix
   ];
 
   services.xserver.enable = true;
