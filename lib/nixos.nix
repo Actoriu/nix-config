@@ -1,10 +1,9 @@
 {
   lib,
   inputs,
-  outputs,
-  version,
   ...
 }: let
+  # inherit (inputs) self;
   inherit (inputs.nixpkgs.lib) nixosSystem;
   # inherit (outputs) version;
 in {
@@ -22,7 +21,7 @@ in {
           useUserPackages = true;
           extraSpecialArgs = {inherit inputs persistence;};
           users.${username} = {...}: {
-            home.stateVersion = version;
+            home.stateVersion = self.version;
             programs.home-manager.enable = true;
             manual.manpages.enable = false;
             systemd.user.startServices = "sd-switch";
