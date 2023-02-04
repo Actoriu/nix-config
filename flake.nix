@@ -123,7 +123,7 @@
 
     lib = nixpkgs.lib.extend (final: prev: {
       my = import ./lib {
-        inherit inputs outputs version;
+        inherit inputs;
         lib = final;
       };
     });
