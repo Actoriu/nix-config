@@ -4,9 +4,8 @@
   outputs,
   ...
 }: let
-  inherit (inputs) self;
   inherit (inputs.home-manager.lib) homeManagerConfiguration;
-  inherit (outputs) version;
+  inherit (outputs) myversion;
 in {
   mkHomeConfig = {
     hostname ? null,
@@ -17,7 +16,7 @@ in {
         home = {
           inherit username;
           homeDirectory = "home/${username}";
-          stateVersion = "${version}";
+          stateVersion = "${myversion}";
         };
         programs.home-manager.enable = true;
         manual.manpages.enable = false;
@@ -32,7 +31,7 @@ in {
     homeManagerConfiguration {
       pkgs = self.legacyPackages."x86_64-linux";
       extraSpecialArgs = {
-        inherit inputs self hostname username persistence;
+        inherit inputs hostname username persistence;
       };
       modules = extraModules ++ sharedModules ++ [../users/${username}];
     };

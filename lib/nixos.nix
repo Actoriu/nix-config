@@ -4,9 +4,8 @@
   outputs,
   ...
 }: let
-  inherit (inputs) self;
   inherit (inputs.nixpkgs.lib) nixosSystem;
-  inherit (outputs) version;
+  inherit (outputs) myversion;
 in {
   mkNixosConfig = {
     hostname,
@@ -20,9 +19,9 @@ in {
         home-manager = {
           useGlobalPkgs = true;
           useUserPackages = true;
-          extraSpecialArgs = {inherit inputs self persistence;};
+          extraSpecialArgs = {inherit inputs persistence;};
           users.${username} = {...}: {
-            home.stateVersion = "${version}";
+            home.stateVersion = "${myversion}";
             programs.home-manager.enable = true;
             manual.manpages.enable = false;
             systemd.user.startServices = "sd-switch";
@@ -42,7 +41,7 @@ in {
   }:
     nixosSystem {
       specialArgs = {
-        inherit inputs self hostname username persistence;
+        inherit inputs hostname username persistence;
       };
       modules = extraModules ++ sharedModules ++ [../hosts/${hostname}];
     };
