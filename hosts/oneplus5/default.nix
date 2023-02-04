@@ -56,5 +56,4 @@
 
   # Read the changelog before changing this value
   system.stateVersion = version;
-
 }
