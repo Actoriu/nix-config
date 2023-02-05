@@ -1,22 +1,21 @@
-name: Check the nix configuration
+name: Use nvfetcher update package
 
 on:
-  push:
-  pull_request:
+  schedule:
+    - cron: '0 0 * * 0'
   workflow_dispatch:
+  workflow_call:
 
 jobs:
-  check-flakes:
-    # uses: ./github.com/workflows/update.yml
-    # uses: ./github.com/workflows/nur.yml
+  update-pkgs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         include:
-          - slug: Check
-            job_name: Check the nix configuration
-            nix-command: flake check
+          - slug: Update package
+            job_name: Use nvfetcher update package
+            nix-command: develop -c nvfetcher
     name: ${{ matrix.slug }}
     steps:
       - name: Set swap space

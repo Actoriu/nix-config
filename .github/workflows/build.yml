@@ -1,9 +1,14 @@
-name: Build and test flake outputs
+name: Build flake outputs
 
-on: [ push, pull_request, workflow_dispatch ]
+# on: [ push, pull_request, workflow_dispatch ]
+on:
+  workflows: [Check the nix configuration]
+  types:
+    - completed
 
 jobs:
   Build:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
