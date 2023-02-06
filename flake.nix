@@ -197,7 +197,7 @@
     };
 
     homeConfigurations = {
-      "actoriu@d630" = lib.my.mkHomeConfig {
+      "actoriu@d630" = lib.my.home.mkHomeConfig {
         hostname = "d630";
         username = "actoriu";
         extraModules = [
@@ -212,7 +212,7 @@
     };
 
     nixOnDroidConfigurations = {
-      oneplus5 = lib.my.mkDroidConfig {
+      oneplus5 = lib.my.droid.mkDroidConfig {
         devicename = "oneplus5";
         username = "nix-on-droid";
       };
