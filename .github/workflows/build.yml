@@ -2,9 +2,10 @@ name: Build flake outputs
 
 # on: [ push, pull_request, workflow_dispatch ]
 on:
-  workflows: [Check the nix configuration]
-  types:
-    - completed
+  workflow_run:
+    workflows: [Check the nix configuration]
+    types:
+      - completed
 
 jobs:
   Build:
