@@ -42,8 +42,8 @@
   genConfiguration = hostName: {hostPlatform, ...} @ attrs:
     home-manager.lib.homeManagerConfiguration {
       pkgs = self.pkgs.${hostPlatform};
-      modules = [(genModules hostName attrs)];
       # extraSpecialArgs = {inherit inputs self;};
+      modules = [(genModules hostName attrs)];
     };
 in
   lib.mapAttrs genConfiguration (self.hosts.homeManager or {})
