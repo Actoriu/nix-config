@@ -19,14 +19,19 @@
     };
   };
 
-  genConfiguration = hostname: {
+  genConfiguration = hostName: {
     address,
     hostPlatform,
     ...
   }:
     lib.nixosSystem {
+      specialArgs = {
+        impermanence = impermanence.nixosModules;
+        nixos-hardware = nixos-hardware.nixosModules;
+        hostAddress = address;
+      };
       modules = [
-        (../hosts + "/${hostname}")
+        (../hosts + "/${hostName}")
         {
           nixpkgs.pkgs = self.pkgs.${hostPlatform};
           # FIXME: This shouldn't be needed, but is for some reason
@@ -39,11 +44,6 @@
         nixos-cn.nixosModules.nixos-cn
         sops-nix.nixosModules.sops
       ];
-      specialArgs = {
-        impermanence = impermanence.nixosModules;
-        nixos-hardware = nixos-hardware.nixosModules;
-        hostAddress = address;
-      };
     };
 in
   lib.mapAttrs genConfiguration (self.hosts.nixos or {})

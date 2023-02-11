@@ -212,6 +212,8 @@
 
     nixosConfigurations = import ./lib/nixos.nix inputs;
 
+    nixOnDroidConfigurations = import ./lib/droid.nix inputs;
+
     # nixosConfigurations = {
     #   d630 = lib.my.nixos.mkNixosConfig {
     #     hostname = "d630";
