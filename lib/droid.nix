@@ -43,11 +43,9 @@
     nix-on-droid.lib.nixOnDroidConfiguration {
       pkgs = import nixpkgs {
         system = ${hostPlatform};
-        overlays =
-          # (builtins.attrValues self.overlays)
-          ++ [
-            nix-on-droid.overlays.default
-          ];
+        overlays = [
+          nix-on-droid.overlays.default
+        ];
       };
       # extraSpecialArgs = { inherit inputs self; };
       home-manager-path = home-manager.outPath;
