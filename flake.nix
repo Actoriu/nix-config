@@ -26,6 +26,11 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
+    darwin = {
+      url = "github:LnL7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     flake-compat = {
       url = "github:edolstra/flake-compat";
       flake = false;
@@ -45,6 +50,8 @@
         nixpkgs.follows = "nixpkgs";
       };
     };
+
+    nixos-hardware.url = "github:NixOS/nixos-hardware";
 
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
@@ -108,6 +115,8 @@
       url = "github:syl20bnr/spacemacs/develop";
       flake = false;
     };
+
+    templates.url = "github:NixOS/templates";
   };
 
   outputs = {
@@ -119,23 +128,15 @@
 
     forEachSystem = nixpkgs.lib.genAttrs ["aarch64-linux" "x86_64-linux"];
 
-    lib = nixpkgs.lib.extend (final: prev: {
-      my = import ./lib {
-        inherit inputs outputs;
-        lib = final;
-      };
-    });
+    version = nixpkgs.lib.fileContents ../.version;
+    # lib = nixpkgs.lib.extend (final: prev: {
+    #   my = import ./lib {
+    #     inherit inputs outputs;
+    #     lib = final;
+    #   };
+    # });
   in {
-    overlays = {
-      # default = import ./overlays { inherit inputs; };
-      devshell = inputs.devshell.overlay;
-      nixos-cn = inputs.nixos-cn.overlay;
-      nur = inputs.nur.overlay;
-      sops-nix = inputs.sops-nix.overlay;
-      spacemacs = final: prev: {spacemacs = inputs.spacemacs;};
-    };
-
-    legacyPackages = forEachSystem (system:
+    pkgs = forEachSystem (system:
       import nixpkgs {
         inherit system;
         config = {
@@ -145,6 +146,26 @@
         };
         overlays = builtins.attrValues self.overlays;
       });
+
+    overlays = {
+      # default = import ./overlays { inherit inputs; };
+      devshell = inputs.devshell.overlay;
+      nixos-cn = inputs.nixos-cn.overlay;
+      nur = inputs.nur.overlay;
+      sops-nix = inputs.sops-nix.overlay;
+      spacemacs = final: prev: {spacemacs = inputs.spacemacs;};
+    };
+
+    # legacyPackages = forEachSystem (system:
+    #   import nixpkgs {
+    #     inherit system;
+    #     config = {
+    #       allowUnfree = true;
+    #       allowBroken = true;
+    #       allowUnsupportedSystem = true;
+    #     };
+    #     overlays = builtins.attrValues self.overlays;
+    #   });
 
     # checks = forEachSystem (system: {
     #   pre-commit-check = pre-commit-hooks.lib.${system}.run {
@@ -161,6 +182,15 @@
     #   import ./pkgs { pkgs = self.legacyPackages.${system}; }
     # );
 
+    packages = forEachSystem (localSystem: let
+      hostDrvs = import ./lib/host-drvs.nix inputs localSystem;
+      default =
+        if builtins.hasAttr "${localSystem}" hostDrvs
+        then {default = self.packages.${localSystem}.${localSystem};}
+        else {};
+    in
+      hostDrvs // default);
+
     devShells = forEachSystem (system: let
       pkgs = self.legacyPackages.${system};
     in {
@@ -174,49 +204,55 @@
         import ./shell/devshell.nix {inherit pkgs;};
     });
 
-    nixosConfigurations = {
-      d630 = lib.my.nixos.mkNixosConfig {
-        hostname = "d630";
-        username = "actoriu";
-        extraModules = [
-          ({...}: {
-            nixpkgs = {
-              inherit (self.legacyPackages."x86_64-linux") config overlays;
-            };
-          })
-          inputs.impermanence.nixosModules.impermanence
-          inputs.nixos-cn.nixosModules.nixos-cn-registries
-          inputs.nixos-cn.nixosModules.nixos-cn
-          inputs.sops-nix.nixosModules.sops
-          ./profiles/nixos
-        ];
-        home_extraModules = [
-          inputs.impermanence.nixosModules.home-manager.impermanence
-        ];
-      };
-    };
+    darwinConfigurations = import ./lib/darwin.nix inputs;
 
-    homeConfigurations = {
-      "actoriu@d630" = lib.my.mkHomeConfig {
-        hostname = "d630";
-        username = "actoriu";
-        extraModules = [
-          ({...}: {
-            nixpkgs = {
-              inherit (self.legacyPackages."x86_64-linux") config overlays;
-            };
-          })
-          inputs.impermanence.nixosModules.home-manager.impermanence
-        ];
-      };
-    };
+    homeConfigurations = import ./lib/home-manager.nix inputs;
 
-    nixOnDroidConfigurations = {
-      oneplus5 = lib.my.mkDroidConfig {
-        devicename = "oneplus5";
-        username = "nix-on-droid";
-      };
-    };
+    nixosConfigurations = import ./lib/nixos.nix inputs;
+
+    # nixosConfigurations = {
+    #   d630 = lib.my.nixos.mkNixosConfig {
+    #     hostname = "d630";
+    #     username = "actoriu";
+    #     extraModules = [
+    #       ({...}: {
+    #         nixpkgs = {
+    #           inherit (self.legacyPackages."x86_64-linux") config overlays;
+    #         };
+    #       })
+    #       inputs.impermanence.nixosModules.impermanence
+    #       inputs.nixos-cn.nixosModules.nixos-cn-registries
+    #       inputs.nixos-cn.nixosModules.nixos-cn
+    #       inputs.sops-nix.nixosModules.sops
+    #       ./profiles/nixos
+    #     ];
+    #     home_extraModules = [
+    #       inputs.impermanence.nixosModules.home-manager.impermanence
+    #     ];
+    #   };
+    # };
+
+    # homeConfigurations = {
+    #   "actoriu@d630" = lib.my.mkHomeConfig {
+    #     hostname = "d630";
+    #     username = "actoriu";
+    #     extraModules = [
+    #       ({...}: {
+    #         nixpkgs = {
+    #           inherit (self.legacyPackages."x86_64-linux") config overlays;
+    #         };
+    #       })
+    #       inputs.impermanence.nixosModules.home-manager.impermanence
+    #     ];
+    #   };
+    # };
+
+    # nixOnDroidConfigurations = {
+    #   oneplus5 = lib.my.mkDroidConfig {
+    #     devicename = "oneplus5";
+    #     username = "nix-on-droid";
+    #   };
+    # };
 
     #   nixosConfigurations = {
     #     d630 = nixpkgs.lib.nixosSystem {
