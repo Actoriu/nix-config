@@ -184,17 +184,17 @@
     #   import ./pkgs { pkgs = self.legacyPackages.${system}; }
     # );
 
-    packages = forEachSystem (localSystem: let
-      hostDrvs = import ./lib/host-drvs.nix inputs localSystem;
+    packages = forEachSystem (system: let
+      hostDrvs = import ./lib/host-drvs.nix inputs system;
       default =
-        if builtins.hasAttr "${localSystem}" hostDrvs
-        then {default = self.packages.${localSystem}.${localSystem};}
+        if builtins.hasAttr "${system}" hostDrvs
+        then {default = self.packages.${system}.${system};}
         else {};
     in
       hostDrvs // default);
 
     devShells = forEachSystem (system: let
-      pkgs = self.legacyPackages.${system};
+      pkgs = self.pkgs.${system};
     in {
       default =
         # let
