@@ -136,6 +136,8 @@
     #   };
     # });
   in {
+    hosts = import ./lib/hosts.nix;
+
     pkgs = forEachSystem (system:
       import nixpkgs {
         inherit system;
