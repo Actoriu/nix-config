@@ -24,23 +24,6 @@
     overlays = builtins.attrValues outputs.overlays;
   };
 
-  home-manager = {
-    useGlobalPkgs = true;
-    useUserPackages = true;
-    extraSpecialArgs = {inherit inputs outputs;};
-    users.actoriu = {...}: {
-      home.stateVersion = "22.11";
-      programs.home-manager.enable = true;
-      manual.manpages.enable = false;
-      systemd.user.startServices = "sd-switch";
-      imports = [
-        inputs.impermanence.nixosModules.home-manager.impermanence
-        ../../../modules/home-manager
-        ../../../users/actoriu
-      ];
-    };
-  };
-
   custom = {
     fonts.enable = true;
     audio = {
@@ -82,6 +65,23 @@
       enable = true;
       package = pkgs.zsh;
       userVersion = "22.11";
+    };
+  };
+
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    extraSpecialArgs = {inherit inputs outputs;};
+    users.actoriu = {...}: {
+      home.stateVersion = "22.11";
+      programs.home-manager.enable = true;
+      manual.manpages.enable = false;
+      systemd.user.startServices = "sd-switch";
+      imports = [
+        inputs.impermanence.nixosModules.home-manager.impermanence
+        ../../../modules/home-manager
+        ../../../users/actoriu
+      ];
     };
   };
 }
