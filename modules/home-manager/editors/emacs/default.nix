@@ -89,9 +89,11 @@ in {
       home = {
         packages = with pkgs; [
           # eaf core
+          nodejs
           wmctrl
           # eaf-browser
           aria
+          qt6.qtwebengine
           # eaf-file-manager
           fd
           # eaf-music-player
@@ -99,27 +101,36 @@ in {
           (python3.withPackages (ps:
             with ps; [
               # eaf core
-              pyqt5
-              sip
-              pyqtwebengine
               epc
               lxml
+              pyqt6
+              pyqt6-webengine
+              sexpdata
+              sip
+              tld
+              # eaf-browser
+              pysocks
               # eaf-airshare
               # eaf-file-browser
               # eaf-file-sender
               qrcode
-              # eaf-browser
-              pysocks
               # eaf-file-manager
+              exif
               pypinyin
+              # eaf-git
+              charset-normalizer
+              pygit2
+              pygments
+              unidiff
               # eaf-jupyter
-              qtconsole
+              # qtconsole
               # eaf-markdown-previewer
               markdown
               retrying
               # eaf-music-player
               pytaglib
               # eaf-pdf-viewer
+              packaging
               pymupdf
               # eaf-system-monitor
               psutil
