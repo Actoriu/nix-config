@@ -193,7 +193,12 @@
         modules = [
           ({...}: {
             nixpkgs = {
-              inherit (self.legacyPackages."x86_64-linux") config overlays;
+              config = {
+                allowUnfree = true;
+                allowBroken = true;
+                allowUnsupportedSystem = true;
+              };
+              overlays = builtins.attrValues self.overlays;
             };
           })
           inputs.impermanence.nixosModules.home-manager.impermanence
