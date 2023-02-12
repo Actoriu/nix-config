@@ -177,7 +177,10 @@
     # );
 
     devShells = forEachSystem (system: let
-      pkgs = self.pkgs.${system};
+      pkgs = import nixpkgs {
+        inherit system;
+        overlays = [inputs.devshell.overlay];
+      };
     in {
       default =
         # let
