@@ -1,8 +1,8 @@
 {
   config,
   inputs,
+  outputs,
   pkgs,
-  version,
   ...
 }: {
   nix = {
@@ -55,5 +55,5 @@
   };
 
   # Read the changelog before changing this value
-  system.stateVersion = version;
+  system.stateVersion = "22.11";
 }
