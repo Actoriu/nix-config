@@ -6,7 +6,6 @@
   lib,
   pkgs,
   modulesPath,
-  system,
   ...
 }: {
   imports = [
@@ -63,7 +62,7 @@
   # networking.interfaces.enp9s0.useDHCP = lib.mkDefault true;
   # networking.interfaces.wlan0.useDHCP = lib.mkDefault true;
 
-  nixpkgs.hostPlatform = lib.mkDefault system;
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   powerManagement.cpuFreqGovernor = lib.mkDefault "ondemand";
   # hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
   services.hdapsd.enable = lib.mkDefault true;
