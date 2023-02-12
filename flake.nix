@@ -26,11 +26,6 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-    darwin = {
-      url = "github:LnL7/nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     flake-compat = {
       url = "github:edolstra/flake-compat";
       flake = false;
@@ -115,8 +110,6 @@
       url = "github:syl20bnr/spacemacs/develop";
       flake = false;
     };
-
-    templates.url = "github:NixOS/templates";
   };
 
   outputs = {
