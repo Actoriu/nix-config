@@ -36,18 +36,15 @@ jobs:
         run: |
           git config --global user.email "51398008+Actoriu@users.noreply.github.com"
           git config --global user.name "Actoriu"
-      - name: ${{ matrix.job_name }}
-        uses: nick-invision/retry@v2.8.3
-        with:
-          max_attempts: 2
-          timeout_minutes: 720
-          retry_on: error
-          command: |
-            nix \
-              --log-format bar-with-logs \
-              --option keep-going true \
-              --show-trace \
-              ${{ matrix.nix-command }}
+      - name: Update package
+        run: |
+          nix develop -c nvfetcher
+          if [ -z "$(git status --porcelain)" ]; then
+          echo "repository is clean, skip commit"
+        else
+          git add --all
+          git commit --message "use nvfetcher"
+        fi
       - name: Git push
         run: |
-          git push
+          git push origin main
