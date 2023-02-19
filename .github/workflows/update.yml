@@ -6,6 +6,10 @@ on:
   workflow_dispatch:
   workflow_call:
 
+concurrency:
+  group: ${{ github.repository }}-${{ github.head_ref || github.sha }}-${{ github.workflow }}
+  cancel-in-progress: true
+
 jobs:
   get-flakes:
     runs-on: ubuntu-latest
@@ -18,10 +22,8 @@ jobs:
           swap-size-gb: 10
       - name: Checkout repository
         uses: actions/checkout@v3.3.0
-        with:
-          fetch-depth: 0
       - name: Install nix
-        uses: cachix/install-nix-action@v18
+        uses: cachix/install-nix-action@v19
         with:
           nix_path: nixpkgs=channel:nixos-unstable
           extra_nix_config: |
@@ -31,13 +33,8 @@ jobs:
         run: |
           set -euo pipefail
 
-          get_flake_inputs() {
-            nix flake metadata --json \
-              | jq -c '
-                  .locks.nodes.root.inputs
-                  | {flake: keys}'
-          }
-          echo "matrix=$(get_flake_inputs)" >> "$GITHUB_OUTPUT"
+          flakes="$(nix flake metadata --json | jq -rcM '.locks.nodes.root.inputs | {flake: keys}')"
+          echo "matrix=$flakes" >> "$GITHUB_OUTPUT"
 
   update-flake:
     runs-on: ubuntu-latest
@@ -53,10 +50,8 @@ jobs:
           swap-size-gb: 10
       - name: Checkout repository
         uses: actions/checkout@v3.3.0
-        with:
-          fetch-depth: 0
       - name: Install nix
-        uses: cachix/install-nix-action@v18
+        uses: cachix/install-nix-action@v19
         with:
           nix_path: nixpkgs=channel:nixos-unstable
           extra_nix_config: |
@@ -67,13 +62,14 @@ jobs:
         with:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
-      - name: update-${{ matrix.flake }}
+      - name: Update ${{ matrix.flake }}
         uses: cpcloud/flake-update-action@v1.0.4
         with:
           dependency: ${{ matrix.flake }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           pull-request-token: ${{ steps.generate-token.outputs.token }}
-          pull-request-author: phillip-ground[bot] <phillip-ground[bot]@users.noreply.github.com>
+          pull-request-author: Actoriu <51398008+Actoriu@users.noreply.github.com>
           pull-request-labels: dependencies,autorebase:opt-in
+          pull-request-branch-prefix: update-
           automerge: true
           delete-branch: true
