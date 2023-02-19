@@ -40,11 +40,11 @@ jobs:
         run: |
           nix develop -c nvfetcher
           if [ -z "$(git status --porcelain)" ]; then
-          echo "repository is clean, skip commit"
-        else
-          git add --all
-          git commit --message "use nvfetcher"
-        fi
+            echo "repository is clean, skip commit"
+          else
+            git add --all
+            git commit --message "use nvfetcher"
+          fi
       - name: Git push
         run: |
           git push origin main
