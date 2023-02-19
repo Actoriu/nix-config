@@ -31,8 +31,6 @@ jobs:
           swap-size-gb: 10
       - name: Checkout repository
         uses: actions/checkout@v3.3.0
-        with:
-          fetch-depth: 0
       - name: Install nix
         uses: cachix/install-nix-action@v19
         with:
@@ -85,7 +83,7 @@ jobs:
         with:
           swap-size-gb: 10
       - name: Checkout repository
-        uses: actions/checkout@3.3.0
+        uses: actions/checkout@v3.3.0
       - name: Check if update branch is behind main
         run: |
           git diff origin/${{ needs.update.outputs.branch }}...origin/main --exit-code
