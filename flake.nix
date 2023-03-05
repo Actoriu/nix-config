@@ -177,9 +177,9 @@
 
     formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.alejandra);
 
-    packages = forEachSystem (system:
-      import ./pkgs { pkgs = nixpkgs.legacyPackages.${system}; }
-    );
+    # packages = forEachSystem (system:
+    #   import ./pkgs { pkgs = nixpkgs.legacyPackages.${system}; }
+    # );
 
     devShells = forEachSystem (system: {
       default = let
