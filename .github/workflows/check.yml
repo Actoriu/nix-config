@@ -1,14 +1,20 @@
 name: Check the nix configuration
 
 on:
-  push:
-  pull_request:
   workflow_dispatch:
+  workflow_call:
 
 jobs:
+  update-flakes:
+    uses: ./github.com/workflows/update.yml
+
+  update-packages:
+    uses: ./github.com/workflows/nur.yml
+
   check-flakes:
-    # uses: ./github.com/workflows/update.yml
-    # uses: ./github.com/workflows/nur.yml
+    needs:
+      - update-flakes
+      - update-packages
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -28,11 +34,13 @@ jobs:
         with:
           fetch-depth: 0
       - name: Install nix
-        uses: cachix/install-nix-action@v19
+        uses: cachix/install-nix-action@v20
         with:
           nix_path: nixpkgs=channel:nixos-unstable
           extra_nix_config: |
+            accept-flake-config = true
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+            extra-platforms = aarch64-linux i686-linux
       - name: ${{ matrix.job_name }}
         uses: nick-invision/retry@v2.8.3
         with:
