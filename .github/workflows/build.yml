@@ -8,6 +8,7 @@ on:
 jobs:
   check:
     uses: ./.github/workflows/check.yml
+    secrets: inherit
 
   build:
     needs:

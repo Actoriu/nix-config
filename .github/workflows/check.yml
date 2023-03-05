@@ -7,9 +7,11 @@ on:
 jobs:
   update-flake:
     uses: ./.github/workflows/update.yml
+    secrets: inherit
 
   update-pkgs:
     uses: ./.github/workflows/nur.yml
+    secrets: inherit
 
   check:
     needs:
