@@ -5,16 +5,17 @@ on:
   workflow_call:
 
 jobs:
-  update-flakes:
+  update-flake:
     uses: ./.github/workflows/update.yml
 
-  update-packages:
+  update-pkgs:
     uses: ./.github/workflows/nur.yml
 
-  check-flakes:
+  check:
     needs:
-      - update-flakes
-      - update-packages
+      - update-flake
+      - update-pkgs
+    secrets: inherit
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
