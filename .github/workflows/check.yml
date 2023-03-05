@@ -6,10 +6,10 @@ on:
 
 jobs:
   update-flakes:
-    uses: ./github.com/workflows/update.yml
+    uses: ./github/workflows/update.yml
 
   update-packages:
-    uses: ./github.com/workflows/nur.yml
+    uses: ./github/workflows/nur.yml
 
   check-flakes:
     needs:

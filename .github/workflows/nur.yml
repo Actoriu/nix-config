@@ -9,9 +9,6 @@ on:
 jobs:
   update-pkgs:
     runs-on: ubuntu-latest
-    outputs:
-      branch: ${{ steps.branch.outputs.branch }}
-      update_available: ${{ steps.changes.outputs.update_available }}
     strategy:
       fail-fast: false
       matrix:
