@@ -1,22 +1,12 @@
 name: Check the nix configuration
 
 on:
+  push:
+  pull_request:
   workflow_dispatch:
-  workflow_call:
 
 jobs:
-  update-flake:
-    uses: ./.github/workflows/update.yml
-    secrets: inherit
-
-  update-pkgs:
-    uses: ./.github/workflows/nur.yml
-    secrets: inherit
-
   check:
-    needs:
-      - update-flake
-      - update-pkgs
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
