@@ -46,6 +46,14 @@
       };
     };
 
+    cachix-deploy-flake = {
+      url = "github:cachix/cachix-deploy-flake";
+      inputs = {
+        home-manager.follows = "home-manager";
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
+
     nixos-hardware.url = "github:NixOS/nixos-hardware";
 
     pre-commit-hooks = {
@@ -117,25 +125,29 @@
     home-manager,
     nixpkgs,
     nix-on-droid,
+    cachix-deploy-flake,
     ...
   } @ inputs: let
     inherit (self) outputs;
 
     forEachSystem = nixpkgs.lib.genAttrs ["aarch64-linux" "x86_64-linux"];
 
-    pkgs = forEachSystem (system:
-      import nixpkgs {
-        inherit system;
-        config = {
-          allowUnfree = true;
-          allowBroken = true;
-          allowUnsupportedSystem = true;
-        };
-        overlays = builtins.attrValues self.overlays;
-      });
+    cachixDeployLibFor =
+      forEachSystem (system:
+        cachix-deploy-flake.lib nixpkgs.legacyPackages.${system});
+    # pkgs = forEachSystem (system:
+    #   import nixpkgs {
+    #     inherit system;
+    #     config = {
+    #       allowUnfree = true;
+    #       allowBroken = true;
+    #       allowUnsupportedSystem = true;
+    #     };
+    #     overlays = builtins.attrValues self.overlays;
+    #   });
   in {
     overlays = {
-      # default = import ./overlays { inherit inputs; };
+      default = import ./overlays { inherit inputs; };
       # devshell = inputs.devshell.overlay;
       nixos-cn = inputs.nixos-cn.overlay;
       nur = inputs.nur.overlay;
@@ -165,15 +177,15 @@
 
     formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.alejandra);
 
-    # packages = forEachSystem (system:
-    #   import ./pkgs { pkgs = self.legacyPackages.${system}; }
-    # );
+    packages = forEachSystem (system:
+      import ./pkgs { pkgs = nixpkgs.legacyPackages.${system}; }
+    );
 
     devShells = forEachSystem (system: {
       default = let
         pkgs = import nixpkgs {
           inherit system;
-          overlays = [inputs.devshell.overlay];
+          overlays = [inputs.devshell.overlays.default];
         };
       in
         import ./shell/devshell.nix {inherit pkgs;};
