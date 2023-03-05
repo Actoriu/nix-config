@@ -7,7 +7,7 @@ on:
 
 jobs:
   check-flakes:
-    uses: ./github/workflows/check.yml
+    uses: ./.github/workflows/check.yml
 
   build:
     needs:
