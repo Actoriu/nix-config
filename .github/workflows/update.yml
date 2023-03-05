@@ -23,10 +23,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3.3.0
       - name: Install nix
-        uses: cachix/install-nix-action@v19
+        uses: cachix/install-nix-action@v20
         with:
           nix_path: nixpkgs=channel:nixos-unstable
           extra_nix_config: |
+            accept-flake-config = true
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
       - name: generate flake matrix
         id: get-flakes
@@ -51,7 +52,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3.3.0
       - name: Install nix
-        uses: cachix/install-nix-action@v19
+        uses: cachix/install-nix-action@v20
         with:
           nix_path: nixpkgs=channel:nixos-unstable
           extra_nix_config: |
@@ -68,7 +69,7 @@ jobs:
           dependency: ${{ matrix.flake }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           pull-request-token: ${{ steps.generate-token.outputs.token }}
-          pull-request-author: Actoriu <51398008+Actoriu@users.noreply.github.com>
+          pull-request-author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
           pull-request-labels: dependencies,autorebase:opt-in
           pull-request-branch-prefix: update-
           automerge: true
