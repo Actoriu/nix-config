@@ -15,7 +15,6 @@ jobs:
     needs:
       - update-flake
       - update-pkgs
-    secrets: inherit
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
