@@ -147,7 +147,7 @@
     #   });
   in {
     overlays = {
-      default = import ./overlays { inherit inputs; };
+      default = import ./overlays {inherit inputs;};
       # devshell = inputs.devshell.overlay;
       nixos-cn = inputs.nixos-cn.overlay;
       nur = inputs.nur.overlay;

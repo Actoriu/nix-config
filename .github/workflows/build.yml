@@ -1,15 +1,17 @@
 name: Build flake outputs
 
-# on: [ push, pull_request, workflow_dispatch ]
 on:
-  workflow_run:
-    workflows: [Check the nix configuration]
-    types:
-      - completed
+  push:
+  pull_request:
+  workflow_dispatch:
 
 jobs:
-  Build:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+  check-flakes:
+    uses: ./github.com/workflows/check.yml
+
+  build:
+    needs:
+      - check-flakes
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -33,7 +35,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3.3.0
         with:
-          fetch-depth: 0
+          ref: ${{ inputs.branch }}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2.1.0
       - name: Install nix
@@ -41,6 +43,7 @@ jobs:
         with:
           nix_path: nixpkgs=channel:nixos-unstable
           extra_nix_config: |
+            accept-flake-config = true
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
             extra-platforms = aarch64-linux i686-linux
       - name: Setup cachix
