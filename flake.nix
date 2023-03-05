@@ -3,10 +3,10 @@
 
   nixConfig = {
     extra-experimental-features = "nix-command flakes";
-    substituters = [
-      "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
-      "https://mirrors.ustc.edu.cn/nix-channels/store"
-    ];
+    # substituters = [
+    #   "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
+    #   "https://mirrors.ustc.edu.cn/nix-channels/store"
+    # ];
     extra-substituters = [
       "https://cache.nixos.org"
       "https://nix-community.cachix.org"
