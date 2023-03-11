@@ -20,6 +20,8 @@
                 ./nvidia-legacy-340/0008-kernel-5.16.patch
                 ./nvidia-legacy-340/0009-kernel-5.17.patch
                 ./nvidia-legacy-340/0010-kernel-5.18.patch
+                ./nvidia-legacy-340/0011-kernel-6.0.patch
+                ./nvidia-legacy-340/0012-kernel-6.2.patch
               ];
           });
         };
