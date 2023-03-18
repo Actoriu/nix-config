@@ -19,8 +19,6 @@
     uid = 1000;
   };
 
-  networking.hostName = "d630";
-
   # console = {
   #   font = "Lat2-Terminus16";
   #   keyMap = "us";

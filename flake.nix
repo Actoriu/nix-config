@@ -7,20 +7,20 @@
     #   "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
     #   "https://mirrors.ustc.edu.cn/nix-channels/store"
     # ];
-    extra-substituters = [
-      "https://cache.nixos.org"
-      "https://nix-community.cachix.org"
-      "https://nix-actions.cachix.org"
-      "https://nix-on-droid.cachix.org"
-      "https://nixos-cn.cachix.org"
-    ];
-    extra-trusted-public-keys = [
-      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      "nix-actions.cachix.org-1:WTp8/9EIjoPRzwSERLLMHzDUVGthajaIJ/zEZY6DHvM="
-      "nix-on-droid.cachix.org-1:56snoMJTXmDRC1Ei24CmKoUqvHJ9XCp+nidK7qkMQrU="
-      "nixos-cn.cachix.org-1:L0jEaL6w7kwQOPlLoCR3ADx+E3Q8SEFEcB9Jaibl0Xg="
-    ];
+    # extra-substituters = [
+    #   "https://cache.nixos.org"
+    #   "https://nix-community.cachix.org"
+    #   "https://nix-actions.cachix.org"
+    #   "https://nix-on-droid.cachix.org"
+    #   "https://nixos-cn.cachix.org"
+    # ];
+    # extra-trusted-public-keys = [
+    #   "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+    #   "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    #   "nix-actions.cachix.org-1:WTp8/9EIjoPRzwSERLLMHzDUVGthajaIJ/zEZY6DHvM="
+    #   "nix-on-droid.cachix.org-1:56snoMJTXmDRC1Ei24CmKoUqvHJ9XCp+nidK7qkMQrU="
+    #   "nixos-cn.cachix.org-1:L0jEaL6w7kwQOPlLoCR3ADx+E3Q8SEFEcB9Jaibl0Xg="
+    # ];
   };
 
   inputs = {
@@ -131,29 +131,23 @@
     inherit (self) outputs;
 
     forEachSystem = nixpkgs.lib.genAttrs ["aarch64-linux" "x86_64-linux"];
+    forEachPkgs = f: forEachSystem (sys: f nixpkgs.legacyPackages.${sys});
 
-    cachixDeployLibFor =
-      forEachSystem (system:
-        cachix-deploy-flake.lib nixpkgs.legacyPackages.${system});
-    # pkgs = forEachSystem (system:
-    #   import nixpkgs {
-    #     inherit system;
-    #     config = {
-    #       allowUnfree = true;
-    #       allowBroken = true;
-    #       allowUnsupportedSystem = true;
-    #     };
-    #     overlays = builtins.attrValues self.overlays;
-    #   });
+    # cachixDeployLibFor =
+    #   forEachSystem (system:
+    #     cachix-deploy-flake.lib nixpkgs.legacyPackages.${system});
+
+    version = nixpkgs.lib.fileContents ../.version;
   in {
-    overlays = {
-      default = import ./overlays {inherit inputs;};
-      # devshell = inputs.devshell.overlay;
-      nixos-cn = inputs.nixos-cn.overlay;
-      nur = inputs.nur.overlay;
-      sops-nix = inputs.sops-nix.overlay;
-      spacemacs = final: prev: {spacemacs = inputs.spacemacs;};
-    };
+    overlays = import ./overlays {inherit inputs;};
+    # overlays = {
+    #   default = import ./overlays {inherit inputs;};
+    #   # devshell = inputs.devshell.overlay;
+    #   nixos-cn = inputs.nixos-cn.overlay;
+    #   nur = inputs.nur.overlay;
+    #   sops-nix = inputs.sops-nix.overlay;
+    #   spacemacs = final: prev: {spacemacs = inputs.spacemacs;};
+    # };
 
     # legacyPackages = forEachSystem (system:
     #   import nixpkgs {
@@ -175,11 +169,10 @@
     #   };
     # });
 
-    formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.alejandra);
+    formatter = forEachPkgs (pkgs: pkgs.alejandra);
+    # formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.alejandra);
 
-    # packages = forEachSystem (system:
-    #   import ./pkgs { pkgs = nixpkgs.legacyPackages.${system}; }
-    # );
+    packages = forEachPkgs (pkgs: import ./pkgs {inherit pkgs;});
 
     devShells = forEachSystem (system: {
       default = let
@@ -193,40 +186,26 @@
 
     nixosConfigurations = {
       d630 = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs outputs;};
-        modules = [./hosts/nixos/d630];
+        specialArgs = {
+          inherit inputs outputs version;
+          desktop = null;
+          hostname = "d630";
+          username = "actoriu";
+        };
+        modules = [./hosts/nixos/shared];
       };
     };
 
     homeConfigurations = {
       "actoriu@d630" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages."x86_64-linux";
-        extraSpecialArgs = {inherit inputs outputs;};
-        modules = [
-          ({...}: {
-            nixpkgs = {
-              config = {
-                allowUnfree = true;
-                allowBroken = true;
-                allowUnsupportedSystem = true;
-              };
-              overlays = builtins.attrValues self.overlays;
-            };
-          })
-          inputs.impermanence.nixosModules.home-manager.impermanence
-          {
-            home = {
-              username = "actoriu";
-              homeDirectory = "/home/actoriu";
-              stateVersion = "22.11";
-            };
-            programs.home-manager.enable = true;
-            manual.manpages.enable = false;
-            systemd.user.startServices = "sd-switch";
-          }
-          ./modules/home-manager
-          ./users/actoriu
-        ];
+        extraSpecialArgs = {
+          inherit inputs outputs version;
+          desktop = null;
+          hostname = "d630";
+          username = "actoriu";
+        };
+        modules = [./users/shared];
       };
     };
 

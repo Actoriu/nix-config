@@ -1,15 +1,15 @@
 {
-  stdenv,
   lib,
+  stdenv,
+  sources,
   format ? "raw",
   upstream-dns ? "114.114.114.114",
   enable-ipset ? false,
   enable-nftset ? false,
-  sources,
   ...
 }:
 stdenv.mkDerivation rec {
-  inherit (sources) pname version src;
+  inherit (sources.dnsmasq-china-list) pname version src;
 
   dontUnpack = true;
   dontBuild = true;
