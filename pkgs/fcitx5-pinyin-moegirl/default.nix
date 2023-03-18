@@ -1,11 +1,11 @@
 {
-  stdenv,
   lib,
+  stdenv,
   sources,
   ...
 }:
 stdenv.mkDerivation rec {
-  inherit (sources) pname version src;
+  inherit (sources.fcitx5-pinyin-moegirl) pname version src;
 
   dontUnpack = true;
   dontBuild = true;

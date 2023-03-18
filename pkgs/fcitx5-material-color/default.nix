@@ -1,10 +1,11 @@
 {
-  stdenv,
   lib,
+  stdenv,
   sources,
+  ...
 }:
 stdenv.mkDerivation rec {
-  inherit (sources) pname version src;
+  inherit (sources.fcitx5-material-color) pname version src;
 
   dontBuild = true;
   dontConfigure = true;

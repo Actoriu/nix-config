@@ -1,30 +1,37 @@
-{pkgs ? null}: {
-  sources = pkgs.callPackage (import ./_sources/generated.nix) {};
-
-  hinalist = pkgs.callPackage ./dnsmasq-china-list {
+{pkgs ? import <nixpkgs> {}}:
+with pkgs; let
+  sources = callPackage (import ./_sources/generated.nix) {};
+in {
+  chinalist = callPackage ./dnsmasq-china-list {
+    inherit sources;
     format = "raw";
   };
 
-  chinalist-dnsmasq = pkgs.callPackage ./dnsmasq-china-list {
+  chinalist-dnsmasq = callPackage ./dnsmasq-china-list {
+    inherit sources;
     format = "dnsmasq";
     enable-nftset = true;
   };
 
-  chinalist-smartdns = pkgs.callPackage ./dnsmasq-china-list {
+  chinalist-smartdns = callPackage ./dnsmasq-china-list {
+    inherit sources;
     format = "smartdns";
     upstream-dns = "china";
   };
 
-  gfwlist = pkgs.callPackage ./gfwlist {
+  gfwlist = callPackage ./gfwlist {
+    inherit sources;
     format = "raw";
   };
 
-  gfwlist-dnsmasq = pkgs.callPackage ./gfwlist {
+  gfwlist-dnsmasq = callPackage ./gfwlist {
+    inherit sources;
     format = "dnsmasq";
     enable-nftset = true;
   };
 
-  gfwlist-smartdns = pkgs.callPackage ./gfwlist {
+  gfwlist-smartdns = callPackage ./gfwlist {
+    inherit sources;
     format = "smartdns";
   };
 }
