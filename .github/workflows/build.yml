@@ -2,7 +2,7 @@ name: "ci: Build flake outputs"
 
 on:
   workflow_run:
-    workflows: [Check the nix configuration]
+    workflows: [ci: Check Syntax]
     types:
       - completed
 

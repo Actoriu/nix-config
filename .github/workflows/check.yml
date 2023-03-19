@@ -33,7 +33,6 @@ jobs:
             accept-flake-config = true
             auto-optimise-store = true
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
-            extra-platforms = aarch64-linux i686-linux
       - name: ${{ matrix.job_name }}
         uses: nick-invision/retry@v2.8.3
         with:
