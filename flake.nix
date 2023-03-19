@@ -139,15 +139,13 @@
 
     version = nixpkgs.lib.fileContents ./.version;
   in {
-    overlays = import ./overlays {inherit inputs;};
-    # overlays = {
-    #   default = import ./overlays {inherit inputs;};
-    #   # devshell = inputs.devshell.overlay;
-    #   nixos-cn = inputs.nixos-cn.overlay;
-    #   nur = inputs.nur.overlay;
-    #   sops-nix = inputs.sops-nix.overlay;
-    #   spacemacs = final: prev: {spacemacs = inputs.spacemacs;};
-    # };
+    overlays = {
+      default = import ./overlays;
+      nixos-cn = inputs.nixos-cn.overlay;
+      nur = inputs.nur.overlay;
+      sops-nix = inputs.sops-nix.overlays.default;
+      spacemacs = final: prev: {spacemacs = inputs.spacemacs;};
+    };
 
     # legacyPackages = forEachSystem (system:
     #   import nixpkgs {
@@ -170,7 +168,6 @@
     # });
 
     formatter = forEachPkgs (pkgs: pkgs.alejandra);
-    # formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.alejandra);
 
     packages = forEachPkgs (pkgs: import ./pkgs {inherit pkgs;});
 
