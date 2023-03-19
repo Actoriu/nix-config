@@ -34,14 +34,7 @@
       allowUnsupportedSystem = true;
     };
     hostPlatform = lib.mkDefault system;
-    overlays = [
-      inputs.nixos-cn.overlay
-      inputs.nur.overlay
-      inputs.sops-nix.overlays.default
-      outputs.overlays.additions
-      outputs.overlays.modifications
-      outputs.overlays.spacemacs
-    ];
+    overlays = builtins.attrValues outputs.overlays;
   };
 
   home-manager = {
@@ -55,6 +48,8 @@
       systemd.user.startServices = "sd-switch";
       imports = [
         inputs.impermanence.nixosModules.home-manager.impermanence
+        inputs.nur.hmModules.nur
+        inputs.sops-nix.homeManagerModules.sops
         ../../../modules/home-manager
         ../../../users/${username}
       ];
