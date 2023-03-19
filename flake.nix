@@ -225,7 +225,7 @@
           username = "nix-on-droid";
         };
         home-manager-path = home-manager.outPath;
-        modules = [./hosts/droid/shared];
+        modules = [./hosts/droid/oneplus5];
       };
     };
   };
