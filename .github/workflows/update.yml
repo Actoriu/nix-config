@@ -44,7 +44,7 @@ jobs:
             auto-optimise-store = true
       - name: Set branch name output
         id: branch
-        run: echo "branch=ci/automatic-update-$(date '+%F-%T')" >> $GITHUB_OUTPUT
+        run: echo "branch=ci/automatic-update-$(date '+%F-%H-%M-%S')" >> $GITHUB_OUTPUT
       - name: Create branch locally
         run: git switch -c ${{ steps.branch.outputs.branch }}
       - name: Setup git
