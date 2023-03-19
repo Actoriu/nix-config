@@ -2,6 +2,7 @@
   description = "Nix configuration with flakes";
 
   nixConfig = {
+    commit-lockfile-summary = "chore(flake.lock): Update `inputs`";
     extra-experimental-features = "nix-command flakes";
     # substituters = [
     #   "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
@@ -146,17 +147,6 @@
       sops-nix = inputs.sops-nix.overlays.default;
       spacemacs = final: prev: {spacemacs = inputs.spacemacs;};
     };
-
-    # legacyPackages = forEachSystem (system:
-    #   import nixpkgs {
-    #     inherit system;
-    #     config = {
-    #       allowUnfree = true;
-    #       allowBroken = true;
-    #       allowUnsupportedSystem = true;
-    #     };
-    #     overlays = builtins.attrValues self.overlays;
-    #   });
 
     # checks = forEachSystem (system: {
     #   pre-commit-check = pre-commit-hooks.lib.${system}.run {
