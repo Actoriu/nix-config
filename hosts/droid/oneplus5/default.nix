@@ -66,7 +66,6 @@
 
   # Configure home-manager
   home-manager = {
-    backupFileExtension = "hm-bak";
     extraSpecialArgs = {inherit inputs outputs version;};
     useGlobalPkgs = true;
     useUserPackages = true;
@@ -76,6 +75,14 @@
       pkgs,
       ...
     }: {
+      # nixpkgs = {
+      #   config = {
+      #     allowUnfree = true;
+      #     allowBroken = true;
+      #     allowUnsupportedSystem = true;
+      #   };
+      #   overlays = builtins.attrValues outputs.overlays;
+      # };
       home.stateVersion = "${version}";
       manual.manpages.enable = false;
       imports = [
