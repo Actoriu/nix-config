@@ -41,16 +41,16 @@ jobs:
         run: |
           nix \
             --log-format bar-with-logs \
-            --option keep-going true \
+            --keep-going \
             --show-trace \
-            commit-lockfile-summary "chore(flake.lock): Update `inputs`" \
+            --commit-lockfile-summary "chore(flake.lock): Update inputs" \
             flake update \
             --commit-lock-file
       - name: Update private packages
         run: |
           nix \
             --log-format bar-with-logs \
-            --option keep-going true \
+            --keep-going \
             --show-trace \
             develop -c nvfetcher
 
