@@ -12,7 +12,10 @@
 }: {
   imports = [
     inputs.impermanence.nixosModules.home-manager.impermanence
+    inputs.nur.hmModules.nur
+    inputs.homeManagerModules.sops
     ../../modules/home-manager
+    (../. + "/${username}")
   ];
 
   nixpkgs = {
@@ -23,7 +26,14 @@
       allowBroken = true;
       allowUnsupportedSystem = true;
     };
-    overlays = builtins.attrValues outputs.overlays;
+    overlays = [
+      inputs.nixos-cn.overlay
+      inputs.nur.overlay
+      inputs.sops-nix.overlays.default
+      outputs.overlays.additions
+      outputs.overlays.modifications
+      outputs.overlays.spacemacs
+    ];
   };
 
   home = {

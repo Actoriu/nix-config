@@ -137,7 +137,7 @@
     #   forEachSystem (system:
     #     cachix-deploy-flake.lib nixpkgs.legacyPackages.${system});
 
-    version = nixpkgs.lib.fileContents ../.version;
+    version = nixpkgs.lib.fileContents ./.version;
   in {
     overlays = import ./overlays {inherit inputs;};
     # overlays = {
@@ -191,6 +191,7 @@
           desktop = null;
           hostname = "d630";
           username = "actoriu";
+          system = "x86_64-linux";
         };
         modules = [./hosts/nixos/shared];
       };
@@ -204,6 +205,7 @@
           desktop = null;
           hostname = "d630";
           username = "actoriu";
+          system = "x86_64-linux";
         };
         modules = [./users/shared];
       };
@@ -213,15 +215,17 @@
       oneplus5 = nix-on-droid.lib.nixOnDroidConfiguration {
         pkgs = import nixpkgs {
           system = "aarch64-linux";
-          overlays =
-            (builtins.attrValues self.overlays)
-            ++ [
-              nix-on-droid.overlays.default
-            ];
+          overlays = [
+            nix-on-droid.overlays.default
+          ];
         };
-        extraSpecialArgs = {inherit inputs outputs;};
+        extraSpecialArgs = {
+          inherit inputs outputs version;
+          devicename = "oneplus5";
+          username = "nix-on-droid";
+        };
         home-manager-path = home-manager.outPath;
-        modules = [./hosts/droid/oneplus5];
+        modules = [./hosts/droid/shared];
       };
     };
   };
