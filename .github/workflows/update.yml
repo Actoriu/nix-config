@@ -36,11 +36,6 @@ jobs:
             accept-flake-config = true
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
             auto-optimise-store = true
-      - name: Set branch name output
-        id: branch
-        run: echo "branch=ci/automatic-update-$(date '+%F-%H-%M-%S')" >> $GITHUB_OUTPUT
-      - name: Create branch locally
-        run: git switch -c ${{ steps.branch.outputs.branch }}
       - name: Setup git
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
