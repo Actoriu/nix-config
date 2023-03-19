@@ -2,7 +2,7 @@
   description = "Nix configuration with flakes";
 
   nixConfig = {
-    commit-lockfile-summary = "chore(flake.lock): Update `inputs`";
+    # commit-lockfile-summary = "chore(flake.lock): Update `inputs`";
     extra-experimental-features = "nix-command flakes";
     # substituters = [
     #   "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
