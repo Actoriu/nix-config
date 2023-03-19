@@ -1,10 +1,14 @@
 {
   config,
   inputs,
+  lib,
   outputs,
   pkgs,
+  username,
+  version,
   ...
 }: {
+  # Set up nix for flakes
   nix = {
     extraOptions = ''
       experimental-features = nix-command flakes
@@ -17,14 +21,17 @@
     ];
   };
 
+  # Set your time zone
   time = {
     timeZone = "Asia/Shanghai";
   };
 
+  # Set your shell
   user = {
     shell = "${pkgs.zsh}/bin/zsh";
   };
 
+  # Simply install just the packages
   environment = {
     # Simply install just the packages
     packages = with pkgs; [
@@ -55,5 +62,26 @@
   };
 
   # Read the changelog before changing this value
-  system.stateVersion = "22.11";
+  system.stateVersion = "${version}";
+
+  # Configure home-manager
+  home-manager = {
+    backupFileExtension = "hm-bak";
+    extraSpecialArgs = {inherit inputs outputs version;};
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    config = {
+      config,
+      lib,
+      pkgs,
+      ...
+    }: {
+      home.stateVersion = "${version}";
+      manual.manpages.enable = false;
+      imports = [
+        ../../../modules/home-manager
+        ../../../users/${username}
+      ];
+    };
+  };
 }
