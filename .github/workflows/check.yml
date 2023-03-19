@@ -1,4 +1,4 @@
-name: "ci: Check Syntax"
+name: Check Syntax
 
 on:
   push:

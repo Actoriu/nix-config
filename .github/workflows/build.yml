@@ -1,8 +1,8 @@
-name: "ci: Build flake outputs"
+name: Build flake outputs
 
 on:
   workflow_run:
-    workflows: [ci: Check Syntax]
+    workflows: [Check Syntax]
     types:
       - completed
 

@@ -1,4 +1,4 @@
-name: "ci: Update private packages"
+name: Update private packages
 
 on:
   # schedule:

@@ -1,4 +1,4 @@
-name: "chore: Automatic Scheduled Updates"
+name: Automatic Scheduled Updates
 
 on:
   schedule:
