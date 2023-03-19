@@ -1,7 +1,7 @@
 {
     "dnsmasq-china-list": {
         "cargoLocks": null,
-        "date": "2023-03-05",
+        "date": "2023-03-19",
         "extract": null,
         "name": "dnsmasq-china-list",
         "passthru": null,
@@ -13,11 +13,11 @@
             "name": null,
             "owner": "felixonmars",
             "repo": "dnsmasq-china-list",
-            "rev": "b4c126b6aba9e08b6698cf0e1a68af95abc0ebed",
-            "sha256": "sha256-aYb8xACaO06/Ll2OxL740ez1sxhiEcvMzO5vtGugaJs=",
+            "rev": "fca04191838298e128fc623a7ee3c909615f5bf6",
+            "sha256": "sha256-LoWAtvsCeZ9FcAyugZ59J5qVdYRqHvvfz1HeF11IMpY=",
             "type": "github"
         },
-        "version": "b4c126b6aba9e08b6698cf0e1a68af95abc0ebed"
+        "version": "fca04191838298e128fc623a7ee3c909615f5bf6"
     },
     "fcitx5-material-color": {
         "cargoLocks": null,

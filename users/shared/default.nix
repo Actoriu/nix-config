@@ -13,7 +13,7 @@
   imports = [
     inputs.impermanence.nixosModules.home-manager.impermanence
     inputs.nur.hmModules.nur
-    inputs.homeManagerModules.sops
+    inputs.sop-nix.homeManagerModules.sops
     ../../modules/home-manager
     (../. + "/${username}")
   ];
