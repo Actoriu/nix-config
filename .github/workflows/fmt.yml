@@ -1,4 +1,4 @@
-name: "ci: Format code"
+name: Format code
 
 on:
   push:
@@ -21,10 +21,10 @@ jobs:
         uses: pierotofy/set-swap-space@v1.0
         with:
           swap-size-gb: 10
-      - name: Checkout repository
-        uses: actions/checkout@v3.4.0
-        with:
-          fetch-depth: 0
+      # - name: Checkout repository
+      #   uses: actions/checkout@v3.4.0
+      #   with:
+      #     fetch-depth: 0
       - name: Install nix
         uses: cachix/install-nix-action@v20
         with:
