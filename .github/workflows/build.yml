@@ -61,6 +61,6 @@ jobs:
             cachix watch-exec nix-actions -- \
               nix \
                 --log-format bar-with-logs \
-                --option keep-going true \
+                --keep-going \
                 --show-trace \
                 ${{ matrix.nix-command }}
