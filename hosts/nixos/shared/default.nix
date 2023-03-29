@@ -30,6 +30,8 @@
   nixpkgs = {
     config = {
       allowUnfree = true;
+      # for nvidia
+      allowBroken = true;
     };
     hostPlatform = lib.mkDefault system;
     overlays = [
