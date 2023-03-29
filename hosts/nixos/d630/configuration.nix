@@ -4,6 +4,7 @@
 {
   config,
   pkgs,
+  username,
   ...
 }: {
   imports = [
@@ -13,7 +14,7 @@
 
   services.xserver.enable = true;
 
-  users.users.actoriu = {
+  users.users.${username} = {
     isNormalUser = true;
     extraGroups = ["wheel"];
     uid = 1000;

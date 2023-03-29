@@ -2,7 +2,6 @@
   description = "Nix configuration with flakes";
 
   nixConfig = {
-    # commit-lockfile-summary = "chore(flake.lock): Update `inputs`";
     extra-experimental-features = "nix-command flakes";
     # substituters = [
     #   "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
@@ -45,6 +44,11 @@
         utils.follows = "flake-utils";
         nixpkgs.follows = "nixpkgs";
       };
+    };
+
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     cachix-deploy-flake = {
@@ -140,13 +144,15 @@
 
     version = nixpkgs.lib.fileContents ./.version;
   in {
-    overlays = {
-      default = import ./overlays;
-      nixos-cn = inputs.nixos-cn.overlay;
-      nur = inputs.nur.overlay;
-      sops-nix = inputs.sops-nix.overlays.default;
-      spacemacs = final: prev: {spacemacs = inputs.spacemacs;};
-    };
+    # overlays = {
+    #   default = import ./overlays;
+    #   nixos-cn = inputs.nixos-cn.overlay;
+    #   nur = inputs.nur.overlay;
+    #   sops-nix = inputs.sops-nix.overlays.default;
+    #   spacemacs = final: prev: {spacemacs = inputs.spacemacs;};
+    # };
+
+    overlays = import ./overlays {inherit inputs;};
 
     # checks = forEachSystem (system: {
     #   pre-commit-check = pre-commit-hooks.lib.${system}.run {

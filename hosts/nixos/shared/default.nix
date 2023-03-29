@@ -25,16 +25,24 @@
 
   networking.hostName = hostname;
 
-  system.stateVersion = "${version}";
+  # system.stateVersion = "${version}";
 
   nixpkgs = {
     config = {
       allowUnfree = true;
-      allowBroken = true;
-      allowUnsupportedSystem = true;
     };
     hostPlatform = lib.mkDefault system;
-    overlays = builtins.attrValues outputs.overlays;
+    overlays = [
+      # Add overlays your own flake exports (from overlays and pkgs dir):
+      outputs.overlays.additions
+      outputs.overlays.modifications
+      outputs.overlays.spacemacs
+
+      # You can also add overlays exported from other flakes:
+      inputs.nixos-cn.overlay
+      inputs.nur.overlay
+      inputs.sops-nix.overlays.default
+    ];
   };
 
   home-manager = {
