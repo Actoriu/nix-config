@@ -14,17 +14,17 @@ jobs:
         include:
           - slug: Format code
             job_name: Formatting
-            nix-command: run nixpkgs#alejandra -- -c .
+            nix-command: fmt
     name: ${{ matrix.slug }}
     steps:
       - name: Set swap space
         uses: pierotofy/set-swap-space@v1.0
         with:
           swap-size-gb: 10
-      # - name: Checkout repository
-      #   uses: actions/checkout@v3.4.0
-      #   with:
-      #     fetch-depth: 0
+      - name: Checkout repository
+        uses: actions/checkout@v3.5.0
+        with:
+          fetch-depth: 0
       - name: Install nix
         uses: cachix/install-nix-action@v20
         with:
