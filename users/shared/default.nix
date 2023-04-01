@@ -14,8 +14,8 @@
     inputs.impermanence.nixosModules.home-manager.impermanence
     inputs.nur.hmModules.nur
     inputs.sops-nix.homeManagerModules.sops
-    # ../../modules/home-manager
-    # ../${username}
+    ../../modules/home-manager
+    ../${username}
   ];
 
   nixpkgs = {
@@ -25,17 +25,6 @@
       allowUnfreePredicate = _: true;
     };
     overlays = builtins.attrValues outputs.overlays;
-    # overlays = [
-    #   # Add overlays your own flake exports (from overlays and pkgs dir):
-    #   outputs.overlays.additions
-    #   outputs.overlays.modifications
-    #   outputs.overlays.spacemacs
-
-    #   # You can also add overlays exported from other flakes:
-    #   inputs.nixos-cn.overlay
-    #   inputs.nur.overlay
-    #   inputs.sops-nix.overlays.default
-    # ];
   };
 
   home = {

@@ -30,40 +30,17 @@
   nixpkgs = {
     config = {
       allowUnfree = true;
-      # for nvidia
+      # for build nvidia
       allowBroken = true;
     };
     hostPlatform = lib.mkDefault system;
     overlays = builtins.attrValues outputs.overlays;
-    # overlays = [
-    #   # Add overlays your own flake exports (from overlays and pkgs dir):
-    #   outputs.overlays.additions
-    #   outputs.overlays.modifications
-    #   outputs.overlays.spacemacs
-
-    #   # You can also add overlays exported from other flakes:
-    #   inputs.nixos-cn.overlay
-    #   inputs.nur.overlay
-    #   inputs.sops-nix.overlays.default
-    # ];
   };
 
   home-manager = {
     # useGlobalPkgs = true;
     useUserPackages = true;
-    extraSpecialArgs = {inherit inputs outputs username version;};
-    users.${username} = {...}: {
-      # home.stateVersion = "${version}";
-      # programs.home-manager.enable = true;
-      # manual.manpages.enable = false;
-      # systemd.user.startServices = "sd-switch";
-      imports = [
-        # inputs.impermanence.nixosModules.home-manager.impermanence
-        # inputs.nur.hmModules.nur
-        # inputs.sops-nix.homeManagerModules.sops
-        # ../../../modules/home-manager
-        ../../../users/shared
-      ];
-    };
+    extraSpecialArgs = {inherit desktop hostname inputs outputs username version;};
+    users.${username} = import ../../../users/shared;
   };
 }
