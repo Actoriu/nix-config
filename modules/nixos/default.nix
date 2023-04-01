@@ -1,7 +1,7 @@
 {
   amd = import ./amd.nix;
   audio = import ./audio.nix;
-  bluetooth = import ./bluetooth;
+  bluetooth = import ./bluetooth.nix;
   fonts = import ./fonts.nix;
   intel = import ./intel.nix;
   loader = import ./loader.nix;
