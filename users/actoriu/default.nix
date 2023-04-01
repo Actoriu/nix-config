@@ -10,7 +10,7 @@
     cc.enable = true;
     javascript.enable = true;
     python.enable = true;
-    texlive.enable = true;
+    # texlive.enable = true;
     # editors
     emacs = {
       enable = true;
