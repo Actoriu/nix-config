@@ -54,7 +54,7 @@
     useUserPackages = true;
     extraSpecialArgs = {inherit inputs outputs version;};
     users.${username} = {...}: {
-      home.stateVersion = "${version}";
+      # home.stateVersion = "${version}";
       # programs.home-manager.enable = true;
       # manual.manpages.enable = false;
       # systemd.user.startServices = "sd-switch";
@@ -63,7 +63,7 @@
         # inputs.nur.hmModules.nur
         # inputs.sops-nix.homeManagerModules.sops
         # ../../../modules/home-manager
-        # (../../../users/. + "/${username}")
+        (../../../users/. + "/${username}")
       ];
     };
   };
