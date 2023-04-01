@@ -15,10 +15,9 @@
       inputs.impermanence.nixosModules.home-manager.impermanence
       inputs.nur.hmModules.nur
       inputs.sops-nix.homeManagerModules.sops
-      ../../../modules/home-manager
-      (../. + "/${username}")
+      # ../../modules/home-manager
+      # ../${username}
     ];
-    # ++ (builtins.attrValues outputs.homeManagerModules);
 
   nixpkgs = {
     config = {
