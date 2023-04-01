@@ -10,14 +10,13 @@
   version,
   ...
 }: {
-  imports =
-    [
-      inputs.impermanence.nixosModules.home-manager.impermanence
-      inputs.nur.hmModules.nur
-      inputs.sops-nix.homeManagerModules.sops
-      # ../../modules/home-manager
-      # ../${username}
-    ];
+  imports = [
+    inputs.impermanence.nixosModules.home-manager.impermanence
+    inputs.nur.hmModules.nur
+    inputs.sops-nix.homeManagerModules.sops
+    # ../../modules/home-manager
+    # ../${username}
+  ];
 
   nixpkgs = {
     config = {
