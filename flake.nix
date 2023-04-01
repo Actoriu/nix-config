@@ -144,14 +144,6 @@
 
     version = nixpkgs.lib.fileContents ./.version;
   in {
-    # overlays = {
-    #   default = import ./overlays;
-    #   nixos-cn = inputs.nixos-cn.overlay;
-    #   nur = inputs.nur.overlay;
-    #   sops-nix = inputs.sops-nix.overlays.default;
-    #   spacemacs = final: prev: {spacemacs = inputs.spacemacs;};
-    # };
-
     overlays = import ./overlays {inherit inputs;};
 
     # checks = forEachSystem (system: {
