@@ -52,7 +52,7 @@
   home-manager = {
     # useGlobalPkgs = true;
     useUserPackages = true;
-    extraSpecialArgs = {inherit inputs outputs version;};
+    extraSpecialArgs = {inherit inputs outputs username version;};
     users.${username} = {...}: {
       # home.stateVersion = "${version}";
       # programs.home-manager.enable = true;
@@ -63,7 +63,7 @@
         # inputs.nur.hmModules.nur
         # inputs.sops-nix.homeManagerModules.sops
         # ../../../modules/home-manager
-        (../../../users/. + "/${username}")
+        ../../../users/shared
       ];
     };
   };
