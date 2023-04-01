@@ -23,7 +23,7 @@
     # kernelModules = [ "wl" ];
     kernelModules = [];
     # kernelPackages = pkgs.linuxPackages_latest;
-    kernelPackages = pkgs.linuxKernel.packages.linux_6_2;
+    kernelPackages = pkgs.linuxKernel.packages.linux_6_1;
     supportedFilesystems = ["btrfs" "exfat" "ntfs" "vfat"];
     tmpOnTmpfs = true;
   };
