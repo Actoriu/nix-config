@@ -20,7 +20,7 @@ in {
             importmagic
             ipython
             isort
-            python_magic
+            python-magic
             setuptools
           ]))
     ];
