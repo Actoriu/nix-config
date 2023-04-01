@@ -1,4 +1,10 @@
-{...}: {
+{
+  inputs,
+  outputs,
+  pkgs,
+  version,
+  ...
+}: {
   custom = {
     # development
     # cc.enable = true;
