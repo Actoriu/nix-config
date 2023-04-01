@@ -144,6 +144,8 @@
 
     version = nixpkgs.lib.fileContents ./.version;
   in {
+    nixosModules = import ./modules/nixos;
+    homeManagerModules = import ./modules/home-manager;
     # overlays = {
     #   default = import ./overlays;
     #   nixos-cn = inputs.nixos-cn.overlay;
