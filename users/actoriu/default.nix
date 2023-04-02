@@ -1,15 +1,9 @@
-{
-  inputs,
-  outputs,
-  pkgs,
-  version,
-  ...
-}: {
+{...}: {
   custom = {
     # development
     cc.enable = true;
     javascript.enable = true;
-    python.enable = true;
+    # python.enable = true;
     # texlive.enable = true;
     # editors
     emacs = {
@@ -40,7 +34,7 @@
     zsh.enable = true;
     # terminal
     alacritty.enable = true;
-    urxvt.enable = true;
+    # urxvt.enable = true;
     xst.enable = true;
     # video
     mpv.enable = true;

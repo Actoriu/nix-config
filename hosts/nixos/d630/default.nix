@@ -1,19 +1,10 @@
 {
-  inputs,
-  outputs,
   pkgs,
   version,
   ...
 }: {
   imports = [
-    # inputs.impermanence.nixosModules.impermanence
-    # inputs.nixos-cn.nixosModules.nixos-cn-registries
-    # inputs.nixos-cn.nixosModules.nixos-cn
-    # inputs.sops-nix.nixosModules.sops
-    # inputs.home-manager.nixosModules.home-manager
     ./configuration.nix
-    # ../../../modules/nixos
-    # ../../../profiles/nixos
   ];
 
   custom = {

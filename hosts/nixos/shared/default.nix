@@ -13,8 +13,6 @@
 }: {
   imports = [
     inputs.impermanence.nixosModules.impermanence
-    inputs.nixos-cn.nixosModules.nixos-cn-registries
-    inputs.nixos-cn.nixosModules.nixos-cn
     inputs.nur.nixosModules.nur
     inputs.sops-nix.nixosModules.sops
     inputs.home-manager.nixosModules.home-manager
@@ -39,7 +37,7 @@
 
   home-manager = {
     # useGlobalPkgs = true;
-    useUserPackages = true;
+    # useUserPackages = true;
     extraSpecialArgs = {inherit desktop hostname inputs outputs username version;};
     users.${username} = import ../../../users/shared;
   };
