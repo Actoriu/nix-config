@@ -36,7 +36,7 @@ in {
     };
 
     userVersion = mkOption {
-      type = types.nullOr (types.enum ["22.11" "23.05"]);
+      type = types.nullOr types.str;
       default = null;
       example = "22.11";
       description = "Enable support for stateVersion.";
@@ -44,8 +44,8 @@ in {
   };
 
   config = mkIf cfg.enable (mkMerge [
-    # (mkIf (cfg.package.pname == "fish") { programs.fish.enable = true; })
     (mkIf cfg.defaultUserShell {users.defaultUserShell = cfg.package;})
+    (mkIf (cfg.package.pname == "fish") {programs.fish.enable = true;})
     (mkIf (cfg.package.pname == "zsh") {programs.zsh.enable = true;})
     (mkIf (cfg.userVersion != null) {system.stateVersion = cfg.userVersion;})
   ]);

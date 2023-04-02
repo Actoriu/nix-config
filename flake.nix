@@ -3,23 +3,21 @@
 
   nixConfig = {
     extra-experimental-features = "nix-command flakes";
-    # substituters = [
-    #   "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
-    #   "https://mirrors.ustc.edu.cn/nix-channels/store"
-    # ];
+    substituters = [
+      "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
+      "https://mirrors.ustc.edu.cn/nix-channels/store"
+    ];
     extra-substituters = [
       "https://cache.nixos.org"
       "https://nix-community.cachix.org"
       "https://nix-actions.cachix.org"
       "https://nix-on-droid.cachix.org"
-      "https://nixos-cn.cachix.org"
     ];
     extra-trusted-public-keys = [
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "nix-actions.cachix.org-1:WTp8/9EIjoPRzwSERLLMHzDUVGthajaIJ/zEZY6DHvM="
       "nix-on-droid.cachix.org-1:56snoMJTXmDRC1Ei24CmKoUqvHJ9XCp+nidK7qkMQrU="
-      "nixos-cn.cachix.org-1:L0jEaL6w7kwQOPlLoCR3ADx+E3Q8SEFEcB9Jaibl0Xg="
     ];
   };
 
@@ -87,14 +85,6 @@
 
     impermanence.url = "github:nix-community/impermanence";
 
-    nixos-cn = {
-      url = "github:nixos-cn/flakes";
-      inputs = {
-        flake-utils.follows = "flake-utils";
-        nixpkgs.follows = "nixpkgs";
-      };
-    };
-
     nix-on-droid = {
       url = "github:t184256/nix-on-droid";
       inputs = {
@@ -130,7 +120,8 @@
     home-manager,
     nixpkgs,
     nix-on-droid,
-    cachix-deploy-flake,
+    # cachix-deploy-flake,
+    pre-commit-hooks,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -146,28 +137,37 @@
   in {
     overlays = import ./overlays {inherit inputs;};
 
-    # checks = forEachSystem (system: {
-    #   pre-commit-check = pre-commit-hooks.lib.${system}.run {
-    #     src = ./.;
-    #     hooks = {
-    #       alejandra.enable = true;
-    #     };
-    #   };
-    # });
+    checks = forEachSystem (system: {
+      pre-commit-check = pre-commit-hooks.lib.${system}.run {
+        src = ./.;
+        hooks = {
+          treefmt.enable = true;
+        };
+        settings = {
+          treefmt.package = nixpkgs.legacyPackages.${system}.treefmt;
+        };
+      };
+    });
 
     formatter = forEachPkgs (pkgs: pkgs.alejandra);
 
     packages = forEachPkgs (pkgs: import ./pkgs {inherit pkgs;});
 
     devShells = forEachSystem (system: {
-      default = let
-        pkgs = import nixpkgs {
-          inherit system;
-          overlays = [inputs.devshell.overlays.default];
-        };
-      in
-        import ./shell/devshell.nix {inherit pkgs;};
+      default = nixpkgs.legacyPackages.${system}.mkShell {
+        inherit (self.checks.${system}.pre-commit-check) shellHook;
+      };
     });
+
+    # devShells = forEachSystem (system: {
+    #   default = let
+    #     pkgs = import nixpkgs {
+    #       inherit system;
+    #       overlays = [inputs.devshell.overlays.default];
+    #     };
+    #   in
+    #     import ./shell/devshell.nix {inherit pkgs;};
+    # });
 
     nixosConfigurations = {
       d630 = nixpkgs.lib.nixosSystem {
