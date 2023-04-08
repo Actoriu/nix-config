@@ -149,7 +149,7 @@
         src = ./.;
         hooks = {
           alejandra.enable = true;
-          deadnix.enable = true;
+          # deadnix.enable = true;
           eslint = {
             enable = true;
             entry = pkgs.lib.mkForce "${pkgs.nodejs}/bin/npm run lint";
