@@ -155,7 +155,7 @@
             entry = pkgs.lib.mkForce "${pkgs.nodejs}/bin/npm run lint";
           };
           prettier = {
-            enable = true;
+            enable = false;
             entry = pkgs.lib.mkForce "${pkgs.nodejs}/bin/npm run format-check";
             types_or = ["css" "html" "json" "jsx" "mdx" "scss" "toml" "ts" "yaml"];
             # excludes = ["./pkgs/_sources/*"];
@@ -165,7 +165,7 @@
             enable = true;
             entry = pkgs.lib.mkForce "${pkgs.shfmt}/bin/shfmt -i 2 -s -w";
           };
-          statix.enable = true;
+          statix.enable = false;
           # treefmt.enable = true;
         };
         settings = {
