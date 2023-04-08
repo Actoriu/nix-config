@@ -59,7 +59,6 @@ in {
         addons = with pkgs; [
           fcitx5-rime
         ];
-        enableRimeData = true;
       };
     })
     (mkIf (cfg.locale != null && cfg.locale == "zh_CN" && cfg.inputMethod == "ibus") {

@@ -6,7 +6,7 @@ excludes = ["./pkgs/_sources/*"]
 [formatter.prettier]
 command = "prettier"
 options = ["--plugin", "prettier-plugin-toml", "--write"]
-includes = ["*.md", "*.yaml", "*.yml", "*.toml", "*.json"]
+includes = ["*.css", "*.html", "*.js", "*.json", "*.jsx", "*.md", "*.mdx", "*.scss", "*.toml", "*.ts", "*.yaml", "*.yml"]
 excludes = ["./pkgs/_sources/*"]
 
 [formatter.shell]

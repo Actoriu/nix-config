@@ -113,6 +113,13 @@
       url = "github:syl20bnr/spacemacs/develop";
       flake = false;
     };
+
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
   };
 
   outputs = {
@@ -122,12 +129,12 @@
     nix-on-droid,
     # cachix-deploy-flake,
     pre-commit-hooks,
+    treefmt-nix,
     ...
   } @ inputs: let
     inherit (self) outputs;
 
     forEachSystem = nixpkgs.lib.genAttrs ["aarch64-linux" "x86_64-linux"];
-    forEachPkgs = f: forEachSystem (sys: f nixpkgs.legacyPackages.${sys});
 
     # cachixDeployLibFor =
     #   forEachSystem (system:
@@ -135,27 +142,58 @@
 
     version = nixpkgs.lib.fileContents ./.version;
   in {
-    overlays = import ./overlays {inherit inputs;};
-
-    checks = forEachSystem (system: {
+    checks = forEachSystem (system: let
+      pkgs = nixpkgs.legacyPackages.${system};
+    in {
       pre-commit-check = pre-commit-hooks.lib.${system}.run {
         src = ./.;
         hooks = {
+          alejandra.enable = true;
+          deadnix.enable = true;
+          eslint = {
+            enable = true;
+            entry = pkgs.lib.mkForce "${pkgs.nodejs}/bin/npm run lint";
+          };
+          prettier = {
+            enable = true;
+            entry = pkgs.lib.mkForce "${pkgs.nodejs}/bin/npm run format-check";
+            types_or = ["css" "html" "js" "json" "jsx" "md" "mdx" "scss" "toml" "ts" "yaml" "yml"];
+            excludes = ["./pkgs/_sources/*"];
+          };
+          shellcheck.enable = true;
+          shfmt = {
+            enable = true;
+            entry = pkgs.lib.mkForce "${pkgs.shfmt}/bin/shfmt -i 2 -s -w";
+          };
+          statix.enable = true;
           treefmt.enable = true;
         };
         settings = {
-          treefmt.package = nixpkgs.legacyPackages.${system}.treefmt;
+          treefmt.package = pkgs.treefmt;
         };
       };
     });
 
-    formatter = forEachPkgs (pkgs: pkgs.alejandra);
+    devShells = forEachSystem (system: let
+      pkgs = nixpkgs.legacyPackages.${system};
+    in {
+      default = pkgs.mkShell {
+        nativeBuildInputs = with pkgs; [
+          alejandra
+          cachix
+          nodejs
+          shellcheck
+          shfmt
+          statix
+          treefmt
+        ];
 
-    packages = forEachPkgs (pkgs: import ./pkgs {inherit pkgs;});
-
-    devShells = forEachSystem (system: {
-      default = nixpkgs.legacyPackages.${system}.mkShell {
-        inherit (self.checks.${system}.pre-commit-check) shellHook;
+        # npm forces output that can't possibly be useful to stdout so redirect
+        # stdout to stderr
+        shellHook = ''
+          ${self.checks.${system}.pre-commit-check.shellHook}
+          npm install --no-fund 1>&2
+        '';
       };
     });
 
@@ -168,6 +206,24 @@
     #   in
     #     import ./shell/devshell.nix {inherit pkgs;};
     # });
+
+    formatter = forEachSystem (system:
+      treefmt-nix.lib.mkWrapper nixpkgs.legacyPackages.${system} {
+        projectRootFile = "flake.nix";
+        programs = {
+          alejandra.enable = true;
+          shfmt.enable = true;
+        };
+      });
+
+    overlays = import ./overlays {inherit inputs;};
+
+    packages = forEachSystem (
+      system: let
+        pkgs = nixpkgs.legacyPackages.${system};
+      in
+        import ./pkgs {inherit pkgs;}
+    );
 
     nixosConfigurations = {
       d630 = nixpkgs.lib.nixosSystem {
