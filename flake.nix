@@ -157,7 +157,7 @@
           prettier = {
             enable = true;
             entry = pkgs.lib.mkForce "${pkgs.nodejs}/bin/npm run format-check";
-            types_or = ["css" "html" "json" "jsx" "mdx" "scss" "toml" "ts" "yaml" "yml"];
+            types_or = ["css" "html" "json" "jsx" "mdx" "scss" "toml" "ts" "yaml"];
             excludes = ["./pkgs/_sources/*"];
           };
           shellcheck.enable = true;
