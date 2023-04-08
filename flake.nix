@@ -158,7 +158,7 @@
             enable = true;
             entry = pkgs.lib.mkForce "${pkgs.nodejs}/bin/npm run format-check";
             types_or = ["css" "html" "json" "jsx" "mdx" "scss" "toml" "ts" "yaml"];
-            excludes = ["./pkgs/_sources/*"];
+            # excludes = ["./pkgs/_sources/*"];
           };
           shellcheck.enable = true;
           shfmt = {
@@ -166,10 +166,10 @@
             entry = pkgs.lib.mkForce "${pkgs.shfmt}/bin/shfmt -i 2 -s -w";
           };
           statix.enable = true;
-          treefmt.enable = true;
+          # treefmt.enable = true;
         };
         settings = {
-          treefmt.package = pkgs.treefmt;
+          # treefmt.package = pkgs.treefmt;
         };
       };
     });
