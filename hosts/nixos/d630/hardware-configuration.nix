@@ -13,7 +13,6 @@
   ];
 
   boot = {
-    cleanTmpDir = true;
     # extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
     extraModulePackages = [];
     initrd = {
@@ -25,7 +24,10 @@
     # kernelPackages = pkgs.linuxPackages_latest;
     kernelPackages = pkgs.linuxKernel.packages.linux_5_15;
     supportedFilesystems = ["btrfs" "exfat" "ntfs" "vfat"];
-    tmpOnTmpfs = true;
+    tmp = {
+      cleanOnBoot = true;
+      useTmpfs = true;
+    };
   };
 
   fileSystems = {

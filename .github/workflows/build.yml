@@ -30,7 +30,7 @@ jobs:
         with:
           swap-size-gb: 10
       - name: Checkout repository
-        uses: actions/checkout@v3.5.0
+        uses: actions/checkout@v3.5.2
         with:
           fetch-depth: 0
       - name: Set up QEMU
@@ -48,8 +48,8 @@ jobs:
         uses: cachix/cachix-action@v12
         with:
           name: nix-actions
-          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
-          signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
+          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
+          signingKey: "${{ secrets.CACHIX_SIGNING_KEY }}"
           extraPullNames: nix-community,nix-on-droid
       - name: ${{ matrix.job_name }}
         uses: nick-invision/retry@v2.8.3
