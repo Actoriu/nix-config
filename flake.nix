@@ -140,8 +140,22 @@
         projectRootFile = "flake.nix";
         programs = {
           alejandra.enable = true;
+          prettier.enable = true;
           shellcheck.enable = true;
           shfmt.enable = true;
+        };
+        settings.formatter = {
+          alejandra = {
+            excludes = [
+              "pkgs/_sources"
+            ];
+          };
+          prettier = {
+            excludes = [
+              "pkgs/_sources"
+              ".github/renovate.json"
+            ];
+          };
         };
       });
 
@@ -158,21 +172,21 @@
         src = ./.;
         hooks = {
           actionlint.enable = true;
-          # alejandra.enable = true;
+          alejandra.enable = false;
           deadnix.enable = false;
           eslint = {
             enable = true;
             excludes = ["pkgs/_sources" ".github/renovate.json"];
           };
           prettier = {
-            enable = true;
+            enable = false;
             excludes = ["pkgs/_sources" ".github/renovate.json"];
           };
-          # shellcheck.enable = true;
-          # shfmt = {
-          #   enable = true;
-          #   entry = pkgs.lib.mkForce "${pkgs.shfmt}/bin/shfmt -i 2 -s -w";
-          # };
+          shellcheck.enable = false;
+          shfmt = {
+            enable = false;
+            entry = pkgs.lib.mkForce "${pkgs.shfmt}/bin/shfmt -i 2 -s -w";
+          };
           statix.enable = false;
           treefmt.enable = true;
         };
@@ -181,30 +195,6 @@
         };
       };
     });
-
-    /*
-    devShells = forEachSystem (system: let
-      pkgs = nixpkgs.legacyPackages.${system};
-    in {
-      default = pkgs.mkShell {
-        nativeBuildInputs = with pkgs; [
-          alejandra
-          cachix
-          # nodejs
-          nvfetcher
-          # shellcheck
-          shfmt
-          statix
-          treefmt
-        ];
-
-        shellHook = ''
-          echo 1>&2 "Welcome to the development shell!"
-          ${self.checks.${system}.pre-commit-check.shellHook}
-        '';
-      };
-    });
-    */
 
     devShells = forEachSystem (system: {
       default = let

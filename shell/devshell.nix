@@ -32,6 +32,7 @@ pkgs.devshell.mkShell {
 
   devshell = {
     startup = {
+      # only for pkgs.treefmt
       nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
         export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
       '';
