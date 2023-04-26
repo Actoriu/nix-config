@@ -147,12 +147,12 @@
         settings.formatter = {
           alejandra = {
             excludes = [
-              "pkgs/_sources"
+              "pkgs/_sources/generated.nix"
             ];
           };
           prettier = {
             excludes = [
-              "pkgs/_sources"
+              "pkgs/_sources/generated.json"
               ".github/renovate.json"
             ];
           };
@@ -176,11 +176,11 @@
           deadnix.enable = false;
           eslint = {
             enable = true;
-            excludes = ["pkgs/_sources" ".github/renovate.json"];
+            excludes = ["pkgs/_sources/generated.json" ".github/renovate.json"];
           };
           prettier = {
             enable = false;
-            excludes = ["pkgs/_sources" ".github/renovate.json"];
+            excludes = ["pkgs/_sources/generated.json" ".github/renovate.json"];
           };
           shellcheck.enable = false;
           shfmt = {
