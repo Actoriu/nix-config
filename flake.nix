@@ -34,11 +34,6 @@
 
     flake-utils.url = "github:numtide/flake-utils";
 
-    # nix-formatter-pack = {
-    #   url = "github:Gerschtli/nix-formatter-pack";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
-
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs = {
@@ -138,6 +133,18 @@
 
     forEachSystem = nixpkgs.lib.genAttrs ["aarch64-linux" "x86_64-linux"];
 
+    formatterPackArgsFor = forEachSystem (system: let
+      pkgs = nixpkgs.legacyPackages.${system};
+    in
+      treefmt-nix.lib.mkWrapper pkgs {
+        projectRootFile = "flake.nix";
+        programs = {
+          alejandra.enable = true;
+          shellcheck.enable = true;
+          shfmt.enable = true;
+        };
+      });
+
     # cachixDeployLibFor =
     #   forEachSystem (system:
     #     cachix-deploy-flake.lib nixpkgs.legacyPackages.${system});
@@ -151,30 +158,31 @@
         src = ./.;
         hooks = {
           actionlint.enable = true;
-          alejandra.enable = true;
+          # alejandra.enable = true;
           deadnix.enable = false;
           eslint = {
             enable = true;
-            excludes = ["pkgs/_sources"];
+            excludes = ["pkgs/_sources" ".github/renovate.json"];
           };
           prettier = {
             enable = true;
-            excludes = ["pkgs/_sources"];
+            excludes = ["pkgs/_sources" ".github/renovate.json"];
           };
-          shellcheck.enable = true;
-          shfmt = {
-            enable = true;
-            entry = pkgs.lib.mkForce "${pkgs.shfmt}/bin/shfmt -i 2 -s -w";
-          };
+          # shellcheck.enable = true;
+          # shfmt = {
+          #   enable = true;
+          #   entry = pkgs.lib.mkForce "${pkgs.shfmt}/bin/shfmt -i 2 -s -w";
+          # };
           statix.enable = false;
-          treefmt.enable = false;
+          treefmt.enable = true;
         };
         settings = {
-          # treefmt.package = pkgs.treefmt;
+          treefmt.package = formatterPackArgsFor.${system};
         };
       };
     });
 
+    /*
     devShells = forEachSystem (system: let
       pkgs = nixpkgs.legacyPackages.${system};
     in {
@@ -191,31 +199,24 @@
         ];
 
         shellHook = ''
-          ${self.checks.${system}.pre-commit-check.shellHook}
           echo 1>&2 "Welcome to the development shell!"
+          ${self.checks.${system}.pre-commit-check.shellHook}
         '';
       };
     });
+    */
 
-    # devShells = forEachSystem (system: {
-    #   default = let
-    #     pkgs = import nixpkgs {
-    #       inherit system;
-    #       overlays = [inputs.devshell.overlays.default];
-    #     };
-    #   in
-    #     import ./shell/devshell.nix {inherit pkgs;};
-    # });
-
-    formatter = forEachSystem (system:
-      treefmt-nix.lib.mkWrapper nixpkgs.legacyPackages.${system} {
-        projectRootFile = "flake.nix";
-        programs = {
-          alejandra.enable = true;
-          shellcheck.enable = true;
-          shfmt.enable = true;
+    devShells = forEachSystem (system: {
+      default = let
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [inputs.devshell.overlays.default];
         };
-      });
+      in
+        import ./shell/devshell.nix {inherit formatterPackArgsFor pkgs self system;};
+    });
+
+    formatter = forEachSystem (system: formatterPackArgsFor.${system});
 
     overlays = import ./overlays {inherit inputs;};
 

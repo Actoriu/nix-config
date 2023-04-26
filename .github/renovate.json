@@ -1,9 +1,9 @@
 {
+    "automerge": true,
+    "labels": ["dependencies"],
     "schedule": ["before 2am"],
     "rangeStrategy": "auto",
     "extends": ["config:base"],
     "semanticCommits": "enabled",
-    "lockFileMaintenance": { "enabled": true },
-    "automerge": true,
-    "labels": ["dependencies"]
+    "lockFileMaintenance": { "enabled": true }
 }
