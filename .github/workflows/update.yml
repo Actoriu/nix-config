@@ -30,12 +30,10 @@ jobs:
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
           signingKey: "${{ secrets.CACHIX_SIGNING_KEY }}"
           extraPullNames: nix-community,nix-on-droid
-      - name: Update private packages
-        run: nix develop -c nvfetcher
       - name: Setup git
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions"
+          git config --global user.name "github-actions[bot]"
       - name: Update flake.lock
         run: nix flake update --commit-lock-file
       - name: Push changes to main
