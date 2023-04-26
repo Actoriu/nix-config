@@ -10,15 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix:
-        include:
-          - slug: Update flake.lock
-            job_name: Updating
-            nix-command: flake update
-          - slug: Update private packages
-            job_name: Updating
-            nix-command: develop -c nvfetcher
-    name: ${{ matrix.slug }}
     steps:
       - name: Set swap space
         uses: pierotofy/set-swap-space@v1.0
@@ -26,38 +17,26 @@ jobs:
           swap-size-gb: 10
       - name: Checkout repository
         uses: actions/checkout@v3.5.2
-        with:
-          fetch-depth: 0
       - name: Install nix
         uses: cachix/install-nix-action@v20
         with:
           nix_path: nixpkgs=channel:nixos-unstable
           extra_nix_config: |
-            accept-flake-config = true
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
-            auto-optimise-store = true
+      - name: Setup cachix
+        uses: cachix/cachix-action@v12
+        with:
+          name: nix-actions
+          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
+          signingKey: "${{ secrets.CACHIX_SIGNING_KEY }}"
+          extraPullNames: nix-community,nix-on-droid
+      - name: Update private packages
+        run: nix develop -c nvfetcher
       - name: Setup git
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
-      - name: ${{ matrix.job_name }}
-        uses: nick-invision/retry@v2.8.3
-        with:
-          max_attempts: 2
-          timeout_minutes: 720
-          retry_on: error
-          command: |
-            nix \
-              --log-format bar-with-logs \
-              --keep-going \
-              --show-trace \
-              ${{ matrix.nix-command }}
-      - name: Check for changes and push
-        run: |
-          if [ -z "$(git status --porcelain)" ]; then
-            echo "repository is clean, skip commit."
-          else
-            git add --all
-            git commit -m "Update flake.lock or private packages."
-            git push origin main
-          fi
+          git config --global user.name "github-actions"
+      - name: Update flake.lock
+        run: nix flake update --commit-lock-file
+      - name: Push changes to main
+        run: git pull --rebase --autostash && git push

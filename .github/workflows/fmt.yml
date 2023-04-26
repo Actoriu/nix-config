@@ -10,12 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix:
-        include:
-          - slug: Format code
-            job_name: Formatting
-            nix-command: fmt
-    name: ${{ matrix.slug }}
     steps:
       - name: Set swap space
         uses: pierotofy/set-swap-space@v1.0
@@ -23,25 +17,11 @@ jobs:
           swap-size-gb: 10
       - name: Checkout repository
         uses: actions/checkout@v3.5.2
-        with:
-          fetch-depth: 0
       - name: Install nix
         uses: cachix/install-nix-action@v20
         with:
           nix_path: nixpkgs=channel:nixos-unstable
           extra_nix_config: |
-            accept-flake-config = true
-            auto-optimise-store = true
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
-      - name: ${{ matrix.job_name }}
-        uses: nick-invision/retry@v2.8.3
-        with:
-          max_attempts: 2
-          timeout_minutes: 720
-          retry_on: error
-          command: |
-            nix \
-              --log-format bar-with-logs \
-              --keep-going \
-              --show-trace \
-              ${{ matrix.nix-command }}
+      - name: Formatter
+        run: nix fmt

@@ -1,4 +1,4 @@
 result
-result-*
-/.direnv/
-/.pre-commit-config.yaml
+.direnv
+pkgs/_sources/.shake*
+.pre-commit-config.yaml
