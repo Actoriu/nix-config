@@ -206,6 +206,25 @@
         import ./shell/devshell.nix {inherit formatterPackArgsFor pkgs self system;};
     });
 
+    /*
+    devShells = forEachSystem (system: let
+      pkgs = nixpkgs.legacyPackages.${system};
+    in {
+      default = pkgs.mkShell {
+        nativeBuildInputs = with pkgs; [
+          cachix
+          nvfetcher
+          (formatterPackArgsFor.${system})
+        ];
+
+        shellHook = ''
+          ${self.checks.${system}.pre-commit-check.shellHook}
+          echo 1>&2 "Welcome to the development shell!"
+        '';
+      };
+    });
+    */
+
     formatter = forEachSystem (system: formatterPackArgsFor.${system});
 
     overlays = import ./overlays {inherit inputs;};

@@ -26,16 +26,16 @@ pkgs.devshell.mkShell {
       category = "update";
       name = pkgs.nvfetcher.pname;
       help = pkgs.nvfetcher.meta.description;
-      command = "cd $PRJ_ROOT/pkgs; ${pkgs.nvfetcher}/bin/nvfetcher -c ./sources.toml $@";
+      command = "cd $PRJ_ROOT/pkgs; ${pkgs.nvfetcher}/bin/nvfetcher --commit-changes -c ./sources.toml $@";
     }
   ];
 
   devshell = {
     startup = {
       # only for pkgs.treefmt
-      nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
-        export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
-      '';
+      # nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
+      #   export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
+      # '';
       pre-commit.text = "${self.checks.${system}.pre-commit-check.shellHook}";
     };
   };
