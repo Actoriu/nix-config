@@ -16,8 +16,7 @@ jobs:
             job_name: Updating
             nix-command: |
               --option commit-lockfile-summary 'flake.inputs: automatic update' \
-              flake update \
-              --commit-lock-file
+              flake update --commit-lock-file
     name: ${{ matrix.slug }}
     steps:
       - name: Set swap space
