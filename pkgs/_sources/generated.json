@@ -1,92 +1,92 @@
 {
-  "dnsmasq-china-list": {
-    "cargoLocks": null,
-    "date": "2023-03-31",
-    "extract": null,
-    "name": "dnsmasq-china-list",
-    "passthru": null,
-    "pinned": false,
-    "src": {
-      "deepClone": false,
-      "fetchSubmodules": false,
-      "leaveDotGit": false,
-      "name": null,
-      "owner": "felixonmars",
-      "repo": "dnsmasq-china-list",
-      "rev": "a4736e5554a7e023e88e8ecdf5a40092ee19c1fb",
-      "sha256": "sha256-mTFI/TbeHgEF4FaLeuBPQEUwq/00c/EqYB/ZTq7r5WE=",
-      "type": "github"
+    "dnsmasq-china-list": {
+        "cargoLocks": null,
+        "date": "2023-04-25",
+        "extract": null,
+        "name": "dnsmasq-china-list",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "felixonmars",
+            "repo": "dnsmasq-china-list",
+            "rev": "8f2c0d22bd4cf975cca64d4b0640b6f159083eb8",
+            "sha256": "sha256-de5EDh9ekNJ+2bPQRSgMCRmcaVwdsXa4Ay7S3P3oxMM=",
+            "type": "github"
+        },
+        "version": "8f2c0d22bd4cf975cca64d4b0640b6f159083eb8"
     },
-    "version": "a4736e5554a7e023e88e8ecdf5a40092ee19c1fb"
-  },
-  "fcitx5-material-color": {
-    "cargoLocks": null,
-    "date": "2021-02-21",
-    "extract": null,
-    "name": "fcitx5-material-color",
-    "passthru": null,
-    "pinned": false,
-    "src": {
-      "deepClone": false,
-      "fetchSubmodules": false,
-      "leaveDotGit": false,
-      "name": null,
-      "owner": "hosxy",
-      "repo": "Fcitx5-Material-Color",
-      "rev": "2256feeae48dcc87f19a3cfe98f171862f8fcace",
-      "sha256": "sha256-i9JHIJ+cHLTBZUNzj9Ujl3LIdkCllTWpO1Ta4OT1LTc=",
-      "type": "github"
+    "fcitx5-material-color": {
+        "cargoLocks": null,
+        "date": "2021-02-21",
+        "extract": null,
+        "name": "fcitx5-material-color",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "hosxy",
+            "repo": "Fcitx5-Material-Color",
+            "rev": "2256feeae48dcc87f19a3cfe98f171862f8fcace",
+            "sha256": "sha256-i9JHIJ+cHLTBZUNzj9Ujl3LIdkCllTWpO1Ta4OT1LTc=",
+            "type": "github"
+        },
+        "version": "2256feeae48dcc87f19a3cfe98f171862f8fcace"
     },
-    "version": "2256feeae48dcc87f19a3cfe98f171862f8fcace"
-  },
-  "fcitx5-pinyin-moegirl": {
-    "cargoLocks": null,
-    "date": "2022-09-24",
-    "extract": null,
-    "name": "fcitx5-pinyin-moegirl",
-    "passthru": null,
-    "pinned": false,
-    "src": {
-      "name": null,
-      "sha256": "sha256-Ppz6Gm7cKL7iLsOhE97dvQBMFvaDlDjID+0T3HSIdUw=",
-      "type": "url",
-      "url": "https://github.com/outloudvi/mw2fcitx/releases/download/20230114/moegirl.dict.yaml"
+    "fcitx5-pinyin-moegirl": {
+        "cargoLocks": null,
+        "date": "2022-09-24",
+        "extract": null,
+        "name": "fcitx5-pinyin-moegirl",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-0hDjF1/Gt+OU6/YEY+t1efIRWpqPrKIiaMRBQ0zEWJg=",
+            "type": "url",
+            "url": "https://github.com/outloudvi/mw2fcitx/releases/download/20230414/moegirl.dict.yaml"
+        },
+        "version": "45a8103afd12a1decca35dce2f076f4f5b8cdc59"
     },
-    "version": "45a8103afd12a1decca35dce2f076f4f5b8cdc59"
-  },
-  "fcitx5-pinyin-zhwiki": {
-    "cargoLocks": null,
-    "date": "2023-03-29",
-    "extract": null,
-    "name": "fcitx5-pinyin-zhwiki",
-    "passthru": null,
-    "pinned": false,
-    "src": {
-      "name": null,
-      "sha256": "sha256-u7/IRvztAfxhd6saGO8z6Qdpl8SXCN5FtwvxvP8pfrI=",
-      "type": "url",
-      "url": "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.4/zhwiki-20230128.dict.yaml"
+    "fcitx5-pinyin-zhwiki": {
+        "cargoLocks": null,
+        "date": "2023-03-29",
+        "extract": null,
+        "name": "fcitx5-pinyin-zhwiki",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-0B02FGISHqvrBUGkERdplhrx8zo6SV9hG2qRbSUqqd0=",
+            "type": "url",
+            "url": "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.4/zhwiki-20230329.dict.yaml"
+        },
+        "version": "953d78e098c830f8ea0e5d4e3aa3283509aea8ad"
     },
-    "version": "953d78e098c830f8ea0e5d4e3aa3283509aea8ad"
-  },
-  "gfwlist": {
-    "cargoLocks": null,
-    "date": "2023-03-26",
-    "extract": null,
-    "name": "gfwlist",
-    "passthru": null,
-    "pinned": false,
-    "src": {
-      "deepClone": false,
-      "fetchSubmodules": false,
-      "leaveDotGit": false,
-      "name": null,
-      "owner": "gfwlist",
-      "repo": "gfwlist",
-      "rev": "c9362bfe139cda7ba89c85835668cdbebce7b4fd",
-      "sha256": "sha256-XqK2eA9u6YMDZSMp3Kv93P8kn8lvR8tcrQkicsv6k0g=",
-      "type": "github"
-    },
-    "version": "c9362bfe139cda7ba89c85835668cdbebce7b4fd"
-  }
+    "gfwlist": {
+        "cargoLocks": null,
+        "date": "2023-03-26",
+        "extract": null,
+        "name": "gfwlist",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "gfwlist",
+            "repo": "gfwlist",
+            "rev": "c9362bfe139cda7ba89c85835668cdbebce7b4fd",
+            "sha256": "sha256-XqK2eA9u6YMDZSMp3Kv93P8kn8lvR8tcrQkicsv6k0g=",
+            "type": "github"
+        },
+        "version": "c9362bfe139cda7ba89c85835668cdbebce7b4fd"
+    }
 }
