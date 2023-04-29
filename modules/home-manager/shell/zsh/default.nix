@@ -27,38 +27,38 @@ in {
         # enableAutosuggestions = true;
 
         initExtra = with pkgs; ''
-          setopt nomatch
-          setopt extendedglob
-          setopt rm_star_silent
-          setopt clobber
-          setopt combining_chars
-          setopt interactive_comments
-          setopt rc_quotes
-          unsetopt mail_warning
-          setopt long_list_jobs
-          setopt auto_resume
-          setopt notify
-          unsetopt bg_nice
-          unsetopt hup
-          unsetopt check_jobs
-          setopt auto_pushd
-          setopt pushd_ignore_dups
-          setopt pushd_silent
-          setopt pushd_to_home
-          setopt cdable_vars
-          setopt multios
-          setopt extended_glob
-          unsetopt clobber
-          setopt bang_hist
-          setopt complete_in_word
-          setopt always_to_end
-          setopt path_dirs
-          setopt auto_menu
-          setopt auto_list
-          setopt auto_param_slash
-          setopt extended_glob
-          unsetopt menu_complete
-          unsetopt flow_control
+          # setopt nomatch
+          # setopt extendedglob
+          # setopt rm_star_silent
+          # setopt clobber
+          # setopt combining_chars
+          # setopt interactive_comments
+          # setopt rc_quotes
+          # unsetopt mail_warning
+          # setopt long_list_jobs
+          # setopt auto_resume
+          # setopt notify
+          # unsetopt bg_nice
+          # unsetopt hup
+          # unsetopt check_jobs
+          # setopt auto_pushd
+          # setopt pushd_ignore_dups
+          # setopt pushd_silent
+          # setopt pushd_to_home
+          # setopt cdable_vars
+          # setopt multios
+          # setopt extended_glob
+          # unsetopt clobber
+          # setopt bang_hist
+          # setopt complete_in_word
+          # setopt always_to_end
+          # setopt path_dirs
+          # setopt auto_menu
+          # setopt auto_list
+          # setopt auto_param_slash
+          # setopt extended_glob
+          # unsetopt menu_complete
+          # unsetopt flow_control
           # close bad pattern to use the character '#' for nix build
           unsetopt INTERACTIVE_COMMENTS
           unsetopt BAD_PATTERN
