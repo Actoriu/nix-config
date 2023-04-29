@@ -14,7 +14,7 @@ in {
   config = mkIf cfg.enable {
     fonts = {
       fonts = with pkgs; [
-        (nerdfonts.override {fonts = ["Iosevka"];})
+        (nerdfonts.override {fonts = ["Iosevka" "NerdFontsSymbolsOnly"];})
         noto-fonts
         noto-fonts-extra
         noto-fonts-emoji
