@@ -59,6 +59,9 @@ in {
           setopt extended_glob
           unsetopt menu_complete
           unsetopt flow_control
+          # close bad pattern to use the character '#' for nix build
+          unsetopt INTERACTIVE_COMMENTS
+          unsetopt BAD_PATTERN
 
           export LESS_TERMCAP_mb=$'\E[01;31m'
           export LESS_TERMCAP_md=$'\E[01;31m'
@@ -68,7 +71,7 @@ in {
           export LESS_TERMCAP_ue=$'\E[0m'
           export LESS_TERMCAP_us=$'\E[01;32m'
 
-          # [[ ! -f $XDG_CONFIG_HOME/zsh/p10k.zsh ]] || source "$XDG_CONFIG_HOME/zsh/p10k.zsh"
+          [[ ! -f $XDG_CONFIG_HOME/zsh/.p10k.zsh ]] || source "$XDG_CONFIG_HOME/zsh/.p10k.zsh"
           # source ${zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
           # source ${zsh-fast-syntax-highlighting}/share/zsh/site-functions/fast-syntax-highlighting.plugin.zsh
           # source ${zsh-history-substring-search}/share/zsh-history-substring-search/zsh-history-substring-search.zsh
