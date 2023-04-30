@@ -15,7 +15,7 @@ jobs:
           - slug: Update flake.lock
             job_name: Updating
             nix-command: |
-              --option commit-lockfile-summary 'flake.inputs: automatic update' \
+              --option commit-lockfile-summary "flake: bump inputs" \
               flake update --commit-lock-file
     name: ${{ matrix.slug }}
     steps:

@@ -46,7 +46,10 @@ in {
   config = mkIf cfg.enable (mkMerge [
     (mkIf cfg.defaultUserShell {users.defaultUserShell = cfg.package;})
     (mkIf (cfg.package.pname == "fish") {programs.fish.enable = true;})
-    (mkIf (cfg.package.pname == "zsh") {programs.zsh.enable = true;})
+    (mkIf (cfg.package.pname == "zsh") {
+      programs.zsh.enable = true;
+      environment.pathsToLink = ["/share/zsh"];
+    })
     (mkIf (cfg.userVersion != null) {system.stateVersion = cfg.userVersion;})
   ]);
 }

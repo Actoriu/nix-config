@@ -23,8 +23,8 @@ in {
           path = "${config.xdg.dataHome}/zsh/zsh_history";
         };
 
-        autocd = true;
-        # enableAutosuggestions = true;
+        enableAutosuggestions = true;
+        enableCompletion = true;
 
         initExtra = with pkgs; ''
           # setopt nomatch
@@ -71,42 +71,44 @@ in {
           export LESS_TERMCAP_ue=$'\E[0m'
           export LESS_TERMCAP_us=$'\E[01;32m'
 
-          [[ ! -f $XDG_CONFIG_HOME/zsh/.p10k.zsh ]] || source "$XDG_CONFIG_HOME/zsh/.p10k.zsh"
+          # powerlevel10k
           # source ${zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
+          # [[ ! -f $XDG_CONFIG_HOME/zsh/.p10k.zsh ]] || source "$XDG_CONFIG_HOME/zsh/.p10k.zsh"
           # source ${zsh-fast-syntax-highlighting}/share/zsh/site-functions/fast-syntax-highlighting.plugin.zsh
           # source ${zsh-history-substring-search}/share/zsh-history-substring-search/zsh-history-substring-search.zsh
           # source ${zsh-you-should-use}/share/zsh/plugins/you-should-use/you-should-use.plugin.zsh
 
           # eval "$(jump shell)"
           # eval $(thefuck --alias)
-          function set_win_title() {
-            echo -ne "\033]0; $TERM - $PWD \007"
-                                     }
-          precmd_functions+=(set_win_title)
+          # function set_win_title() {
+          #   echo -ne "\033]0; $TERM - $PWD \007"
+          #                            }
+          # precmd_functions+=(set_win_title)
+
+          # zsh-history-substring-search
+          # Emacs and Vi
+          # for keymap in 'emacs' 'viins'; do
+          #   bindkey "$terminfo[kcuu1]" history-substring-search-up
+          #   bindkey "$terminfo[kcud1]" history-substring-search-down
+          # done
+
+          # unset keymap
 
           # Emacs
-          bindkey -M emacs "^P" history-substring-search-up
-          bindkey -M emacs "^N" history-substring-search-down
+          # bindkey -M emacs "^P" history-substring-search-up
+          # bindkey -M emacs "^N" history-substring-search-down
 
           # Vi
-          bindkey -M vicmd "k" history-substring-search-up
-          bindkey -M vicmd "j" history-substring-search-down
-
-          # Emacs and Vi
-          for keymap in 'emacs' 'viins'; do
-            bindkey "$terminfo[kcuu1]" history-substring-search-up
-            bindkey "$terminfo[kcud1]" history-substring-search-down
-          done
-
-          unset keymap
+          # bindkey -M vicmd "k" history-substring-search-up
+          # bindkey -M vicmd "j" history-substring-search-down
         '';
 
         plugins = [
-          {
-            name = "zsh-autosuggestions";
-            src = pkgs.zsh-autosuggestions;
-            file = "share/zsh-autosuggestions/zsh-autosuggestions.zsh";
-          }
+          # {
+          #   name = "zsh-autosuggestions";
+          #   src = pkgs.zsh-autosuggestions;
+          #   file = "share/zsh-autosuggestions/zsh-autosuggestions.zsh";
+          # }
           {
             name = "zsh-fast-syntax-highlighting";
             src = pkgs.zsh-fast-syntax-highlighting;
@@ -118,15 +120,28 @@ in {
             file = "share/zsh-history-substring-search/zsh-history-substring-search.zsh";
           }
           {
+            name = "zsh-nix-shell";
+            src = pkgs.zsh-nix-shell;
+            file = "share/zsh-nix-shell/nix-shell.plugin.zsh";
+          }
+          {
+            name = "zsh-vi-mode";
+            src = pkgs.zsh-vi-mode;
+            file = "share/zsh-vi-mode/zsh-vi-mode.plugin.zsh";
+          }
+          {
             name = "powerlevel10k";
             src = pkgs.zsh-powerlevel10k;
             file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
           }
-          # {
-          #   name = "powerlevel10k-config";
-          #   src = pkgs.substituteAll { src=./zsh-p10k.zsh; dir="bin"; };
-          #   file = "bin/zsh-p10k.zsh";
-          # }
+          {
+            name = "powerlevel10k-config";
+            src = pkgs.substituteAll {
+              src = ./zsh-p10k.zsh;
+              dir = "bin";
+            };
+            file = "bin/zsh-p10k.zsh";
+          }
         ];
       };
     };
