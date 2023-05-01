@@ -37,7 +37,7 @@
 
   home-manager = {
     # useGlobalPkgs = true;
-    # useUserPackages = true;
+    useUserPackages = true;
     extraSpecialArgs = {inherit desktop hostname inputs outputs username version;};
     users.${username} = import ../../../users/shared;
   };
