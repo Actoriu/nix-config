@@ -129,6 +129,7 @@ in {
           # Workaround for https://github.com/nix-community/home-manager/issues/2942
           allowUnfreePredicate = _: true;
         };
+        overlays = builtins.attrValues outputs.overlays;
       };
       home.stateVersion = "${version}";
       manual.manpages.enable = false;
