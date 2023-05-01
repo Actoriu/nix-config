@@ -115,7 +115,7 @@ in {
   # Configure home-manager
   home-manager = {
     extraSpecialArgs = {inherit inputs outputs version;};
-    useGlobalPkgs = true;
+    # useGlobalPkgs = true;
     useUserPackages = true;
     config = {
       config,
@@ -123,16 +123,16 @@ in {
       pkgs,
       ...
     }: {
-      # nixpkgs = {
-      #   config = {
-      #     allowUnfree = true;
-      #     allowBroken = true;
-      #     allowUnsupportedSystem = true;
-      #   };
-      #   overlays = builtins.attrValues outputs.overlays;
-      # };
+      nixpkgs = {
+        config = {
+          allowUnfree = true;
+          # Workaround for https://github.com/nix-community/home-manager/issues/2942
+          allowUnfreePredicate = _: true;
+        };
+      };
       home.stateVersion = "${version}";
       manual.manpages.enable = false;
+      programs.home-manager.enable = true;
       imports = [
         ../../../modules/home-manager
         ../../../users/${username}

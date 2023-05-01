@@ -164,6 +164,11 @@
     #     cachix-deploy-flake.lib nixpkgs.legacyPackages.${system});
 
     version = nixpkgs.lib.fileContents ./.version;
+    # Modules
+    # nixosModules = import ./modules/nixos;
+    # nixOnDroidModules = import ./modules/nix-on-droid;
+    # nixDarwinModules = import ./modules/nix-darwin;
+    # homeManagerModules = import ./modules/home-manager;
   in {
     checks = forEachSystem (system: let
       pkgs = nixpkgs.legacyPackages.${system};
@@ -267,11 +272,9 @@
       oneplus5 = nix-on-droid.lib.nixOnDroidConfiguration {
         pkgs = import nixpkgs {
           system = "aarch64-linux";
-          overlays =
-            (builtins.attrValues self.overlays)
-            ++ [
-              nix-on-droid.overlays.default
-            ];
+          overlays = [
+            nix-on-droid.overlays.default
+          ];
         };
         extraSpecialArgs = {
           inherit inputs outputs version;
