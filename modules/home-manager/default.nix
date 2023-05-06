@@ -28,7 +28,7 @@
   zoxide = import ./shell/zoxide.nix;
   zsh = import ./shell/zsh.nix;
   # terminal
-  alacritty = import ./termianl/alacritty.nix;
+  alacritty = import ./terminal/alacritty.nix;
   urxvt = import ./terminal/urxvt.nix;
   xst = import ./terminal/xst.nix;
   # video
