@@ -165,10 +165,10 @@
 
     version = nixpkgs.lib.fileContents ./.version;
     # Modules
-    # nixosModules = import ./modules/nixos;
-    # nixOnDroidModules = import ./modules/nix-on-droid;
-    # nixDarwinModules = import ./modules/nix-darwin;
-    # homeManagerModules = import ./modules/home-manager;
+    nixosModules = import ./modules/nixos;
+    nixOnDroidModules = import ./modules/nix-on-droid;
+    nixDarwinModules = import ./modules/nix-darwin;
+    homeManagerModules = import ./modules/home-manager;
   in {
     checks = forEachSystem (system: let
       pkgs = nixpkgs.legacyPackages.${system};
@@ -244,13 +244,13 @@
     nixosConfigurations = {
       d630 = nixpkgs.lib.nixosSystem {
         specialArgs = {
-          inherit inputs outputs version;
+          inherit homeManagerModules inputs outputs version;
           desktop = null;
           hostname = "d630";
           username = "actoriu";
           system = "x86_64-linux";
         };
-        modules = [./hosts/nixos/shared];
+        modules = [./hosts/nixos/shared] ++ (builtins.attrValues nixosModules);
       };
     };
 
@@ -264,7 +264,7 @@
           username = "actoriu";
           system = "x86_64-linux";
         };
-        modules = [./users/shared];
+        modules = [./users/shared] ++ (builtins.attrValues homeManagerModules);
       };
     };
 
@@ -277,12 +277,12 @@
           ];
         };
         extraSpecialArgs = {
-          inherit inputs outputs version;
+          inherit homeManagerModules inputs outputs version;
           devicename = "oneplus5";
           username = "nix-on-droid";
         };
         home-manager-path = home-manager.outPath;
-        modules = [./hosts/droid/oneplus5];
+        modules = [./hosts/droid/oneplus5] ++ (builtins.attrValues nixOnDroidModules);
       };
     };
   };

@@ -14,7 +14,7 @@
     inputs.impermanence.nixosModules.home-manager.impermanence
     inputs.nur.hmModules.nur
     inputs.sops-nix.homeManagerModules.sops
-    ../../modules/home-manager
+    # ../../modules/home-manager
     ../${username}
   ];
 
