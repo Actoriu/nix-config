@@ -25,6 +25,7 @@
   openssh = import ./shell/openssh.nix;
   password-store = import ./shell/password-store.nix;
   rofi = import ./shell/rofi.nix;
+  tmux = import ./shell/tmux.nix;
   zoxide = import ./shell/zoxide.nix;
   zsh = import ./shell/zsh.nix;
   # terminal
