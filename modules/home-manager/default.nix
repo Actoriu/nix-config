@@ -1,37 +1,37 @@
 {
   # editors
-  emacs = import ./editors/emacs.nix;
-  neovim = import ./editors/neovim.nix;
+  emacs = import ./editors/emacs;
+  neovim = import ./editors/neovim;
   # lang
-  cc = import ./lang/cc.nix;
-  javascript = import ./lang/javascript.nix;
-  python = import ./lang/python.nix;
-  texlive = import ./lang/texlive.nix;
+  cc = import ./lang/cc;
+  javascript = import ./lang/javascript;
+  python = import ./lang/python;
+  texlive = import ./lang/texlive;
   # misc
-  xresources = import ./misc/xresources.nix;
-  xdg = import ./misc/xdg.nix;
+  xresources = import ./misc/xresources;
+  xdg = import ./misc/xdg;
   # readers
-  zathura = import ./readers/zathura.nix;
+  zathura = import ./readers/zathura;
   # services
-  lorri = import ./services/lorri.nix;
-  redshift = import ./services/redshift.nix;
+  lorri = import ./services/lorri;
+  redshift = import ./services/redshift;
   # shell
-  bat = import ./shell/bat.nix;
-  dircolors = import ./shell/dircolors.nix;
-  direnv = import ./shell/direnv.nix;
-  fzf = import ./shell/fzf.nix;
-  git = import ./shell/git.nix;
-  gnupg = import ./shell/gnupg.nix;
-  openssh = import ./shell/openssh.nix;
-  password-store = import ./shell/password-store.nix;
-  rofi = import ./shell/rofi.nix;
-  tmux = import ./shell/tmux.nix;
-  zoxide = import ./shell/zoxide.nix;
-  zsh = import ./shell/zsh.nix;
+  bat = import ./shell/bat;
+  dircolors = import ./shell/dircolors;
+  direnv = import ./shell/direnv;
+  fzf = import ./shell/fzf;
+  git = import ./shell/git;
+  gnupg = import ./shell/gnupg;
+  openssh = import ./shell/openssh;
+  password-store = import ./shell/password-store;
+  rofi = import ./shell/rofi;
+  tmux = import ./shell/tmux;
+  zoxide = import ./shell/zoxide;
+  zsh = import ./shell/zsh;
   # terminal
-  alacritty = import ./terminal/alacritty.nix;
-  urxvt = import ./terminal/urxvt.nix;
-  xst = import ./terminal/xst.nix;
+  alacritty = import ./terminal/alacritty;
+  urxvt = import ./terminal/urxvt;
+  xst = import ./terminal/xst;
   # video
-  mpv = import ./video/mpv.nix;
+  mpv = import ./video/mpv;
 }

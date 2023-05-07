@@ -14,7 +14,6 @@
     inputs.impermanence.nixosModules.home-manager.impermanence
     inputs.nur.hmModules.nur
     inputs.sops-nix.homeManagerModules.sops
-    # ../../modules/home-manager
     ../${username}
   ];
 
@@ -39,4 +38,5 @@
   programs.home-manager.enable = true;
   manual.manpages.enable = false;
   systemd.user.startServices = "sd-switch";
+  targets.genericLinux.enable = true;
 }
