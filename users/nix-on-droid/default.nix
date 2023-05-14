@@ -8,6 +8,7 @@
     emacs = {
       enable = true;
       spacemacs = true;
+      treesitter = true;
     };
     # neovim.enable = true;
     # shell

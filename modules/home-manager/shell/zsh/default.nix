@@ -26,6 +26,12 @@ in {
         enableAutosuggestions = true;
         enableCompletion = true;
 
+        envExtra = ''
+          if [ -e $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh  ]; then
+            source "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+          fi
+        '';
+
         initExtra = with pkgs; ''
           # setopt nomatch
           # setopt extendedglob

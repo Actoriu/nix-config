@@ -11,9 +11,9 @@ in {
     enable = mkEnableOption "Enable support for locale.";
 
     inputMethod = mkOption {
-      type = types.nullOr (types.enum ["fcitx" "fcitx5" "ibus"]);
+      type = types.nullOr (types.enum ["fcitx5" "ibus"]);
       default = null;
-      example = "fcitx";
+      example = "fcitx5";
       description = "Enable support for inputMethod.";
     };
 
@@ -50,9 +50,6 @@ in {
         supportedLocales = ["en_US.UTF-8/UTF-8" "zh_CN.UTF-8/UTF-8"];
       };
       time.timeZone = "Asia/Shanghai";
-    })
-    (mkIf (cfg.locale != null && cfg.locale == "zh_CN" && cfg.inputMethod == "fcitx") {
-      i18n.inputMethod.fcitx.engines = with pkgs.fcitx-engines; [rime];
     })
     (mkIf (cfg.locale != null && cfg.locale == "zh_CN" && cfg.inputMethod == "fcitx5") {
       i18n.inputMethod.fcitx5 = {

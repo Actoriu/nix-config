@@ -18,12 +18,15 @@ in {
         enable = cfg.enable;
         package = pkgs.gitAndTools.gitFull;
         userName = "Actoriu";
-        userEmail = "864149939@qq.com";
+        userEmail = "51398008+Actoriu@users.noreply.github.com";
         extraConfig = {
-          # url = {
-          #   "https://github.com.cnpmjs.org/" = {
-          #     insteadof = "https://github.com/";
-          #   };
+          url = {
+           "https://ghproxy.com/https://github" = {
+             insteadof = "https://github";
+           };
+          };
+          # http = {
+          #   proxy = socks5://127.0.0.1:1089;
           # };
           core = {
             pager = "${pkgs.gitAndTools.delta}/bin/delta";

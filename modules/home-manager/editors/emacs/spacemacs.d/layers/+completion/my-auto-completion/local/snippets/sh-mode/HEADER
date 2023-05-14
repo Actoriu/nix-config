@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Header File Template
+# key: HEADER
+# --
+#!/usr/bin/env bash
+
+$0

@@ -6,13 +6,31 @@
 }:
 with lib; let
   cfg = config.custom.emacs;
+
+  # https://github.com/minimal/dotfiles/blob/master/nixpkgs/emacs.nix#L28
+  treeSitterGrammars = pkgs.runCommandLocal "grammars" {} ''
+    mkdir -p $out/bin
+    ${
+      lib.concatStringsSep "\n"
+      (lib.mapAttrsToList (name: src: "ln -s ${src}/parser $out/bin/${name}.so") pkgs.tree-sitter.builtGrammars)
+    };
+  '';
+
+  # list taken from here: https://github.com/emacs-tree-sitter/tree-sitter-langs/tree/master/repos
+  # commented out are not yet packaged in nix
+  langs = [
+    "commonlisp"
+    "elisp"
+  ];
+  grammars = lib.getAttrs (map (lang: "tree-sitter-${lang}") langs) pkgs.tree-sitter.builtGrammars;
 in {
   options.custom.emacs = {
     enable = mkEnableOption "Enable support for emacs.";
-    doom-emacs = mkEnableOption "Enable support for doom-emacs.";
-    spacemacs = mkEnableOption "Enable support for spacemacs.";
     emacs-application-framework =
       mkEnableOption "Enable support for emacs-application-framework.";
+    doom-emacs = mkEnableOption "Enable support for doom-emacs.";
+    spacemacs = mkEnableOption "Enable support for spacemacs.";
+    treesitter = mkEnableOption "Enable support for tree-sitter.";
   };
 
   config = mkIf cfg.enable (mkMerge [
@@ -77,10 +95,10 @@ in {
             source = pkgs.spacemacs;
             recursive = true;
           };
-          # ".spacemacs.d" = {
-          #   source = spacemacs.d;
-          #   recursive = true;
-          # };
+          ".spacemacs.d" = {
+            source = "${cleanSource ./spacemacs.d}";
+            recursive = true;
+          };
         };
       };
     })
@@ -140,6 +158,16 @@ in {
             ]))
         ];
       };
+    })
+
+    (mkIf cfg.treesitter {
+      home.file.".tree-sitter".source = pkgs.runCommand "grammars" {} ''
+        mkdir -p $out/bin
+        ${
+          lib.concatStringsSep "\n"
+          (lib.mapAttrsToList (name: src: "name=${name}; ln -s ${src}/parser $out/bin/\${name#tree-sitter-}.so") grammars)
+        };
+      '';
     })
   ]);
 }

@@ -68,7 +68,6 @@
     devshell = {
       url = "github:numtide/devshell";
       inputs = {
-        flake-utils.follows = "flake-utils";
         nixpkgs.follows = "nixpkgs";
       };
     };
@@ -247,6 +246,7 @@
           inherit homeManagerModules inputs outputs version;
           desktop = null;
           hostname = "d630";
+          non-nixos = false;
           username = "actoriu";
           system = "x86_64-linux";
         };
@@ -255,12 +255,13 @@
     };
 
     homeConfigurations = {
-      "actoriu@d630" = home-manager.lib.homeManagerConfiguration {
+      actoriu = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages."x86_64-linux";
         extraSpecialArgs = {
           inherit inputs outputs version;
           desktop = null;
           hostname = "d630";
+          non-nixos = true;
           username = "actoriu";
           system = "x86_64-linux";
         };
