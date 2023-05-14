@@ -1,7 +1,5 @@
 {
   config,
-  desktop,
-  hostname,
   inputs,
   lib,
   outputs,
@@ -38,5 +36,4 @@
   programs.home-manager.enable = true;
   manual.manpages.enable = false;
   systemd.user.startServices = "sd-switch";
-  targets.genericLinux.enable = true;
 }

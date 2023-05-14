@@ -1,0 +1,19 @@
+# -*- mode: snippet -*-
+# name: org-xelatex
+# key: org-xelatex
+# --
+#+TITLE: $0
+#+AUTHOR:
+#+DATE: `(let ((system-time-locale "C")) (format-time-string "%A, %F"))`
+#+OPTIONS: toc:nil num:nil
+#+LATEX_CMD: xelatex
+#+LATEX_HEADER: \setmainfont[Mapping=tex-text]{Noto Serif}
+#+LATEX_HEADER: \setsansfont[Mapping=tex-text]{Noto Sans}
+#+LATEX_HEADER: \setmonofont[Mapping=tex-text,Scale=MatchLowercase]{Noto Sans Mono}
+#+LATEX_HEADER: \setCJKmainfont[Mapping=tex-text]{Noto Serif CJK SC}
+#+LATEX_HEADER: \setCJKsansfont[Mapping=tex-text]{Noto Sans CJK SC}
+#+LATEX_HEADER: \setCJKmonofont [Mapping=tex-text,Scale=MatchLowercase]{Noto Sans Mono CJK SC}
+
+
+** Introduction
+This is my paper.

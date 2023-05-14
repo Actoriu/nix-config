@@ -7,9 +7,13 @@
   javascript = import ./lang/javascript;
   python = import ./lang/python;
   texlive = import ./lang/texlive;
+  # locale
+  # locale = import ./locale;
   # misc
-  xresources = import ./misc/xresources;
   xdg = import ./misc/xdg;
+  xresources = import ./misc/xresources;
+  # non-nixos
+  non-nixos = import ./non-nixos;
   # readers
   zathura = import ./readers/zathura;
   # services

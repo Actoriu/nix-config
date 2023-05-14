@@ -5,6 +5,7 @@
   hostname,
   inputs,
   lib,
+  non-nixos,
   outputs,
   pkgs,
   system,
@@ -36,7 +37,7 @@
   };
 
   home-manager = {
-    extraSpecialArgs = {inherit desktop hostname inputs outputs username version;};
+    extraSpecialArgs = {inherit desktop hostname inputs non-nixos outputs username version;};
     sharedModules = builtins.attrValues homeManagerModules;
     # useGlobalPkgs = true;
     useUserPackages = true;

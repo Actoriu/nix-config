@@ -1,0 +1,508 @@
+#+TITLE: configuration
+#+STARTUP: content
+#+STARTUP: indent
+
+* init
+
+  #+BEGIN_SRC emacs-lisp
+    ;; Customize directory
+    (defconst bin-dir (file-name-as-directory (concat user-emacs-directory "bin"))
+      "The directory of the binary staff.")
+
+    (defconst etc-dir (file-name-as-directory (concat user-emacs-directory "etc"))
+      "The directory of the etcetera.")
+
+    (defconst lisp-dir (file-name-as-directory (concat user-emacs-directory "lisp"))
+      "The directory of the configuration.")
+
+    (defconst site-lisp-dir (file-name-as-directory (concat user-emacs-directory "site-lisp"))
+      "The directory of the package.")
+
+    (defconst cache-dir (file-name-as-directory (concat user-emacs-directory ".cache"))
+      "The directory of the cache.")
+
+    ;; create directory
+    (unless (file-exists-p cache-dir)
+      (make-directory cache-dir))
+
+    (load (concat lisp-dir "init-subdirs"))
+    (my-add-subdirs-to-load-path lisp-dir)
+    (my-add-subdirs-to-load-path site-lisp-dir)
+    (message "Loading GNU Emacs customizations files directory and configuration!")
+
+    ;; Environment
+    (defconst *Linux-OS* (string-match "gnu/linux" (symbol-name system-type))
+      "Current operation system is Linux.")
+
+    (defconst *Mac-OS* (string-match "darwin" (symbol-name system-type))
+      "Current operation system is Mac OS.")
+
+    (defconst *Win-OS* (string-match "windows-nt" (symbol-name system-type))
+      "Current operation system is Windows.")
+
+    (defconst *Win32-OS* (and *Win-OS*
+                              (not (getenv "PROGRAMW6432")))
+      "Current operation system is Windows 32bit version.")
+
+    (defconst *Win64-OS* (and *Win-OS*
+                              (getenv "PROGRAMW6432"))
+      "Current operation system is Windows 64bit version.")
+
+    (cond
+     (*Linux-OS*
+      (message "Loading GNU Emacs customizations for Linux OS!"))
+     (*Win-OS*
+      ;;(defconst portable-emacs-dir (substring data-directory 0 -15))
+      ;;(defconst portable-home-dir (format "%s" (file-name-as-directory (concat portable-emacs-dir "my-emacs-home"))))
+      ;;(setenv "PATH" portable-home-dir)
+      ;;(setenv "HOME" portable-home-dir)
+      (message "Loading GNU Emacs customizations for Windows OS!")))
+
+    ;; system-configuration
+    ;; 通过 string-match 从 system-configuration 检索相关 string
+    (cond ((string-match "nt" system-configuration)
+           ... anything special about Windows begins here.
+           )
+          )
+
+    ;; system-type
+    ;; 通过 equal 或 string-equal 比较两个 symbol 或 string 是否相等
+    (cond ((equal 'windows-nt syste-type)
+           ... anything special about Windows begins here.
+           )
+          )
+
+    (cond ((string-equal "windows-nt" syste-type)
+           ... anything special about Windows begins here.
+           )
+          )
+
+    ;; 通过 string-match 检索 symbol-name 返回 symbol 转为 string 中的 string
+    (cond ((string-match "windows-nt" (symbol-name system-type))
+           ... anything special about Windows begins here.
+           )
+          )
+
+    ;; 通过 string-match 检索 prin1-to-string 把 symbol 转为 string 中的 string
+    (cond ((string-match "windows-nt" (prin1-to-string system-type))
+           ... anything special about Windows begins here.
+           )
+          )
+
+    ;; window-system
+    ;; GUI 模式配置
+    (cond ((equal window-system 'w32)
+           ... anything special about Windows gui mode begins here.
+           )
+          )
+
+    ;; system-name
+    ;; 同一电脑下不同用户的配置
+    (cond
+     ((string-match "HOMEPC" (system-name))
+      ... anything special about home begins here.
+      )
+     ((string-match "WORKPC" (system-name))
+      ... anything special about work begins here.
+      )
+     )
+  #+END_SRC
+
+* browse
+
+  #+BEGIN_SRC emacs-lisp
+    (setq browse-url-generic-program (executable-find "firefox")
+          browse-url-browser-function 'browse-url-generic)
+  #+END_SRC
+
+* edit
+
+  #+BEGIN_SRC emacs-lisp
+    ;; 文件路径
+    (cond
+     (*Linux-OS*
+      ;;(setq default-directory "~/")
+      )
+     (*Win-OS*
+      ;;(setq default-directory "~/")
+      ))
+
+    ;; 默认为 text 模式
+    (setq default-major-mode 'text-mode)
+
+    ;; 状态栏显示文件大小
+    (size-indication-mode t)
+
+    ;; 自动载入更改文件
+    (global-auto-revert-mode t)
+
+    ;; 允许和其他程序之间的粘贴
+    (setq x-select-enable-clipboard t)
+
+    ;; 删除的文件移到回收站
+    (setq delete-by-moving-to-trash t)
+
+    ;; 删除环设置
+    (setq kill-ring-max 200)
+
+    ;; 文档宽度,80 列就换行
+    (setq default-fill-column 80)
+
+    ;; 平滑滚动
+    (setq scroll-margin 0
+          scroll-conservatively 100000
+          scroll-preserve-screen-position 1)
+
+    ;; 在文件尾部自动插入一行
+    (setq require-final-newline t)
+
+    ;; 光标在 TAB 字符上显示为大方块
+    (setq x-stretch-cursor t)
+
+    ;; 当光标在行尾上下移动的时候始终保持行尾
+    (setq track-eol t)
+
+    ;; 缩进
+    (setq-default indent-tabs-mode nil)
+    (setq-default tab-width 4)
+
+    ;;(global-set-key (kbd "RET") 'newline-and-indent)
+
+    ;; 自动缩进
+    ;;(require 'electric)
+    ;; 编辑时智能缩进，类似于 C-j 的效果--这个 C-j 中，zencoding 和 electric-pair-mode 冲突
+    (electric-indent-mode t)
+    ;; 内置括号智能补全
+    (when (fboundp 'electric-pair-mode)
+      (setq-default electric-pair-mode 1))
+    ;; 特定条件插入新行
+    (electric-layout-mode t)
+
+    ;; 对某些 mode 关闭自动 electric-indent
+    (defun disable-eletric-indent-mode-local ()
+      "Make electric indent function local to disable it"
+      (set (make-local-variable 'electric-indent-functions)
+           (list (lambda (arg) 'no-indent)))
+      )
+    (add-hook 'org-mode-hook 'disable-eletric-indent-mode-local)
+    (add-hook 'python-mode-hook 'disable-eletric-indent-mode-local)
+    (add-hook 'coffee-mode-hook 'disable-eletric-indent-mode-local)
+
+
+    (defadvice indent-region
+        (before autoindentregion activate compile)
+      "在没有 region 的时候，自动缩进当前行"
+      (interactive
+       (if mark-active (list (region-beginning) (region-end))
+         (list (line-beginning-position)
+               (line-beginning-position 2)))))
+
+    ;; 括号匹配
+    (setq show-paren-delay 0)
+    ;;(setq show-paren-style 'parentheses)
+    (setq show-paren-style 'expression)
+    ;;(setq show-paren-style 'mixed)
+    (show-paren-mode t)
+
+    ;; 语法加亮
+    (global-font-lock-mode t)
+
+    ;; 高亮修改内容
+    (highlight-changes-mode t)
+    (setq highlight-changes-visibility-initial-state nil)
+
+    ;; 自动保存
+    (setq auto-save-default nil)
+
+    ;; 备份文件(文件名后有~)
+    (setq make-backup-files nil)
+
+    ;; 递归 minibuffer
+    (setq enable-recursive-minibuffers t)
+
+    ;; 文件内容左右移动
+    (put 'scroll-left 'disabled nil)
+    (put 'scroll-right 'disabled nil)
+
+    ;; y/n 代替 yes/no
+    (fset 'yes-or-no-p 'y-or-n-p)
+  #+END_SRC
+
+* utf-8
+
+  #+BEGIN_SRC emacs-lisp
+    (defun sanityinc/utf8-locale-p (v)
+      "Return whether locale string V relates to a UTF-8 locale."
+      (and v (string-match "UTF-8" v)))
+
+    (defun locale-is-utf8-p ()
+      "Return t iff the \"locale\" command or environment variables prefer UTF-8."
+      (or (sanityinc/utf8-locale-p (and (executable-find "locale") (shell-command-to-string "locale")))
+          (sanityinc/utf8-locale-p (getenv "LC_ALL"))
+          (sanityinc/utf8-locale-p (getenv "LC_CTYPE"))
+          (sanityinc/utf8-locale-p (getenv "LANG"))))
+
+    (when (or window-system (locale-is-utf8-p))
+      (setq utf-translate-cjk-mode nil) ; enable CJK coding/encoding (Chinese/Japanese/Korean characters)
+      (set-language-environment 'utf-8)
+      (setq locale-coding-system 'utf-8)
+      (set-default-coding-systems 'utf-8)
+      (set-terminal-coding-system 'utf-8)
+      (unless (eq system-type 'windows-nt)
+        (set-selection-coding-system 'utf-8))
+      (prefer-coding-system 'gb18030)
+      (prefer-coding-system 'utf-8)
+      (if (boundp 'buffer-file-coding-system)
+          (setq-default buffer-file-coding-system 'utf-8)
+        (setq default-buffer-file-coding-system 'utf-8)))
+
+    ;; locale CHS
+    (defun gcl/chs-locale-p (v)
+      "Return whether locale string V relates to a UTF-8 locale."
+      (and v (string-match "CHS" v)))
+
+    (defun locale-is-chs-p ()
+      "Return t iff the \"locale\" command or environment variables prefer CHS."
+      (or (gcl/chs-locale-p (and (executable-find "locale") (shell-command-to-string "locale")))
+          (gcl/chs-locale-p (getenv "LC_ALL"))
+          (gcl/chs-locale-p (getenv "LC_CTYPE"))
+          (gcl/chs-locale-p (getenv "LANG"))))
+
+    (when (or window-system (locale-is-chs-p))
+      (set-language-environment 'utf-8)
+      (setq locale-coding-system 'utf-8)
+      (set-default-coding-systems 'utf-8)
+      (set-terminal-coding-system 'utf-8)
+      (unless (eq system-type 'windows-nt)
+        (set-selection-coding-system 'utf-8))
+      (setq-default pathname-coding-system 'chinese-gbk)
+      (setq file-name-coding-system 'chinese-gbk)
+      (prefer-coding-system 'gb18030)
+      (prefer-coding-system 'utf-8)
+      (if (boundp 'buffer-file-coding-system)
+          (setq-default buffer-file-coding-system 'utf-8)
+        (setq default-buffer-file-coding-system 'utf-8)))
+  #+END_SRC
+
+* mysql
+
+  #+BEGIN_SRC emacs-lisp
+    (setq sql-mysql-program (executable-find "mysql"))
+
+    (setq sql-mysql-options '("-C" "-t" "-f" "-n"))
+
+    ;; 不分隔窗口
+    ;;(add-to-list 'same-window-buffer-names "*SQL*")
+
+    (setq sql-connection-alist
+          '((pool-a
+             (sql-product 'mysql)
+             (sql-server "127.0.0.1")
+             (sql-user "root")
+             (sql-password "")
+             (sql-database "test")
+             (sql-port 3306))
+            (pool-b
+             (sql-product 'mysql)
+             (sql-server "ip2")
+             (sql-user "user2")
+             (sql-password "pwd2")
+             (sql-database "db2")
+             (sql-port 3307))))
+
+    (defun sql-connect-preset (name)
+      "Connect to a predefined SQL connection listed in `sql-connection-alist'"
+      (eval `(let ,(cdr (assoc name sql-connection-alist))
+               (flet ((sql-get-login (&rest what)))
+                 (sql-product-interactive sql-product)))))
+
+    (defun mysql-a ()
+      (interactive)
+      (sql-connect-preset 'pool-a))
+
+    (defun mysql-b ()
+      (interactive)
+      (sql-connect-preset 'pool-b))
+  #+END_SRC
+
+* path
+
+  #+BEGIN_SRC emacs-lisp
+    (eval-when-compile (require 'cl-lib))
+    (defun my-add-subdirs-to-load-path (dir)
+      "把 DIR 的所有子目录都加到`load-path'里面"
+      (interactive)
+      (let ((default-directory (concat dir "/")))
+        (add-to-list 'load-path dir)
+        (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
+            (normal-top-level-add-subdirs-to-load-path))))
+
+    (cond
+     (*Linux-OS*
+      ;; include-dir
+      (defvar user-include-dirs
+        '("." "./include" "./inc" "./common" "./public"
+          ".." "../include" "../inc" "../common" "../public"
+          "../.." "../../include" "../../inc" "../../common" "../../public")
+        "User include dirs for c/c++ mode")
+      )
+     (*Win-OS*
+      (cond
+       (*Win32-OS*
+        ;; include-dir
+        (defvar user-include-dirs
+          (list
+           ""
+           ""))
+
+        ;; bin-dir
+        (let (
+              (bin-dir
+               '("~/.emacs.d/emacsfiles/bin/ccl-1.9"
+                 "~/.emacs.d/emacsfiles/bin/sbcl-1.1.8(x86)"
+                 "D:/Program Files/Mozilla Firefox"
+                 "D:/Development/nodejs"
+                 "D:/Development/nodejs/npm"
+                 "D:/Development/Python33"
+                 "D:/Development/Python33/Scripts"
+                 "D:/Development/wamp/bin/mysql/mysql5.5.24/bin")))
+          (setenv "PATH" (mapconcat 'identity bin-dir ";"))
+          (setq exec-path (append bin-dir (list "." exec-directory))))
+        )
+       (*Win64-OS*
+        ;; include-dir
+        (defvar user-include-dirs
+          (list
+           ""
+           ""))
+
+        ;; bin-dir
+        (let (
+              (bin-dir
+               '("~/.emacs.d/emacsfiles/bin/ccl-1.9"
+                 "~/.emacs.d/emacsfiles/bin/sbcl-1.1.8(x86_64)"
+                 "D:/Program Files (x86)/Mozilla Firefox"
+                 "D:/Development/nodejs"
+                 "D:/Development/nodejs/npm"
+                 "D:/Development/Python33"
+                 "D:/Development/Python33/Scripts"
+                 "D:/Development/wamp/bin/mysql/mysql5.5.24/bin")))
+          (setenv "PATH" (mapconcat 'identity bin-dir ";"))
+          (setq exec-path (append bin-dir (list "." exec-directory))))
+        )
+       )
+      )
+     )
+  #+END_SRC
+
+* ui
+
+  #+BEGIN_SRC emacs-lisp
+    ;; 对话框
+    (setq use-file-dialog nil)
+    (setq use-dialog-box nil)
+
+    ;; 关闭 emacs 启动显示页
+    (setq inhibit-startup-message t)
+    (setq inhibit-startup-echo-area-message t)
+
+    ;; 菜单栏
+    (when (fboundp 'menu-bar-mode)
+      (menu-bar-mode 0))
+
+    ;; 工具栏
+    (when (fboundp 'tool-bar-mode)
+      (tool-bar-mode 0))
+
+    ;; 滚动条
+    (when (fboundp 'set-scroll-bar-mode)
+      (set-scroll-bar-mode nil))
+
+    ;; buffer 显示行号
+    (global-linum-mode t)
+    (require 'linum+)
+    ;; (setq linum-format "%d")
+
+    ;; 状态栏显示当前函数
+    (which-func-mode t)
+
+    ;; 高亮当前行
+    (global-hl-line-mode t)
+
+    ;; 鼠标遮挡插入点时，鼠标跳到右上角
+    (mouse-avoidance-mode 'exile)
+
+    ;; 粘贴于光标处，而不是鼠标指针处
+    (setq mouse-yank-at-point t)
+
+    ;; 光标不闪动
+    (blink-cursor-mode 1)
+
+    ;; 高亮被选内容
+    (transient-mark-mode 1)
+
+    ;; 打开图片
+    (auto-image-file-mode t)
+
+    ;; 关闭错误提示音
+    (setq visible-bell t)
+    (setq ring-bell-function 'ignore)
+
+    ;; 缓存提示信息
+    (setq initial-scratch-message nil)
+
+    ;; 关闭 gnus 启动显示页
+    (setq gnus-inhibit-startup-message t)
+
+    ;; 在状态栏显示列号(默认开启列,行就开启了)
+    (setq column-number-mode t)
+
+    ;; 标题栏显示
+    (setq frame-title-format '("[GNU Emacs " emacs-version "] "
+                               (:eval (user-login-name))
+                               "@"
+                               (:eval (system-name))
+                               " --- "
+                               (:eval (or (buffer-file-name) (buffer-name)))))
+
+    (setq frame-title-format
+          '((:eval (if (buffer-file-name)
+                       (abbreviate-file-name (buffer-file-name))
+                     "%b"))))
+
+    ;; 状态栏显示时间
+    (display-time-mode t)
+    ;; 24 小时制
+    (setq display-time-24hr-format t
+          ;; 时间刷新频率
+          display-time-interval 10
+          ;; 显示日期和具体时间
+          display-time-day-and-date t
+          ;;display-time-use-mail-icon t
+          ;; 时间的显示格式
+          display-time-format "%u, %F %H:%M")
+
+    ;; 显示电池电量
+    (display-battery-mode 1)
+
+    ;; 光标样式
+    (setq-default cursor-type 'bar)
+    ;; 高亮显示所有模式下的尾部空格
+    (setq-default show-trailing-whitespace t)
+    ;; 在 fringe(边缘)左下角显示虚线
+    (setq-default indicate-empty-lines t)
+    ;; 在 fringe(边缘)上显示一个小箭头指示当前 buffer 的边界
+    (setq-default indicate-buffer-boundaries '((top . left) (bottom . right)))
+
+    ;; 在退出 emacs 之前确认是否退出
+    (setq confirm-kill-emacs 'yes-or-no-p)
+  #+END_SRC
+
+* recipes
+
+  #+BEGIN_SRC emacs-lisp
+    (org-gantt
+     :fetcher github
+     :repo "HeyFlash/emacs-stuff"
+     :files ("experiments/org-gantt.el"))
+  #+END_SRC
