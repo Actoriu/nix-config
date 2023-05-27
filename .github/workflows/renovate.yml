@@ -1,4 +1,4 @@
-name: "chore: Automatic Scheduled debug Renovate"
+name: "chore: Debug Renovate"
 
 on:
   workflow_dispatch:

@@ -1,4 +1,4 @@
-name: "Check Syntax"
+name: "chore: Check Syntax"
 
 on:
   pull_request_target:

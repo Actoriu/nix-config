@@ -1,6 +1,7 @@
 {
   description = "Nix configuration with flakes";
 
+  /*
   nixConfig = {
     extra-experimental-features = "nix-command flakes";
     substituters = [
@@ -23,6 +24,7 @@
       "nix-on-droid.cachix.org-1:56snoMJTXmDRC1Ei24CmKoUqvHJ9XCp+nidK7qkMQrU="
     ];
   };
+  */
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
