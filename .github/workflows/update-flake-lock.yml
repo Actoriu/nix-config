@@ -1,4 +1,4 @@
-name: "chore: Automatic Scheduled Updates flake.lock"
+name: "chore: Updates flake.lock"
 
 on:
   schedule:

@@ -1,4 +1,4 @@
-name: "chore: Automatic Scheduled Updates nvfetcher"
+name: "chore: Updates nvfetcher"
 
 on:
   schedule:
@@ -51,7 +51,7 @@ jobs:
           script: |
             cd pkgs
             echo "OUTPUT<<EOF" >> $GITHUB_OUTPUT
-            echo "$(nvfetcher | sed -n '/Changes/,/$!d/p')" >> $GITHUB_OUTPUT
+            echo "$(nvfetcher -c ./sources.toml | sed -n '/Changes/,/$!d/p')" >> $GITHUB_OUTPUT
             echo "EOF" >> $GITHUB_OUTPUT
       - name: Generate token
         uses: tibdex/github-app-token@v1.8.0

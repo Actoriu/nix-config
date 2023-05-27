@@ -1,4 +1,4 @@
-name: Build flake outputs
+name: "chore: Build flake outputs"
 
 on:
   workflow_run:
@@ -58,4 +58,6 @@ jobs:
           command: |
             nix \
               --log-format bar-with-logs \
+              --option keep-going true \
+              --show-trace \
               ${{ matrix.nix-command }}

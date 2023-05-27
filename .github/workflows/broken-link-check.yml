@@ -1,4 +1,4 @@
-name: "chore: Automatic Scheduled Broken link check"
+name: "chore: Broken link check"
 
 on:
   schedule:
