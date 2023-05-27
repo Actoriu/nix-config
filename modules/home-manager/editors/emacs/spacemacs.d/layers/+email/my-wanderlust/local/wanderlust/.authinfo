@@ -1,4 +1,0 @@
-machine imap.qq.com login 864149939 port 993 password lxapglauuzfzbcja
-machine smtp.qq.com login 864149939 port 465 password lxapglauuzfzbcja
-machine imap.sina.com login gclandsoft@sina.com port 993 password 911351SorryZ
-machine smtp.sina.com login gclandsoft@sina.com port 465 password 911351SorryZ

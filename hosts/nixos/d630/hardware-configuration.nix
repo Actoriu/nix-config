@@ -21,8 +21,7 @@
     };
     # kernelModules = [ "wl" ];
     kernelModules = [];
-    # kernelPackages = pkgs.linuxPackages_latest;
-    kernelPackages = pkgs.linuxKernel.packages.linux_5_15;
+    kernelPackages = pkgs.linuxPackages_latest;
     supportedFilesystems = ["btrfs" "exfat" "ntfs" "vfat"];
     tmp = {
       cleanOnBoot = true;

@@ -50,7 +50,6 @@ in {
     (mkIf (cfg.biostype != null && cfg.biostype == "legacy" && cfg.disktype != null && cfg.disktype == "mbr" && cfg.bootloader != null && cfg.bootloader == "grub") {
       boot.loader.grub = {
         enable = true;
-        version = 2;
         device = cfg.device;
         memtest86.enable = true;
         useOSProber = true;

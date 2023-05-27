@@ -1,7 +1,0 @@
-# name: while
-# key: while
-# group: verilog
-# --
-while (${1:condition}) begin
-   $0
-end

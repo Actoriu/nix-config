@@ -1,6 +1,0 @@
-[submodule "eaf"]
-	path = layers/+tools/my-eaf/local/eaf
-	url = https://github.com/manateelazycat/emacs-application-framework.git
-[submodule "acm-terminal"]
-	path = layers/+tools/my-eaf/local/acm-terminal
-	url = https://github.com/twlz0ne/acm-terminal.git

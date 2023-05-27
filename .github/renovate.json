@@ -1,9 +1,18 @@
 {
-    "automerge": true,
-    "labels": ["dependencies"],
-    "schedule": ["before 2am"],
-    "rangeStrategy": "auto",
+    "enabled": true,
     "extends": ["config:base"],
+    "platform": "github",
+    "labels": ["dependencies"],
+    "rangeStrategy": "auto",
     "semanticCommits": "enabled",
-    "lockFileMaintenance": { "enabled": true }
+    "suppressNotifications": ["prIgnoreNotification"],
+    "automerge": true,
+    "ignoreTests": true,
+    "nix": { "enabled": true },
+    "lockFileMaintenance": {
+        "enabled": true,
+        "schedule": [
+            "after 1am and before 3am"
+        ]
+    }
 }
