@@ -2,7 +2,7 @@ name: "chore: Build flake outputs"
 
 on:
   workflow_run:
-    workflows: [Check Syntax]
+    workflows: ["chore: Check Syntax"]
     types:
       - completed
 
@@ -40,8 +40,6 @@ jobs:
           extra_nix_config: |
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
             extra-platforms = aarch64-linux i686-linux
-            keep-going = true
-            show-trace = true
       - name: Setup cachix
         uses: cachix/cachix-action@v12
         with:
