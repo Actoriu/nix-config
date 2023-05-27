@@ -1,14 +1,15 @@
 {
   description = "Nix configuration with flakes";
-  /*
+
   nixConfig = {
-    extra-experimental-features = "nix-command flakes";
+    extra-experimental-features = ["nix-command" "flakes"];
     substituters = [
       "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
+      "https://mirrors.bfsu.edu.cn/nix-channels/store"
       "https://mirrors.ustc.edu.cn/nix-channels/store"
+      "https://cache.nixos.org"
     ];
     extra-substituters = [
-      "https://cache.nixos.org"
       "https://nix-community.cachix.org"
       "https://pre-commit-hooks.cachix.org"
       "https://nix-actions.cachix.org"
@@ -22,7 +23,6 @@
       "nix-on-droid.cachix.org-1:56snoMJTXmDRC1Ei24CmKoUqvHJ9XCp+nidK7qkMQrU="
     ];
   };
-  */
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
