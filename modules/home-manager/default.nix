@@ -8,7 +8,7 @@
   python = import ./lang/python;
   texlive = import ./lang/texlive;
   # locale
-  # locale = import ./locale;
+  locale = import ./locale;
   # misc
   xdg = import ./misc/xdg;
   xresources = import ./misc/xresources;

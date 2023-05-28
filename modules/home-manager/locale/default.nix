@@ -11,7 +11,7 @@ in {
     enable = mkEnableOption "Enable support for locale.";
 
     inputMethod = mkOption {
-      type = types.nullOr (types.enum ["fcitx5" "ibus"]);
+      type = types.nullOr (types.enum ["fcitx5" "uim"]);
       default = null;
       example = "fcitx5";
       description = "Enable support for inputMethod.";

@@ -14,13 +14,13 @@
     # python.enable = true;
     # texlive.enable = true;
     # locale
-    # home-manager = {
-    #   locale = {
-    #     enable = true;
-    #     inputMethod = "fcitx5";
-    #     locale = "zh_CN";
-    #   };
-    # };
+    home-manager = {
+      locale = {
+        enable = true;
+        inputMethod = "fcitx5";
+        locale = "zh_CN";
+      };
+    };
     # misc
     xdg.enable = true;
     xresources.enable = true;
@@ -47,7 +47,7 @@
     zoxide.enable = true;
     zsh.enable = true;
     # terminal
-    alacritty.enable = true;
+    alacritty.enable = false;
     # urxvt.enable = true;
     xst.enable = true;
     # video
