@@ -14,7 +14,7 @@
     # python.enable = true;
     # texlive.enable = true;
     # locale
-    home-manager = {
+    home = {
       locale = {
         enable = true;
         inputMethod = "fcitx5";

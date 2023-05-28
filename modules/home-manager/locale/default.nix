@@ -5,9 +5,9 @@
   ...
 }:
 with lib; let
-  cfg = config.custom.home-manager.locale;
+  cfg = config.custom.home.locale;
 in {
-  options.custom.home-manager.locale = {
+  options.custom.home.locale = {
     enable = mkEnableOption "Enable support for locale.";
 
     inputMethod = mkOption {
@@ -25,22 +25,19 @@ in {
     };
   };
 
-  config = mkIf (cfg.enable && config.custom.non-nixos) (mkMerge [
-    (mkIf (cfg.inputMethod != null) {
+  config = mkIf cfg.enable (mkMerge [
+    (mkIf (cfg.inputMethod != null && config.custom.non-nixos) {
       i18n.inputMethod.enabled = cfg.inputMethod;
     })
-    (mkIf (cfg.locale != null && cfg.locale == "zh_CN") {
+    (mkIf (cfg.locale != null && config.custom.non-nixos) {
       fonts.fontconfig.enable = true;
     })
-    (mkIf (cfg.locale != null && cfg.locale == "zh_CN" && cfg.inputMethod == "fcitx5") {
+    (mkIf (cfg.locale != null && cfg.locale == "zh_CN" && cfg.inputMethod == "fcitx5" && config.custom.non-nixos) {
       i18n.inputMethod.fcitx5 = {
         addons = with pkgs; [
           fcitx5-rime
         ];
       };
-    })
-    (mkIf (cfg.locale != null && cfg.locale == "zh_CN" && cfg.inputMethod == "ibus") {
-      i18n.inputMethod.ibus.engines = with pkgs.ibus-engines; [rime];
     })
   ]);
 }
