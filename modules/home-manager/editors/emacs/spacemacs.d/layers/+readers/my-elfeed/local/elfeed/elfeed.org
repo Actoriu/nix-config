@@ -1,0 +1,14 @@
+#+TITLE: This is my prevate elfeed file
+#+STARTUP: indent
+#+OPTIONS: H:6 num:nil toc:t \n:nil ::t |:t ^:nil -:nil f:t *:t <:nil
+
+* Blogs                                                              :elfeed:
+** Quick Browse                                                     :quick:
+*** [[https://chriszheng.science/atom.xml][Chris]]                                                 :blog:chris:tech:
+*** [[https://feed43.com/7558524485138287.xml][王垠]]                                                :blog:yinwang:tech:
+*** [[http://blog.lilydjwg.me/feed][依云]]                                                  :blog:yiyun:tech:
+*** [[https://emacs-china.org/latest.rss][Emacs China]]                                    :forum:emacs_china:tech:
+** Later Browse                                                      :slow:
+** Lunch Time                                                   :lunchtime:
+** Kill Time                                                     :killtime:
+*** [[https://dizhi.logdown.com/posts.atom][最新地址]]                                                    :sexy:misc:

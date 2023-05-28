@@ -95,10 +95,10 @@ in {
             source = pkgs.spacemacs;
             recursive = true;
           };
-          # ".spacemacs.d" = {
-          #   source = "${cleanSource ./spacemacs.d}";
-          #   recursive = true;
-          # };
+          ".spacemacs.d" = {
+            source = "${cleanSource ./spacemacs.d}";
+            recursive = true;
+          };
         };
       };
     })

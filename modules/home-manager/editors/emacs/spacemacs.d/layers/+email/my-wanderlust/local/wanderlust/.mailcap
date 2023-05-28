@@ -1,0 +1,20 @@
+# applications/*; xdg-open %s;
+# image/*; xdg-open %s;
+# video/*; xdg-open %s;
+# text/html; xdg-open %s
+# text/html; w3m %s; nametemplate=%s.html
+# text/html; w3m -dump %s; nametemplate=%s.html; copiousoutput
+# text/html; w3m -I %{charset} -dump -T text/html %s; needsterminal; description=HTML Text; nametemplate=%s.html
+test/html; /usr/bin/xdg-open %s; description=HTML Text; nametemplate=%s.html
+# text/html; w3m -T text/html %s; needsterminal; description=HTML Text; nametemplate=%s.html; priority=4
+# text/html; w3m -I %{charset} -dump -T text/html %s; nametemplate=%s.html; copiousoutput
+application/x-bzip-compressed-tar; /usr/bin/tar jtvvf %s;	copiousoutput; test=[ -z "$LYNX_VERSION" ]
+application/x-tar; /usr/bin/tar tvvf %s; copiousoutput; test=[ -z "$LYNX_VERSION" ]
+application/x-tgz; /usr/bin/tar ztvvf %s; copiousoutput; test=[ -z "$LYNX_VERSION" ]
+application/x-rar-compressed; /usr/bin/unrar v -c- %s; copiousoutput; test=[ -z "$LYNX_VERSION" ]
+application/x-zip-compressed; /usr/bin/unzip -v %s;	copiousoutput; test=[ -z "$LYNX_VERSION" ]
+application/zip; /usr/bin/unzip -v %s; copiousoutput; test=[ -z "$LYNX_VERSION" ]
+application/x-rpm; /usr/bin/rpm -qpilv %s; copiousoutput; test=[ -z "$LYNX_VERSION" ]
+application/ms-tnef; /usr/bin/tnef -vt %s; copiousoutput; test=[ -z "$LYNX_VERSION" ]
+application/pgp-encrypted; /usr/bin/gpg -vv %s 2>&1; copiousoutput; test=[ -z "$LYNX_VERSION" ]
+application/pgp-signature; /usr/bin/gpg -vv %s 2>&1; copiousoutput; test=[ -z "$LYNX_VERSION" ]
