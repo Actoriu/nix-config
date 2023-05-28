@@ -1,6 +1,5 @@
 {
   config,
-  homeManagerModules,
   inputs,
   lib,
   outputs,
@@ -72,7 +71,6 @@
     extraSpecialArgs = {inherit inputs outputs version;};
     # useGlobalPkgs = true;
     useUserPackages = true;
-    sharedModules = builtins.attrValues homeManagerModules;
     config = {
       config,
       lib,
@@ -91,7 +89,7 @@
       manual.manpages.enable = false;
       programs.home-manager.enable = true;
       imports = [
-        # ../../../modules/home-manager
+        ../../../modules/home-manager
         ../../../users/${username}
       ];
     };
