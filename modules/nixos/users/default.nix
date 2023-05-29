@@ -38,7 +38,7 @@ in {
     userVersion = mkOption {
       type = types.nullOr types.str;
       default = null;
-      example = "22.11";
+      example = "23.05";
       description = "Enable support for stateVersion.";
     };
   };

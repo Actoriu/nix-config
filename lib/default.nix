@@ -1,12 +1,11 @@
 {
   inputs,
   lib,
-}:
-lib.makeExtensible (self: let
-  callLibs = file: import file {lib = self;};
-in rec {
-  flakeStateVersion = lib.fileContents ../.version;
-  buildModuleList = callLibs ./build-module-list.nix {inherit self lib;};
-  flattenTree = callLibs ./flatten-tree.nix {inherit lib;};
-  rakeLeaves = callLibs ./rake-leaves.nix {inherit inputs lib;};
-})
+  self,
+} @ args:
+with {inherit (lib) makeExtensible attrValues foldr;};
+  (makeExtensible (final:
+    with final;
+      (import ./map.nix args).modules ./. (file: import file args)))
+  .extend
+  (final: prev: foldr (x: y: x // y) {} (attrValues prev))

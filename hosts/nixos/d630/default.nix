@@ -48,7 +48,7 @@
     users = {
       enable = true;
       package = pkgs.zsh;
-      userVersion = lib.self.flakeStateVersion;
+      userVersion = lib.my.flakeStateVersion.version;
     };
   };
 }

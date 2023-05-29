@@ -84,7 +84,7 @@
         };
         overlays = builtins.attrValues outputs.overlays;
       };
-      home.stateVersion = lib.self.flakeStateVersion;
+      home.stateVersion = lib.my.flakeStateVersion.version;
       manual.manpages.enable = false;
       programs.home-manager.enable = true;
       imports = [
