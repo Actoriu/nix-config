@@ -20,7 +20,7 @@
 (defun my-common-lisp/post-init-slime ()
   (use-package slime
     :if common-lisp-enable-slime
-    :init
+    :config
     (progn
       (cond
        ;; (common-lisp-enable-local-hyperspec-root
@@ -48,16 +48,16 @@
         (cond ((and (executable-find "sbcl")
                     (not (executable-find "dx86cl64")))
                (setq inferior-lisp-program "sbcl -K utf-8")
-               (add-to-list 'slime-lisp-implementations
-                            '((sbcl ("sbcl") :coding-system utf-8-unix)
-                              (clozure_cl ("dx86cl64") :coding-system utf-8-unix)))
+               (setq slime-lisp-implementations
+                     `((sbcl ("sbcl") :coding-system utf-8-unix)
+                       (clozure_cl ("dx86cl64") :coding-system utf-8-unix)))
                )
               ((and (not (executable-find "sbcl"))
                     (executable-find "dx86cl64"))
                (setq inferior-lisp-program "dx86cl64 -K utf-8")
-               (add-to-list 'slime-lisp-implementations
-                            '((clozure_cl ("dx86cl64") :coding-system utf-8-unix)
-                              (sbcl ("sbcl") :coding-system utf-8-unix)))
+               (setq slime-lisp-implementations
+                     `((clozure_cl ("dx86cl64") :coding-system utf-8-unix)
+                       (sbcl ("sbcl") :coding-system utf-8-unix)))
                )
               )
         )
@@ -65,16 +65,16 @@
         (cond ((and (executable-find "sbcl")
                     (not (executable-find "ccl")))
                (setq inferior-lisp-program "sbcl -K utf-8")
-               (add-to-list 'slime-lisp-implementations
-                            '((sbcl ("sbcl") :coding-system utf-8-unix)
-                              (clozure_cl ("ccl") :coding-system utf-8-unix)))
+               (setq slime-lisp-implementations
+                     `((sbcl ("sbcl") :coding-system utf-8-unix)
+                       (clozure_cl ("ccl") :coding-system utf-8-unix)))
                )
               ((and (not (executable-find "sbcl"))
                     (executable-find "ccl"))
                (setq inferior-lisp-program "ccl -K utf-8")
-               (add-to-list 'slime-lisp-implementations
-                            '((clozure_cl ("ccl") :coding-system utf-8-unix)
-                              (sbcl ("sbcl") :coding-system utf-8-unix)))
+               (setq slime-lisp-implementations
+                     `((clozure_cl ("ccl") :coding-system utf-8-unix)
+                       (sbcl ("sbcl") :coding-system utf-8-unix)))
                )
               )
         )
@@ -83,29 +83,25 @@
                     (not (or (executable-find "wx86cl64.exe")
                              (executable-find "wx86cl.exe"))))
                (setq inferior-lisp-program "sbcl.exe -K utf-8")
-               (add-to-list 'slime-lisp-implementations
-                            '((sbcl ("sbcl.exe") :coding-system utf-8-unix)
-                              (clozure_cl '((if (getenv "PROGRAMW6432")
-                                                "wx86cl64.exe" "wx86cl.exe"))
-                                          :coding-system utf-8-unix)))
+               (setq slime-lisp-implementations
+                     `((sbcl ("sbcl.exe") :coding-system utf-8-unix)
+                       (clozure_cl '((if (getenv "PROGRAMW6432")
+                                         "wx86cl64.exe" "wx86cl.exe"))
+                                   :coding-system utf-8-unix)))
                )
               ((and (not (executable-find "sbcl.exe"))
                     (or (executable-find "wx86cl64.exe")
                         (executable-find "wx86cl.exe")))
                (setq inferior-lisp-program "wx86cl64.exe -K utf-8")
-               (add-to-list 'slime-lisp-implementations
-                            '((clozure_cl '((if (getenv "PROGRAMW6432")
-                                                "wx86cl64.exe" "wx86cl.exe"))
-                                          :coding-system utf-8-unix)
-                              (sbcl ("sbcl.exe") :coding-system utf-8-unix)))
+               (setq slime-lisp-implementations
+                     `((clozure_cl '((if (getenv "PROGRAMW6432")
+                                         "wx86cl64.exe" "wx86cl.exe"))
+                                   :coding-system utf-8-unix)
+                       (sbcl ("sbcl.exe") :coding-system utf-8-unix)))
                )
               )
         )
        )
-      )
-    :config
-    (progn
-      ;; (global-set-key "\C-cs" 'slime-selector)
       )
     )
   )

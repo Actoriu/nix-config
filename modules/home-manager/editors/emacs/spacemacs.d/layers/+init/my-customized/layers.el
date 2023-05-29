@@ -16,7 +16,7 @@
                                       my-c-c++
                                       (my-common-lisp :variables
                                                       common-lisp-enable-slime t
-                                                      common-lisp-enable-local-hyperspec-root t)
+                                                      common-lisp-enable-local-hyperspec-root nil)
                                       ;; my-calendar
                                       (my-chinese :variables
                                                   my-chinese-enable-cnfonts nil
