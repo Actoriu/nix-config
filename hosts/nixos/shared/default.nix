@@ -9,6 +9,7 @@
   pkgs,
   system,
   username,
+  version,
   ...
 }: {
   imports = [
@@ -36,7 +37,7 @@
   };
 
   home-manager = {
-    extraSpecialArgs = {inherit desktop hostname inputs non-nixos outputs username;};
+    extraSpecialArgs = {inherit desktop hostname inputs non-nixos outputs username version;};
     # useGlobalPkgs = true;
     useUserPackages = true;
     users.${username} = import ../../../users/shared;

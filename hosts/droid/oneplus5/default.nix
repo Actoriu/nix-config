@@ -5,6 +5,7 @@
   outputs,
   pkgs,
   username,
+  version,
   ...
 }: {
   # Set up nix for flakes
@@ -63,11 +64,11 @@
   };
 
   # Read the changelog before changing this value
-  system.stateVersion = "22.11";
+  system.stateVersion = "${version}";
 
   # Configure home-manager
   home-manager = {
-    extraSpecialArgs = {inherit inputs outputs;};
+    extraSpecialArgs = {inherit inputs outputs version;};
     # useGlobalPkgs = true;
     useUserPackages = true;
     config = {
@@ -84,7 +85,7 @@
         };
         overlays = builtins.attrValues outputs.overlays;
       };
-      home.stateVersion = "22.11";
+      home.stateVersion = "${version}";
       manual.manpages.enable = false;
       programs.home-manager.enable = true;
       imports = [

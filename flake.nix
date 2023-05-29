@@ -179,10 +179,12 @@
           };
         };
       });
+
     # cachixDeployLibFor =
     #   forEachSystem (system:
     #     cachix-deploy-flake.lib nixpkgs.legacyPackages.${system});
-    # version = nixpkgs.lib.fileContents ./.version;
+
+    version = nixpkgs.lib.fileContents ./.version;
   in {
     lib = lib.our;
 
@@ -260,7 +262,7 @@
     nixosConfigurations = {
       d630 = nixpkgs.lib.nixosSystem {
         specialArgs = {
-          inherit inputs outputs;
+          inherit inputs outputs version;
           desktop = null;
           hostname = "d630";
           non-nixos = false;
@@ -275,7 +277,7 @@
       actoriu = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages."x86_64-linux";
         extraSpecialArgs = {
-          inherit inputs outputs;
+          inherit inputs outputs version;
           desktop = null;
           hostname = "d630";
           non-nixos = true;
@@ -295,7 +297,7 @@
           ];
         };
         extraSpecialArgs = {
-          inherit inputs outputs;
+          inherit inputs outputs version;
           devicename = "oneplus5";
           username = "nix-on-droid";
         };

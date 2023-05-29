@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  version,
   ...
 }: {
   imports = [
@@ -48,7 +49,7 @@
     users = {
       enable = true;
       package = pkgs.zsh;
-      userVersion = "22.11";
+      userVersion = "${version}";
     };
   };
 }
