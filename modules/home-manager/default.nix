@@ -2,7 +2,7 @@
   imports = [
     ./editors
     ./lang
-    ./locale
+    # ./locale
     ./misc
     ./non-nixos
     ./readers

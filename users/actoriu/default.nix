@@ -1,4 +1,11 @@
-{non-nixos, ...}: {
+{config, lib, non-nixos, pkgs, ...}: {
+  fonts.fontconfig.enable = true;
+  i18n.inputMethod.fcitx5 = {
+    addons = with pkgs; [
+      fcitx5-rime
+    ];
+  };
+
   custom = {
     # editors
     emacs = {
@@ -11,16 +18,17 @@
     # lang
     cc.enable = true;
     javascript.enable = true;
+    nix.enable = true;
     # python.enable = true;
     # texlive.enable = true;
     # locale
-    home = {
-      locale = {
-        enable = true;
-        inputMethod = "fcitx5";
-        locale = "zh_CN";
-      };
-    };
+    # home = {
+    #   locale = {
+    #     enable = true;
+    #     inputMethod = "fcitx5";
+    #     locale = "zh_CN";
+    #   };
+    # };
     # misc
     xdg.enable = true;
     xresources.enable = true;
@@ -47,7 +55,7 @@
     zoxide.enable = true;
     zsh.enable = true;
     # terminal
-    alacritty.enable = false;
+    # alacritty.enable = false;
     # urxvt.enable = true;
     xst.enable = true;
     # video
