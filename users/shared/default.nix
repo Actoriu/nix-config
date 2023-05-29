@@ -5,7 +5,6 @@
   outputs,
   pkgs,
   username,
-  version,
   ...
 }: {
   imports = [
@@ -31,7 +30,7 @@
       if pkgs.stdenv.isDarwin
       then "/Users/${username}"
       else "/home/${username}";
-    stateVersion = "${version}";
+    stateVersion = lib.self.flakeStateVersion;
   };
 
   programs.home-manager.enable = true;

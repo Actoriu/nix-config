@@ -1,4 +1,10 @@
-{config, lib, non-nixos, pkgs, ...}: {
+{
+  config,
+  lib,
+  non-nixos,
+  pkgs,
+  ...
+}: {
   fonts.fontconfig.enable = true;
   i18n.inputMethod.fcitx5 = {
     addons = with pkgs; [

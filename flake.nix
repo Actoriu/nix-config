@@ -29,6 +29,8 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
+    nixos-hardware.url = "github:NixOS/nixos-hardware";
+
     flake-compat = {
       url = "github:edolstra/flake-compat";
       flake = false;
@@ -43,11 +45,6 @@
       };
     };
 
-    disko = {
-      url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # cachix-deploy-flake = {
     #   url = "github:cachix/cachix-deploy-flake";
     #   inputs = {
@@ -56,19 +53,15 @@
     #   };
     # };
 
-    nixos-hardware.url = "github:NixOS/nixos-hardware";
-
-    pre-commit-hooks = {
-      url = "github:cachix/pre-commit-hooks.nix";
+    devshell = {
+      url = "github:numtide/devshell";
       inputs = {
-        flake-compat.follows = "flake-compat";
-        flake-utils.follows = "flake-utils";
         nixpkgs.follows = "nixpkgs";
       };
     };
 
-    devshell = {
-      url = "github:numtide/devshell";
+    disko = {
+      url = "github:nix-community/disko";
       inputs = {
         nixpkgs.follows = "nixpkgs";
       };
@@ -81,7 +74,16 @@
     #   };
     # };
 
-    impermanence.url = "github:nix-community/impermanence";
+    haumea = {
+      url = "github:nix-community/haumea";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
+
+    impermanence = {
+      url = "github:nix-community/impermanence";
+    };
 
     nix-on-droid = {
       url = "github:t184256/nix-on-droid";
@@ -98,7 +100,18 @@
     #   };
     # };
 
-    nur.url = "github:nix-community/NUR";
+    nur = {
+      url = "github:nix-community/NUR";
+    };
+
+    pre-commit-hooks = {
+      url = "github:cachix/pre-commit-hooks.nix";
+      inputs = {
+        flake-compat.follows = "flake-compat";
+        flake-utils.follows = "flake-utils";
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
 
     sops-nix = {
       url = "github:Mic92/sops-nix";
@@ -134,6 +147,8 @@
 
     forEachSystem = nixpkgs.lib.genAttrs ["aarch64-linux" "x86_64-linux"];
 
+    lib = import ./lib {inherit inputs;};
+
     formatterPackArgsFor = forEachSystem (system: let
       pkgs = nixpkgs.legacyPackages.${system};
     in
@@ -159,12 +174,10 @@
           };
         };
       });
-
     # cachixDeployLibFor =
     #   forEachSystem (system:
     #     cachix-deploy-flake.lib nixpkgs.legacyPackages.${system});
-
-    version = nixpkgs.lib.fileContents ./.version;
+    # version = nixpkgs.lib.fileContents ./.version;
   in {
     checks = forEachSystem (system: let
       pkgs = nixpkgs.legacyPackages.${system};
@@ -240,7 +253,7 @@
     nixosConfigurations = {
       d630 = nixpkgs.lib.nixosSystem {
         specialArgs = {
-          inherit inputs outputs version;
+          inherit inputs outputs;
           desktop = null;
           hostname = "d630";
           non-nixos = false;
@@ -255,7 +268,7 @@
       actoriu = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages."x86_64-linux";
         extraSpecialArgs = {
-          inherit inputs outputs version;
+          inherit inputs outputs;
           desktop = null;
           hostname = "d630";
           non-nixos = true;
@@ -275,7 +288,7 @@
           ];
         };
         extraSpecialArgs = {
-          inherit inputs outputs version;
+          inherit inputs outputs;
           devicename = "oneplus5";
           username = "nix-on-droid";
         };

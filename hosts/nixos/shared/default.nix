@@ -9,7 +9,6 @@
   pkgs,
   system,
   username,
-  version,
   ...
 }: {
   imports = [
@@ -24,7 +23,7 @@
 
   networking.hostName = hostname;
 
-  # system.stateVersion = "${version}";
+  # system.stateVersion = config.lib.self.flakeStateVersion;
 
   nixpkgs = {
     config = {
@@ -37,7 +36,7 @@
   };
 
   home-manager = {
-    extraSpecialArgs = {inherit desktop hostname inputs non-nixos outputs username version;};
+    extraSpecialArgs = {inherit desktop hostname inputs non-nixos outputs username;};
     # useGlobalPkgs = true;
     useUserPackages = true;
     users.${username} = import ../../../users/shared;

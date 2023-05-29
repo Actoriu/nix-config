@@ -96,6 +96,26 @@
         "type": "github"
       }
     },
+    "haumea": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1685133574,
+        "narHash": "sha256-BH/utyzbdD74772wQ2JUf0QP9hw8vz8QhjLAt/W5NhU=",
+        "owner": "nix-community",
+        "repo": "haumea",
+        "rev": "214d73d9d5c44f92b6401af688c2688448768e23",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "haumea",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -356,6 +376,7 @@
         "disko": "disko",
         "flake-compat": "flake-compat",
         "flake-utils": "flake-utils",
+        "haumea": "haumea",
         "home-manager": "home-manager",
         "impermanence": "impermanence",
         "nix-on-droid": "nix-on-droid",

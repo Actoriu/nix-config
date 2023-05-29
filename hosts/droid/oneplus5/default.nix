@@ -5,7 +5,6 @@
   outputs,
   pkgs,
   username,
-  version,
   ...
 }: {
   # Set up nix for flakes
@@ -64,11 +63,11 @@
   };
 
   # Read the changelog before changing this value
-  system.stateVersion = "${version}";
+  system.stateVersion = config.lib.self.flakeStateVersion;
 
   # Configure home-manager
   home-manager = {
-    extraSpecialArgs = {inherit inputs outputs version;};
+    extraSpecialArgs = {inherit inputs outputs;};
     # useGlobalPkgs = true;
     useUserPackages = true;
     config = {
@@ -85,7 +84,7 @@
         };
         overlays = builtins.attrValues outputs.overlays;
       };
-      home.stateVersion = "${version}";
+      home.stateVersion = lib.self.flakeStateVersion;
       manual.manpages.enable = false;
       programs.home-manager.enable = true;
       imports = [

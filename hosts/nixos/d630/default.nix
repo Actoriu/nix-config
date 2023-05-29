@@ -1,6 +1,7 @@
 {
+  config,
+  lib,
   pkgs,
-  version,
   ...
 }: {
   imports = [
@@ -47,7 +48,7 @@
     users = {
       enable = true;
       package = pkgs.zsh;
-      userVersion = "${version}";
+      userVersion = lib.self.flakeStateVersion;
     };
   };
 }
