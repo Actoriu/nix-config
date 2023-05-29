@@ -63,7 +63,7 @@
   };
 
   # Read the changelog before changing this value
-  system.stateVersion = config.lib.self.flakeStateVersion;
+  system.stateVersion = "22.11";
 
   # Configure home-manager
   home-manager = {
@@ -84,7 +84,7 @@
         };
         overlays = builtins.attrValues outputs.overlays;
       };
-      home.stateVersion = lib.my.flakeStateVersion.version;
+      home.stateVersion = "22.11";
       manual.manpages.enable = false;
       programs.home-manager.enable = true;
       imports = [

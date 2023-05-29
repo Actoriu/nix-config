@@ -1,6 +1,6 @@
 {
   inputs,
-  lib,
+  lib
 }: let
   haumea = inputs.haumea.lib;
   loader = lib.const lib.id;

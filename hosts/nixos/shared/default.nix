@@ -23,7 +23,7 @@
 
   networking.hostName = hostname;
 
-  # system.stateVersion = config.lib.self.flakeStateVersion;
+  # system.stateVersion = lib.my.stateVersion;
 
   nixpkgs = {
     config = {

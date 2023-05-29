@@ -30,7 +30,7 @@
       if pkgs.stdenv.isDarwin
       then "/Users/${username}"
       else "/home/${username}";
-    stateVersion = lib.my.flakeStateVersion.version;
+    stateVersion = "22.11";
   };
 
   programs.home-manager.enable = true;

@@ -147,12 +147,7 @@
 
     forEachSystem = nixpkgs.lib.genAttrs ["aarch64-linux" "x86_64-linux"];
 
-    lib = nixpkgs.lib.extend (final: prev: {
-      my = import ./lib {
-        inherit inputs self;
-        lib = final;
-      };
-    });
+    lib = import ./lib {lib = nixpkgs.lib; inherit inputs;};
 
     formatterPackArgsFor = forEachSystem (system: let
       pkgs = nixpkgs.legacyPackages.${system};
@@ -184,7 +179,7 @@
     #     cachix-deploy-flake.lib nixpkgs.legacyPackages.${system});
     # version = nixpkgs.lib.fileContents ./.version;
   in {
-    lib = lib.my;
+    # lib = lib.my;
 
     checks = forEachSystem (system: let
       pkgs = nixpkgs.legacyPackages.${system};
