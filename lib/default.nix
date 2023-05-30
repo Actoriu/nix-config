@@ -15,5 +15,4 @@
     inherit (self.options) mkEnableOpt' mkOpt mkOptStr mkBoolOpt;
   });
 in
-  mkLib.extend (self: super:
-    lib.foldr (a: b: a // b) {} (lib.attrValues super))
+  mkLib

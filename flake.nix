@@ -147,12 +147,8 @@
 
     forEachSystem = nixpkgs.lib.genAttrs ["aarch64-linux" "x86_64-linux"];
 
-    lib = nixpkgs.lib.extend (final: prev: {
-      our = import ./lib {
-        inherit inputs self;
-        lib = final;
-      };
-    });
+    # Use our custom lib enhanced with nixpkgs and hm one
+    lib = import ./lib {lib = nixpkgs.lib; inherit inputs;} // nixpkgs.lib // home-manager.lib;
 
     formatterPackArgsFor = forEachSystem (system: let
       pkgs = nixpkgs.legacyPackages.${system};
@@ -186,7 +182,7 @@
 
     version = nixpkgs.lib.fileContents ./.version;
   in {
-    lib = lib.our;
+    # lib = lib.our;
 
     checks = forEachSystem (system: let
       pkgs = nixpkgs.legacyPackages.${system};
