@@ -122,7 +122,7 @@ in {
         URxvt.visualBell                      : true
         ! URxvt.lineSpace                       : 0
         URxvt.letterSpace                     : 0
-        URxvt.iconFile                        : /usr/share/icons/Adwaita/24x24/apps/utilities-terminal.png
+        ! URxvt.iconFile                        : /usr/share/icons/Adwaita/24x24/apps/utilities-terminal.png
         URxvt.print-pipe                      : cat > /tmp/$(echo urxvt.dump.$(date +'%Y%M%d%H%m%S'))
 
         ! -- 渲染 -- !
@@ -194,7 +194,7 @@ in {
         URxvt.keysym.M-u                      : perl:url-select:select_next
         URxvt.url-select.autocopy             : true
         URxvt.url-select.button               : 1
-        URxvt.url-select.launcher             : /usr/bin/xdg-open
+        ! URxvt.url-select.launcher             : /usr/bin/xdg-open
         URxvt.url-select.underline            : true
 
         ! -- XTerm -- !

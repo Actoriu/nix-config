@@ -259,6 +259,7 @@
         import ./pkgs {inherit pkgs;}
     );
 
+    /*
     nixosConfigurations = {
       d630 = nixpkgs.lib.nixosSystem {
         specialArgs = {
@@ -274,7 +275,7 @@
     };
 
     homeConfigurations = {
-      actoriu = home-manager.lib.homeManagerConfiguration {
+      "actoriu@d630" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages."x86_64-linux";
         extraSpecialArgs = {
           inherit inputs outputs version;
@@ -305,5 +306,6 @@
         modules = [./hosts/droid/oneplus5];
       };
     };
+    */
   };
 }
