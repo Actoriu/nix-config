@@ -5,9 +5,9 @@
   ...
 }:
 with lib; let
-  cfg = config.custom.loader;
+  cfg = config.customize.loader;
 in {
-  options.custom.loader = {
+  options.customize.loader = {
     enable = mkEnableOption "Enable support for loader.";
 
     biostype = mkOption {
@@ -63,7 +63,6 @@ in {
         };
         grub = {
           enable = true;
-          version = 2;
           device = cfg.device;
           efiSupport = true;
           efiInstallAsRemovable = true;

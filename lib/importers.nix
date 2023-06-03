@@ -1,6 +1,7 @@
 {
   inputs,
   lib,
+  self,
   ...
 }: let
   flattenTree = tree: let

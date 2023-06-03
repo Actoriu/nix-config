@@ -27,16 +27,37 @@
   */
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs = {
+      url = "github:NixOS/nixpkgs/nixos-unstable";
+    };
 
-    nixos-hardware.url = "github:NixOS/nixos-hardware";
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs = {
+        nixpkgs-lib.follows = "nixpkgs";
+      };
+    };
+
+    flake-root = {
+      url = github:srid/flake-root;
+    };
+
+    mission-control = {
+      url = github:Platonic-Systems/mission-control;
+    };
+
+    nixos-hardware = {
+      url = "github:NixOS/nixos-hardware";
+    };
 
     flake-compat = {
       url = "github:edolstra/flake-compat";
       flake = false;
     };
 
-    flake-utils.url = "github:numtide/flake-utils";
+    flake-utils = {
+      url = "github:numtide/flake-utils";
+    };
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -136,25 +157,62 @@
   outputs = {
     self,
     # cachix-deploy-flake,
+    devshell,
+    flake-parts,
+    flake-root,
     home-manager,
+    mission-control,
     nixpkgs,
     nix-on-droid,
     pre-commit-hooks,
     treefmt-nix,
     ...
   } @ inputs: let
-    inherit (self) outputs;
-
-    forEachSystem = nixpkgs.lib.genAttrs ["aarch64-linux" "x86_64-linux"];
-
     # Use our custom lib enhanced with nixpkgs and hm one
-    lib = import ./lib {lib = nixpkgs.lib; inherit inputs;} // nixpkgs.lib // home-manager.lib;
+    lib = import ./lib {
+      inherit inputs;
+      lib = nixpkgs.lib;
+    } // nixpkgs.lib // home-manager.lib;
 
-    formatterPackArgsFor = forEachSystem (system: let
-      pkgs = nixpkgs.legacyPackages.${system};
-    in
-      treefmt-nix.lib.mkWrapper pkgs {
-        projectRootFile = "flake.nix";
+    # cachixDeployLibFor =
+    #   forEachSystem (system:
+    #     cachix-deploy-flake.lib nixpkgs.legacyPackages.${system});
+
+    version = nixpkgs.lib.fileContents ./.version;
+  in
+        (flake-parts.lib.evalFlakeModule
+      {
+        inherit inputs;
+        specialArgs = {inherit lib;};
+      }
+      {
+        debug = true;
+        imports = [
+          (_: {
+            perSystem = {inputs', ...}: {
+              # make pkgs available to all `perSystem` functions
+              _module.args.pkgs = inputs'.nixpkgs.legacyPackages;
+              # make custom lib available to all `perSystem` functions
+              _module.args.lib = lib;
+            };
+          })
+          devshell.flakeModule
+          pre-commit-hooks.flakeModule
+          flake-root.flakeModule
+          mission-control.flakeModule
+          treefmt-nix.flakeModule
+          ./nix
+          ./nixos
+        ];
+        systems = ["aarch64-linux" "x86_64-linux"];
+      })
+    .config
+    .flake;
+
+  /*
+      treefmt.config = {
+        inherit (config.flake-root) projectRootFile;
+        package = pkgs.treefmt;
         programs = {
           alejandra.enable = true;
           prettier.enable = true;
@@ -174,22 +232,11 @@
             ];
           };
         };
-      });
+      };
 
-    # cachixDeployLibFor =
-    #   forEachSystem (system:
-    #     cachix-deploy-flake.lib nixpkgs.legacyPackages.${system});
-
-    version = nixpkgs.lib.fileContents ./.version;
-  in {
-    # lib = lib.our;
-
-    checks = forEachSystem (system: let
-      pkgs = nixpkgs.legacyPackages.${system};
-    in {
-      pre-commit-check = pre-commit-hooks.lib.${system}.run {
-        src = ./.;
-        hooks = {
+      pre-commit = {
+        check.enable = true;
+        settings.hooks = {
           actionlint.enable = true;
           alejandra.enable = false;
           deadnix.enable = false;
@@ -209,12 +256,10 @@
           statix.enable = false;
           treefmt.enable = true;
         };
-        settings = {
-          treefmt.package = formatterPackArgsFor.${system};
-        };
       };
-    });
+*/
 
+    /*
     devShells = forEachSystem (system: {
       default = let
         pkgs = import nixpkgs {
@@ -224,6 +269,7 @@
       in
         import ./shell/devshell.nix {inherit formatterPackArgsFor pkgs self system;};
     });
+    */
 
     /*
     devShells = forEachSystem (system: let
@@ -237,23 +283,24 @@
         ];
 
         shellHook = ''
-          ${self.checks.${system}.pre-commit-check.shellHook}
+          ${config.pre-commit.installationScript}
           echo 1>&2 "Welcome to the development shell!"
         '';
       };
     });
     */
 
-    formatter = forEachSystem (system: formatterPackArgsFor.${system});
+    # formatter = config.treefmt.build.wrapper;
 
-    overlays = import ./overlays {inherit inputs;};
+    # overlays = import ./overlays {inherit inputs;};
 
+    /*
     packages = forEachSystem (
       system: let
         pkgs = nixpkgs.legacyPackages.${system};
       in
         import ./pkgs {inherit pkgs;}
-    );
+    ); */
 
     /*
     nixosConfigurations = {
@@ -303,5 +350,4 @@
       };
     };
     */
-  };
 }

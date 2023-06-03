@@ -2,7 +2,6 @@
   pkgs,
   self,
   system,
-  formatterPackArgsFor,
   ...
 }:
 pkgs.devshell.mkShell {
@@ -18,7 +17,7 @@ pkgs.devshell.mkShell {
     # nodePackages.prettier-plugin-toml
     # shfmt
     # treefmt
-    (formatterPackArgsFor.${system})
+    (treefmt.config)
   ];
 
   commands = [
@@ -36,7 +35,7 @@ pkgs.devshell.mkShell {
       # nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
       #   export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
       # '';
-      pre-commit.text = "${self.checks.${system}.pre-commit-check.shellHook}";
+      pre-commit.text = "${config.pre-commit.installationScript}";
     };
   };
 }

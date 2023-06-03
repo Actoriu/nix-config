@@ -11,8 +11,10 @@
     options = callLibs ./options.nix;
 
     inherit (self.attrs) mergeAny;
-    inherit (self.importers) rakeLeaves flattenTree buildModuleList;
+    inherit (self.importers) flattenTree rakeLeaves buildModuleList;
     inherit (self.options) mkEnableOpt' mkOpt mkOptStr mkBoolOpt;
   });
 in
   mkLib
+  # mkLib.extend (self: super:
+  #   lib.foldr (a: b: a // b) {} (lib.attrValues super))
