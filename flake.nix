@@ -156,17 +156,11 @@
 
   outputs = {
     self,
-    # cachix-deploy-flake,
-    devshell,
-    flake-parts,
-    flake-root,
-    home-manager,
-    mission-control,
-    nixpkgs,
-    nix-on-droid,
-    pre-commit-hooks,
-    treefmt-nix,
-    ...
+      # cachix-deploy-flake,
+      flake-parts,
+      nixpkgs,
+      home-manager,
+      ...
   } @ inputs: let
     # Use our custom lib enhanced with nixpkgs and hm one
     lib = import ./lib {
@@ -174,19 +168,16 @@
       lib = nixpkgs.lib;
     } // nixpkgs.lib // home-manager.lib;
 
-    # cachixDeployLibFor =
-    #   forEachSystem (system:
-    #     cachix-deploy-flake.lib nixpkgs.legacyPackages.${system});
-
-    version = nixpkgs.lib.fileContents ./.version;
+    stateversion = nixpkgs.lib.fileContents ./.version;
   in
-        (flake-parts.lib.evalFlakeModule
+    (flake-parts.lib.evalFlakeModule
       {
         inherit inputs;
         specialArgs = {inherit lib;};
       }
       {
         debug = true;
+        systems = ["aarch64-linux" "x86_64-linux"];
         imports = [
           (_: {
             perSystem = {inputs', ...}: {
@@ -196,70 +187,16 @@
               _module.args.lib = lib;
             };
           })
-          devshell.flakeModule
-          pre-commit-hooks.flakeModule
-          flake-root.flakeModule
-          mission-control.flakeModule
-          treefmt-nix.flakeModule
-          ./nix
-          ./nixos
+          # devshell.flakeModule
+          # flake-root.flakeModule
+          # mission-control.flakeModule
+          # pre-commit-hooks.flakeModule
+          # treefmt-nix.flakeModule
+          ./flake-parts
         ];
-        systems = ["aarch64-linux" "x86_64-linux"];
-      })
-    .config
-    .flake;
+      }).config.flake;
 
   /*
-      treefmt.config = {
-        inherit (config.flake-root) projectRootFile;
-        package = pkgs.treefmt;
-        programs = {
-          alejandra.enable = true;
-          prettier.enable = true;
-          shellcheck.enable = true;
-          shfmt.enable = true;
-        };
-        settings.formatter = {
-          alejandra = {
-            excludes = [
-              "pkgs/_sources/generated.nix"
-            ];
-          };
-          prettier = {
-            excludes = [
-              "pkgs/_sources/generated.json"
-              ".github/renovate.json"
-            ];
-          };
-        };
-      };
-
-      pre-commit = {
-        check.enable = true;
-        settings.hooks = {
-          actionlint.enable = true;
-          alejandra.enable = false;
-          deadnix.enable = false;
-          eslint = {
-            enable = true;
-            excludes = ["pkgs/_sources/generated.json" ".github/renovate.json"];
-          };
-          prettier = {
-            enable = false;
-            excludes = ["pkgs/_sources/generated.json" ".github/renovate.json"];
-          };
-          shellcheck.enable = false;
-          shfmt = {
-            enable = false;
-            entry = pkgs.lib.mkForce "${pkgs.shfmt}/bin/shfmt -i 2 -s -w";
-          };
-          statix.enable = false;
-          treefmt.enable = true;
-        };
-      };
-*/
-
-    /*
     devShells = forEachSystem (system: {
       default = let
         pkgs = import nixpkgs {
@@ -271,7 +208,7 @@
     });
     */
 
-    /*
+  /*
     devShells = forEachSystem (system: let
       pkgs = nixpkgs.legacyPackages.${system};
     in {
@@ -288,21 +225,18 @@
         '';
       };
     });
-    */
 
-    # formatter = config.treefmt.build.wrapper;
+    formatter = config.treefmt.build.wrapper;
 
-    # overlays = import ./overlays {inherit inputs;};
+    overlays = import ./overlays {inherit inputs;};
 
-    /*
     packages = forEachSystem (
       system: let
         pkgs = nixpkgs.legacyPackages.${system};
       in
         import ./pkgs {inherit pkgs;}
-    ); */
+    );
 
-    /*
     nixosConfigurations = {
       d630 = nixpkgs.lib.nixosSystem {
         specialArgs = {
