@@ -16,5 +16,6 @@
   });
 in
   mkLib
-  # mkLib.extend (self: super:
-  #   lib.foldr (a: b: a // b) {} (lib.attrValues super))
+# mkLib.extend (self: super:
+#   lib.foldr (a: b: a // b) {} (lib.attrValues super))
+
