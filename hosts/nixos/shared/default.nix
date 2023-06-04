@@ -24,7 +24,7 @@
 
   networking.hostName = hostname;
 
-  # system.stateVersion = lib.my.stateVersion;
+  # system.stateVersion = "${version}";
 
   nixpkgs = {
     config = {

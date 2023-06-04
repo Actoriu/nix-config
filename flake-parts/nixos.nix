@@ -5,7 +5,7 @@
   self,
   ...
 }: let
-  mknixosSystem = {
+  mkNixosConfig = {
     extraModules ? [],
     hostname ? "",
     username ? "",
@@ -13,10 +13,10 @@
     ...
   }: {
     ${username} = lib.nixosSystem {
-      specialArgs = {};
+      specialArgs = {inherit username;};
       modules =
         extraModules
-        ++ lib.optional (hostname != null) ../hosts/nixos/${hostname}
+        # ++ lib.optional (hostname != null) ../hosts/nixos/${hostname}
         ++ [
           ({
             config,
@@ -60,10 +60,10 @@
   ];
 in {
   flake.nixosConfigurations = lib.mkMerge [
-    (mknixosSystem {
+    (mkNixosConfig {
       hostname = "d630";
       username = "actoriu";
-      extraModules = [];
-    };
+      extraModules = defaultModules ++ [];
+    })
   ];
 }

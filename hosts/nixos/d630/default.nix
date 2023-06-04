@@ -2,13 +2,13 @@
   config,
   lib,
   pkgs,
-  version,
   ...
 }: {
   imports = [
     ./configuration.nix
   ];
 
+  /*
   custom = {
     fonts.enable = true;
     audio = {
@@ -49,7 +49,8 @@
     users = {
       enable = true;
       package = pkgs.zsh;
-      userVersion = "${version}";
+      userVersion = "${stateVersion}";
     };
   };
+  */
 }
