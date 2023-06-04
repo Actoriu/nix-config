@@ -5,19 +5,39 @@
   self,
   ...
 }: let
+  defaultModules = [
+    # make flake inputs accessible in NixOS
+    {
+      _module.args.self = self;
+      _module.args.inputs = inputs;
+      _module.args.lib = lib;
+    }
+    # load common modules
+    ({...}: {
+      imports = [
+        inputs.impermanence.nixosModules.impermanence
+        inputs.disko.nixosModules.disko
+        inputs.nur.nixosModules.nur
+        inputs.sops-nix.nixosModules.sops
+      ];
+    })
+  ];
+
   mkNixosConfig = {
     extraModules ? [],
-    hostname ? "",
-    username ? "",
+    hostname ? null,
+    username ? null,
     system ? "x86_64-linux",
     ...
   }: {
-    ${username} = lib.nixosSystem {
+    ${hostname} = lib.nixosSystem {
       specialArgs = {inherit username;};
       modules =
-        extraModules
+        defaultModules
+        ++ extraModules
         # ++ lib.optional (hostname != null) ../hosts/nixos/${hostname}
         ++ [
+          inputs.home-manager.nixosModules.home-manager
           ({
             config,
             lib,
@@ -35,35 +55,23 @@
             networking.hostName = lib.mkDefault hostname;
 
             system.stateVersion = stateVersion;
+
+            home-manager = {
+              # extraSpecialArgs = {inherit username;};
+              # useGlobalPkgs = true;
+              useUserPackages = true;
+              users.${username} = import ../users/shared;
+            };
           })
         ];
     };
   };
-
-  defaultModules = [
-    # make flake inputs accessible in NixOS
-    {
-      _module.args.self = self;
-      _module.args.inputs = inputs;
-      _module.args.lib = lib;
-    }
-    # load common modules
-    ({...}: {
-      imports = [
-        inputs.impermanence.nixosModules.impermanence
-        inputs.disko.nixosModules.disko
-        inputs.nur.nixosModules.nur
-        inputs.sops-nix.nixosModules.sops
-        inputs.home-manager.nixosModules.home-manager
-      ];
-    })
-  ];
 in {
   flake.nixosConfigurations = lib.mkMerge [
-    (mkNixosConfig {
-      hostname = "d630";
-      username = "actoriu";
-      extraModules = defaultModules ++ [];
-    })
+    # (mkNixosConfig {
+    #   hostname = "d630";
+    #   username = "actoriu";
+    #   extraModules = [];
+    # })
   ];
 }
