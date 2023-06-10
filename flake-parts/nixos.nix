@@ -6,23 +6,59 @@
   self,
   ...
 }: let
-  defaultModules = [
-    # make flake inputs accessible in NixOS
-    {
-      _module.args.self = self;
-      _module.args.inputs = inputs;
-      _module.args.lib = lib;
-    }
-    # load common modules
-    ({...}: {
-      imports = [
-        inputs.impermanence.nixosModules.impermanence
-        inputs.disko.nixosModules.disko
-        inputs.nur.nixosModules.nur
-        inputs.sops-nix.nixosModules.sops
-      ];
-    })
-  ];
+  buildSuites = profiles: f: lib.mapAttrs (_: lib.flatten) (lib.fix (f profiles));
+
+  nixosModules = lib.buildModuleList ../modules/nixos;
+  nixosProfiles = lib.rakeLeaves ../profiles/nixos;
+  nixosSuites = buildSuites nixosProfiles (profiles: suites: {
+    base = with profiles; [nix];
+    hardware = with profiles; [
+      hardware.audio.pipewire
+      hardware.bluetooth
+      hardware.cpu.intel
+      hardware.opengl
+      hardware.printers
+      hardware.video.nvidia
+      .340
+      xx
+    ];
+    graphical = with profiles; [fonts];
+    network = with profiles; [
+      networking.networkmanager
+    ];
+    power = with profiles; [
+      power-manager.acpid
+      power-manager.powertop
+      power-manager.tlp
+      power-manager.upower
+    ];
+    security = with profiles; [security.polkit];
+    services = with profiles; [services.laptop];
+    shell = with profiles; [
+      shell.zsh
+    ];
+  });
+
+  defaultModules =
+    nixosModules
+    ++ [
+      # make flake inputs accessible in NixOS
+      {
+        _module.args.self = self;
+        _module.args.inputs = inputs;
+        _module.args.lib = lib;
+      }
+      # load common modules
+      ({...}: {
+        imports = [
+          inputs.impermanence.nixosModules.impermanence
+          inputs.disko.nixosModules.disko
+          inputs.nur.nixosModules.nur
+          inputs.sops-nix.nixosModules.sops
+          inputs.home-manager.nixosModules.home-manager
+        ];
+      })
+    ];
 
   mkNixosConfig = {
     extraModules ? [],
@@ -32,13 +68,16 @@
     ...
   }: {
     ${hostname} = lib.nixosSystem {
-      specialArgs = {inherit username stateVersion;};
+      specialArgs = {
+        inherit username stateVersion;
+        profiles = nixosProfiles;
+        suites = nixosSuites;
+      };
       modules =
         defaultModules
         ++ extraModules
         ++ lib.optional (hostname != null) ../hosts/nixos/${hostname}
         ++ [
-          inputs.home-manager.nixosModules.home-manager
           ({
             config,
             lib,
@@ -61,57 +100,7 @@
               extraSpecialArgs = {inherit username stateVersion;};
               # useGlobalPkgs = true;
               useUserPackages = true;
-              users.${username} = {...}: {
-                imports =
-                  [
-                    ({
-                      config,
-                      lib,
-                      ...
-                    }: {
-                      nixpkgs = {
-                        config = {
-                          allowUnfree = true;
-                          # Workaround for https://github.com/nix-community/home-manager/issues/2942
-                          allowUnfreePredicate = _: true;
-                        };
-                      };
-
-                      home = {
-                        username = username;
-                        homeDirectory =
-                          (
-                            if pkgs.stdenv.isDarwin
-                            then "/Users"
-                            else "/home"
-                          )
-                          + "/${username}";
-                        stateVersion = "${stateVersion}";
-                      };
-
-                      programs.home-manager.enable = true;
-                      manual.manpages.enable = false;
-                      systemd.user.startServices = "sd-switch";
-                    })
-                  ]
-                  ++ [
-                    # make flake inputs accessible in NixOS
-                    {
-                      _module.args.self = self;
-                      _module.args.inputs = inputs;
-                      _module.args.lib = lib;
-                    }
-                    # load common modules
-                    ({...}: {
-                      imports = [
-                        inputs.impermanence.nixosModules.home-manager.impermanence
-                        inputs.nur.hmModules.nur
-                        inputs.sops-nix.homeManagerModules.sops
-                      ];
-                    })
-                  ]
-                  ++ lib.optional (username != null) ../users/${username};
-              };
+              users.${username} = import ./home.nix;
             };
           })
         ];
@@ -120,7 +109,7 @@
 in {
   flake.nixosConfigurations = lib.mkMerge [
     (mkNixosConfig {
-      # hostname = "d630";
+      hostname = "d630";
       username = "actoriu";
       extraModules = [];
     })

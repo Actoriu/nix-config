@@ -11,6 +11,8 @@
     pkgs,
     ...
   }: let
+    buildSuites = profiles: f: lib.mapAttrs (_: lib.flatten) (lib.fix (f profiles));
+
     defaultModules = [
       # make flake inputs accessible in NixOS
       {
@@ -18,14 +20,6 @@
         _module.args.inputs = inputs;
         _module.args.lib = lib;
       }
-      # load common modules
-      ({...}: {
-        imports = [
-          inputs.impermanence.nixosModules.home-manager.impermanence
-          inputs.nur.hmModules.nur
-          inputs.sops-nix.homeManagerModules.sops
-        ];
-      })
     ];
 
     mkDroidConfig = {
@@ -69,42 +63,31 @@
                 extraSpecialArgs = {inherit username stateVersion;};
                 # useGlobalPkgs = true;
                 useUserPackages = true;
-                config = {...}: {
-                  imports = [
-                    ({
-                      config,
-                      lib,
-                      ...
-                    }: {
-                      nixpkgs = {
-                        config = {
-                          allowUnfree = true;
-                          # Workaround for https://github.com/nix-community/home-manager/issues/2942
-                          allowUnfreePredicate = _: true;
-                        };
-                      };
-
-                      home = {
-                        username = username;
-                        homeDirectory =
-                          (
-                            if pkgs.stdenv.isDarwin
-                            then "/Users"
-                            else "/home"
-                          )
-                          + "/${username}";
-                        stateVersion = "${stateVersion}";
-                      };
-
-                      programs.home-manager.enable = true;
-                      manual.manpages.enable = false;
-                      systemd.user.startServices = "sd-switch";
-                      imports =
-                        defaultModules
-                        ++ lib.optional (username != null) ../users/${username}
-                        ++ [];
-                    })
-                  ];
+                config = {
+                  config,
+                  lib,
+                  pkgs,
+                  ...
+                }: {
+                  nixpkgs = {
+                    config = {
+                      allowUnfree = true;
+                      # Workaround for https://github.com/nix-community/home-manager/issues/2942
+                      allowUnfreePredicate = _: true;
+                    };
+                    # overlays = builtins.attrValues outputs.overlays;
+                  };
+                  home.stateVersion = "${stateVersion}";
+                  manual.manpages.enable = false;
+                  programs.home-manager.enable = true;
+                  imports =
+                    [
+                      inputs.impermanence.nixosModules.home-manager.impermanence
+                      inputs.nur.hmModules.nur
+                      inputs.sops-nix.homeManagerModules.sops
+                      ../modules/home-manager
+                    ]
+                    ++ lib.optional (username != null) ../users/${username};
                 };
               };
             })
