@@ -4,5 +4,5 @@
   pkgs,
   ...
 }: {
-  customize.non-nixos.enable = true;
+  # customize.non-nixos.enable = true;
 }

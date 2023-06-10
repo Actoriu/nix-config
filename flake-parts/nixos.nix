@@ -19,10 +19,10 @@
       inputs.impermanence.nixosModules.impermanence
       inputs.nur.nixosModules.nur
       inputs.sops-nix.nixosModules.sops
-      ../../../modules/nixos
-      ../../../profiles/nixos
+      # ../modules/nixos
+      # ../profiles/nixos
     ]
-    ++ lib.optional (hostname != null) ../${hostname};
+    ++ lib.optional (hostname != null) ../hosts/nixos/${hostname};
 
   networking.hostName = hostname;
 

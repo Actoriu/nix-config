@@ -216,7 +216,7 @@
           system = "x86_64-linux";
         };
         modules = [
-          ./flake-parts/nixos.ni
+          ./flake-parts/nixos.nix
         ];
       };
     };
@@ -233,7 +233,7 @@
           system = "x86_64-linux";
         };
         modules = [
-          # ./users/shared
+          ./flake-parts/home.nix
         ];
       };
     };
@@ -257,6 +257,5 @@
         ];
       };
     };
-
   };
 }
