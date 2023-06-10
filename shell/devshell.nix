@@ -1,4 +1,5 @@
 {
+  formatterPackArgsFor,
   pkgs,
   self,
   system,
@@ -11,13 +12,13 @@ pkgs.devshell.mkShell {
   # git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
   packages = with pkgs; [
     cachix
-    # home-manager
+    home-manager
     # alejandra
     # nodePackages.prettier
     # nodePackages.prettier-plugin-toml
     # shfmt
     # treefmt
-    (treefmt.config)
+    (formatterPackArgsFor.${system})
   ];
 
   commands = [
@@ -35,7 +36,7 @@ pkgs.devshell.mkShell {
       # nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
       #   export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
       # '';
-      pre-commit.text = "${config.pre-commit.installationScript}";
+      pre-commit.text = "${self.checks.${system}.pre-commit-check.shellHook}";
     };
   };
 }

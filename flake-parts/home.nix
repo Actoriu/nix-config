@@ -2,6 +2,7 @@
   config,
   inputs,
   lib,
+  outputs,
   pkgs,
   stateVersion,
   username,
@@ -21,7 +22,7 @@
       # Workaround for https://github.com/nix-community/home-manager/issues/2942
       allowUnfreePredicate = _: true;
     };
-    # overlays = builtins.attrValues outputs.overlays;
+    overlays = builtins.attrValues outputs.overlays;
   };
 
   home = {

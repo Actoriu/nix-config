@@ -31,25 +31,6 @@
       url = "github:NixOS/nixpkgs/nixos-unstable";
     };
 
-    flake-parts = {
-      url = "github:hercules-ci/flake-parts";
-      inputs = {
-        nixpkgs-lib.follows = "nixpkgs";
-      };
-    };
-
-    flake-root = {
-      url = github:srid/flake-root;
-    };
-
-    mission-control = {
-      url = github:Platonic-Systems/mission-control;
-    };
-
-    # nixos-flake = {
-    #   url = "github:srid/nixos-flake";
-    # };
-
     nixos-hardware = {
       url = "github:NixOS/nixos-hardware";
     };
@@ -70,13 +51,13 @@
       };
     };
 
-    # cachix-deploy-flake = {
-    #   url = "github:cachix/cachix-deploy-flake";
-    #   inputs = {
-    #     home-manager.follows = "home-manager";
-    #     nixpkgs.follows = "nixpkgs";
-    #   };
-    # };
+    cachix-deploy-flake = {
+      url = "github:cachix/cachix-deploy-flake";
+      inputs = {
+        home-manager.follows = "home-manager";
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
 
     devshell = {
       url = "github:numtide/devshell";
@@ -98,13 +79,6 @@
     #     nixpkgs.follows = "nixpkgs";
     #   };
     # };
-
-    haumea = {
-      url = "github:nix-community/haumea";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-      };
-    };
 
     impermanence = {
       url = "github:nix-community/impermanence";
@@ -159,142 +133,130 @@
   };
 
   outputs = {
-    # cachix-deploy-flake,
-    flake-parts,
+    self,
+    cachix-deploy-flake,
     nixpkgs,
-    nix-on-droid,
     home-manager,
+    nix-on-droid,
     ...
   } @ inputs: let
-    # Use our custom lib enhanced with nixpkgs and hm one
-    lib =
-      import ./lib {
-        inherit inputs;
-        lib = nixpkgs.lib;
-      }
-      // nixpkgs.lib
-      // home-manager.lib;
+    inherit (self) outputs;
+
+    forEachSystem = nixpkgs.lib.genAttrs ["aarch64-linux" "x86_64-linux"];
+
+    cachixDeployLibFor =
+      forEachSystem (system:
+        cachix-deploy-flake.lib nixpkgs.legacyPackages.${system});
+
+    formatterPackArgsFor = forEachSystem (
+      system: let
+        pkgs = nixpkgs.legacyPackages.${system};
+      in
+        import ./flake-parts/treefmt.nix {inherit inputs pkgs self;}
+    );
 
     stateVersion = nixpkgs.lib.fileContents ./.version;
-  in
-    (flake-parts.lib.evalFlakeModule
-      {
-        inherit inputs;
-        specialArgs = {inherit lib stateVersion;};
-      }
-      {
-        debug = true;
-        systems = ["aarch64-linux" "x86_64-linux"];
-        imports = [
-          (_: {
-            perSystem = {
-              inputs',
-              system,
-              ...
-            }: {
-              # make pkgs available to all `perSystem` functions
-              _module.args.pkgs = inputs'.nixpkgs.legacyPackages;
-              # make custom lib available to all `perSystem` functions
-              _module.args.lib = lib;
-            };
-          })
-          # inputs.devshell.flakeModule
-          # inputs.flake-root.flakeModule
-          # inputs.mission-control.flakeModule
-          # inputs.pre-commit-hooks.flakeModule
-          # inputs.treefmt-nix.flakeModule
-          ./flake-parts
-        ];
-      })
-    .config
-    .flake;
-
-  /*
-  devShells = forEachSystem (system: {
-    default = let
-      pkgs = import nixpkgs {
-        inherit system;
-        overlays = [inputs.devshell.overlays.default];
-      };
-    in
-      import ./shell/devshell.nix {inherit formatterPackArgsFor pkgs self system;};
-  });
-  */
-
-  /*
-  devShells = forEachSystem (system: let
-    pkgs = nixpkgs.legacyPackages.${system};
   in {
-    default = pkgs.mkShell {
-      nativeBuildInputs = with pkgs; [
-        cachix
-        nvfetcher
-        (formatterPackArgsFor.${system})
-      ];
-
-      shellHook = ''
-        ${config.pre-commit.installationScript}
-        echo 1>&2 "Welcome to the development shell!"
-      '';
-    };
-  });
-
-  formatter = config.treefmt.build.wrapper;
-
-  overlays = import ./overlays {inherit inputs;};
-
-  packages = forEachSystem (
-    system: let
+    checks = forEachSystem (system: let
       pkgs = nixpkgs.legacyPackages.${system};
-    in
-      import ./pkgs {inherit pkgs;}
-  );
-
-  nixosConfigurations = {
-    d630 = nixpkgs.lib.nixosSystem {
-      specialArgs = {
-        inherit inputs outputs version;
-        desktop = null;
-        hostname = "d630";
-        non-nixos = false;
-        username = "actoriu";
-        system = "x86_64-linux";
+    in {
+      pre-commit-check = import ./flake-parts/pre-commit.nix {
+        inherit formatterPackArgsFor inputs pkgs self system;
       };
-      modules = [./hosts/nixos/shared];
-    };
-  };
+    });
 
-  homeConfigurations = {
-    "actoriu@d630" = home-manager.lib.homeManagerConfiguration {
-      pkgs = nixpkgs.legacyPackages."x86_64-linux";
-      extraSpecialArgs = {
-        inherit inputs outputs version;
-        desktop = null;
-        hostname = "d630";
-        non-nixos = true;
-        username = "actoriu";
-        system = "x86_64-linux";
+    devShells = forEachSystem (system: {
+      default = let
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [inputs.devshell.overlays.default];
+        };
+      in
+        import ./shell/devshell.nix {inherit formatterPackArgsFor pkgs self system;};
+    });
+
+    /*
+    devShells = forEachSystem (system: let
+      pkgs = nixpkgs.legacyPackages.${system};
+    in {
+      default = pkgs.mkShell {
+        nativeBuildInputs = with pkgs; [
+          cachix
+          nvfetcher
+          (formatterPackArgsFor.${system})
+        ];
+
+        shellHook = ''
+          ${self.checks.${system}.pre-commit-check.shellHook}
+          echo 1>&2 "Welcome to the development shell!"
+        '';
       };
-      modules = [./users/shared];
-    };
-  };
+    });
+    */
 
-  nixOnDroidConfigurations = {
-    oneplus5 = nix-on-droid.lib.nixOnDroidConfiguration {
-      pkgs = import nixpkgs {
-        system = "aarch64-linux";
-        overlays = [
-          nix-on-droid.overlays.default
+    formatter = forEachSystem (system: formatterPackArgsFor.${system});
+
+    overlays = import ./overlays {inherit inputs;};
+
+    packages = forEachSystem (
+      system: let
+        pkgs = nixpkgs.legacyPackages.${system};
+      in
+        import ./pkgs {inherit pkgs;}
+    );
+
+    nixosConfigurations = {
+      d630 = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs outputs stateVersion;
+          desktop = null;
+          hostname = "d630";
+          non-nixos = false;
+          username = "actoriu";
+          system = "x86_64-linux";
+        };
+        modules = [
+          ./flake-parts/nixos.ni
         ];
       };
-      extraSpecialArgs = {
-        inherit inputs outputs version;
-        devicename = "oneplus5";
-        username = "nix-on-droid";
-      };
-      home-manager-path = home-manager.outPath;
-      modules = [./hosts/droid/oneplus5];
     };
+
+    homeConfigurations = {
+      "actoriu@d630" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages."x86_64-linux";
+        extraSpecialArgs = {
+          inherit inputs outputs stateVersion;
+          desktop = null;
+          hostname = "d630";
+          non-nixos = true;
+          username = "actoriu";
+          system = "x86_64-linux";
+        };
+        modules = [
+          # ./users/shared
+        ];
+      };
+    };
+
+    nixOnDroidConfigurations = {
+      oneplus5 = nix-on-droid.lib.nixOnDroidConfiguration {
+        pkgs = import nixpkgs {
+          system = "aarch64-linux";
+          overlays = [
+            nix-on-droid.overlays.default
+          ];
+        };
+        extraSpecialArgs = {
+          inherit inputs outputs stateVersion;
+          devicename = "oneplus5";
+          username = "nix-on-droid";
+        };
+        home-manager-path = home-manager.outPath;
+        modules = [
+          # ./hosts/droid/oneplus5
+        ];
+      };
+    };
+
   };
-  */
 }
