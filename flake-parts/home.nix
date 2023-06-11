@@ -2,6 +2,7 @@
   config,
   inputs,
   lib,
+  non-nixos,
   outputs,
   pkgs,
   stateVersion,
