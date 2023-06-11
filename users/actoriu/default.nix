@@ -6,13 +6,12 @@
   ...
 }: {
   imports = [
-    ../../modules/home-manager/editors/emacs
+    ../../modules/home-manager/module-list.nix
     ../../profiles/home-manager/i18n/input-method/fcitx5
     ../../profiles/home-manager/lang/nix
     ../../profiles/home-manager/misc/fontconfig
     ../../profiles/home-manager/misc/xdg
     ../../profiles/home-manager/misc/xresources
-    ../../profiles/home-manager/non-nix
     ../../profiles/home-manager/programs/alacritty
     ../../profiles/home-manager/programs/bat
     ../../profiles/home-manager/programs/dircolors
@@ -34,14 +33,12 @@
   ];
 
   customize = {
-    home-manager = {
-      emacs = {
-        enable = true;
-        emacs-application-framework = false;
-        spacemacs = true;
-        treesitter = true;
-      };
-      non-nixos = true;
+    emacs = {
+      enable = true;
+      emacs-application-framework = false;
+      spacemacs = true;
+      treesitter = true;
     };
+    non-nixos = non-nixos;
   };
 }

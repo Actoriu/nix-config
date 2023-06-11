@@ -119,7 +119,7 @@
         live_config_reload = true;
 
         # https://github.com/rummik/nixos-config/blob/master/config/home-manager/alacritty.nix#L565
-        key_bindings = flatten [
+        key_bindings = lib.flatten [
           # { key = "Paste";                                             action = "Paste";                        }
           # { key = "Copy";                                              action = "Copy";                         }
           # { key = "L";         mods = "Control";                       action = "ClearLogNotice";               }

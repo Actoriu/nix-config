@@ -5,14 +5,14 @@
   ...
 }:
 with lib; let
-  cfg = config.customize.home-manager.non-nixos;
+  cfg = config.customize.non-nixos;
 in {
-  options.customize.home-manager.non-nixos = {
+  options.customize.non-nixos = {
     enable = mkEnableOption "Whether to enable settings that make Home Manager work better on
         GNU/Linux distributions other than NixOS.";
   };
 
-  config = lib.mkIf (cfg.enable && pkgs.stdenv.isLinux) {
+  config = mkIf (cfg.enable && pkgs.stdenv.isLinux) {
     targets.genericLinux.enable = cfg.enable;
     xsession.enable = cfg.enable;
   };

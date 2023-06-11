@@ -5,7 +5,7 @@
   ...
 }:
 with lib; let
-  cfg = config.customize.home-manager.emacs;
+  cfg = config.customize.emacs;
 
   # https://github.com/minimal/dotfiles/blob/master/nixpkgs/emacs.nix#L28
   treeSitterGrammars = pkgs.runCommandLocal "grammars" {} ''
@@ -24,7 +24,7 @@ with lib; let
   ];
   grammars = lib.getAttrs (map (lang: "tree-sitter-${lang}") langs) pkgs.tree-sitter.builtGrammars;
 in {
-  options.customize.home-manager.emacs = {
+  options.customize.emacs = {
     enable = mkEnableOption "Enable support for emacs.";
     emacs-application-framework =
       mkEnableOption "Enable support for emacs-application-framework.";
