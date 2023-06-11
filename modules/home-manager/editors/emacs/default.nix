@@ -5,7 +5,7 @@
   ...
 }:
 with lib; let
-  cfg = config.customize.emacs;
+  cfg = config.custom.emacs;
 
   # https://github.com/minimal/dotfiles/blob/master/nixpkgs/emacs.nix#L28
   treeSitterGrammars = pkgs.runCommandLocal "grammars" {} ''
@@ -24,7 +24,7 @@ with lib; let
   ];
   grammars = lib.getAttrs (map (lang: "tree-sitter-${lang}") langs) pkgs.tree-sitter.builtGrammars;
 in {
-  options.customize.emacs = {
+  options.custom.emacs = {
     enable = mkEnableOption "Enable support for emacs.";
     emacs-application-framework =
       mkEnableOption "Enable support for emacs-application-framework.";
@@ -64,7 +64,7 @@ in {
             recursive = true;
           };
           ".spacemacs.d" = {
-            source = "${cleanSource ./spacemacs.d}";
+            source = "${cleanSource ../../../../profiles/home-manager/programs/emacs/spacemacs.d}";
             recursive = true;
           };
         };

@@ -5,9 +5,9 @@
   ...
 }:
 with lib; let
-  cfg = config.customize.loader;
+  cfg = config.custom.loader;
 in {
-  options.customize.loader = {
+  options.custom.loader = {
     enable = mkEnableOption "Enable support for loader.";
 
     biostype = mkOption {

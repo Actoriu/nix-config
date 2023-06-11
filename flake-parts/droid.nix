@@ -9,7 +9,7 @@
   username,
   ...
 }: {
-  imports = lib.optional (hostname != null) ../hosts/droid/${hostname};
+  imports = lib.optional (hostname != null) ../hosts/${hostname};
 
   nixpkgs = {
     config = {

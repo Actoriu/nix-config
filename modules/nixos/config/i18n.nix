@@ -5,9 +5,9 @@
   ...
 }:
 with lib; let
-  cfg = config.customize.i18n;
+  cfg = config.custom.i18n;
 in {
-  options.customize.i18n = {
+  options.custom.i18n = {
     enable = mkEnableOption "Enable support for locale.";
 
     inputMethod = mkOption {

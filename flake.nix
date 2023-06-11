@@ -172,7 +172,7 @@
           overlays = [inputs.devshell.overlays.default];
         };
       in
-        import ./shell/devshell.nix {inherit formatterPackArgsFor pkgs self system;};
+        import ./flake-parts/shell/devshell.nix {inherit formatterPackArgsFor pkgs self system;};
     });
 
     /*
@@ -211,7 +211,6 @@
           inherit inputs outputs stateVersion;
           desktop = null;
           hostname = "d630";
-          non-nixos = false;
           username = "actoriu";
           system = "x86_64-linux";
         };
@@ -228,7 +227,6 @@
           inherit inputs outputs stateVersion;
           desktop = null;
           hostname = "d630";
-          non-nixos = true;
           username = "actoriu";
           system = "x86_64-linux";
         };

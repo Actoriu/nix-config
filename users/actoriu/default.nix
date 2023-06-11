@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  non-nixos,
   pkgs,
   ...
 }: {
@@ -12,7 +11,7 @@
     ../../profiles/home-manager/misc/fontconfig
     ../../profiles/home-manager/misc/xdg
     ../../profiles/home-manager/misc/xresources
-    # ../../profiles/home-manager/programs/alacritty
+    ../../profiles/home-manager/programs/alacritty
     ../../profiles/home-manager/programs/bat
     ../../profiles/home-manager/programs/dircolors
     ../../profiles/home-manager/programs/direnv
@@ -33,7 +32,7 @@
     ../../profiles/home-manager/targets/linux
   ];
 
-  customize = {
+  custom = {
     emacs = {
       enable = true;
       emacs-application-framework = false;
