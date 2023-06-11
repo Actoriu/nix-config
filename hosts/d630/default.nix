@@ -10,6 +10,11 @@
   ];
 
   customize = {
+    i18n = {
+      enable = true;
+      inputMethod = "fcitx5";
+      locale = "zh_CN";
+    };
     loader = {
       enable = true;
       biostype = "legacy";

@@ -5,7 +5,7 @@
   ...
 }:
 with lib; let
-  cfg = config.custom.emacs;
+  cfg = config.customize.home-manager.emacs;
 
   # https://github.com/minimal/dotfiles/blob/master/nixpkgs/emacs.nix#L28
   treeSitterGrammars = pkgs.runCommandLocal "grammars" {} ''
@@ -24,7 +24,7 @@ with lib; let
   ];
   grammars = lib.getAttrs (map (lang: "tree-sitter-${lang}") langs) pkgs.tree-sitter.builtGrammars;
 in {
-  options.custom.emacs = {
+  options.customize.home-manager.emacs = {
     enable = mkEnableOption "Enable support for emacs.";
     emacs-application-framework =
       mkEnableOption "Enable support for emacs-application-framework.";
@@ -34,38 +34,6 @@ in {
   };
 
   config = mkIf cfg.enable (mkMerge [
-    {
-      programs = {
-        emacs = {
-          enable = cfg.enable;
-          package =
-            if pkgs.stdenv.isDarwin
-            then pkgs.emacsMacport
-            else if pkgs.stdenv.isAarch64
-            then pkgs.emacs-nox
-            else pkgs.emacs;
-          # extraPackages = epkgs: with epkgs; [
-          #   evil
-          #   helm
-          #   general
-          #   magit
-          #   nix-mode
-          #   company
-          # ];
-        };
-      };
-
-      home = {
-        packages = with pkgs; [
-          emacs-all-the-icons-fonts
-          guile_3_0
-          ripgrep
-          ugrep
-          translate-shell
-        ];
-      };
-    }
-
     (mkIf cfg.spacemacs {
       # home = {
       #   file = {

@@ -6,7 +6,7 @@
 }: {
   programs = {
     mpv = {
-      enable = cfg.enable;
+      enable = true;
     };
   };
 }

@@ -20,7 +20,7 @@
       inputs.nur.nixosModules.nur
       inputs.sops-nix.nixosModules.sops
     ]
-    ++ lib.optional (hostname != null) ../hosts/nixos/${hostname};
+    ++ lib.optional (hostname != null) ../hosts/${hostname};
 
   networking.hostName = hostname;
 

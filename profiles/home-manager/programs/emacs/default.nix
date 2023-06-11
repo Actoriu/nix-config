@@ -33,17 +33,4 @@
       translate-shell
     ];
   };
-
-  home = {
-    file = {
-      ".emacs.d" = {
-        source = pkgs.spacemacs;
-        recursive = true;
-      };
-      ".spacemacs.d" = {
-        source = "${lib.cleanSource ./spacemacs.d}";
-        recursive = true;
-      };
-    };
-  };
 }
