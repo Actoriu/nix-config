@@ -6,7 +6,7 @@
 }: {
   imports = [
     ./configuration.nix
-    ../../../modules/nixos/loader/default.nix
+    ../../modules/nixos/module-list.nix
   ];
 
   customize = {

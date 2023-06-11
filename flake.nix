@@ -248,12 +248,12 @@
         };
         extraSpecialArgs = {
           inherit inputs outputs stateVersion;
-          devicename = "oneplus5";
+          hostname = "oneplus5";
           username = "nix-on-droid";
         };
         home-manager-path = home-manager.outPath;
         modules = [
-          # ./hosts/droid/oneplus5
+          ./flake-parts/droid.nix
         ];
       };
     };
