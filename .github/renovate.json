@@ -1,7 +1,5 @@
 {
-    "enabled": true,
     "extends": ["config:base"],
-    "platform": "github",
     "labels": ["dependencies"],
     "rangeStrategy": "auto",
     "semanticCommits": "enabled",
@@ -14,5 +12,11 @@
         "schedule": [
             "after 1am and before 3am"
         ]
-    }
+    },
+    "packageRules": [
+      {
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "automerge": true
+      }
+    ],
 }
