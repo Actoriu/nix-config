@@ -17,7 +17,7 @@
     )
   )
 
-(defun my-tree-sitter/post-init-tree-sitter ()
+(defun my-tree-sitter/pre-init-tree-sitter ()
   (use-package tree-sitter
     :config
     (progn

@@ -54,17 +54,14 @@
                                                 my-proxy-enable t)
                                       ;; my-pyim
                                       ;; my-rust
-                                      ;; my-sawfish
                                       ;; (my-scad :variables
                                       ;;          my-scad-mode-enable t)
                                       my-scheme
                                       ;; (my-shell :variables
                                       ;;           shell-backend 'company-native-complete)
                                       ;; my-tabbar
-                                      ;; my-tabnine
                                       ;; (my-translated :variables
                                       ;;                my-translated-enable-sdcv t)
-                                      ;; my-tray
                                       my-tree-sitter
                                       ;; my-ui
                                       ;; my-verilog

@@ -16,8 +16,8 @@
         icon-theme = "Arc";
         disable-history = true;
         matching = "fuzzy";
-        theme = "Arc-Dark";
       };
+      theme = "Arc-Dark";
     };
   };
 }
