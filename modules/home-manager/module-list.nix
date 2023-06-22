@@ -1,6 +1,7 @@
 {...}: {
   imports = [
-    ./editors/emacs
+    ./programs/emacs.nix
+    ./programs/xst.nix
     ./targets/linux.nix
   ];
 }

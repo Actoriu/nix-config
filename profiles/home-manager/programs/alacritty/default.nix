@@ -237,7 +237,8 @@
           #   { key = "B";              mods = "Command"; mode = "~Search";     action = "SearchBackward";        }
           # ])
         ];
-      }; */
+      };
+      */
     };
   };
 }

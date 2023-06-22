@@ -5,7 +5,7 @@
   ...
 }:
 with lib; let
-  cfg = config.custom.emacs;
+  cfg = config.custom.programs.emacs;
 
   # https://github.com/minimal/dotfiles/blob/master/nixpkgs/emacs.nix#L28
   treeSitterGrammars = pkgs.runCommandLocal "grammars" {} ''
@@ -24,7 +24,7 @@ with lib; let
   ];
   grammars = lib.getAttrs (map (lang: "tree-sitter-${lang}") langs) pkgs.tree-sitter.builtGrammars;
 in {
-  options.custom.emacs = {
+  options.custom.programs.emacs = {
     enable = mkEnableOption "Enable support for emacs.";
     emacs-application-framework =
       mkEnableOption "Enable support for emacs-application-framework.";
@@ -71,7 +71,7 @@ in {
       };
     })
 
-    (mkIf (pkgs.stdenv.isAarch64 == false && pkgs.stdenv.isDarwin == false && cfg.emacs-application-framework) {
+    (mkIf (pkgs.stdenv.isAarch64 == false && pkgs.stdenv.isDarwin == false && && config.targets.genericLinux.enable == false && cfg.emacs-application-framework) {
       home = {
         packages = with pkgs; [
           # eaf core

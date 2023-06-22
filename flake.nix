@@ -149,6 +149,15 @@
   } @ inputs: let
     inherit (self) outputs;
 
+    # Use our custom lib enhanced with nixpkgs and hm one
+    lib =
+      import ./lib {
+        lib = nixpkgs.lib;
+        inherit inputs self;
+      }
+      // nixpkgs.lib
+      // home-manager.lib;
+
     forEachSystem = nixpkgs.lib.genAttrs ["aarch64-linux" "x86_64-linux"];
 
     cachixDeployLibFor =
