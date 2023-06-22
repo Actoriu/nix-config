@@ -64,7 +64,7 @@ in {
             recursive = true;
           };
           ".spacemacs.d" = {
-            source = "${cleanSource ../../../../profiles/home-manager/programs/emacs/spacemacs.d}";
+            source = "${cleanSource ../../../profiles/home-manager/programs/emacs/spacemacs.d}";
             recursive = true;
           };
         };

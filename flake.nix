@@ -150,13 +150,14 @@
     inherit (self) outputs;
 
     # Use our custom lib enhanced with nixpkgs and hm one
-    lib =
-      import ./lib {
-        lib = nixpkgs.lib;
-        inherit inputs self;
+    lib = nixpkgs.lib.extend (final: prev:
+      {
+        my = import ./lib {
+          inherit inputs self;
+          lib = final;
+        };
       }
-      // nixpkgs.lib
-      // home-manager.lib;
+      // home-manager.lib);
 
     forEachSystem = nixpkgs.lib.genAttrs ["aarch64-linux" "x86_64-linux"];
 
@@ -173,6 +174,8 @@
 
     stateVersion = nixpkgs.lib.fileContents ./.version;
   in {
+    lib = lib.my;
+
     checks = forEachSystem (system: let
       pkgs = nixpkgs.legacyPackages.${system};
     in {
