@@ -71,7 +71,7 @@ in {
       };
     })
 
-    (mkIf (pkgs.stdenv.isAarch64 == false && pkgs.stdenv.isDarwin == false && && config.targets.genericLinux.enable == false && cfg.emacs-application-framework) {
+    (mkIf (pkgs.stdenv.isAarch64 == false && pkgs.stdenv.isDarwin == false && config.targets.genericLinux.enable == false && cfg.emacs-application-framework) {
       home = {
         packages = with pkgs; [
           # eaf core
