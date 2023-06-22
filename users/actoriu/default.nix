@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  non-nixos,
   pkgs,
   ...
 }: {
@@ -29,7 +30,6 @@
     ../../profiles/home-manager/programs/zoxide
     ../../profiles/home-manager/programs/zsh
     ../../profiles/home-manager/services/redshift
-    # ../../profiles/home-manager/targets/linux
   ];
 
   custom = {
@@ -39,6 +39,6 @@
       spacemacs = true;
       treesitter = true;
     };
-    targets.genericLinux = true;
+    targets.genericLinux.enable = non-nixos;
   };
 }

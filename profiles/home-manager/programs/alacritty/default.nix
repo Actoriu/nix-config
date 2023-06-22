@@ -7,6 +7,7 @@
   programs = {
     alacritty = {
       enable = true;
+      /*
       settings = {
         env = {
           TERM = "xterm-256color";
@@ -236,7 +237,7 @@
           #   { key = "B";              mods = "Command"; mode = "~Search";     action = "SearchBackward";        }
           # ])
         ];
-      };
+      }; */
     };
   };
 }

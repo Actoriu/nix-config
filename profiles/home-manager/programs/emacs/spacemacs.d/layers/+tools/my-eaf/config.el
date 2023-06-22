@@ -20,6 +20,7 @@
 (spacemacs|defc eaf-apps
   '(eaf-airshare
     eaf-browser
+    eaf-2048
     eaf-camera
     eaf-demo
     eaf-file-browser
@@ -28,41 +29,52 @@
     eaf-git
     eaf-image-viewer
     eaf-jupyter
+    eaf-js-video-player
+    eaf-map
     eaf-markdown-previewer
-    eaf-mermaid
+    eaf-markmap
     eaf-mindmap
     eaf-music-player
     eaf-netease-cloud-music
     eaf-org-previewer
     eaf-pdf-viewer
+    eaf-pyqterminal
     eaf-rss-reader
     eaf-system-monitor
     eaf-terminal
     eaf-video-player
-    eaf-vue-demo)
+    eaf-vue-demo
+    eaf-vue-tailwindcss)
   "The applications loaded from EAF package"
   '(set
     (const eaf-airshare)
     (const eaf-browser)
+    (const eaf-2048)
     (const eaf-camera)
     (const eaf-demo)
     (const eaf-file-browser)
     (const eaf-file-manager)
     (const eaf-file-sender)
+    (const eaf-git)
     (const eaf-image-viewer)
     (const eaf-jupyter)
+    (const eaf-js-video-player)
+    (const eaf-map)
     (const eaf-markdown-previewer)
-    (const eaf-mermaid)
+    (const eaf-markmap)
     (const eaf-mindmap)
     (const eaf-music-player)
     (const eaf-netease-cloud-music)
     (const eaf-org-previewer)
     (const eaf-pdf-viewer)
+    (const eaf-pyqterminal)
     (const eaf-rss-reader)
     (const eaf-system-monitor)
     (const eaf-terminal)
     (const eaf-video-player)
-    (const eaf-vue-demo))
+    (const eaf-vue-demo)
+    (const eaf-vue-tailwindcss)
+    )
   'eaf)
 
 

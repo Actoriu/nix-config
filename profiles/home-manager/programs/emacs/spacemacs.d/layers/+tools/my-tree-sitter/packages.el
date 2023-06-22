@@ -29,7 +29,7 @@
       (add-to-list 'tree-sitter-major-mode-language-alist '(lisp-mode . commonlisp))
       (tree-sitter-load 'elisp "elisp")
       (add-to-list 'tree-sitter-major-mode-language-alist '(emacs-lisp-mode . elisp))
-      (add-to-list 'tree-sitter-major-mode-language-alist '(inferior-emacs-lisp-mode . elisp))
+      (add-to-list 'tree-sitter-major-mode-language-alist '(ielm-mode . elisp))
       )
     )
   )

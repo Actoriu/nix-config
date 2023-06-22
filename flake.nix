@@ -218,6 +218,7 @@
           inherit inputs outputs stateVersion;
           desktop = null;
           hostname = "d630";
+          non-nixos = false;
           username = "actoriu";
           system = "x86_64-linux";
         };
@@ -234,6 +235,7 @@
           inherit inputs outputs stateVersion;
           desktop = null;
           hostname = "d630";
+          non-nixos = true;
           username = "actoriu";
           system = "x86_64-linux";
         };

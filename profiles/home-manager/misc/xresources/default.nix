@@ -75,7 +75,7 @@
       st.termname                           : xterm-256color
 
       ! --- The following options options can be reloaded via USR1 signal. ---
-      st.font                               : Sarasa Mono SC:pixelsize=24,Sarasa Mono SC Nerd:pixelsize=24,Noto Color Emoji,Symbols Nerd Font
+      st.font                               : Sarasa Fixed SC:pixelsize=24,Sarasa Mono SC Nerd:pixelsize=24,Noto Color Emoji:pixelsize=24,Symbols Nerd Font Mono:pixelsize=24
 
       ! -- URxvt -- !
 
@@ -97,13 +97,21 @@
       ! small value since urxvt doesnt know what to do when it encounters a glyph
       ! that is wider than the main font.
 
-      URxvt.font                            : xft:Sarasa Mono SC:pixelsize=24,xft:Sarasa Mono SC Nerd:pixelsize=24,xft:Noto Color Emoji:pixelsize=16,xft:Symbols Nerd Font:pixelsize=16
+      ! URxvt.font                            : xft:Sarasa Mono SC:pixelsize=24,xft:Sarasa Mono SC Nerd:pixelsize=24,xft:Noto Color Emoji:pixelsize=24,xft:Symbols Nerd Font Mono:pixelsize=24
+
+      ! URxvt.boldFont                        : xft:Sarasa Mono SC:bold:pixelsize=24,xft:Sarasa Mono SC Nerd:bold:pixelsize=24
+
+      ! URxvt.italicFont                      : xft:Sarasa Mono SC:italic:pixelsize=24,xft:Sarasa Mono SC Nerd:italic:pixelsize=24
+
+      ! URxvt.boldItalicFont                  : xft:Sarasa Mono SC:bold:italic:pixelsize=24,xft:Sarasa Mono SC Nerd:bold:italic:pixelsize=24
+
+      URxvt.font                            : xft:Sarasa Mono SC:pixelsize=24,xft:Sarasa Mono SC Nerd:pixelsize=24,xft:Noto Color Emoji:pixelsize=24:minspace=false,xft:Noto Emoji:pixelsize=24:minspace=false,xft:Symbola:pixelsize=24:minspace=false,xft:Symbols Nerd Font Mono:pixelsize=24:minspace=false
 
       URxvt.boldFont                        : xft:Sarasa Mono SC:bold:pixelsize=24,xft:Sarasa Mono SC Nerd:bold:pixelsize=24
 
       URxvt.italicFont                      : xft:Sarasa Mono SC:italic:pixelsize=24,xft:Sarasa Mono SC Nerd:italic:pixelsize=24
 
-      URxvt.boldItalicFont                  : xft:Sarasa Mono SC:bold:italic:pixelsize=24,xft:Sarasa Mono SC Nerd:bold:italic:pixelsize=24
+      URxvt.boldItalicFont                  : xft:Sarasa Mono SC:italic:pixelsize=24,xft:Sarasa Mono SC Nerd:bold:italic:pixelsize=24
 
       ! -- 颜色 -- !
       URxvt.depth                           : 32
@@ -217,10 +225,10 @@
       ! uncomment to output a summary of each font s metrics
       ! xterm.reportFonts                    : 1
       XTerm*fontMenu*fontdefault*Label      : Default
-      XTerm*faceName                        : Iosevka:antialias=1:pixelsize=24
+      XTerm*faceName                        : Sarasa Fixed SC:antialias=1:pixelsize=24
       ! xterm*faceNameDoublesize              : WenQuanYi Micro Hei Mono:antialias=1:pixelsize=23
       XTerm*cjkWidth                        : 1
-      XTerm*faceNameDoublesize              : Noto Sans Mono CJK SC:antialias=1:pixelsize=24
+      XTerm*faceNameDoublesize              : Sarasa Fixed SC:antialias=1:pixelsize=24
       XTerm*faceSize                        : 12.5
       XTerm*faceSize1                       : 14
       XTerm*faceSize2                       : 15
