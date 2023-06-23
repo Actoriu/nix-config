@@ -165,7 +165,9 @@
   } @ inputs:
 let
     # Use our custom lib enhanced with nixpkgs and hm one
-    lib = import ./lib {lib = nixpkgs.lib;} // nixpkgs.lib // home-manager.lib;
+    lib = import ./lib {inherit inputs self; lib = nixpkgs.lib;} // nixpkgs.lib // home-manager.lib;
+
+    stateVersion = nixpkgs.lib.fileContents ./.version;
   in
     (flake-parts.lib.evalFlakeModule
       {
@@ -174,6 +176,7 @@ let
       }
       {
         debug = true;
+        systems = ["aarch64-linux" "x86_64-linux"];
         imports = [
           (_: {
             perSystem = {inputs', ...}: {
@@ -185,7 +188,6 @@ let
           })
           ./flake-parts
         ];
-        systems = ["x86_64-linux"];
       })
     .config
     .flake;
