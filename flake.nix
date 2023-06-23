@@ -44,6 +44,21 @@
       url = "github:numtide/flake-utils";
     };
 
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs = {
+        nixpkgs-lib.follows = "nixpkgs";
+      };
+    };
+
+    flake-root = {
+      url = "github:srid/flake-root";
+    };
+
+    mission-control = {
+      url = "github:Platonic-Systems/mission-control";
+    };
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs = {
@@ -141,23 +156,53 @@
 
   outputs = {
     self,
+    flake-parts,
     cachix-deploy-flake,
     nixpkgs,
     home-manager,
     nix-on-droid,
     ...
-  } @ inputs: let
+  } @ inputs:
+let
+    # Use our custom lib enhanced with nixpkgs and hm one
+    lib = import ./lib {lib = nixpkgs.lib;} // nixpkgs.lib // home-manager.lib;
+  in
+    (flake-parts.lib.evalFlakeModule
+      {
+        inherit inputs;
+        specialArgs = {inherit lib;};
+      }
+      {
+        debug = true;
+        imports = [
+          (_: {
+            perSystem = {inputs', ...}: {
+              # make pkgs available to all `perSystem` functions
+              _module.args.pkgs = inputs'.nixpkgs.legacyPackages;
+              # make custom lib available to all `perSystem` functions
+              _module.args.lib = lib;
+            };
+          })
+          ./flake-parts
+        ];
+        systems = ["x86_64-linux"];
+      })
+    .config
+    .flake;
+
+    /* let
     inherit (self) outputs;
 
     # Use our custom lib enhanced with nixpkgs and hm one
-    lib = nixpkgs.lib.extend (final: prev:
-      {
-        my = import ./lib {
-          inherit inputs self;
-          lib = final;
-        };
-      }
-      // home-manager.lib);
+    # lib = nixpkgs.lib.extend (final: prev:
+    #   {
+    #     my = import ./lib {
+    #       inherit inputs self;
+    #       lib = final;
+    #     };
+    #   }
+    #   // nixpkgs.lib
+    #   // home-manager.lib);
 
     forEachSystem = nixpkgs.lib.genAttrs ["aarch64-linux" "x86_64-linux"];
 
@@ -174,7 +219,7 @@
 
     stateVersion = nixpkgs.lib.fileContents ./.version;
   in {
-    lib = lib.my;
+    # lib = lib.my;
 
     checks = forEachSystem (system: let
       pkgs = nixpkgs.legacyPackages.${system};
@@ -211,7 +256,6 @@
         '';
       };
     });
-    */
 
     formatter = forEachSystem (system: formatterPackArgsFor.${system});
 
@@ -224,6 +268,7 @@
         import ./pkgs {inherit pkgs;}
     );
 
+    /*
     nixosConfigurations = {
       d630 = nixpkgs.lib.nixosSystem {
         specialArgs = {
@@ -235,7 +280,7 @@
           system = "x86_64-linux";
         };
         modules = [
-          ./flake-parts/nixos.nix
+          # ./flake-parts/nixos.nix
         ];
       };
     };
@@ -252,7 +297,7 @@
           system = "x86_64-linux";
         };
         modules = [
-          ./flake-parts/home.nix
+          # ./flake-parts/home.nix
         ];
       };
     };
@@ -276,5 +321,5 @@
         ];
       };
     };
-  };
+  }; */
 }
