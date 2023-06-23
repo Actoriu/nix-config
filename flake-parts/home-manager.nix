@@ -6,18 +6,17 @@
 }: {
   perSystem = {
     config,
+    inputs',
     lib,
     pkgs,
     ...
   }: let
     # buildSuites = profiles: f: lib.mapAttrs (_: lib.flatten) (lib.fix (f profiles));
-
     # homeModules = lib.buildModuleList ../modules/home-manager;
     # homeProfiles = lib.rakeLeaves ../profiles/home-manager;
     # homeSuites =
     #   buildSuites homeProfiles (profiles: suites: {
     #   });
-
     defaultModules = [
       # make flake inputs accessible in NixOS
       {
@@ -30,13 +29,15 @@
     mkHomeConfig = {
       extraModules ? [],
       hostname ? null,
+      non-nixos ? true,
       username ? null,
       system ? "x86_64-linux",
+      stateVersion ? lib.fileContents ../.version,
       ...
     }: {
       ${username} = inputs.home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        extraSpecialArgs = {inherit username stateVersion;};
+        extraSpecialArgs = {inherit inputs non-nixos username stateVersion;};
         modules =
           defaultModules
           ++ extraModules
@@ -47,7 +48,7 @@
     legacyPackages.homeConfigurations = lib.mkMerge [
       (mkHomeConfig {
         hostname = "d630";
-        # username = "actoriu";
+        username = "actoriu";
         extraModules = [];
       })
     ];

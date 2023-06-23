@@ -34,12 +34,12 @@
 
   custom = {
     programs = {
-      emacs = {
-        enable = true;
-        emacs-application-framework = false;
-        spacemacs = true;
-        treesitter = true;
-      };
+      # emacs = {
+      #   enable = true;
+      #   emacs-application-framework = false;
+      #   spacemacs = true;
+      #   treesitter = true;
+      # };
       xst.enable = true;
     };
     targets.genericLinux.enable = non-nixos;

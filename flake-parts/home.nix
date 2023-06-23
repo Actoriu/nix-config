@@ -33,7 +33,7 @@
         else "/home"
       )
       + "/${username}";
-    stateVersion = "${stateVersion}";
+    stateVersion = stateVersion;
   };
 
   programs.home-manager.enable = true;

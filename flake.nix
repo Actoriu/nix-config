@@ -154,20 +154,15 @@
     };
   };
 
-  outputs = {
-    self,
-    flake-parts,
-    cachix-deploy-flake,
-    nixpkgs,
-    home-manager,
-    nix-on-droid,
-    ...
-  } @ inputs:
-let
+  outputs = inputs @ {flake-parts, ...}: let
     # Use our custom lib enhanced with nixpkgs and hm one
-    lib = import ./lib {inherit inputs self; lib = nixpkgs.lib;} // nixpkgs.lib // home-manager.lib;
-
-    stateVersion = nixpkgs.lib.fileContents ./.version;
+    lib =
+      import ./lib {
+        inherit inputs;
+        lib = inputs.nixpkgs.lib;
+      }
+      // inputs.nixpkgs.lib
+      // inputs.home-manager.lib;
   in
     (flake-parts.lib.evalFlakeModule
       {
@@ -192,7 +187,8 @@ let
     .config
     .flake;
 
-    /* let
+  /*
+       let
     inherit (self) outputs;
 
     # Use our custom lib enhanced with nixpkgs and hm one
@@ -323,5 +319,6 @@ let
         ];
       };
     };
-  }; */
+  };
+  */
 }

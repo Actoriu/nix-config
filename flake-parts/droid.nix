@@ -23,14 +23,14 @@
     ];
 
     mkDroidConfig = {
-      devicename ? "default",
       extraModules ? [],
-      hostname ? null,
+      hostname ? "default",
       username ? null,
       system ? "aarch64-linux",
+      stateVersion ? lib.fileContents ../.version,
       ...
     }: {
-      ${devicename} = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
+      ${hostname} = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
         pkgs = import inputs.nixpkgs {
           inherit system;
           overlays = [
@@ -42,7 +42,7 @@
         modules =
           defaultModules
           ++ extraModules
-          ++ lib.optional (hostname != null) ../hosts/droid/${hostname}
+          ++ lib.optional (hostname != null) ../hosts/${hostname}
           ++ [
             ({
               config,
@@ -57,13 +57,39 @@
                 };
               };
 
-              system.stateVersion = "${stateVersion}";
+              system.stateVersion = stateVersion;
 
               home-manager = {
                 extraSpecialArgs = {inherit username stateVersion;};
                 # useGlobalPkgs = true;
                 useUserPackages = true;
-                config = ./home.nix ;
+                config = {
+                  config,
+                  lib,
+                  pkgs,
+                  ...
+                }: {
+                  imports =
+                    [
+                      inputs.impermanence.nixosModules.home-manager.impermanence
+                      inputs.nur.hmModules.nur
+                      inputs.sops-nix.homeManagerModules.sops
+                    ]
+                    ++ lib.optional (username != null) ../users/${username};
+
+                  nixpkgs = {
+                    config = {
+                      allowUnfree = true;
+                      # Workaround for https://github.com/nix-community/home-manager/issues/2942
+                      allowUnfreePredicate = _: true;
+                    };
+                    # overlays = builtins.attrValues outputs.overlays;
+                  };
+
+                  home.stateVersion = stateVersion;
+                  programs.home-manager.enable = true;
+                  manual.manpages.enable = false;
+                };
               };
             })
           ];
@@ -72,8 +98,10 @@
   in {
     legacyPackages.droidConfigurations = lib.mkMerge [
       (mkDroidConfig {
-        # devicename = "oneplus5";
-        extraModules = [];
+        hostname = "oneplus5";
+        username = "nix-on-droid";
+        system = "aarch64-linux";
+        # extraModules = [];
       })
     ];
   };

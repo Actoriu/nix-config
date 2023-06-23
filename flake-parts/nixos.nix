@@ -1,78 +1,76 @@
 {
-  config,
   inputs,
   lib,
-  outputs,
   pkgs,
-  self,
   stateVersion,
+  self,
   ...
 }: let
-  # nixosModules = lib.buildModuleList ../modules/nixos;
-  # nixosProfiles = lib.rakeLeaves ../profiles/nixos;
-  # nixosSuites = ;
-  nixosSystem = args:
-    (lib.makeOverridable inputs.nixpkgs.lib.nixosSystem)
-    (lib.recursiveUpdate args {
-      # specialArgs = {
-      #   profiles = nixosProfiles;
-      #   suites = nixosSuites;
-      #   users = nixosUsers;
-      #   containers = nixosContainers;
-      #   inherit self inputs homeProfiles homeSuites;
-      # };
-      modules =
-        args.modules
-        ++ [
-          {
-            networking.hostName = args.hostname;
+  /*
+  buildSuites = profiles: f: lib.mapAttrs (_: lib.flatten) (lib.fix (f profiles));
 
-            system.stateVersion = "${stateVersion}";
-
-            nixpkgs = {
-              config = {
-                allowUnfree = true;
-                # for build nvidia
-                allowBroken = true;
-              };
-              hostPlatform = lib.mkDefault args.system;
-              # overlays = builtins.attrValues outputs.overlays;
-            };
-
-            home-manager = {
-              extraSpecialArgs = {
-                inherit inputs outputs stateVersion;
-                inherit (args) non-nixos username;
-              };
-              # useGlobalPkgs = true;
-              useUserPackages = true;
-              users.${args.username} = import ./home.nix;
-            };
-          }
-        ];
-    });
-
+  nixosModules = lib.buildModuleList ../modules/nixos;
+  nixosProfiles = lib.rakeLeaves ../profiles/nixos;
+  nixosSuites = buildSuites nixosProfiles (profiles: suites: {
+    base = with profiles; [nix];
+    hardware = with profiles; [
+      hardware.audio.pipewire
+      hardware.bluetooth
+      hardware.cpu.intel
+      hardware.opengl
+      hardware.printers
+      hardware.video.nvidia
+      .340
+      xx
+    ];
+    graphical = with profiles; [fonts];
+    network = with profiles; [
+      networking.networkmanager
+    ];
+    power = with profiles; [
+      power-manager.acpid
+      power-manager.powertop
+      power-manager.tlp
+      power-manager.upower
+    ];
+    security = with profiles; [security.polkit];
+    services = with profiles; [services.laptop];
+    shell = with profiles; [
+      shell.zsh
+    ];
+  });
+  */
   defaultModules =
     # nixosModules ++
     [
+      # make flake inputs accessible in NixOS
+      {
+        _module.args.self = self;
+        _module.args.inputs = inputs;
+        _module.args.lib = lib;
+      }
+      # load common modules
       ({...}: {
         imports = [
-          inputs.disko.nixosModules.disko
-          inputs.home-manager.nixosModules.home-manager
           inputs.impermanence.nixosModules.impermanence
+          inputs.disko.nixosModules.disko
           inputs.nur.nixosModules.nur
           inputs.sops-nix.nixosModules.sops
+          inputs.home-manager.nixosModules.home-manager
         ];
       })
     ];
-  /*
+
   mkNixosConfig = {
     extraModules ? [],
-      hostname ? null,
-      username ? null,
-      system ? "x86_64-linux",
+    hostname ? null,
+    non-nixos ? false,
+    username ? null,
+    system ? "x86_64-linux",
+    stateVersion ? lib.fileContents ../.version,
+    ...
   }: {
-    ${hostname} = inputs.nixpkgs.lib.nixosSystem {
+    ${hostname} = lib.nixosSystem {
       specialArgs = {
         inherit username stateVersion;
         # profiles = nixosProfiles;
@@ -85,13 +83,9 @@
         ++ [
           ({
             config,
-              lib,
-              ...
+            lib,
+            ...
           }: {
-            networking.hostName = hostname;
-
-            system.stateVersion = "${stateVersion}";
-
             nixpkgs = {
               config = {
                 allowUnfree = true;
@@ -99,11 +93,14 @@
                 allowBroken = true;
               };
               hostPlatform = lib.mkDefault system;
-              # overlays = builtins.attrValues outputs.overlays;
             };
 
+            networking.hostName = lib.mkDefault hostname;
+
+            system.stateVersion = stateVersion;
+
             home-manager = {
-              extraSpecialArgs = {inherit inputs outputs username stateVersion;};
+              extraSpecialArgs = {inherit inputs non-nixos username stateVersion;};
               # useGlobalPkgs = true;
               useUserPackages = true;
               users.${username} = import ./home.nix;
@@ -111,14 +108,13 @@
           })
         ];
     };
-    };
-  */
-in {
-  d630 = nixosSystem {
-    hostname = "d630";
-    non-nixos = false;
-    username = "actoriu";
-    system = "x86_64-linux";
-    modules = defaultModules ++ [];
   };
+in {
+  flake.nixosConfigurations = lib.mkMerge [
+    (mkNixosConfig {
+      hostname = "d630";
+      username = "actoriu";
+      extraModules = [];
+    })
+  ];
 }
