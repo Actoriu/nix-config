@@ -174,7 +174,11 @@
         systems = ["aarch64-linux" "x86_64-linux"];
         imports = [
           (_: {
-            perSystem = {inputs', ...}: {
+            perSystem = {
+              inputs',
+              pkgs,
+              ...
+            }: {
               # make pkgs available to all `perSystem` functions
               _module.args.pkgs = inputs'.nixpkgs.legacyPackages;
               # make custom lib available to all `perSystem` functions
