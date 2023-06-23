@@ -6,7 +6,6 @@
   self,
   ...
 }: let
-  /*
   buildSuites = profiles: f: lib.mapAttrs (_: lib.flatten) (lib.fix (f profiles));
 
   nixosModules = lib.buildModuleList ../modules/nixos;
@@ -19,9 +18,7 @@
       hardware.cpu.intel
       hardware.opengl
       hardware.printers
-      hardware.video.nvidia
-      .340
-      xx
+      hardware.video.nvidia.340xx
     ];
     graphical = with profiles; [fonts];
     network = with profiles; [
@@ -39,10 +36,10 @@
       shell.zsh
     ];
   });
-  */
+
   defaultModules =
-    # nixosModules ++
-    [
+    nixosModules
+    ++ [
       # make flake inputs accessible in NixOS
       {
         _module.args.self = self;
