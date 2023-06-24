@@ -1,6 +1,6 @@
 {...}: {
   imports = [
-    ./config/i18n.nix
-    ./boot/loader
+    # ./config/i18n.nix
+    # ./boot/loader
   ];
 }
