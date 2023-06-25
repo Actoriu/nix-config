@@ -16,7 +16,7 @@
   (cond
    ((or (executable-find "python3")
         (and (executable-find "python")
-             (> (length (shell-command-to-string "python --version | grep 'Python 3'")) 0)))
+             (> (length (shell-command-to-string "python --version | grep 'python 3'")) 0)))
     t)
    ;; (t (message "Python binary not found."))
    ))
@@ -47,7 +47,8 @@
   "Check basic requirements for EAF to run."
   (cond
    ((and (display-graphic-p)
-         (my-eaf-detect))
+         (my-eaf-python-detect)
+         (my-eaf-pip-detect))
     t)
    ;; (t (message "Eaf render candidates that only can be run in a graphical environment."))
    ))

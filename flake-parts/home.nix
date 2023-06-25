@@ -9,7 +9,7 @@
   username,
   ...
 }: {
-  imports = lib.optional (username != null) ../users/${username};
+  imports = lib.optional (username != null) ../profiles/users/${username};
 
   nixpkgs = {
     config = {

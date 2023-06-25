@@ -16,7 +16,7 @@
     [
       inputs.home-manager.nixosModules.home-manager
     ]
-    ++ lib.optional (hostname != null) ../hosts/${hostname};
+    ++ lib.optional (hostname != null) ../profiles/hosts/${hostname};
 
   networking.hostName = hostname;
 

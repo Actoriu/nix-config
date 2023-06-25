@@ -1,11 +1,7 @@
 {
   config,
-  inputs,
   lib,
-  outputs,
   pkgs,
-  username,
-  version,
   ...
 }: {
   # Set up nix for flakes
@@ -61,37 +57,5 @@
 
     # Backup etc files instead of failing to activate generation if a file already exists in /etc
     etcBackupExtension = ".bak";
-  };
-
-  # Read the changelog before changing this value
-  system.stateVersion = "${version}";
-
-  # Configure home-manager
-  home-manager = {
-    extraSpecialArgs = {inherit inputs outputs version;};
-    # useGlobalPkgs = true;
-    useUserPackages = true;
-    config = {
-      config,
-      lib,
-      pkgs,
-      ...
-    }: {
-      nixpkgs = {
-        config = {
-          allowUnfree = true;
-          # Workaround for https://github.com/nix-community/home-manager/issues/2942
-          allowUnfreePredicate = _: true;
-        };
-        overlays = builtins.attrValues outputs.overlays;
-      };
-      home.stateVersion = "${version}";
-      manual.manpages.enable = false;
-      programs.home-manager.enable = true;
-      imports = [
-        ../../../modules/home-manager
-        ../../../users/${username}
-      ];
-    };
   };
 }

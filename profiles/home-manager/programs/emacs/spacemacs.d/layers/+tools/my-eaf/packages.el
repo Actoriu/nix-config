@@ -67,15 +67,22 @@
     (eaf-browser-enable-adblocker t)
     (eaf-browser-enable-autofill t)
     (eaf-browser-remember-history nil)
-    (eaf-browser-default-zoom (if (> (frame-pixel-width) 3000) 2.3 1))
-    (eaf-browser-font-family "Sans Serif")
-    (eaf-jupyter-font-family "Monospace")
+    ;; (eaf-webengine-default-zoom (if (> (frame-pixel-width) 3000) 2.3 1))
+    (setq eaf-webengine-font-family "Sarasa Gothic SC")
+    (setq eaf-webengine-fixed-font-family "Sarasa Fixed SC")
+    (setq eaf-webengine-serif-font-family "Sarasa Fixed Slab SC")
+    (setq eaf-webengine-font-size 18)
+    (setq eaf-webengine-fixed-font-size 18)
+    (eaf-jupyter-font-family "Sarasa Fixed SC")
     (eaf-jupyter-font-size 18)
     (eaf-marker-fontsize 18)
     (eaf-music-default-file "~/Music")
+    (eaf-music-cache-dir "~/Music")
     (eaf-pdf-marker-fontsize 18)
-    (eaf-terminal-font-family "Monospace")
+    (eaf-terminal-font-family "Sarasa Fixed SC")
     (eaf-terminal-font-size 18)
+    (eaf-pyqterminal-font-family "Sarasa Fixed SC")
+    (eaf-pyqterminal-font-size 24)
     :init
     (progn
       (setq eaf-config-location (expand-file-name "eaf" spacemacs-cache-directory))
@@ -244,8 +251,6 @@
     (progn
       (dolist (app eaf-apps)
         (require app nil 'noerror))
-      (setq browse-url-browser-function 'eaf-open-browser)
-      (setq eaf-browser-enable-adblocker "true")
 
       (define-key eaf-mode-map* (kbd "C-SPC C-SPC") 'execute-extended-command)
       ;;;; TODO need to consider the current pdf view mode which does not need to be pdf view mode
@@ -408,6 +413,10 @@
     :init
     (setq netease-cloud-music-cache-directory
           (expand-file-name "netease-cloud-music" spacemacs-cache-directory))
+    :config
+    (progn
+      (require 'netease-cloud-music-ui)
+      (require 'netease-cloud-music-comment))
     ))
 
 (defun my-eaf/init-snails ()

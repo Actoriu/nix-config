@@ -80,13 +80,6 @@
     #   };
     # };
 
-    haumea = {
-      url = "github:nix-community/haumea";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-      };
-    };
-
     impermanence = {
       url = "github:nix-community/impermanence";
     };
@@ -146,7 +139,7 @@
     nix-on-droid,
     cachix-deploy-flake,
     ...
-  }@inputs: let
+  } @ inputs: let
     inherit (self) outputs;
 
     forEachSystem = nixpkgs.lib.genAttrs ["aarch64-linux" "x86_64-linux"];
@@ -159,7 +152,9 @@
       system: let
         pkgs = nixpkgs.legacyPackages.${system};
       in
-        import ./flake-parts/treefmt.nix {inherit inputs pkgs self;}
+        import ./flake-parts/treefmt.nix {
+          inherit inputs pkgs self;
+        }
     );
 
     stateVersion = nixpkgs.lib.fileContents ./.version;
@@ -179,7 +174,9 @@
           overlays = [inputs.devshell.overlays.default];
         };
       in
-        import ./flake-parts/shell/devshell.nix {inherit formatterPackArgsFor pkgs self system;};
+        import ./flake-parts/shell/devshell.nix {
+          inherit formatterPackArgsFor pkgs self system;
+        };
     });
 
     /*
@@ -199,7 +196,7 @@
         '';
       };
     });
-*/
+    */
 
     formatter = forEachSystem (system: formatterPackArgsFor.${system});
 
@@ -223,10 +220,10 @@
           system = "x86_64-linux";
         };
         modules = [
-      inputs.disko.nixosModules.disko
-      inputs.impermanence.nixosModules.impermanence
-      inputs.nur.nixosModules.nur
-      inputs.sops-nix.nixosModules.sops
+          inputs.disko.nixosModules.disko
+          inputs.impermanence.nixosModules.impermanence
+          inputs.nur.nixosModules.nur
+          inputs.sops-nix.nixosModules.sops
           ./flake-parts/nixos.nix
         ];
       };
@@ -244,9 +241,9 @@
           system = "x86_64-linux";
         };
         modules = [
-      inputs.impermanence.nixosModules.home-manager.impermanence
-      inputs.nur.hmModules.nur
-      inputs.sops-nix.homeManagerModules.sops
+          inputs.impermanence.nixosModules.home-manager.impermanence
+          inputs.nur.hmModules.nur
+          inputs.sops-nix.homeManagerModules.sops
           ./flake-parts/home.nix
         ];
       };
