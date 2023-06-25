@@ -10,6 +10,8 @@
     ../../home-manager/i18n/input-method/fcitx5
     ../../home-manager/lang/nix
     ../../home-manager/misc/fontconfig
+    ../../home-manager/misc/gtk
+    ../../home-manager/misc/qt
     ../../home-manager/misc/xdg
     ../../home-manager/misc/xresources
     ../../home-manager/programs/alacritty
