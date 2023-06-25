@@ -1,7 +1,7 @@
 {
     "dnsmasq-china-list": {
         "cargoLocks": null,
-        "date": "2023-04-25",
+        "date": "2023-06-24",
         "extract": null,
         "name": "dnsmasq-china-list",
         "passthru": null,
@@ -13,11 +13,11 @@
             "name": null,
             "owner": "felixonmars",
             "repo": "dnsmasq-china-list",
-            "rev": "8f2c0d22bd4cf975cca64d4b0640b6f159083eb8",
-            "sha256": "sha256-de5EDh9ekNJ+2bPQRSgMCRmcaVwdsXa4Ay7S3P3oxMM=",
+            "rev": "534c9e65ff99986e92bf30bcdc9629a6c24ecf00",
+            "sha256": "sha256-cyMtD0a8RqZvVUBmsapf2DYWQs65NQkcXFvFgHFVnVE=",
             "type": "github"
         },
-        "version": "8f2c0d22bd4cf975cca64d4b0640b6f159083eb8"
+        "version": "534c9e65ff99986e92bf30bcdc9629a6c24ecf00"
     },
     "fcitx5-material-color": {
         "cargoLocks": null,
@@ -56,7 +56,7 @@
     },
     "fcitx5-pinyin-zhwiki": {
         "cargoLocks": null,
-        "date": "2023-03-29",
+        "date": "2023-06-05",
         "extract": null,
         "name": "fcitx5-pinyin-zhwiki",
         "passthru": null,
@@ -67,11 +67,11 @@
             "type": "url",
             "url": "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.4/zhwiki-20230329.dict.yaml"
         },
-        "version": "953d78e098c830f8ea0e5d4e3aa3283509aea8ad"
+        "version": "7816306f27cdbb79afd6319ad8fe8970708db4b0"
     },
     "gfwlist": {
         "cargoLocks": null,
-        "date": "2023-03-26",
+        "date": "2023-05-19",
         "extract": null,
         "name": "gfwlist",
         "passthru": null,
@@ -83,10 +83,10 @@
             "name": null,
             "owner": "gfwlist",
             "repo": "gfwlist",
-            "rev": "c9362bfe139cda7ba89c85835668cdbebce7b4fd",
-            "sha256": "sha256-XqK2eA9u6YMDZSMp3Kv93P8kn8lvR8tcrQkicsv6k0g=",
+            "rev": "7923ab2ccb112c0416be2a8d86cbae2fcf0e9b68",
+            "sha256": "sha256-z9lKwhIpPG3RwYXWvqLO8BaI0KJ3on1fPThZBpnNrEs=",
             "type": "github"
         },
-        "version": "c9362bfe139cda7ba89c85835668cdbebce7b4fd"
+        "version": "7923ab2ccb112c0416be2a8d86cbae2fcf0e9b68"
     }
 }

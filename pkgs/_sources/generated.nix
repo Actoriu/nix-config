@@ -3,26 +3,26 @@
 {
   dnsmasq-china-list = {
     pname = "dnsmasq-china-list";
-    version = "8f2c0d22bd4cf975cca64d4b0640b6f159083eb8";
-    src = fetchFromGitHub ({
+    version = "534c9e65ff99986e92bf30bcdc9629a6c24ecf00";
+    src = fetchFromGitHub {
       owner = "felixonmars";
       repo = "dnsmasq-china-list";
-      rev = "8f2c0d22bd4cf975cca64d4b0640b6f159083eb8";
+      rev = "534c9e65ff99986e92bf30bcdc9629a6c24ecf00";
       fetchSubmodules = false;
-      sha256 = "sha256-de5EDh9ekNJ+2bPQRSgMCRmcaVwdsXa4Ay7S3P3oxMM=";
-    });
-    date = "2023-04-25";
+      sha256 = "sha256-cyMtD0a8RqZvVUBmsapf2DYWQs65NQkcXFvFgHFVnVE=";
+    };
+    date = "2023-06-24";
   };
   fcitx5-material-color = {
     pname = "fcitx5-material-color";
     version = "2256feeae48dcc87f19a3cfe98f171862f8fcace";
-    src = fetchFromGitHub ({
+    src = fetchFromGitHub {
       owner = "hosxy";
       repo = "Fcitx5-Material-Color";
       rev = "2256feeae48dcc87f19a3cfe98f171862f8fcace";
       fetchSubmodules = false;
       sha256 = "sha256-i9JHIJ+cHLTBZUNzj9Ujl3LIdkCllTWpO1Ta4OT1LTc=";
-    });
+    };
     date = "2021-02-21";
   };
   fcitx5-pinyin-moegirl = {
@@ -36,23 +36,23 @@
   };
   fcitx5-pinyin-zhwiki = {
     pname = "fcitx5-pinyin-zhwiki";
-    version = "953d78e098c830f8ea0e5d4e3aa3283509aea8ad";
+    version = "7816306f27cdbb79afd6319ad8fe8970708db4b0";
     src = fetchurl {
       url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.4/zhwiki-20230329.dict.yaml";
       sha256 = "sha256-0B02FGISHqvrBUGkERdplhrx8zo6SV9hG2qRbSUqqd0=";
     };
-    date = "2023-03-29";
+    date = "2023-06-05";
   };
   gfwlist = {
     pname = "gfwlist";
-    version = "c9362bfe139cda7ba89c85835668cdbebce7b4fd";
-    src = fetchFromGitHub ({
+    version = "7923ab2ccb112c0416be2a8d86cbae2fcf0e9b68";
+    src = fetchFromGitHub {
       owner = "gfwlist";
       repo = "gfwlist";
-      rev = "c9362bfe139cda7ba89c85835668cdbebce7b4fd";
+      rev = "7923ab2ccb112c0416be2a8d86cbae2fcf0e9b68";
       fetchSubmodules = false;
-      sha256 = "sha256-XqK2eA9u6YMDZSMp3Kv93P8kn8lvR8tcrQkicsv6k0g=";
-    });
-    date = "2023-03-26";
+      sha256 = "sha256-z9lKwhIpPG3RwYXWvqLO8BaI0KJ3on1fPThZBpnNrEs=";
+    };
+    date = "2023-05-19";
   };
 }
