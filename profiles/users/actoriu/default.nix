@@ -26,6 +26,7 @@
     ../../home-manager/programs/neovim
     ../../home-manager/programs/rofi
     ../../home-manager/programs/ssh
+    ../../home-manager/programs/starship
     ../../home-manager/programs/tmux
     ../../home-manager/programs/urxvt
     ../../home-manager/programs/zathura

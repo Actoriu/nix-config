@@ -121,7 +121,7 @@
           src = pkgs.zsh-vi-mode;
           file = "share/zsh-vi-mode/zsh-vi-mode.plugin.zsh";
         }
-        {
+        /* {
           name = "powerlevel10k";
           src = pkgs.zsh-powerlevel10k;
           file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
@@ -133,7 +133,7 @@
             dir = "bin";
           };
           file = "bin/zsh-p10k.zsh";
-        }
+        } */
       ];
     };
   };
