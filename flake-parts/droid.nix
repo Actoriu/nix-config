@@ -11,14 +11,6 @@
 }: {
   imports = lib.optional (hostname != null) ../profiles/hosts/${hostname};
 
-  nixpkgs = {
-    config = {
-      allowUnfree = true;
-      # for build nvidia
-      allowBroken = true;
-    };
-  };
-
   system.stateVersion = "${stateVersion}";
 
   home-manager = {
