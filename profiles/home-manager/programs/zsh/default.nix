@@ -63,13 +63,6 @@
         export LESS_TERMCAP_ue=$'\E[0m'
         export LESS_TERMCAP_us=$'\E[01;32m'
 
-        # powerlevel10k
-        # source ${zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
-        # [[ ! -f $XDG_CONFIG_HOME/zsh/.p10k.zsh ]] || source "$XDG_CONFIG_HOME/zsh/.p10k.zsh"
-        # source ${zsh-fast-syntax-highlighting}/share/zsh/site-functions/fast-syntax-highlighting.plugin.zsh
-        # source ${zsh-history-substring-search}/share/zsh-history-substring-search/zsh-history-substring-search.zsh
-        # source ${zsh-you-should-use}/share/zsh/plugins/you-should-use/you-should-use.plugin.zsh
-
         # eval "$(jump shell)"
         # eval $(thefuck --alias)
         # function set_win_title() {
@@ -121,19 +114,19 @@
           src = pkgs.zsh-vi-mode;
           file = "share/zsh-vi-mode/zsh-vi-mode.plugin.zsh";
         }
-        /* {
-          name = "powerlevel10k";
-          src = pkgs.zsh-powerlevel10k;
-          file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
-        }
-        {
-          name = "powerlevel10k-config";
-          src = pkgs.substituteAll {
-            src = ./zsh-p10k.zsh;
-            dir = "bin";
-          };
-          file = "bin/zsh-p10k.zsh";
-        } */
+        # {
+        #   name = "powerlevel10k";
+        #   src = pkgs.zsh-powerlevel10k;
+        #   file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
+        # }
+        # {
+        #   name = "powerlevel10k-config";
+        #   src = pkgs.substituteAll {
+        #     src = ./zsh-p10k.zsh;
+        #     dir = "bin";
+        #   };
+        #   file = "bin/zsh-p10k.zsh";
+        # }
       ];
     };
   };
