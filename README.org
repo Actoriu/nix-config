@@ -41,13 +41,19 @@
 + shell: zsh
 + Monofont: Iosevka Term
 
+Built for Life, Liberty, and the Open Road.
+
++ 100% Immutable
++ 100% Declarative
++ 100% Reproducible
+
 * Table of Contents                                       :TOC_4_gh:noexport:
 - [[#introduction][Introduction]]
   - [[#getting-started][Getting Started]]
   - [[#making-changes][Making Changes]]
 - [[#operating-system][Operating System]]
+  - [[#non-nixos][Non-Nixos]]
   - [[#nixpkgs][Nixpkgs]]
-  - [[#flake-utils][Flake-utils]]
   - [[#home-manager][Home Manager]]
   - [[#nix-on-droid][Nix-on-droid]]
 - [[#development-shells][Development Shells]]
@@ -56,7 +62,7 @@
 
 * Introduction
 
-This is my personal configuration for [[https://linux.org][GNU/Linux]] systems. It enables a consistent experience and computing environment across all of my machines. This project is written with [[https://gnu.org/software/emacs/][GNU/Emacs]], leveraging its capabilities for [[https://doi.org/10.1093/comjnl/27.2.97][Literate Programming]], a technique where programs are written in a natural language, such as English, interspersed with snippets of code to describe a software project.
+This is my personal configuration for [[https://linux.org][GNU/Linux]] systems. It enables a consistent experience and computing environment across all of my machines. This project is written with [[https://gnu.org/software/emacs/][GNU/Emacs]], leveraging its capabilities for [[https://doi.org/10.1093/comjnl/27.2.97][Literate Programming]], a technique where programs are written in a natural language, such as Chinese, interspersed with snippets of code to describe a software project.
 
 ** Getting Started
 
@@ -83,15 +89,15 @@ The ~nixos-rebuild~ command updates the system so that it corresponds to the con
 After making changes to the configuration the ~switch~ command will build and activate a new configuration.
 
 #+begin_example
-# Build and activate a new configuration.
-sudo nixos-rebuild switch --flake $FLAKE#$HOSTNAME
+  # Build and activate a new configuration.
+  sudo nixos-rebuild switch --flake .#hostname
 #+end_example
 
 Instead of building a new configuration, it's possible to rollback to a previous generation using the ~nixos-rebuild~ command, by supplying the ~--rollback~ argument.
 
 #+begin_example
-# Rollback to the previous generation.
-sudo nixos-rebuild switch --rollback
+  # Rollback to the previous generation.
+  sudo nixos-rebuild switch --rollback
 #+end_example
 
 * Operating System
@@ -103,69 +109,63 @@ sudo nixos-rebuild switch --rollback
 
 [[https://nixos.org][NixOS]] is a purely functional Linux distribution built on top of the [[https://nixos.org/manual/nix/unstable/][Nix Package Manager]]. It uses a declarative configuration language to define entire computer systems, and allows reliable system upgrades and rollbacks. [[https://nixos.org][NixOS]] also has tool dedicated to DevOps and deployment tasks, and makes it trivial to share development environments.
 
+** Non-Nixos
+
+~Multi-user installation (recommended)~
+
 #+begin_example
-  # <<file-warning>>
-  {
-    description = "<<description>>";
-
-    inputs = {
-      <<os-nixpkgs>>
-      <<os-flake-utils>>
-      <<os-home-manager>>
-    };
-
-    outputs = { self, nixpkgs, ... }@inputs: {
-      <<host-configurations>>
-    } //
-    <<development-shells>>
-  }
+  $ sh <(curl -L https://nixos.org/nix/install) --daemon --no-channel-add --nix-extra-conf-file nix.conf
 #+end_example
 
 ** Nixpkgs
 
 [[https://nixos.org/manual/nixpkgs/unstable][Nixpkgs]] is a collection of over 80,000 software packages that can be installed with the [[https://nixos.org/manual/nix/stable/Nix][Nix Package Manager]]. Two main branches are offered:
 
-1) The Unstable branch following the latest development
 
-#+NAME: os-nixpkgs
+~The Unstable branch following the latest development~
+
+#+NAME: nixpkgs
 #+begin_example
   nixpkgs.url = "github:nixpkgs/nixos-unstable";
-#+end_example
-
-** Flake-utils
-
-[[https://github.com/numtide/flake-utils][Flake-utils]] is a collection of pure Nix functions that don't depend on Nixpkgs, and that are useful in the context of writing other Nix Flakes.
-
-#+NAME: os-flake-utils
-#+begin_example
-  flake-utils.url = "github:numtide/flake-utils";
 #+end_example
 
 ** Home Manager
 
 [[https://nix-community.github.io/home-manager/][Home Manager]] provides a basic system for managing user environments using the [[https://nixos.org/manual/nix/unstable/][Nix Package Manager]] together with the Nix libraries found in [[https://nixos.org/manual/nixpkgs/unstable][Nixpkgs]]. It allows declarative configuration of user specific (non-global) packages and files.
 
-#+NAME: os-home-manager
+#+NAME: home-manager
 #+begin_example
   home-manager = {
     url = "github:nix-community/home-manager";
     inputs = {
-      utils.follows = "flake-utils";
       nixpkgs.follows = "nixpkgs";
     };
   };
+#+end_example
+
+For example, if you are using the unstable version of Nixpkgs or NixOS, then to generate and activate a basic configuration run the command
+
+~Standalone installation~
+
+#+begin_example
+  nix run home-manager/master switch -- --flake .#username@hostname
+#+end_example
+
+~If show error: /nix/var/nix/profiles/per-user~
+
+#+begin_example
+  nix-env --switch-profile
 #+end_example
 
 ** Nix-on-droid
 
 [[https://nixos.org/manual/nix/stable/Nix][Nix Package Manager]] on Android, in a single-click installable package. This is not full NixOS running inside Android, but you get easy access to [[https://nixos.org/manual/nixpkgs/stable][nixpkgs']] vast collection of (precompiled!) software and the best package manager under the sun. It's prototype-grade quality as of now, but hey, it works!
 
-#+NAME: os-home-manager
+#+NAME: nix-on-droid
 #+begin_example
   nix-on-droid = {
     url = "github:t184256/nix-on-droid";
     inputs = {
-      flake-utils.follows = "flake-utils";
       home-manager.follows = "home-manager";
       nixpkgs.follows = "nixpkgs";
     };
@@ -181,7 +181,6 @@ The command ~nix develop~ will run a bash shell that provides the build environm
   devshell = {
     url = "github:numtide/devshell";
     inputs = {
-      flake-utils.follows = "flake-utils";
       nixpkgs.follows = "nixpkgs";
     };
   };
