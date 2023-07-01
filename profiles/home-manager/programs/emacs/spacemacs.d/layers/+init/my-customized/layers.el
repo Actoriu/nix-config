@@ -43,7 +43,6 @@
                                       ;; my-gettext
                                       ;; my-haskell
                                       my-latex
-                                      my-lsp
                                       ;; my-mu4e
                                       ;; my-moccur
                                       (my-org :variables
