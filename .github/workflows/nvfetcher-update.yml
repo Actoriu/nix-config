@@ -42,6 +42,7 @@ jobs:
           extraPullNames: nix-community,pre-commit-hooks,nix-on-droid
       - name: ${{ matrix.job_name }}
         uses: nick-invision/retry@v2.8.3
+        id: update_nvfetcher
         with:
           max_attempts: 2
           timeout_minutes: 720
@@ -88,8 +89,8 @@ jobs:
           delete-branch: true
           committer: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
           author: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
-          body: |
-            ${{ steps.update_nvfetcher.outputs.OUTPUT }}
+          # body: |
+          #   ${{ steps.update_nvfetcher.outputs.OUTPUT }}
       - name: Automerge
         if: steps.cpr.outputs.pull-request-operation == 'created'
         uses: peter-evans/enable-pull-request-automerge@v3
