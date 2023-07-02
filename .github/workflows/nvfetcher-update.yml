@@ -1,4 +1,4 @@
-name: "chore: Updates nvfetcher"
+name: "Updates nvfetcher"
 
 on:
   schedule:
@@ -13,13 +13,19 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
+      matrix:
+        include:
+          - slug: Updates nvfetcher
+            job_name: Updating
+            nix-command: develop nvfetcher
+    name: ${{ matrix.slug }}
     steps:
       - name: Set swap space
         uses: pierotofy/set-swap-space@v1.0
         with:
           swap-size-gb: 10
       - name: Checkout repository
-        uses: actions/checkout@v3.5.2
+        uses: actions/checkout@v3.5.3
       - name: Install nix
         uses: cachix/install-nix-action@v22
         with:
@@ -32,27 +38,39 @@ jobs:
           name: nix-actions
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
           signingKey: "${{ secrets.CACHIX_SIGNING_KEY }}"
-          extraPullNames: nix-community,nix-on-droid
-      - name: Cache nvfetcher
-        uses: actions/cache@v3.3.1
+          extraPullNames: nix-community,pre-commit-hooks,nix-on-droid
+      - name: ${{ matrix.job_name }}
+        uses: nick-invision/retry@v2.8.3
         with:
-          path: |
-            pkgs/_sources/.shake.database
-            ~/.local/share/nvfetcher
-          key: |
-            ${{ runner.os }}-${{ hashFiles('pkgs/sources.toml') }}-${{ hashFiles('pkgs/_sources/generated.nix') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ hashFiles('pkgs/sources.toml') }}-
-      - name: Setup nix-shell
-        uses: workflow/nix-shell-action@v3.2.1
-        id: update_nvfetcher
-        with:
-          packages: nvfetcher
-          script: |
-            cd pkgs
-            echo "OUTPUT<<EOF" >> $GITHUB_OUTPUT
-            echo "$(nvfetcher -c ./sources.toml | sed -n '/Changes/,/$!d/p')" >> $GITHUB_OUTPUT
-            echo "EOF" >> $GITHUB_OUTPUT
+          max_attempts: 2
+          timeout_minutes: 720
+          retry_on: error
+          command: |
+            nix \
+              --log-format bar-with-logs \
+              --option keep-going true \
+              --show-trace \
+              ${{ matrix.nix-command }}
+      # - name: Cache nvfetcher
+      #   uses: actions/cache@v3.3.1
+      #   with:
+      #     path: |
+      #       pkgs/_sources/.shake.database
+      #       ~/.local/share/nvfetcher
+      #     key: |
+      #       ${{ runner.os }}-${{ hashFiles('pkgs/sources.toml') }}-${{ hashFiles('pkgs/_sources/generated.nix') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-${{ hashFiles('pkgs/sources.toml') }}-
+      # - name: Setup nix-shell
+      #   uses: workflow/nix-shell-action@v3.2.1
+      #   id: update_nvfetcher
+      #   with:
+      #     packages: nvfetcher
+      #     script: |
+      #       cd pkgs
+      #       echo "OUTPUT<<EOF" >> $GITHUB_OUTPUT
+      #       echo "$(nvfetcher -c ./sources.toml | sed -n '/Changes/,/$!d/p')" >> $GITHUB_OUTPUT
+      #       echo "EOF" >> $GITHUB_OUTPUT
       - name: Generate token
         uses: tibdex/github-app-token@v1.8.0
         id: generate-token
@@ -61,7 +79,7 @@ jobs:
           private_key: "${{ secrets.APP_PRIVATE_KEY }}"
       - name: Create Pull Request
         id: cpr
-        uses: peter-evans/create-pull-request@v5.0.1
+        uses: peter-evans/create-pull-request@v5.0.2
         with:
           token: "${{ steps.generate-token.outputs.token }}"
           title: "chore(deps): update packages managed by nvfetcher"
