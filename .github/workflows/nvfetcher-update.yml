@@ -17,7 +17,7 @@ jobs:
         include:
           - slug: Updates nvfetcher
             job_name: Updating
-            nix-command: develop nvfetcher
+            nix-command: develop -c nvfetcher
     name: ${{ matrix.slug }}
     steps:
       - name: Set swap space
