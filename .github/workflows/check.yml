@@ -37,6 +37,7 @@ jobs:
           nix_path: nixpkgs=channel:nixos-unstable
           extra_nix_config: |
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+            accept-flake-config = true
       - name: Setup cachix
         uses: cachix/cachix-action@v12
         with:
@@ -55,5 +56,5 @@ jobs:
               --log-format bar-with-logs \
               --option keep-going true \
               --show-trace \
-              --all-systems \
-              ${{ matrix.nix-command }}
+              ${{ matrix.nix-command }} \
+              --all-systems

@@ -39,6 +39,7 @@ jobs:
           nix_path: nixpkgs=channel:nixos-unstable
           extra_nix_config: |
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+            accept-flake-config = true
             extra-platforms = aarch64-linux i686-linux
       - name: Setup cachix
         uses: cachix/cachix-action@v12
