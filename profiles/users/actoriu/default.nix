@@ -33,6 +33,7 @@
     ../../home-manager/programs/zoxide
     ../../home-manager/programs/zsh
     ../../home-manager/services/redshift
+    ../../home-manager/tools/nix/cachix
   ];
 
   custom = {

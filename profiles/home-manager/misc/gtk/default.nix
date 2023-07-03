@@ -6,6 +6,9 @@
 }: {
   gtk = {
     enable = true;
+    gtk2 = {
+      configLocation = "${config.xdg.configHome}/gtk-2.0/gtkrc";
+    };
     # cursorTheme = {
     #   name = "Adwaita";
     #   size = "24";
@@ -30,14 +33,31 @@
     };
   };
 
+  # GTK4
+  dconf = {
+    enable = true;
+    settings = {
+      "org/gnome/desktop/interface" = {
+        color-scheme = "prefer-dark";
+        cursor-theme = "Breeze_Snow";
+        enable-animations = false;
+        gtk-theme = "Breeze-Dark";
+        icon-theme = "breeze-dark";
+      };
+      "org/gnome/desktop/wm/preferences" = {
+        theme = "Breeze-Dark";
+      };
+    };
+  };
+
   home.pointerCursor = {
     package = pkgs.libsForQt5.breeze-qt5;
-    name = "breeze_cursors";
+    name = "Breeze_Snow";
     size = 24;
     gtk.enable = true;
     x11 = {
       enable = true;
-      defaultCursor = "breeze_cursors";
+      defaultCursor = "Breeze_Snow";
     };
   };
 }

@@ -25,6 +25,8 @@
     ../../nixos/shell/zsh
   ];
 
+  programs.dconf.enable = true;
+
   custom = {
     i18n = {
       enable = true;
