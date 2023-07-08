@@ -8,13 +8,14 @@
   imports = [
     ../../../modules/home-manager/module-list.nix
     ../../home-manager/i18n/input-method/fcitx5
+    ../../home-manager/i18n/locale
     ../../home-manager/lang/nix
     ../../home-manager/misc/fontconfig
     ../../home-manager/misc/gtk
     ../../home-manager/misc/qt
     ../../home-manager/misc/xdg
     ../../home-manager/misc/xresources
-    ../../home-manager/programs/alacritty
+    # ../../home-manager/programs/alacritty
     ../../home-manager/programs/bat
     ../../home-manager/programs/dircolors
     ../../home-manager/programs/direnv

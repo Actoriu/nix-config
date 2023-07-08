@@ -2,7 +2,6 @@
   formatterPackArgsFor,
   inputs,
   pkgs,
-  self,
   system,
   ...
 }:

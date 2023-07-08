@@ -5,6 +5,7 @@
   ...
 }: {
   xresources = {
+    path = "${config.xdg.configHome}/Xresources.d/Xresources";
     extraConfig = ''
       ! -- cursor theme -- !
       Xcursor.theme                         : Breeze
