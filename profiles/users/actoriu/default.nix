@@ -8,7 +8,6 @@
   imports = [
     ../../../modules/home-manager/module-list.nix
     ../../home-manager/i18n/input-method/fcitx5
-    ../../home-manager/i18n/locale
     ../../home-manager/lang/nix
     ../../home-manager/misc/fontconfig
     ../../home-manager/misc/gtk
@@ -29,13 +28,19 @@
     ../../home-manager/programs/ssh
     ../../home-manager/programs/starship
     ../../home-manager/programs/tmux
-    ../../home-manager/programs/urxvt
     ../../home-manager/programs/zathura
     ../../home-manager/programs/zoxide
     ../../home-manager/programs/zsh
     ../../home-manager/services/redshift
     ../../home-manager/tools/nix/cachix
   ];
+
+
+  home = {
+    language = {
+      base = "zh_CN.UTF-8";
+    };
+  };
 
   custom = {
     programs = {
