@@ -2,3 +2,8 @@ result
 .direnv
 pkgs/_sources/.shake*
 .pre-commit-config.yaml
+profiles/home-manager/programs/emacs/spacemacs.d/layers/+emacs/my-org/local/
+profiles/home-manager/programs/emacs/spacemacs.d/layers/+email/
+# elisp
+*~
+*.~undo-tree

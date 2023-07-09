@@ -52,7 +52,6 @@
         spacemacs = true;
         treesitter = true;
       };
-      xst.enable = true;
     };
     targets.genericLinux.enable = non-nixos;
   };
