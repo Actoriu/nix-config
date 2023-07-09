@@ -35,7 +35,6 @@
     ../../home-manager/tools/nix/cachix
   ];
 
-
   home = {
     language = {
       base = "zh_CN.UTF-8";
@@ -44,6 +43,9 @@
 
   custom = {
     programs = {
+      alacritty = {
+        enable = true;
+      };
       emacs = {
         enable = true;
         emacs-application-framework = true;

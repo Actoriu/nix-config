@@ -23,6 +23,10 @@ in {
 
   # When applied, the spacemacs set (declared in the flake inputs) will
   # be accessible through 'pkgs.spacemacs'
+  alacritty-theme = final: prev: {
+    spacemacs = inputs.alacritty-theme;
+  };
+
   spacemacs = final: prev: {
     spacemacs = inputs.spacemacs;
   };

@@ -47,6 +47,11 @@
       };
     };
 
+    alacritty-theme = {
+      url = "github:alacritty/alacritty-theme";
+      flake = false;
+    };
+
     cachix-deploy-flake = {
       url = "github:cachix/cachix-deploy-flake";
       inputs = {
