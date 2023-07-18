@@ -24,6 +24,7 @@
     ../../home-manager/programs/gpg
     ../../home-manager/programs/mpv
     ../../home-manager/programs/neovim
+    ../../home-manager/programs/proxy/geph
     ../../home-manager/programs/rofi
     ../../home-manager/programs/ssh
     ../../home-manager/programs/starship

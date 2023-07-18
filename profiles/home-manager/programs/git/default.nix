@@ -10,11 +10,11 @@
     userName = "Actoriu";
     userEmail = "51398008+Actoriu@users.noreply.github.com";
     extraConfig = {
-      # url = {
-      #   "https://ghproxy.com/https://github" = {
-      #     insteadOf = "https://github";
-      #   };
-      # };
+      url = {
+        "https://ghproxy.com/https://github" = {
+          insteadOf = "https://github";
+        };
+      };
       # http = {
       #   proxy = socks5://127.0.0.1:1089;
       # };
