@@ -159,8 +159,17 @@
         }
     );
 
+    lib = nixpkgs.lib.extend (final: prev: {
+      my = import ./lib {
+        inherit inputs;
+        lib = final;
+      };
+    });
+
     stateVersion = nixpkgs.lib.fileContents ./.version;
   in {
+    lib = lib.my;
+
     checks = forEachSystem (system: let
       pkgs = nixpkgs.legacyPackages.${system};
     in {

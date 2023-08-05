@@ -9,10 +9,10 @@
       enable = true;
       package =
         if pkgs.stdenv.isDarwin
-        then pkgs.emacsMacport
+        then pkgs.emacs-macport
         else if pkgs.stdenv.isAarch64
         then pkgs.emacs-nox
-        else pkgs.emacs;
+        else pkgs.emacs-gtk;
       # extraPackages = epkgs: with epkgs; [
       #   evil
       #   helm

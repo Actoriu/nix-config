@@ -16,7 +16,7 @@
         };
       };
       # http = {
-      #   proxy = socks5://127.0.0.1:1089;
+      #   proxy = socks5://127.0.0.1:20170;
       # };
       core = {
         pager = "${pkgs.gitAndTools.delta}/bin/delta";

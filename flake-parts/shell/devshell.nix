@@ -18,6 +18,10 @@ pkgs.devshell.mkShell {
     # nodePackages.prettier-plugin-toml
     # shfmt
     # treefmt
+    sops
+    ssh-to-age
+    age
+    rage
     (formatterPackArgsFor.${system})
   ];
 

@@ -1,0 +1,15 @@
+keys:
+  # Users
+  - &users:
+    - &actoriu 7088C7421873E0DB97FF17C2245CAB70B4C225E9
+  # Hosts
+  - &hosts:
+    - &d630 age1mtjmj8hrxjcsk38wavdzan650dwfcx4dh8z4pw0mcwgtkpssx5psrgqjve
+
+creation_rules:
+  - path_regex: secrets/[^/]+\.(yaml|json|env|ini|org)$
+    key_groups:
+      - age:
+          - *d630
+        # pgp:
+        #   - *actoriu

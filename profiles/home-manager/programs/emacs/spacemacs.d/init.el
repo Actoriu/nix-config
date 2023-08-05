@@ -81,8 +81,8 @@ This function should only modify configuration layer settings."
      ;;      git-enable-magit-todos-plugin t
      ;;      git-messenger:show-detail t
      ;;      git-messenger:use-magit-popup t)
-     ;; (haskell :variables
-     ;;          haskell-completion-backend 'lsp)
+     (haskell :variables
+              haskell-completion-backend 'lsp)
      (helm :variables
            helm-enable-auto-resize t)
      helpful
