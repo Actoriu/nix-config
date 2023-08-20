@@ -1,5 +1,6 @@
 {
   config,
+  inputs,
   lib,
   non-nixos,
   pkgs,
@@ -10,7 +11,7 @@
     ../../home-manager/i18n/input-method/fcitx5
     ../../home-manager/lang/nix
     ../../home-manager/misc/fontconfig
-    ../../home-manager/misc/gtk
+    # ../../home-manager/misc/gtk
     ../../home-manager/misc/qt
     ../../home-manager/misc/xdg
     ../../home-manager/misc/xresources
@@ -51,7 +52,7 @@
         enable = true;
         emacs-application-framework = true;
         spacemacs = false;
-        nix-emacs-doom = true;
+        # nix-doom-emacs = true;
         treesitter = true;
       };
     };

@@ -71,12 +71,18 @@ in {
       };
     })
 
-    (mkIf cfg.nix-emacs-doom {
-      home.doom-emacs = {
-        enable = true;
-        doomPrivateDir = ../../../config/doom.d;
-      };
-    })
+    # (mkIf cfg.nix-doom-emacs {
+    #   programs.doom-emacs = {
+    #     enable = true;
+    #     doomPrivateDir = ../../../config/doom.d;
+    #     emacsPackage =
+    #     if pkgs.stdenv.isDarwin
+    #     then pkgs.emacs-macport
+    #     else if pkgs.stdenv.isAarch64
+    #     then pkgs.emacs-nox
+    #     else pkgs.emacs-gtk;
+    #   };
+    # })
 
     (mkIf (pkgs.stdenv.isAarch64 == false && pkgs.stdenv.isDarwin == false && config.custom.targets.genericLinux.enable == false && cfg.emacs-application-framework) {
       home = {

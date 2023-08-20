@@ -18,11 +18,11 @@
     #   size = "13";
     # };
     iconTheme = {
-      package = pkgs.breeze-icons;
+      package = pkgs.libsForQt5.breeze-icons;
       name = "breeze-dark";
     };
     theme = {
-      package = pkgs.breeze-gtk;
+      package = pkgs.libsForQt5.breeze-gtk;
       name = "Breeze-Dark";
     };
     gtk3.extraConfig = {

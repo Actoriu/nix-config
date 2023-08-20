@@ -77,11 +77,13 @@
 
     nix-doom-emacs = {
       url = "github:nix-community/nix-doom-emacs";
+      /*
       inputs = {
         flake-compat.follows = "flake-compat";
         flake-utils.follows = "flake-utils";
         nixpkgs.follows = "nixpkgs";
       };
+      */
     };
 
     # guix-overlay = {
@@ -162,21 +164,21 @@
 
     formatterPackArgsFor = forEachPkgs (pkgs: treefmt-nix.lib.evalModule pkgs ./flake-parts/treefmt.nix);
 
-    lib = nixpkgs.lib.extend (
-      final: prev:
-        {
-          my = import ./lib {
-            inherit inputs;
-            lib = final;
-          };
-        }
-        // nixpkgs.lib
-        // home-manager.lib
-    );
+    # lib = nixpkgs.lib.extend (
+    #   final: prev:
+    #     {
+    #       my = import ./lib {
+    #         inherit inputs;
+    #         lib = final;
+    #       };
+    #     }
+    #     // nixpkgs.lib
+    #     // home-manager.lib
+    # );
 
     stateVersion = nixpkgs.lib.fileContents ./.version;
   in {
-    lib = lib.my;
+    # lib = lib.my;
 
     checks = forEachSystem (system: let
       pkgs = nixpkgs.legacyPackages.${system};
@@ -186,6 +188,7 @@
       };
     });
 
+    /*
     devShells = forEachSystem (system: {
       default = let
         pkgs = import nixpkgs {
@@ -197,6 +200,7 @@
           inherit formatterPackArgsFor pkgs self system;
         };
     });
+    */
 
     /*
     devShells = forEachSystem (system: let
@@ -256,7 +260,6 @@
         };
         modules = [
           inputs.impermanence.nixosModules.home-manager.impermanence
-          inputs.nix-doom-emacs.hmModule
           inputs.nur.hmModules.nur
           inputs.sops-nix.homeManagerModules.sops
           ./flake-parts/home.nix

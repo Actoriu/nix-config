@@ -1,18 +1,28 @@
 {
   config,
+  inputs,
   lib,
   pkgs,
   ...
 }: {
+  imports = [inputs.nix-doom-emacs.hmModule];
+
   programs = {
-    emacs = {
+    doom-emacs = {
       enable = true;
-      package =
-        if pkgs.stdenv.isDarwin
-        then pkgs.emacs-macport
-        else if pkgs.stdenv.isAarch64
-        then pkgs.emacs-nox
-        else pkgs.emacs-gtk;
+      doomPrivateDir = ../../../../config/doom.d;
+      # emacsPackage =
+      #   if pkgs.stdenv.isDarwin
+      #   then pkgs.emacs-macport
+      #   else if pkgs.stdenv.isAarch64
+      #   then pkgs.emacs-nox
+      #   else pkgs.emacs-gtk;
+      # package =
+      #   if pkgs.stdenv.isDarwin
+      #   then pkgs.emacs-macport
+      #   else if pkgs.stdenv.isAarch64
+      #   then pkgs.emacs-nox
+      #   else pkgs.emacs-gtk;
       # extraPackages = epkgs: with epkgs; [
       #   evil
       #   helm
