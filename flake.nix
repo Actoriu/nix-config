@@ -4,7 +4,7 @@
   nixConfig = {
     experimental-features = ["nix-command" "flakes"];
     substituters = [
-      "https://mirrors.bfsu.edu.cn/nix-channels/store"
+      "https://mirrors.ustc.edu.cn/nix-channels/store"
       "https://cache.nixos.org/"
     ];
     extra-substituters = [
@@ -75,6 +75,15 @@
       };
     };
 
+    nix-doom-emacs = {
+      url = "github:nix-community/nix-doom-emacs";
+      inputs = {
+        flake-compat.follows = "flake-compat";
+        flake-utils.follows = "flake-utils";
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
+
     # guix-overlay = {
     #   url = "github:foo-dogsquared/nix-overlay-guix";
     #   inputs = {
@@ -140,31 +149,30 @@
     home-manager,
     nix-on-droid,
     cachix-deploy-flake,
+    treefmt-nix,
     ...
   } @ inputs: let
     inherit (self) outputs;
 
     forEachSystem = nixpkgs.lib.genAttrs ["aarch64-linux" "x86_64-linux"];
 
-    cachixDeployLibFor =
-      forEachSystem (system:
-        cachix-deploy-flake.lib nixpkgs.legacyPackages.${system});
+    forEachPkgs = f: forEachSystem (system: f nixpkgs.legacyPackages.${system});
 
-    formatterPackArgsFor = forEachSystem (
-      system: let
-        pkgs = nixpkgs.legacyPackages.${system};
-      in
-        import ./flake-parts/treefmt.nix {
-          inherit inputs pkgs self;
+    cachixDeployLibFor = forEachPkgs (pkgs: cachix-deploy-flake.lib);
+
+    formatterPackArgsFor = forEachPkgs (pkgs: treefmt-nix.lib.evalModule pkgs ./flake-parts/treefmt.nix);
+
+    lib = nixpkgs.lib.extend (
+      final: prev:
+        {
+          my = import ./lib {
+            inherit inputs;
+            lib = final;
+          };
         }
+        // nixpkgs.lib
+        // home-manager.lib
     );
-
-    lib = nixpkgs.lib.extend (final: prev: {
-      my = import ./lib {
-        inherit inputs;
-        lib = final;
-      };
-    });
 
     stateVersion = nixpkgs.lib.fileContents ./.version;
   in {
@@ -209,16 +217,11 @@
     });
     */
 
-    formatter = forEachSystem (system: formatterPackArgsFor.${system});
+    formatter = forEachPkgs (pkgs: formatterPackArgsFor.${pkgs.system}.config.build.wrapper);
 
     overlays = import ./overlays {inherit inputs;};
 
-    packages = forEachSystem (
-      system: let
-        pkgs = nixpkgs.legacyPackages.${system};
-      in
-        import ./pkgs {inherit pkgs;}
-    );
+    packages = forEachPkgs (pkgs: import ./pkgs {inherit pkgs;});
 
     nixosConfigurations = {
       d630 = nixpkgs.lib.nixosSystem {
@@ -253,6 +256,7 @@
         };
         modules = [
           inputs.impermanence.nixosModules.home-manager.impermanence
+          inputs.nix-doom-emacs.hmModule
           inputs.nur.hmModules.nur
           inputs.sops-nix.homeManagerModules.sops
           ./flake-parts/home.nix

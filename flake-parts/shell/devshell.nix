@@ -22,7 +22,7 @@ pkgs.devshell.mkShell {
     ssh-to-age
     age
     rage
-    (formatterPackArgsFor.${system})
+    # (formatterPackArgsFor)
   ];
 
   commands = [

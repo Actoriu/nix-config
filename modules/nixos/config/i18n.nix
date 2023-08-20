@@ -31,7 +31,7 @@ in {
     })
     (mkIf (cfg.locale != null && cfg.locale == "zh_CN") {
       fonts = {
-        fonts = with pkgs; [
+        packages = with pkgs; [
           hanazono
           noto-fonts-cjk-sans
           noto-fonts-cjk-serif

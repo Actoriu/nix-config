@@ -25,9 +25,9 @@ inputs.pre-commit-hooks.lib.${system}.run {
       entry = pkgs.lib.mkForce "${pkgs.shfmt}/bin/shfmt -i 2 -s -w";
     };
     statix.enable = false;
-    treefmt.enable = true;
+    # treefmt.enable = true;
   };
   settings = {
-    treefmt.package = formatterPackArgsFor.${system};
+    treefmt.package = formatterPackArgsFor;
   };
 }

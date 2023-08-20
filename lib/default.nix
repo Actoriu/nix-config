@@ -1,7 +1,6 @@
 {
   inputs,
   lib,
-  pkgs,
   ...
 } @ args:
 with {inherit (lib) makeExtensible attrValues foldr;};

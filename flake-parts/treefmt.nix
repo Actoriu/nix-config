@@ -1,10 +1,4 @@
-{
-  inputs,
-  pkgs,
-  self,
-  ...
-}:
-inputs.treefmt-nix.lib.mkWrapper pkgs {
+{pkgs, ...}: {
   projectRootFile = "flake.nix";
   programs = {
     alejandra.enable = true;

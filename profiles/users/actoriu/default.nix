@@ -27,6 +27,7 @@
     ../../home-manager/programs/rofi
     ../../home-manager/programs/ssh
     ../../home-manager/programs/starship
+    ../../home-manager/programs/urxvt
     ../../home-manager/programs/tmux
     ../../home-manager/programs/zathura
     ../../home-manager/programs/zoxide
@@ -49,7 +50,8 @@
       emacs = {
         enable = true;
         emacs-application-framework = true;
-        spacemacs = true;
+        spacemacs = false;
+        nix-emacs-doom = true;
         treesitter = true;
       };
     };

@@ -98,21 +98,13 @@
       ! small value since urxvt doesnt know what to do when it encounters a glyph
       ! that is wider than the main font.
 
-      ! URxvt.font                            : xft:Sarasa Mono SC:pixelsize=24,xft:Sarasa Mono SC Nerd:pixelsize=24,xft:Noto Color Emoji:pixelsize=24,xft:Symbols Nerd Font Mono:pixelsize=24
+      URxvt.font                            : xft:Sarasa Fixed SC:pixelsize=24,xft:Noto Color Emoji:pixelsize=24:minspace=false,xft:Symbols Nerd Font:pixelsize=24:minspace=false
 
-      ! URxvt.boldFont                        : xft:Sarasa Mono SC:bold:pixelsize=24,xft:Sarasa Mono SC Nerd:bold:pixelsize=24
+      URxvt.boldFont                        : xft:Sarasa Fixed SC:bold:pixelsize=24
 
-      ! URxvt.italicFont                      : xft:Sarasa Mono SC:italic:pixelsize=24,xft:Sarasa Mono SC Nerd:italic:pixelsize=24
+      URxvt.italicFont                      : xft:Sarasa Fixed SC:italic:pixelsize=24
 
-      ! URxvt.boldItalicFont                  : xft:Sarasa Mono SC:bold:italic:pixelsize=24,xft:Sarasa Mono SC Nerd:bold:italic:pixelsize=24
-
-      URxvt.font                            : xft:Iosevka Nerd Font:pixelsize=24,xft:Noto Sans Mono CJK SC:pixelsize=24,xft:Noto Color Emoji:pixelsize=24,xft:Symbola:pixelsize=24,xft:Symbols Nerd Font Mono:pixelsize=24
-
-      URxvt.boldFont                        : xft:Iosevka Nerd Font:bold:pixelsize=24,xft:Noto Sans Mono CJK SC:bold:pixelsize=24
-
-      URxvt.italicFont                      : xft:Iosevka Nerd Font:italic:pixelsize=24,xft:Noto Sans Mono CJK SC:italic:pixelsize=24
-
-      URxvt.boldItalicFont                  : xft:Iosevka Nerd Font:bold:italic:pixelsize=24,xft:Noto Sans Mono CJK SC:bold:italic:pixelsize=24
+      URxvt.boldItalicFont                  : xft:Sarasa Fixed SC:bold:italic:pixelsize=24
 
       ! -- 颜色 -- !
       URxvt.depth                           : 32

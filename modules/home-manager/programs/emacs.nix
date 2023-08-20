@@ -28,7 +28,7 @@ in {
     enable = mkEnableOption "Enable support for emacs.";
     emacs-application-framework =
       mkEnableOption "Enable support for emacs-application-framework.";
-    doom-emacs = mkEnableOption "Enable support for doom-emacs.";
+    nix-doom-emacs = mkEnableOption "Enable support for doom-emacs.";
     spacemacs = mkEnableOption "Enable support for spacemacs.";
     treesitter = mkEnableOption "Enable support for tree-sitter.";
   };
@@ -64,10 +64,17 @@ in {
             recursive = true;
           };
           ".spacemacs.d" = {
-            source = "${cleanSource ../../../profiles/home-manager/programs/emacs/spacemacs.d}";
+            source = "${cleanSource ../../../config/spacemacs.d}";
             recursive = true;
           };
         };
+      };
+    })
+
+    (mkIf cfg.nix-emacs-doom {
+      home.doom-emacs = {
+        enable = true;
+        doomPrivateDir = ../../../config/doom.d;
       };
     })
 
