@@ -149,6 +149,7 @@
     self,
     nixpkgs,
     home-manager,
+    nix-doom-emacs,
     nix-on-droid,
     cachix-deploy-flake,
     treefmt-nix,
@@ -263,6 +264,17 @@
           inputs.nur.hmModules.nur
           inputs.sops-nix.homeManagerModules.sops
           ./flake-parts/home.nix
+          {
+            imports = [nix-doom-emacs.hmModule];
+
+            programs = {
+              doom-emacs = {
+                enable = true;
+                doomPrivateDir = ./config/doom.d;
+                # emacsPackage = pkgs.emacs-gtk;
+              };
+            };
+          }
         ];
       };
     };

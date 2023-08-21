@@ -18,7 +18,7 @@
     ../../home-manager/programs/bat
     ../../home-manager/programs/dircolors
     ../../home-manager/programs/direnv
-    ../../home-manager/programs/emacs
+    # ../../home-manager/programs/emacs
     ../../home-manager/programs/fzf
     ../../home-manager/programs/git
     ../../home-manager/programs/gpg

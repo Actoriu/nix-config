@@ -7,7 +7,7 @@
   programs.starship = {
     enable = true;
     settings = {
-      command_timeout = 1000;
+      command_timeout = 1500;
       character = {
         error_symbol = "[❯](bold red)[❯](bold yellow)[❯](bold red)";
         success_symbol = "[❯](bold red)[❯](bold yellow)[❯](bold green)";
