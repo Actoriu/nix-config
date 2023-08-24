@@ -181,12 +181,11 @@
   in {
     # lib = lib.my;
 
-    checks = forEachSystem (system: let
-      pkgs = nixpkgs.legacyPackages.${system};
-    in {
-      pre-commit-check = import ./flake-parts/pre-commit.nix {
-        inherit formatterPackArgsFor inputs pkgs system;
-      };
+    checks = forEachPkgs (pkgs: {
+      formatting = formatterPackArgsFor.${pkgs.system}.config.build.check self;
+      # pre-commit-check = import ./flake-parts/pre-commit.nix {
+      #   inherit formatterPackArgsFor inputs pkgs system;
+      # };
     });
 
     /*
