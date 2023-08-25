@@ -5,14 +5,14 @@
   ...
 }:
 with lib; let
-  cfg = config.private.home.terminal.alacritty;
+  cfg = config.private.terminal.alacritty;
 in {
-  options.private.home.terminal.alacritty = {
+  options.private.terminal.alacritty = {
     enable = mkEnableOption "Enable support for alacritty terminal emulator.";
   };
 
   config = mkIf cfg.enable (mkMerge [
-    (mkIf (pkgs.stdenv.isLinux && config.private.home.genericLinux.enable == true) {
+    (mkIf (pkgs.stdenv.isLinux && config.private.genericLinux.enable == true) {
       xdg.configFile = {
         "alacritty/themes" = {
           source = pkgs.alacritty-theme;
@@ -23,7 +23,7 @@ in {
         };
       };
     })
-    (mkIf (config.private.home.genericLinux.enable == false) {
+    (mkIf (config.private.genericLinux.enable == false) {
       xdg.configFile = {
         "alacritty/themes" = {
           source = pkgs.alacritty-theme;

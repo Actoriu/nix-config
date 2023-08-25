@@ -45,21 +45,19 @@
 
   private = {
     # enable = true;
-    home = {
-      editors = {
-        emacs = {
-          enable = true;
-          emacs-application-framework = true;
-          spacemacs = false;
-          nix-doom-emacs = true;
-          treesitter = false;
-        };
+    editors = {
+      emacs = {
+        enable = true;
+        emacs-application-framework = true;
+        spacemacs = false;
+        nix-doom-emacs = true;
+        treesitter = false;
       };
-      genericLinux.enable = non-nixos;
-      terminal = {
-        alacritty = {
-          enable = true;
-        };
+    };
+    genericLinux.enable = non-nixos;
+    terminal = {
+      alacritty = {
+        enable = true;
       };
     };
   };

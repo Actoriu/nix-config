@@ -5,9 +5,9 @@
   ...
 }:
 with lib; let
-  cfg = config.private.home.terminal.xst;
+  cfg = config.private.terminal.xst;
 in {
-  options.private.home.terminal.xst = {
+  options.private.terminal.xst = {
     enable = mkEnableOption "Enable support for st terminal emulator.";
   };
 

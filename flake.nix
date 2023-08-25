@@ -242,6 +242,7 @@
           inputs.impermanence.nixosModules.impermanence
           inputs.nur.nixosModules.nur
           inputs.sops-nix.nixosModules.sops
+          ./modules/shared
           ./flake-parts/nixos.nix
         ];
       };

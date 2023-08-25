@@ -5,9 +5,9 @@
   ...
 }:
 with lib; let
-  cfg = config.private.home.genericLinux;
+  cfg = config.private.genericLinux;
 in {
-  options.private.home.genericLinux = {
+  options.private.genericLinux = {
     enable = mkEnableOption "Whether to enable settings that make Home Manager work better on
         GNU/Linux distributions other than NixOS.";
   };
