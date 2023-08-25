@@ -1,19 +1,18 @@
 {
   config,
-  inputs,
   lib,
   pkgs,
   ...
 }:
 with lib; let
-  cfg = config.custom.programs.emacs;
+  cfg = config.private.home.editors.emacs;
 
   # https://github.com/minimal/dotfiles/blob/master/nixpkgs/emacs.nix#L28
   treeSitterGrammars = pkgs.runCommandLocal "grammars" {} ''
     mkdir -p $out/bin
     ${
-      lib.concatStringsSep "\n"
-      (lib.mapAttrsToList (name: src: "ln -s ${src}/parser $out/bin/${name}.so") pkgs.tree-sitter.builtGrammars)
+      concatStringsSep "\n"
+      (mapAttrsToList (name: src: "ln -s ${src}/parser $out/bin/${name}.so") pkgs.tree-sitter.builtGrammars)
     };
   '';
 
@@ -23,9 +22,9 @@ with lib; let
     "commonlisp"
     "elisp"
   ];
-  grammars = lib.getAttrs (map (lang: "tree-sitter-${lang}") langs) pkgs.tree-sitter.builtGrammars;
+  grammars = getAttrs (map (lang: "tree-sitter-${lang}") langs) pkgs.tree-sitter.builtGrammars;
 in {
-  options.custom.programs.emacs = {
+  options.private.home.editors.emacs = {
     enable = mkEnableOption "Enable support for emacs.";
     emacs-application-framework =
       mkEnableOption "Enable support for emacs-application-framework.";
@@ -36,6 +35,27 @@ in {
 
   config = mkIf cfg.enable (mkMerge [
     (mkIf cfg.spacemacs {
+      programs = {
+        emacs = {
+          package =
+            if pkgs.stdenv.isDarwin
+            then pkgs.emacs-macport
+            else if pkgs.stdenv.isAarch64
+            then pkgs.emacs-nox
+            else if (pkgs.stdenv.isLinux && config.private.graphical.display == "wayland")
+            then pkgs.emacs-pgtk
+            else pkgs.emacs-gtk;
+          # extraPackages = epkgs: with epkgs; [
+          #   evil
+          #   helm
+          #   general
+          #   magit
+          #   nix-mode
+          #   company
+          # ];
+        };
+      };
+
       # home = {
       #   file = {
       #     ".emacs.d" = {
@@ -73,7 +93,6 @@ in {
     })
 
     (mkIf cfg.nix-doom-emacs {
-      imports = [inputs.nix-doom-emacs.hmModule];
       programs.doom-emacs = {
         enable = true;
         doomPrivateDir = ../../../config/doom.d;
@@ -82,11 +101,13 @@ in {
           then pkgs.emacs-macport
           else if pkgs.stdenv.isAarch64
           then pkgs.emacs-nox
+          else if (pkgs.stdenv.isLinux && config.private.graphical.display == "wayland")
+          then pkgs.emacs-pgtk
           else pkgs.emacs-gtk;
       };
     })
 
-    (mkIf (pkgs.stdenv.isAarch64 == false && pkgs.stdenv.isDarwin == false && config.custom.targets.genericLinux.enable == false && cfg.emacs-application-framework) {
+    (mkIf (pkgs.stdenv.isAarch64 == false && pkgs.stdenv.isDarwin == false && config.private.home.genericLinux.enable == false && cfg.emacs-application-framework) {
       home = {
         packages = with pkgs; [
           # eaf core

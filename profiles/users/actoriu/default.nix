@@ -7,7 +7,7 @@
   ...
 }: {
   imports = [
-    ../../../modules/home-manager/module-list.nix
+    ../../../modules
     ../../home-manager/i18n/input-method/fcitx5
     ../../home-manager/lang/nix
     ../../home-manager/misc/fontconfig
@@ -43,19 +43,24 @@
     };
   };
 
-  custom = {
-    programs = {
-      alacritty = {
-        enable = true;
+  private = {
+    # enable = true;
+    home = {
+      editors = {
+        emacs = {
+          enable = true;
+          emacs-application-framework = true;
+          spacemacs = false;
+          nix-doom-emacs = true;
+          treesitter = false;
+        };
       };
-      emacs = {
-        enable = true;
-        emacs-application-framework = true;
-        spacemacs = false;
-        nix-doom-emacs = true;
-        treesitter = false;
+      genericLinux.enable = non-nixos;
+      terminal = {
+        alacritty = {
+          enable = true;
+        };
       };
     };
-    targets.genericLinux.enable = non-nixos;
   };
 }

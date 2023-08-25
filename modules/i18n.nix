@@ -5,9 +5,9 @@
   ...
 }:
 with lib; let
-  cfg = config.custom.i18n;
+  cfg = config.private.i18n;
 in {
-  options.custom.i18n = {
+  options.private.i18n = {
     enable = mkEnableOption "Enable support for locale.";
 
     inputMethod = mkOption {
@@ -29,7 +29,7 @@ in {
     (mkIf (cfg.inputMethod != null) {
       i18n.inputMethod.enabled = cfg.inputMethod;
     })
-    (mkIf (cfg.locale != null && cfg.locale == "zh_CN") {
+    (mkIf (cfg.locale == "zh_CN") {
       fonts = {
         packages = with pkgs; [
           hanazono
@@ -51,14 +51,14 @@ in {
       };
       time.timeZone = "Asia/Shanghai";
     })
-    (mkIf (cfg.locale != null && cfg.locale == "zh_CN" && cfg.inputMethod == "fcitx5") {
+    (mkIf (cfg.locale == "zh_CN" && cfg.inputMethod == "fcitx5") {
       i18n.inputMethod.fcitx5 = {
         addons = with pkgs; [
           fcitx5-rime
         ];
       };
     })
-    (mkIf (cfg.locale != null && cfg.locale == "zh_CN" && cfg.inputMethod == "ibus") {
+    (mkIf (cfg.locale == "zh_CN" && cfg.inputMethod == "ibus") {
       i18n.inputMethod.ibus.engines = with pkgs.ibus-engines; [rime];
     })
   ]);

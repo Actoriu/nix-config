@@ -5,9 +5,9 @@
   ...
 }:
 with lib; let
-  cfg = config.custom.loader;
+  cfg = config.private.loader;
 in {
-  options.custom.loader = {
+  options.private.loader = {
     enable = mkEnableOption "Enable support for loader.";
 
     biostype = mkOption {
@@ -47,7 +47,7 @@ in {
   };
 
   config = mkIf cfg.enable (mkMerge [
-    (mkIf (cfg.biostype != null && cfg.biostype == "legacy" && cfg.disktype != null && cfg.disktype == "mbr" && cfg.bootloader != null && cfg.bootloader == "grub") {
+    (mkIf (cfg.biostype == "legacy" && cfg.disktype == "mbr" && cfg.bootloader == "grub") {
       boot.loader.grub = {
         enable = true;
         device = cfg.device;
@@ -55,7 +55,7 @@ in {
         useOSProber = true;
       };
     })
-    (mkIf (cfg.disktype != null && cfg.disktype == "uefi" && cfg.bootloader != null && cfg.bootloader == "grub") {
+    (mkIf (cfg.disktype == "uefi" && cfg.bootloader == "grub") {
       boot.loader = {
         efi = {
           canTouchEfiVariables = true;
@@ -71,7 +71,7 @@ in {
         };
       };
     })
-    (mkIf (cfg.disktype != null && cfg.disktype == "uefi" && cfg.bootloader != null && cfg.bootloader == "systemd-boot") {
+    (mkIf (cfg.disktype == "uefi" && cfg.bootloader == "systemd-boot") {
       boot.loader = {
         efi = {
           canTouchEfiVariables = true;

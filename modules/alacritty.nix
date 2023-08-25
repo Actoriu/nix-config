@@ -5,14 +5,14 @@
   ...
 }:
 with lib; let
-  cfg = config.custom.programs.alacritty;
+  cfg = config.private.home.terminal.alacritty;
 in {
-  options.custom.programs.alacritty = {
+  options.private.home.terminal.alacritty = {
     enable = mkEnableOption "Enable support for alacritty terminal emulator.";
   };
 
   config = mkIf cfg.enable (mkMerge [
-    (mkIf (config.custom.targets.genericLinux.enable == true && pkgs.stdenv.isLinux) {
+    (mkIf (pkgs.stdenv.isLinux && config.private.home.genericLinux.enable == true) {
       xdg.configFile = {
         "alacritty/themes" = {
           source = pkgs.alacritty-theme;
@@ -23,7 +23,7 @@ in {
         };
       };
     })
-    (mkIf (config.custom.targets.genericLinux.enable == false) {
+    (mkIf (config.private.home.genericLinux.enable == false) {
       xdg.configFile = {
         "alacritty/themes" = {
           source = pkgs.alacritty-theme;
@@ -147,7 +147,7 @@ in {
             live_config_reload = true;
 
             # https://github.com/rummik/nixos-config/blob/master/config/home-manager/alacritty.nix#L565
-            key_bindings = lib.flatten [
+            key_bindings = flatten [
               # { key = "Paste";                                             action = "Paste";                        }
               # { key = "Copy";                                              action = "Copy";                         }
               # { key = "L";         mods = "Control";                       action = "ClearLogNotice";               }

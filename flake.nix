@@ -149,7 +149,7 @@
     self,
     nixpkgs,
     home-manager,
-    nix-doom-emacs,
+    # nix-doom-emacs,
     nix-on-droid,
     cachix-deploy-flake,
     treefmt-nix,
@@ -247,6 +247,7 @@
       };
     };
 
+    /*
     homeConfigurations = {
       "actoriu@d630" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages."x86_64-linux";
@@ -259,25 +260,13 @@
           system = "x86_64-linux";
         };
         modules = [
-          inputs.impermanence.nixosModules.home-manager.impermanence
-          inputs.nur.hmModules.nur
-          inputs.sops-nix.homeManagerModules.sops
           ./flake-parts/home.nix
-          {
-            imports = [nix-doom-emacs.hmModule];
-
-            programs = {
-              doom-emacs = {
-                enable = true;
-                doomPrivateDir = ./config/doom.d;
-                # emacsPackage = pkgs.emacs-gtk;
-              };
-            };
-          }
         ];
       };
     };
+    */
 
+    /*
     nixOnDroidConfigurations = {
       oneplus5 = nix-on-droid.lib.nixOnDroidConfiguration {
         pkgs = import nixpkgs {
@@ -297,5 +286,6 @@
         ];
       };
     };
+    */
   };
 }

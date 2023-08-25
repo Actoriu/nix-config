@@ -9,7 +9,14 @@
   username,
   ...
 }: {
-  imports = lib.optional (username != null) ../profiles/users/${username};
+  imports =
+    [
+      inputs.impermanence.nixosModules.home-manager.impermanence
+      inputs.nur.hmModules.nur
+      inputs.sops-nix.homeManagerModules.sops
+      inputs.nix-doom-emacs.hmModule
+    ]
+    ++ lib.optional (username != null) ../profiles/users/${username};
 
   nixpkgs = {
     config = {
