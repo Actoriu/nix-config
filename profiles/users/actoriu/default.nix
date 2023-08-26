@@ -7,7 +7,7 @@
   ...
 }: {
   imports = [
-    ../../../modules
+    ../../../modules/home-manager
     ../../home-manager/i18n/input-method/fcitx5
     ../../home-manager/lang/nix
     ../../home-manager/misc/fontconfig
@@ -55,6 +55,10 @@
       };
     };
     genericLinux.enable = non-nixos;
+    graphical = {
+      enable = true;
+      display = "x11";
+    };
     terminal = {
       alacritty = {
         enable = true;

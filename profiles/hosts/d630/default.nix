@@ -6,7 +6,7 @@
 }: {
   imports = [
     ./configuration.nix
-    ../../../modules
+    ../../../modules/nixos
     ../../nixos/fonts
     ../../nixos/hardware/audio/pipewire
     ../../nixos/hardware/bluetooth
@@ -28,7 +28,7 @@
   programs.dconf.enable = true;
 
   private = {
-    enable = true;
+    # enable = true;
     i18n = {
       enable = true;
       inputMethod = "fcitx5";

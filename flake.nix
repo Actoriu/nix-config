@@ -242,13 +242,11 @@
           inputs.impermanence.nixosModules.impermanence
           inputs.nur.nixosModules.nur
           inputs.sops-nix.nixosModules.sops
-          ./modules/shared
           ./flake-parts/nixos.nix
         ];
       };
     };
 
-    /*
     homeConfigurations = {
       "actoriu@d630" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages."x86_64-linux";
@@ -265,7 +263,6 @@
         ];
       };
     };
-    */
 
     /*
     nixOnDroidConfigurations = {
