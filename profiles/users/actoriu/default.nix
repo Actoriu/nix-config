@@ -44,7 +44,6 @@
   };
 
   private = {
-    # enable = true;
     editors = {
       emacs = {
         enable = true;

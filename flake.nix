@@ -4,7 +4,7 @@
   nixConfig = {
     experimental-features = ["nix-command" "flakes"];
     substituters = [
-      "https://mirrors.ustc.edu.cn/nix-channels/store"
+      "https://mirrors.cernet.edu.cn/nix-channels/store"
       "https://cache.nixos.org/"
     ];
     extra-substituters = [
@@ -187,6 +187,8 @@
       #   inherit formatterPackArgsFor inputs pkgs system;
       # };
     });
+
+    devShells = forEachSystem (pkgs: import ./shell.nix {inherit pkgs;});
 
     /*
     devShells = forEachSystem (system: {

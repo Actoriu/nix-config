@@ -28,7 +28,6 @@
   programs.dconf.enable = true;
 
   private = {
-    # enable = true;
     i18n = {
       enable = true;
       inputMethod = "fcitx5";

@@ -82,3 +82,7 @@
 ;; tools: rgb
 (add-hook! 'rainbow-mode-hook
   (hl-line-mode (if rainbow-mode -1 +1)))
+
+;; editor: format
+(when (executable-find "alejandra")
+  (set-formatter! 'alejandra "alejandra --quiet" :modes '(nix-mode)))
