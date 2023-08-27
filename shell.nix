@@ -11,7 +11,13 @@
       sha256 = narHash;
     };
   in
-    import nixpkgs {overlays = [];},
+    import nixpkgs {
+      config = {
+        allowUnfree = true;
+        allowBroken = true;
+      };
+      overlays = [];
+    },
   ...
 }: {
   default = pkgs.mkShell {
@@ -20,6 +26,8 @@
       nix
       home-manager
       git
+      cachix
+      # nvfetcher
       sops
       ssh-to-age
       gnupg

@@ -71,7 +71,7 @@
        ;; parinfer          ; turn lisp into python, sort of
        ;; rotate-text       ; cycle region at point between text candidates
        snippets             ; my elves. They type so I don't have to
-       ;; word-wrap         ; soft wrapping with language-aware indent
+       word-wrap            ; soft wrapping with language-aware indent
 
        :emacs
        dired                ; making dired pretty [functional]
@@ -89,7 +89,7 @@
        :checkers
        ;; syntax            ; tasing you for every semicolon you forget
        ;; (spell +flyspell) ; tasing you for misspelling mispelling
-       ;; grammar              ; tasing grammar mistake every you make
+       ;; grammar           ; tasing grammar mistake every you make
 
        :tools
        ;; ansible
@@ -114,7 +114,7 @@
        ;; taskrunner        ; taskrunner for all your projects
        terraform            ; infrastructure as code
        ;; tmux              ; an API for interacting with tmux
-       ;; tree-sitter          ; syntax and parsing, sitting in a tree...
+       ;; tree-sitter       ; syntax and parsing, sitting in a tree...
        ;; upload            ; map local to remote projects via ssh/ftp
 
        :os

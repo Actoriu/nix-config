@@ -12,7 +12,7 @@ in {
         GNU/Linux distributions other than NixOS.";
   };
 
-  config = mkIf (cfg.enable && pkgs.stdenv.isLinux && config.private.graphical.platform == "Home-manager") {
+  config = mkIf (cfg.enable && pkgs.stdenv.isLinux) {
     targets.genericLinux.enable = cfg.enable;
     xsession.enable = cfg.enable;
   };

@@ -26,6 +26,7 @@
       imports =
         [
           inputs.impermanence.nixosModules.home-manager.impermanence
+          inputs.nix-doom-emacs.hmModule
           inputs.nur.hmModules.nur
           inputs.sops-nix.homeManagerModules.sops
         ]

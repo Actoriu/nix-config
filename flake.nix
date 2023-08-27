@@ -31,14 +31,14 @@
       url = "github:NixOS/nixos-hardware";
     };
 
-    flake-compat = {
-      url = "github:edolstra/flake-compat";
-      flake = false;
-    };
+    # flake-compat = {
+    #   url = "github:edolstra/flake-compat";
+    #   flake = false;
+    # };
 
-    flake-utils = {
-      url = "github:numtide/flake-utils";
-    };
+    # flake-utils = {
+    #   url = "github:numtide/flake-utils";
+    # };
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -119,8 +119,8 @@
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
       inputs = {
-        flake-compat.follows = "flake-compat";
-        flake-utils.follows = "flake-utils";
+        # flake-compat.follows = "flake-compat";
+        # flake-utils.follows = "flake-utils";
         nixpkgs.follows = "nixpkgs";
       };
     };
@@ -183,26 +183,28 @@
 
     checks = forEachPkgs (pkgs: {
       formatting = formatterPackArgsFor.${pkgs.system}.config.build.check self;
-      # pre-commit-check = import ./flake-parts/pre-commit.nix {
-      #   inherit formatterPackArgsFor inputs pkgs system;
-      # };
+      pre-commit-check = import ./flake-parts/pre-commit.nix {
+        inherit formatterPackArgsFor inputs pkgs;
+      };
     });
 
-    devShells = forEachSystem (pkgs: import ./shell.nix {inherit pkgs;});
+    # devShells = forEachPkgs (pkgs: import ./shell.nix {inherit pkgs;});
 
-    /*
     devShells = forEachSystem (system: {
       default = let
         pkgs = import nixpkgs {
           inherit system;
+          config = {
+            allowUnfree = true;
+            allowBroken = true;
+          };
           overlays = [inputs.devshell.overlays.default];
         };
       in
         import ./flake-parts/shell/devshell.nix {
-          inherit formatterPackArgsFor pkgs self system;
+          inherit formatterPackArgsFor pkgs self;
         };
     });
-    */
 
     /*
     devShells = forEachSystem (system: let
@@ -266,7 +268,6 @@
       };
     };
 
-    /*
     nixOnDroidConfigurations = {
       oneplus5 = nix-on-droid.lib.nixOnDroidConfiguration {
         pkgs = import nixpkgs {
@@ -278,6 +279,7 @@
         extraSpecialArgs = {
           inherit inputs outputs stateVersion;
           hostname = "oneplus5";
+          non-nixos = false;
           username = "nix-on-droid";
         };
         home-manager-path = home-manager.outPath;
@@ -286,6 +288,5 @@
         ];
       };
     };
-    */
   };
 }

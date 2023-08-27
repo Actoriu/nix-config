@@ -13,7 +13,7 @@ fetch.url = "https://github.com/outloudvi/mw2fcitx/releases/download/20230414/mo
 
 [fcitx5-pinyin-zhwiki]
 src.git = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki"
-fetch.url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.4/zhwiki-20230605.dict.yaml"
+fetch.url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.4/zhwiki-20230823.dict.yaml"
 
 [gfwlist]
 src.git = "https://github.com/gfwlist/gfwlist"

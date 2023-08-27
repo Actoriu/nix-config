@@ -12,9 +12,9 @@
   imports =
     [
       inputs.impermanence.nixosModules.home-manager.impermanence
+      inputs.nix-doom-emacs.hmModule
       inputs.nur.hmModules.nur
       inputs.sops-nix.homeManagerModules.sops
-      inputs.nix-doom-emacs.hmModule
     ]
     ++ lib.optional (username != null) ../profiles/users/${username};
 

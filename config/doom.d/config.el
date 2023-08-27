@@ -86,3 +86,6 @@
 ;; editor: format
 (when (executable-find "alejandra")
   (set-formatter! 'alejandra "alejandra --quiet" :modes '(nix-mode)))
+
+;; editor: word-wrap (almost) everywhere
+(+global-word-wrap-mode +1)

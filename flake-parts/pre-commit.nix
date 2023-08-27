@@ -2,10 +2,9 @@
   formatterPackArgsFor,
   inputs,
   pkgs,
-  system,
   ...
 }:
-inputs.pre-commit-hooks.lib.${system}.run {
+inputs.pre-commit-hooks.lib.${pkgs.system}.run {
   src = ../.;
   hooks = {
     actionlint.enable = true;
@@ -28,6 +27,6 @@ inputs.pre-commit-hooks.lib.${system}.run {
     # treefmt.enable = true;
   };
   settings = {
-    treefmt.package = formatterPackArgsFor;
+    treefmt.package = formatterPackArgsFor.${pkgs.system}.config.build.wrapper;
   };
 }
