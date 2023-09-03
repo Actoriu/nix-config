@@ -41,12 +41,12 @@ in {
           enable = cfg.doom-emacs;
           package =
             if pkgs.stdenv.isDarwin
-            then pkgs.emacs29-macport
+            then pkgs.emacs-macport
             else if pkgs.stdenv.isAarch64
-            then pkgs.emacs29-nox
+            then pkgs.emacs-nox
             else if (pkgs.stdenv.isLinux && config.private.graphical.display == "wayland")
-            then pkgs.emacs29-pgtk
-            else pkgs.emacs29-gtk3;
+            then pkgs.emacs-pgtk
+            else pkgs.emacs-gtk;
           # extraPackages = epkgs: with epkgs; [
           #   evil
           #   helm
@@ -76,12 +76,12 @@ in {
           enable = cfg.spacemacs;
           package =
             if pkgs.stdenv.isDarwin
-            then pkgs.emacs29-macport
+            then pkgs.emacs-macport
             else if pkgs.stdenv.isAarch64
-            then pkgs.emacs29-nox
+            then pkgs.emacs-nox
             else if (pkgs.stdenv.isLinux && config.private.graphical.display == "wayland")
-            then pkgs.emacs29-pgtk
-            else pkgs.emacs29-gtk3;
+            then pkgs.emacs-pgtk
+            else pkgs.emacs-gtk;
           # extraPackages = epkgs: with epkgs; [
           #   evil
           #   helm
@@ -135,12 +135,12 @@ in {
         doomPrivateDir = ../../../config/doom.d;
         emacsPackage =
           if pkgs.stdenv.isDarwin
-          then pkgs.emacs29-macport
+          then pkgs.emacs-macport
           else if pkgs.stdenv.isAarch64
-          then pkgs.emacs29-nox
+          then pkgs.emacs-nox
           else if (pkgs.stdenv.isLinux && config.private.graphical.display == "wayland")
-          then pkgs.emacs29-pgtk
-          else pkgs.emacs29-gtk3;
+          then pkgs.emacs-pgtk
+          else pkgs.emacs-gtk;
       };
     })
 
