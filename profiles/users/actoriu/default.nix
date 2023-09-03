@@ -24,7 +24,7 @@
     ../../home-manager/programs/gpg
     ../../home-manager/programs/mpv
     ../../home-manager/programs/neovim
-    ../../home-manager/programs/proxy/geph
+    # ../../home-manager/programs/proxy/geph
     ../../home-manager/programs/rofi
     ../../home-manager/programs/ssh
     ../../home-manager/programs/starship
@@ -52,8 +52,9 @@
     editors = {
       emacs = {
         enable = true;
-        emacs-application-framework = true;
-        nix-doom-emacs = true;
+        doom-emacs = true;
+        emacs-application-framework = false;
+        nix-doom-emacs = false;
         spacemacs = false;
         treesitter = false;
       };

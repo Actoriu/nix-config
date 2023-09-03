@@ -26,14 +26,49 @@ with lib; let
 in {
   options.private.editors.emacs = {
     enable = mkEnableOption "Enable support for emacs.";
+    doom-emacs = mkEnableOption "Enable support for doom-emacs.";
     emacs-application-framework =
       mkEnableOption "Enable support for emacs-application-framework.";
-    nix-doom-emacs = mkEnableOption "Enable support for doom-emacs.";
+    nix-doom-emacs = mkEnableOption "Enable support for nix-doom-emacs.";
     spacemacs = mkEnableOption "Enable support for spacemacs.";
     treesitter = mkEnableOption "Enable support for tree-sitter.";
   };
 
   config = mkIf cfg.enable (mkMerge [
+    (mkIf cfg.doom-emacs {
+      programs = {
+        emacs = {
+          package =
+            if pkgs.stdenv.isDarwin
+            then pkgs.emacs29-macport
+            else if pkgs.stdenv.isAarch64
+            then pkgs.emacs29-nox
+            else if (pkgs.stdenv.isLinux && config.private.graphical.display == "wayland")
+            then pkgs.emacs29-pgtk
+            else pkgs.emacs29-gtk3;
+          # extraPackages = epkgs: with epkgs; [
+          #   evil
+          #   helm
+          #   general
+          #   magit
+          #   nix-mode
+          #   company
+          # ];
+        };
+      };
+
+      xdg.configFile = {
+        "emacs" = {
+          source = pkgs.doom-emacs;
+          recursive = true;
+        };
+        "doom" = {
+          source = "${cleanSource ../../../config/doom.d}";
+          recursive = true;
+        };
+      };
+    })
+
     (mkIf cfg.spacemacs {
       programs = {
         emacs = {
@@ -92,6 +127,7 @@ in {
       };
     })
 
+    /*
     (mkIf cfg.nix-doom-emacs {
       programs.doom-emacs = {
         enable = true;
@@ -106,6 +142,7 @@ in {
           else pkgs.emacs-gtk;
       };
     })
+    */
 
     (mkIf (pkgs.stdenv.isAarch64 == false && pkgs.stdenv.isDarwin == false && config.targets.genericLinux == false && cfg.emacs-application-framework) {
       home = {

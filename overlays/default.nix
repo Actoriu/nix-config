@@ -27,6 +27,10 @@ in {
     alacritty-theme = inputs.alacritty-theme;
   };
 
+  doom-emacs = final: prev: {
+    doom-emacs = inputs.doom-emacs;
+  };
+
   spacemacs = final: prev: {
     spacemacs = inputs.spacemacs;
   };

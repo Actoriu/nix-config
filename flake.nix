@@ -3,10 +3,10 @@
 
   nixConfig = {
     experimental-features = ["nix-command" "flakes"];
-    # substituters = [
-    #   "https://mirrors.cernet.edu.cn/nix-channels/store"
-    #   "https://cache.nixos.org/"
-    # ];
+    substituters = [
+      "https://mirrors.cernet.edu.cn/nix-channels/store"
+      "https://cache.nixos.org/"
+    ];
     extra-substituters = [
       "https://nix-actions.cachix.org"
       "https://nix-community.cachix.org"
@@ -61,6 +61,11 @@
       };
     };
 
+    doom-emacs = {
+      url = "github:doomemacs/doomemacs";
+      flake = false;
+    };
+
     devshell = {
       url = "github:numtide/devshell";
       inputs = {
@@ -75,16 +80,14 @@
       };
     };
 
-    nix-doom-emacs = {
-      url = "github:nix-community/nix-doom-emacs";
-      /*
-      inputs = {
-        flake-compat.follows = "flake-compat";
-        flake-utils.follows = "flake-utils";
-        nixpkgs.follows = "nixpkgs";
-      };
-      */
-    };
+    # nix-doom-emacs = {
+    #   url = "github:nix-community/nix-doom-emacs";
+    #   inputs = {
+    #     flake-compat.follows = "flake-compat";
+    #     flake-utils.follows = "flake-utils";
+    #     nixpkgs.follows = "nixpkgs";
+    #   };
+    # };
 
     # guix-overlay = {
     #   url = "github:foo-dogsquared/nix-overlay-guix";
@@ -132,10 +135,10 @@
       };
     };
 
-    spacemacs = {
-      url = "github:syl20bnr/spacemacs/develop";
-      flake = false;
-    };
+    # spacemacs = {
+    #   url = "github:syl20bnr/spacemacs/develop";
+    #   flake = false;
+    # };
 
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
