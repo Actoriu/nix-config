@@ -52,9 +52,9 @@
     editors = {
       emacs = {
         enable = true;
-        doom-emacs = true;
+        doom-emacs = false;
         emacs-application-framework = false;
-        nix-doom-emacs = false;
+        nix-doom-emacs = true;
         spacemacs = false;
         treesitter = false;
       };

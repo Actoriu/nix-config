@@ -61,10 +61,10 @@
       };
     };
 
-    doom-emacs = {
-      url = "github:doomemacs/doomemacs";
-      flake = false;
-    };
+    # doom-emacs = {
+    #   url = "github:doomemacs/doomemacs";
+    #   flake = false;
+    # };
 
     devshell = {
       url = "github:numtide/devshell";
@@ -80,14 +80,14 @@
       };
     };
 
-    # nix-doom-emacs = {
-    #   url = "github:nix-community/nix-doom-emacs";
-    #   inputs = {
-    #     flake-compat.follows = "flake-compat";
-    #     flake-utils.follows = "flake-utils";
-    #     nixpkgs.follows = "nixpkgs";
-    #   };
-    # };
+    nix-doom-emacs = {
+      url = "github:nix-community/nix-doom-emacs";
+      # inputs = {
+      #   flake-compat.follows = "flake-compat";
+      #   flake-utils.follows = "flake-utils";
+      #   nixpkgs.follows = "nixpkgs";
+      # };
+    };
 
     # guix-overlay = {
     #   url = "github:foo-dogsquared/nix-overlay-guix";
@@ -152,7 +152,6 @@
     self,
     nixpkgs,
     home-manager,
-    # nix-doom-emacs,
     nix-on-droid,
     cachix-deploy-flake,
     treefmt-nix,
