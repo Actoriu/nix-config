@@ -22,7 +22,7 @@ jobs:
         with:
           swap-size-gb: 10
       - name: Checkout repository
-        uses: actions/checkout@v3.6.0
+        uses: actions/checkout@v4.0.0
       - name: Install nix
         uses: cachix/install-nix-action@v22
         with:
