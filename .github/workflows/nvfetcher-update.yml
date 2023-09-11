@@ -74,7 +74,7 @@ jobs:
       #       echo "$(nvfetcher -c ./sources.toml | sed -n '/Changes/,/$!d/p')" >> $GITHUB_OUTPUT
       #       echo "EOF" >> $GITHUB_OUTPUT
       - name: Generate token
-        uses: tibdex/github-app-token@v1.8.0
+        uses: tibdex/github-app-token@v2.0.0
         id: generate-token
         with:
           app_id: "${{ secrets.APP_ID }}"
