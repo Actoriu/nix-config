@@ -30,11 +30,11 @@ jobs:
         with:
           swap-size-gb: 10
       - name: Checkout repository
-        uses: actions/checkout@v3.6.0
+        uses: actions/checkout@v4.0.0
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2.2.0
+        uses: docker/setup-qemu-action@v3.0.0
       - name: Install nix
-        uses: cachix/install-nix-action@v22
+        uses: cachix/install-nix-action@v23
         with:
           nix_path: nixpkgs=channel:nixos-unstable
           extra_nix_config: |

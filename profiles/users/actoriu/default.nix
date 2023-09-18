@@ -9,6 +9,8 @@
   imports = [
     ../../../modules/home-manager
     ../../home-manager/i18n/input-method/fcitx5
+    ../../home-manager/lang/cc
+    ../../home-manager/lang/javascript
     ../../home-manager/lang/nix
     ../../home-manager/misc/fontconfig
     ../../home-manager/misc/gtk
@@ -33,7 +35,7 @@
     ../../home-manager/programs/zathura
     ../../home-manager/programs/zoxide
     ../../home-manager/programs/zsh
-    ../../home-manager/services/gammastep
+    ../../home-manager/services/redshift
     ../../home-manager/tools/nix/cachix
   ];
 

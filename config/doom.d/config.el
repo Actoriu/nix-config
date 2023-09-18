@@ -7,8 +7,8 @@
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets. It is optional.
-(setq user-full-name "John Doe"
-      user-mail-address "john@doe.com")
+(setq user-full-name "Actoriu"
+      user-mail-address "evil.actoriu@gmail.com")
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
 ;;
@@ -41,7 +41,7 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
+(setq org-directory "~/Documents/org/")
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
@@ -88,4 +88,21 @@
   (set-formatter! 'alejandra "alejandra --quiet" :modes '(nix-mode)))
 
 ;; editor: word-wrap (almost) everywhere
-(+global-word-wrap-mode +1)
+;; (+global-word-wrap-mode +1)
+
+;; awesome-tray
+;; (use-package! awesome-tray
+;;   :hook (doom-after-init . awesome-tray-mode)
+;;   :custom
+;;   ;; (awesome-tray-mode-line-active-color "#A45BAD")
+;;   ;; (awesome-tray-active-modules '("git"
+;;   ;;                                "parent-dir"
+;;   ;;                                "mode-name"
+;;   ;;                                "buffer-name"
+;;   ;;                                "buffer-read-only"
+;;   ;;                                "location"))
+;;   :init
+;;   ;; Prevent flash of unstyled modeline at startup
+;;   ;; (unless after-init-time
+;;   ;;   (awesome-tray-mode 1))
+;;   )
