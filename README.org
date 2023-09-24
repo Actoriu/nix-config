@@ -48,6 +48,7 @@ Built for Life, Liberty, and the Open Road.
 + 100% Reproducible
 
 * Table of Contents                                       :TOC_4_gh:noexport:
+- [[#faq][FAQ]]
 - [[#introduction][Introduction]]
   - [[#getting-started][Getting Started]]
   - [[#making-changes][Making Changes]]
@@ -59,6 +60,16 @@ Built for Life, Liberty, and the Open Road.
 - [[#development-shells][Development Shells]]
   - [[#nix][Nix]]
 - [[#relevant-projects][Relevant projects]]
+
+* FAQ
+NixOS seems pretty cool! Should I join the hype train and use it?
+
+No. Don't do it. Don't be like me and spend years on just system configuration.
+
+#+ATTR_ORG: :width 800px
+#+ATTR_HTML: :width 800px
+#+ATTR_LATEX: :width 800px
+[[https://i.redd.it/ixi6zkudgsu61.png]]
 
 * Introduction
 
