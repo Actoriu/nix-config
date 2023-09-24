@@ -27,6 +27,7 @@
       allowUnfree = true;
       # for build nvidia
       allowBroken = true;
+      nvidia.acceptLicense = true;
     };
     hostPlatform = lib.mkDefault system;
     overlays = builtins.attrValues outputs.overlays;

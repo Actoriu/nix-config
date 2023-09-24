@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  username,
   ...
 }: {
   imports = [./cachix];
@@ -25,7 +26,7 @@
       keep-derivations = true;
       sandbox = true;
       system-features = ["nixos-test" "benchmark" "big-parallel" "kvm"];
-      trusted-users = ["root" "@wheel"];
+      trusted-users = ["root" "@wheel" username];
     };
   };
 }

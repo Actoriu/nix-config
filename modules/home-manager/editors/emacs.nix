@@ -133,13 +133,25 @@ in {
       programs.doom-emacs = {
         enable = cfg.nix-doom-emacs;
         doomPrivateDir = ../../../config/doom.d;
-        doomPackageDir = pkgs.linkFarm "my-doom-packages" [
+        doomPackageDir = pkgs.linkFarm "doom-packages-dir" [
           # straight needs a (possibly empty) `config.el` file to build
-          { name = "config.el"; path = pkgs.emptyFile; }
-          { name = "init.el"; path = ../../../config/doom.d/init.el; }
-          { name = "+ui.el"; path = ../../../config/doom.d/+ui.el; }
-          { name = "packages.el"; path = pkgs.writeText "(package! inheritenv)"; }
-          { name = "modules"; path = ../../../config/doom.d/modules; }
+          {
+            name = "config.el";
+            path = pkgs.emptyFile;
+          }
+          {
+            name = "init.el";
+            path = ../../../config/doom.d/init.el;
+          }
+          {
+            name = "+ui.el";
+            path = ../../../config/doom.d/+ui.el;
+          }
+          {
+            name = "packages.el";
+            path = ../../../config/doom.d/packages.el;
+          }
+          # { name = "modules"; path = ../../../config/doom.d/modules; }
         ];
         emacsPackage =
           if pkgs.stdenv.isDarwin

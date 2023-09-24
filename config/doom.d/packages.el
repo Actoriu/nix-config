@@ -49,4 +49,4 @@
 
 ;; awesome-tray
 ;; (package! awesome-tray
-;;   :recipe (:host github :repo "manateelazycat/awesome-tray"))
+;;   :recipe (:host github :repo "manateelazycat/awesome-tray" :files ("*.el")))

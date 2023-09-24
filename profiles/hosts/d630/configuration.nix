@@ -14,7 +14,7 @@
 
   services.xserver.enable = true;
 
-  users.users.${username} = {
+  users.users."${username}" = {
     isNormalUser = true;
     extraGroups = ["wheel"];
     uid = 1000;
