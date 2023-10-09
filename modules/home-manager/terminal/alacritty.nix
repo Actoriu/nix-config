@@ -13,6 +13,7 @@ in {
 
   config = mkIf cfg.enable (mkMerge [
     (mkIf (pkgs.stdenv.isLinux && config.private.genericLinux.enable == true) {
+      /*
       xdg.configFile = {
         "alacritty/themes" = {
           source = pkgs.alacritty-theme;
@@ -22,14 +23,17 @@ in {
           source = ../../../profiles/home-manager/programs/alacritty/alacritty.yml;
         };
       };
+      */
     })
     (mkIf (config.private.genericLinux.enable == false) {
+      /*
       xdg.configFile = {
         "alacritty/themes" = {
           source = pkgs.alacritty-theme;
           recursive = true;
         };
       };
+      */
 
       programs = {
         alacritty = {

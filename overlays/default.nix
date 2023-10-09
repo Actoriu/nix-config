@@ -10,7 +10,15 @@ in {
   flake-inputs = final: _: {
     inputs =
       builtins.mapAttrs
-      (_: flake: (flake.packages or flake.legacyPackages or {}).${final.system} or {})
+      (
+        _: flake: let
+          legacyPackages = (flake.legacyPackages or {}).${final.system} or {};
+          packages = (flake.packages or {}).${final.system} or {};
+        in
+          if legacyPackages != {}
+          then legacyPackages
+          else packages
+      )
       inputs;
   };
 
@@ -21,17 +29,11 @@ in {
   modifications = final: prev: {
   };
 
-  # When applied, the spacemacs set (declared in the flake inputs) will
-  # be accessible through 'pkgs.spacemacs'
-  alacritty-theme = final: prev: {
-    alacritty-theme = inputs.alacritty-theme;
-  };
-
-  doom-emacs = final: prev: {
-    doom-emacs = inputs.doom-emacs;
-  };
-
-  spacemacs = final: prev: {
-    spacemacs = inputs.spacemacs;
+  # non flake inputs
+  my-inputs = final: prev: {
+    # alacritty-theme = inputs.alacritty-theme;
+    # chemacs2 = inputs.chemacs2;
+    # doom-emacs = inputs.doom-emacs;
+    # spacemacs = inputs.spacemacs;
   };
 }

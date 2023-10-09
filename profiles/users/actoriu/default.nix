@@ -9,7 +9,7 @@
   imports = [
     ../../../modules/home-manager
     ../../home-manager/i18n/input-method/fcitx5
-    ../../home-manager/lang/cc
+    # ../../home-manager/lang/cc
     ../../home-manager/lang/javascript
     ../../home-manager/lang/nix
     ../../home-manager/misc/fontconfig
@@ -30,25 +30,14 @@
     ../../home-manager/programs/rofi
     ../../home-manager/programs/ssh
     ../../home-manager/programs/starship
-    ../../home-manager/programs/urxvt
-    ../../home-manager/programs/tmux
+    # ../../home-manager/programs/urxvt
+    # ../../home-manager/programs/tmux
     ../../home-manager/programs/zathura
     ../../home-manager/programs/zoxide
     ../../home-manager/programs/zsh
     ../../home-manager/services/redshift
     ../../home-manager/tools/nix/cachix
   ];
-
-  i18n.glibcLocales = pkgs.glibcLocales.override {
-    allLocales = false;
-    locales = ["en_US.UTF-8/UTF-8" "zh_CN.UTF-8/UTF-8"];
-  };
-
-  home = {
-    language = {
-      base = "zh_CN.UTF-8";
-    };
-  };
 
   private = {
     editors = {

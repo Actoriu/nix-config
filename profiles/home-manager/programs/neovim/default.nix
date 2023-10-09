@@ -6,11 +6,27 @@
 }: {
   programs = {
     neovim = {
+      /*
+      nvimdots = {
+        enable = true;
+        # setBuildEnv = true;
+        # withBuildTools = true;
+        withHaskell = false;
+        # extraDependentPackages = with pkgs; [ icu ];
+      };
+      */
       enable = true;
       # package = pkgs.neovim-nightly;
       viAlias = true;
       vimAlias = true;
       vimdiffAlias = true;
+      /*
+      extraPackages = with pkgs; [
+        nodePackages.pyright
+        tree-sitter
+      ];
+      */
+      /*
       extraConfig = ''
         "" Encoding
         set encoding=utf-8
@@ -57,40 +73,40 @@
 
         "" Enable modelines
         set modeline
-        set modelines=5
+        set modelines=1
 
         "" Airline
-        set laststatus=2
+        "" set laststatus=2
 
-        let g:airline_powerline_fonts = 1
-        let g:airline_theme='onedark'
+        "" let g:airline_powerline_fonts = 1
+        "" let g:airline_theme='onedark'
 
-        if !exists('g:airline_symbols')
-        let g:airline_symbols = {}
-        endif
+        "" if !exists('g:airline_symbols')
+        "" let g:airline_symbols = {}
+        "" endif
 
         " unicode symbols
-        let g:airline_left_sep = '»'
-        let g:airline_left_sep = '▶'
-        let g:airline_right_sep = '«'
-        let g:airline_right_sep = '◀'
-        let g:airline_symbols.linenr = '␊'
-        let g:airline_symbols.linenr = '␤'
-        let g:airline_symbols.linenr = '¶'
-        let g:airline_symbols.branch = '⎇'
-        let g:airline_symbols.paste = 'ρ'
-        let g:airline_symbols.paste = 'Þ'
-        let g:airline_symbols.paste = '∥'
-        let g:airline_symbols.whitespace = 'Ξ'
+        "" let g:airline_left_sep = '»'
+        "" let g:airline_left_sep = '▶'
+        "" let g:airline_right_sep = '«'
+        "" let g:airline_right_sep = '◀'
+        "" let g:airline_symbols.linenr = '␊'
+        "" let g:airline_symbols.linenr = '␤'
+        "" let g:airline_symbols.linenr = '¶'
+        "" let g:airline_symbols.branch = '⎇'
+        "" let g:airline_symbols.paste = 'ρ'
+        "" let g:airline_symbols.paste = 'Þ'
+        "" let g:airline_symbols.paste = '∥'
+        "" let g:airline_symbols.whitespace = 'Ξ'
 
         " airline symbols
-        let g:airline_left_sep = ''
-        let g:airline_left_alt_sep = ''
-        let g:airline_right_sep = ''
-        let g:airline_right_alt_sep = ''
-        let g:airline_symbols.branch = ''
-        let g:airline_symbols.readonly = ''
-        let g:airline_symbols.linenr = ''
+        "" let g:airline_left_sep = ''
+        "" let g:airline_left_alt_sep = ''
+        "" let g:airline_right_sep = ''
+        "" let g:airline_right_alt_sep = ''
+        "" let g:airline_symbols.branch = ''
+        "" let g:airline_symbols.readonly = ''
+        "" let g:airline_symbols.linenr = ''
 
         "" Mappings
         let mapleader=","
@@ -103,10 +119,10 @@
         "" Buffers
 
         " Enable the list of buffers
-        let g:airline#extensions#tabline#enabled = 1
+        " let g:airline#extensions#tabline#enabled = 1
 
         " Show just the filename
-        let g:airline#extensions#tabline#fnamemod = ':t'
+        " let g:airline#extensions#tabline#fnamemod = ':t'
 
         " This allows buffers to be hidden if you've modified a buffer.
         " This is almost a must if you wish to use buffers in this way.
@@ -138,6 +154,7 @@
       #   number = true;
       # };
       coc.enable = true;
+      coc.settings = {};
       plugins = with pkgs.vimPlugins; [
         # coc-nvim
         coc-highlight
@@ -161,10 +178,6 @@
             let g:coc_snippet_prev = '<S-Tab>'
           '';
         }
-        vim-nix
-        vim-airline
-        vim-airline-themes
-        vim-hybrid-material
         {
           plugin = onedark-vim;
           config = ''
@@ -173,7 +186,23 @@
             colorscheme onedark
           '';
         }
+        vim-nix
+        vim-airline-themes
+        {
+          plugin = vim-airline;
+          config = ''
+            let g:airline_powerline_fonts = 1
+            let g:airline_theme='onedark'
+            " Enable the list of buffers
+            let g:airline#extensions#tabline#enabled = 1
+            let g:airline#extensions#tabline#show_tabs = 1
+            let g:airline#extensions#tabline#show_buffers = 1
+            let g:airline#extensions#whitespace#mixed_indent_algo = 2
+          '';
+        }
+        vim-hybrid-material
       ];
+      */
     };
   };
 }

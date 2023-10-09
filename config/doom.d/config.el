@@ -94,15 +94,18 @@
 ;; (use-package! awesome-tray
 ;;   :hook (doom-after-init . awesome-tray-mode)
 ;;   :custom
-;;   ;; (awesome-tray-mode-line-active-color "#A45BAD")
+;;   (awesome-tray-info-padding-right 1)
+;;   (awesome-tray-date-format "%F %R %a")
+;;   (awesome-tray-mode-line-active-color "#A45BAD")
 ;;   ;; (awesome-tray-active-modules '("git"
 ;;   ;;                                "parent-dir"
 ;;   ;;                                "mode-name"
 ;;   ;;                                "buffer-name"
 ;;   ;;                                "buffer-read-only"
 ;;   ;;                                "location"))
-;;   :init
+;;   :config
 ;;   ;; Prevent flash of unstyled modeline at startup
 ;;   ;; (unless after-init-time
 ;;   ;;   (awesome-tray-mode 1))
+;;   (awesome-tray-mode 1)
 ;;   )

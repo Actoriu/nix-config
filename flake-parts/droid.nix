@@ -27,7 +27,7 @@
         [
           inputs.impermanence.nixosModules.home-manager.impermanence
           inputs.nix-doom-emacs.hmModule
-          inputs.nur.hmModules.nur
+          # inputs.nur.hmModules.nur
           inputs.sops-nix.homeManagerModules.sops
         ]
         ++ lib.optional (username != null) ../profiles/users/${username};

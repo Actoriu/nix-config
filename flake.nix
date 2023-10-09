@@ -47,11 +47,14 @@
       };
     };
 
+    /*
     alacritty-theme = {
       url = "github:alacritty/alacritty-theme";
       flake = false;
     };
+    */
 
+    /*
     cachix-deploy-flake = {
       url = "github:cachix/cachix-deploy-flake";
       inputs = {
@@ -61,7 +64,11 @@
       };
     };
 
-    /*
+    chemacs2 = {
+      url = "github:plexus/chemacs2";
+      flake = false;
+    };
+
     doom-emacs = {
       url = "github:doomemacs/doomemacs";
       flake = false;
@@ -117,9 +124,17 @@
     #   };
     # };
 
+    /*
     nur = {
       url = "github:nix-community/NUR";
     };
+    */
+
+    /*
+    nvimdots = {
+      url = "github:ayamir/nvimdots";
+    };
+    */
 
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
@@ -137,10 +152,12 @@
       };
     };
 
-    # spacemacs = {
-    #   url = "github:syl20bnr/spacemacs/develop";
-    #   flake = false;
-    # };
+    /*
+    spacemacs = {
+      url = "github:syl20bnr/spacemacs/develop";
+      flake = false;
+    };
+    */
 
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
@@ -155,7 +172,7 @@
     nixpkgs,
     home-manager,
     nix-on-droid,
-    cachix-deploy-flake,
+    # cachix-deploy-flake,
     treefmt-nix,
     ...
   } @ inputs: let
@@ -165,7 +182,7 @@
 
     forEachPkgs = f: forEachSystem (system: f nixpkgs.legacyPackages.${system});
 
-    cachixDeployLibFor = forEachPkgs (pkgs: cachix-deploy-flake.lib);
+    # cachixDeployLibFor = forEachPkgs (pkgs: cachix-deploy-flake.lib);
 
     formatterPackArgsFor = forEachPkgs (pkgs: treefmt-nix.lib.evalModule pkgs ./flake-parts/treefmt.nix);
 
@@ -248,7 +265,7 @@
         modules = [
           inputs.disko.nixosModules.disko
           inputs.impermanence.nixosModules.impermanence
-          inputs.nur.nixosModules.nur
+          # inputs.nur.nixosModules.nur
           inputs.sops-nix.nixosModules.sops
           ./flake-parts/nixos.nix
         ];

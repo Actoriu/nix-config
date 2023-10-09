@@ -14,16 +14,16 @@
         };
       };
       extraConfig = {
-        font = "xft:Sarasa Fixed SC:pixelsize=24,xft:Noto Color Emoji:pixelsize=24:minspace=false,xft:Symbols Nerd Font:pixelsize=24:minspace=false";
-        boldFont = "xft:Sarasa Fixed SC:bold:pixelsize=24";
-        italicFont = "xft:Sarasa Fixed SC:italic:pixelsize=24";
-        boldItalicFont = "xft:Sarasa Fixed SC:bold:italic:pixelsize=24";
+        font = "xft:Sarasa Fixed SC:style=Regular:pixelsize=24,xft:Noto Color Emoji:style=Regular:pixelsize=24:minspace=false,xft:Symbols Nerd Font Mono:style=Regular:pixelsize=24:minspace=false";
+        boldFont = "xft:Sarasa Fixed SC:style=Bold:pixelsize=24";
+        italicFont = "xft:Sarasa Fixed SC:style=Italic:pixelsize=24";
+        boldItalicFont = "xft:Sarasa Fixed SC:style=Bold Italic:pixelsize=24";
         depth = 32;
         reverseVideo = false;
         loginShell = true;
         fading = 30;
         visualBell = true;
-        # letterSpace = -1;
+        letterSpace = -1;
         print-pipe = ''"cat > /dev/null"'';
         preeditType = "Root";
         skipBuiltinGlyphs = true;
@@ -42,7 +42,7 @@
         scrollstyle = "rxvt";
         scrollTtyOutput = false;
         scrollTtyKeypress = true;
-        scrollWithBuffer = false;
+        scrollWithBuffer = true;
         skipScroll = true;
         mouseWheelScrollPage = true;
         saveLines = 65536;

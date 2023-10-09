@@ -36,37 +36,76 @@ in {
 
   config = mkIf cfg.enable (mkMerge [
     (mkIf cfg.doom-emacs {
+      /*
+      home = {
+        sessionPath = ["${config.xdg.configHome}/emacs/bin"];
+        sessionVariables = {
+          DOOMDIR = "${config.xdg.configHome}/doom";
+          DOOMLOCALDIR = "${config.xdg.dataHome}/doom";
+          SPACEMACSDIR = "${config.xdg.configHome}/spacemacs.d";
+        };
+      };
+      */
       programs = {
         emacs = {
           enable = cfg.doom-emacs;
           package =
             if pkgs.stdenv.isDarwin
-            then pkgs.emacs-macport
+            then pkgs.emacs29-macport
             else if pkgs.stdenv.isAarch64
-            then pkgs.emacs-nox
+            then pkgs.emacs29-nox
             else if (pkgs.stdenv.isLinux && config.private.graphical.display == "wayland")
-            then pkgs.emacs-pgtk
-            else pkgs.emacs-gtk;
-          # extraPackages = epkgs: with epkgs; [
-          #   evil
-          #   helm
-          #   general
-          #   magit
-          #   nix-mode
-          #   company
-          # ];
+            then pkgs.emacs29-pgtk
+            else pkgs.emacs29-gtk3;
+          extraPackages = epkgs:
+            with epkgs; [
+              vterm
+            ];
         };
       };
 
       xdg.configFile = {
+        /*
+        "chemacs/profiles.el".text = ''
+          (("default" . ((user-emacs-directory . "${config.xdg.configHome}/my-emacs")))
+           ("doom" . ((user-emacs-directory . "${config.xdg.configHome}/doom-emacs")
+                      (env . (("DOOMDIR" . "${config.home.sessionVariables.DOOMDIR}")
+                              ("DOOMLOCALDIR" . "${config.home.sessionVariables.DOOMLOCALDIR}")))))
+           ("spacemacs" . ((user-emacs-directory . "${config.xdg.configHome}/spacemacs")
+                           (env . (("SPACEMACSDIR" . "${config.home.sessionVariables.SPACEMACSDIR}"))))))
+        '';
+        "chemacs/profile".text = "doom";
+        "emacs" = {
+          source = pkgs.chemacs2;
+          recursive = true;
+        };
+        */
+        /*
         "emacs" = {
           source = pkgs.doom-emacs;
-          recursive = true;
+          # recursive = true;
+          # onChange = "${pkgs.writeShellScript "doom-change" ''
+          #   export DOOMDIR="${config.home.sessionVariables.DOOMDIR}"
+          #   export DOOMLOCALDIR="${config.home.sessionVariables.DOOMLOCALDIR}"
+          #   if [ ! -d "$DOOMLOCALDIR" ]; then
+          #     ${config.xdg.configHome}/doom-emacs/bin/doom --force install
+          #   else
+          #     ${config.xdg.configHome}/doom-emacs/bin/doom --force clean
+          #     ${config.xdg.configHome}/doom-emacs/bin/doom --force sync -u
+          #   fi
+          # ''}";
         };
         "doom" = {
-          source = "${cleanSource ../../../config/doom.d}";
-          recursive = true;
+          # source = "${cleanSource ../../../config/doom.d}";
+          source = ../../../config/doom.d;
+          # recursive = true;
+          # onChange = "${pkgs.writeShellScript "doom-config-packages-change" ''
+          #   export DOOMDIR="${config.home.sessionVariables.DOOMDIR}"
+          #   export DOOMLOCALDIR="${config.home.sessionVariables.DOOMLOCALDIR}"
+          #   ${config.xdg.configHome}/doom-emacs/bin/doom --force sync -u
+          # ''}";
         };
+        */
       };
     })
 
@@ -76,12 +115,12 @@ in {
           enable = cfg.spacemacs;
           package =
             if pkgs.stdenv.isDarwin
-            then pkgs.emacs-macport
+            then pkgs.emacs29-macport
             else if pkgs.stdenv.isAarch64
-            then pkgs.emacs-nox
+            then pkgs.emacs29-nox
             else if (pkgs.stdenv.isLinux && config.private.graphical.display == "wayland")
-            then pkgs.emacs-pgtk
-            else pkgs.emacs-gtk;
+            then pkgs.emacs29-pgtk
+            else pkgs.emacs29-gtk3;
           # extraPackages = epkgs: with epkgs; [
           #   evil
           #   helm
@@ -155,12 +194,16 @@ in {
         ];
         emacsPackage =
           if pkgs.stdenv.isDarwin
-          then pkgs.emacs-macport
+          then pkgs.emacs29-macport
           else if pkgs.stdenv.isAarch64
-          then pkgs.emacs-nox
+          then pkgs.emacs29-nox
           else if (pkgs.stdenv.isLinux && config.private.graphical.display == "wayland")
-          then pkgs.emacs-pgtk
+          then pkgs.emacs29-pgtk
           else pkgs.emacs-gtk;
+        # emacsPackagesOverlay = final: prev: {
+        #   ts-fold = prev.ts;
+        #   tree-sitter-langs = prev.tree-sitter-langs.override { plugins = pkgs.tree-sitter.allGrammars; };
+        # };
       };
     })
 
