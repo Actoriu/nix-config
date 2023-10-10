@@ -8,6 +8,7 @@
 }: {
   imports = [
     ../../../modules/home-manager
+    ../../home-manager/i18n/locale
     ../../home-manager/i18n/input-method/fcitx5
     # ../../home-manager/lang/cc
     ../../home-manager/lang/javascript
@@ -54,6 +55,15 @@
     graphical = {
       # enable = true;
       display = "x11";
+    };
+    programs = {
+      npm = {
+        enable = true;
+        npmrc = ''
+          prefix=${xdg.dataHome}/npm
+          cache=${xdg.cacheHome}/npm
+        '';
+      };
     };
     terminal = {
       alacritty = {

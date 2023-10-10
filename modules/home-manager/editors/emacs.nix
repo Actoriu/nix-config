@@ -220,7 +220,7 @@ in {
           fd
           # eaf-music-player
           taglib
-          (python3.withPackages (ps:
+          (python311.withPackages (ps:
             with ps; [
               # eaf core
               epc
