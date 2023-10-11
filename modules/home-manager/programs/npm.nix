@@ -5,7 +5,7 @@
   ...
 }:
 with lib; let
-  cfg = config.private.programs.npm;
+  cfg = config.programs.npm;
 in {
   options = {
     programs.npm = {
@@ -39,15 +39,19 @@ in {
     };
   };
 
-  config = lib.mkIf (cfg.enable && config.xdg.enable) {
-    assertions = [
-      {
-        assertion = !config.xdg.enable;
-        message = "Need enable management of XDG base directories.";
-      }
-    ];
-    config.xdg.configFile."npm/npmrc".text = cfg.npmrc;
-    home.sessionVariables.NPM_CONFIG_USERCONFIG = "${config.xdg.configHome}/npm/npmrc";
-    home.packages = [cfg.package];
-  };
+  config = mkMerge [
+    # assertions = [
+    #   {
+    #     assertion = config.xdg.enable == false;
+    #     message = "Need enable management of XDG base directories.";
+    #   }
+    # ];
+    (mkIf (cfg.enable && config.xdg.enable) {
+      xdg.configFile."npm/npmrc".text = cfg.npmrc;
+    })
+    (mkIf cfg.enable {
+      home.sessionVariables.NPM_CONFIG_USERCONFIG = "${xdg.configHome}/npm/npmrc";
+      home.packages = [cfg.package];
+    })
+  ];
 }

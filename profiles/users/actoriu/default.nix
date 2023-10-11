@@ -27,6 +27,7 @@
     ../../home-manager/programs/gpg
     ../../home-manager/programs/mpv
     ../../home-manager/programs/neovim
+    ../../home-manager/programs/npm
     # ../../home-manager/programs/proxy/geph
     ../../home-manager/programs/rofi
     ../../home-manager/programs/ssh
@@ -55,15 +56,6 @@
     graphical = {
       # enable = true;
       display = "x11";
-    };
-    programs = {
-      npm = {
-        enable = true;
-        npmrc = ''
-          prefix=${xdg.dataHome}/npm
-          cache=${xdg.cacheHome}/npm
-        '';
-      };
     };
     terminal = {
       alacritty = {
