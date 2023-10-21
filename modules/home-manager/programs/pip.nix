@@ -15,9 +15,9 @@ in {
       package = mkOption {
         type = types.package;
         description = lib.mdDoc "The npm package version / flavor to use";
-        default = python311Packages.pip;
-        defaultText = literalExpression "pkgs.nodePackages.npm";
-        example = literalExpression "pkgs.nodePackages_13_x.npm";
+        default = pkgs.python311Packages.pip;
+        defaultText = literalExpression "pkgs.python311Packages.pip";
+        example = literalExpression "pkgs.python3xxPackages.pip";
       };
       */
 
@@ -44,8 +44,10 @@ in {
     (mkIf (cfg.enable && config.xdg.enable) {
       xdg.configFile."pip/pip.conf".text = cfg.pipconf;
     })
+    /*
     (mkIf cfg.enable {
-      # home.packages = [cfg.package];
+      home.packages = [cfg.package];
     })
+    */
   ];
 }
