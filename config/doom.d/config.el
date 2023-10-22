@@ -114,6 +114,7 @@ This will break if run in terminal mode, so use conditional to only run for GUI.
 
 ;; editor: format
 (when (and (modulep! :editor format)
+           (modulep! :lang nix)
            (executable-find "alejandra"))
   (set-formatter! 'alejandra "alejandra --quiet" :modes '(nix-mode)))
 
