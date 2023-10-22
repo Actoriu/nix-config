@@ -63,7 +63,8 @@ This will break if run in terminal mode, so use conditional to only run for GUI.
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
+(when (modulep! :ui doom)
+  (setq doom-theme 'doom-one))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -71,7 +72,8 @@ This will break if run in terminal mode, so use conditional to only run for GUI.
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/Documents/org/")
+(when (modulep! :lang org)
+  (setq org-directory "~/Documents/org/"))
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
@@ -105,73 +107,38 @@ This will break if run in terminal mode, so use conditional to only run for GUI.
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-;; Manually edit .local/custom.el will break doom updates
-(when (file-directory-p custom-file)
-  (message (concat "Please delete " custom-file ". And customization in config.el and +ui.el.")))
-
 ;; tools: rgb
-(add-hook! 'rainbow-mode-hook
-  (hl-line-mode (if rainbow-mode -1 +1)))
+(when (modulep! :tools rgb)
+  (add-hook! 'rainbow-mode-hook
+    (hl-line-mode (if rainbow-mode -1 +1))))
 
 ;; editor: format
-(when (executable-find "alejandra")
+(when (and (modulep! :editor format)
+           (executable-find "alejandra"))
   (set-formatter! 'alejandra "alejandra --quiet" :modes '(nix-mode)))
 
 ;; editor: word-wrap (almost) everywhere
-;; (+global-word-wrap-mode +1)
+(when (modulep! :editor word-wrap)
+  (+global-word-wrap-mode +1))
 
 ;; Use Tree Sitter wherever we can
-(setq +tree-sitter-hl-enabled-modes t)
-;; Don't try to download or build the binary, Nix already has it
-(setq tsc-dyn-get-from nil
-      tsc-dyn-dir "${pkgs.emacsPackages.tsc}/share/emacs/site-lisp/elpa/${pkgs.emacsPackages.tsc.name}")
+(when (modulep! :tools tree-sitter)
+  (setq +tree-sitter-hl-enabled-modes t
+        ;; Don't try to download or build the binary, Nix already has it
+        tsc-dyn-get-from nil
+        ;; tsc-dyn-dir "${pkgs.emacsPackages.tsc}/share/emacs/site-lisp/elpa/${pkgs.emacsPackages.tsc.name}"
+        ))
 
 ;;; Tree-sitter support
 ;; https://git.savannah.gnu.org/cgit/emacs.git/tree/admin/notes/tree-sitter/starter-guide?h=emacs-29
-(use-package! treesit
+(use-package! treesit-auto
   :when (and (fboundp 'treesit-available-p)
              (treesit-available-p))
-  :custom (major-mode-remap-alist
-           '((c-mode          . c-ts-mode)
-             (c++-mode        . c++-ts-mode)
-             (cmake-mode      . cmake-ts-mode)
-             (conf-toml-mode  . toml-ts-mode)
-             (csharp-mode     . csharp-ts-mode)
-             (css-mode        . css-ts-mode)
-             (java-mode       . java-ts-mode)
-             (js-mode         . js-ts-mode)
-             (js-json-mode    . json-ts-mode)
-             (python-mode     . python-ts-mode)
-             (ruby-mode       . ruby-ts-mode)
-             (rust-mode       . rust-ts-mode)
-             (sh-mode         . bash-ts-mode)
-             (typescript-mode . typescript-ts-mode)
-             ))
   :config
-  (add-hook 'markdown-mode-hook #'(lambda () (treesit-parser-create 'markdown)))
-
-  (add-hook 'zig-mode-hook #'(lambda () (treesit-parser-create 'zig)))
-
-  (add-hook 'web-mode-hook #'(lambda ()
-                               (let ((file-name (buffer-file-name)))
-                                 (when file-name
-                                   (treesit-parser-create
-                                    (pcase (file-name-extension file-name)
-                                      ("vue" 'vue)
-                                      ("html" 'html)
-                                      ("php" 'php))))
-                                 )))
-
-  (add-hook 'emacs-lisp-mode-hook #'(lambda () (treesit-parser-create 'elisp)))
-  (add-hook 'ielm-mode-hook #'(lambda () (treesit-parser-create 'elisp)))
-  (add-hook 'json-mode-hook #'(lambda () (treesit-parser-create 'json)))
-  (add-hook 'go-mode-hook #'(lambda () (treesit-parser-create 'go)))
-  (add-hook 'java-mode-hook #'(lambda () (treesit-parser-create 'java)))
-  (add-hook 'java-ts-mode-hook #'(lambda () (treesit-parser-create 'java)))
-  (add-hook 'php-mode-hook #'(lambda () (treesit-parser-create 'php)))
-  (add-hook 'php-ts-mode-hook #'(lambda () (treesit-parser-create 'php)))
-  (add-hook 'java-ts-mode-hook #'(lambda () (treesit-parser-create 'java)))
-  )
+  ;; (setq treesit-auto-install 'prompt)
+  (setq treesit-font-lock-level 4)
+  (treesit-auto-add-to-auto-mode-alist)
+  (global-treesit-auto-mode))
 
 ;; awesome-tray
 ;; (use-package! awesome-tray

@@ -379,10 +379,6 @@ in {
             path = ../../../config/doom.d/init.el;
           }
           {
-            name = "+ui.el";
-            path = ../../../config/doom.d/+ui.el;
-          }
-          {
             name = "packages.el";
             path = ../../../config/doom.d/packages.el;
           }

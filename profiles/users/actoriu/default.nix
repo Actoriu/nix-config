@@ -29,7 +29,7 @@
     ../../home-manager/programs/neovim
     ../../home-manager/programs/npm
     ../../home-manager/programs/pip
-    # ../../home-manager/programs/proxy/geph
+    ../../home-manager/programs/proxy/geph
     ../../home-manager/programs/rofi
     ../../home-manager/programs/ssh
     ../../home-manager/programs/starship

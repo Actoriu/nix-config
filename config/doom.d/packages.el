@@ -47,6 +47,12 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;; (unpin! t)
 
+;;; Tree-sitter support
+;; https://git.savannah.gnu.org/cgit/emacs.git/tree/admin/notes/tree-sitter/starter-guide?h=emacs-29
+(when (and (fboundp 'treesit-available-p)
+           (treesit-available-p))
+  (package! treesit-auto))
+
 ;; awesome-tray
 ;; (package! awesome-tray
 ;;   :recipe (:host github :repo "manateelazycat/awesome-tray" :files ("*.el")))
