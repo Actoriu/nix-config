@@ -4,7 +4,7 @@
   nixConfig = {
     experimental-features = ["nix-command" "flakes"];
     substituters = [
-      "https://mirror.sjtu.edu.cn/nix-channels/store"
+      "https://mirrors.cernet.edu.cn/nix-channels/store"
       "https://cache.nixos.org/"
     ];
     extra-substituters = [
@@ -25,6 +25,19 @@
   inputs = {
     nixpkgs = {
       url = "github:NixOS/nixpkgs/nixos-unstable";
+    };
+
+    flake-parts = {
+      url = github:hercules-ci/flake-parts;
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
+
+    flake-root = {
+      url = github:srid/flake-root;
+    };
+
+    mission-control = {
+      url = github:Platonic-Systems/mission-control;
     };
 
     nixos-hardware = {
@@ -167,13 +180,24 @@
     };
   };
 
+
+  outputs = inputs@{self, ...}:
+    inputs.flake-parts.lib.mkFlake {inherit inputs;} {
+      systems = ["aarch64-linux" "x86_64-linux"];
+      # imports = [./flake-parts];
+    };
+
+  /*
   outputs = {
-    self,
-    nixpkgs,
-    home-manager,
-    nix-on-droid,
+    # self,
+    # nixpkgs,
+    flake-parts,
+    # flake-root,
+    # mission-control,
+    # home-manager,
+    # nix-on-droid,
     # cachix-deploy-flake,
-    treefmt-nix,
+    # treefmt-nix,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -226,6 +250,7 @@
           inherit formatterPackArgsFor pkgs self;
         };
     });
+    */
 
     /*
     devShells = forEachSystem (system: let
@@ -246,6 +271,7 @@
     });
     */
 
+  /*
     formatter = forEachPkgs (pkgs: formatterPackArgsFor.${pkgs.system}.config.build.wrapper);
 
     overlays = import ./overlays {inherit inputs;};
@@ -310,4 +336,5 @@
       };
     };
   };
+  */
 }

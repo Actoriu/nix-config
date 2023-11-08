@@ -88,6 +88,10 @@
         # bindkey -M vicmd "j" history-substring-search-down
       '';
 
+      envExtra = "
+        export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive
+      ";
+
       plugins = [
         # {
         #   name = "zsh-autosuggestions";
@@ -109,11 +113,11 @@
           src = pkgs.zsh-nix-shell;
           file = "share/zsh-nix-shell/nix-shell.plugin.zsh";
         }
-        {
-          name = "zsh-vi-mode";
-          src = pkgs.zsh-vi-mode;
-          file = "share/zsh-vi-mode/zsh-vi-mode.plugin.zsh";
-        }
+        # {
+        #   name = "zsh-vi-mode";
+        #   src = pkgs.zsh-vi-mode;
+        #   file = "share/zsh-vi-mode/zsh-vi-mode.plugin.zsh";
+        # }
         # {
         #   name = "powerlevel10k";
         #   src = pkgs.zsh-powerlevel10k;

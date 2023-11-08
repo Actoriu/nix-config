@@ -11,8 +11,8 @@
     userEmail = "51398008+Actoriu@users.noreply.github.com";
     extraConfig = {
       url = {
-        "https://ghproxy.com/https://github" = {
-          insteadOf = "https://github";
+        "git@github.com:" = {
+          insteadOf = "https://github.com/";
         };
       };
       # http = {
