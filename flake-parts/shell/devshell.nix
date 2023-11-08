@@ -11,8 +11,8 @@
       # git.hooks.enable = true;
       # git.hooks.pre-commit.text = "${pkgs.treefmt}/bin/treefmt";
       packages = with pkgs; [
-        cachix
-        home-manager
+        # cachix
+        # home-manager
         # alejandra
         # nodePackages.prettier
         # nodePackages.prettier-plugin-toml

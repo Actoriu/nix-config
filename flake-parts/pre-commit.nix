@@ -25,9 +25,10 @@
             entry = pkgs.lib.mkForce "${pkgs.shfmt}/bin/shfmt -i 2 -s -w";
           };
           statix.enable = false;
-          # treefmt.enable = true;
+          treefmt.enable = true;
         };
         settings = {
+          # Need "pre-commit.settings.hooks.treefmt.enable = true;".
           # treefmt.package = config.treefmt.build.wrapper;
         };
       };

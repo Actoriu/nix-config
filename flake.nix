@@ -181,11 +181,7 @@
   };
 
 
-  outputs = inputs@{self, ...}:
-    inputs.flake-parts.lib.mkFlake {inherit inputs;} {
-      systems = ["aarch64-linux" "x86_64-linux"];
-      # imports = [./flake-parts];
-    };
+  outputs = inputs: import ./flake-parts inputs;
 
   /*
   outputs = {

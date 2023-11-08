@@ -27,5 +27,10 @@
         };
       };
     };
+
+    # perSystem.treefmt.flakeFormatter
+    # Enables treefmt the default formatter used by the nix fmt command
+    # Default: true
+    # formatter = config.treefmt.build.wrapper;
   };
 }
