@@ -1,23 +1,11 @@
 {
-  config,
-  inputs,
   lib,
-  non-nixos,
-  outputs,
   pkgs,
   stateVersion,
   username,
   ...
 }: {
-  imports =
-    [
-      inputs.impermanence.nixosModules.home-manager.impermanence
-      inputs.nix-doom-emacs.hmModule
-      # inputs.nur.hmModules.nur
-      # inputs.nvimdots.nixosModules.nvimdots
-      inputs.sops-nix.homeManagerModules.sops
-    ]
-    ++ lib.optional (username != null) ../profiles/users/${username};
+  imports = lib.optional (username != null) ../profiles/users/${username};
 
   nixpkgs = {
     config = {
@@ -26,7 +14,6 @@
       # Workaround for https://github.com/nix-community/home-manager/issues/2942
       allowUnfreePredicate = _: true;
     };
-    overlays = builtins.attrValues outputs.overlays;
   };
 
   home = {

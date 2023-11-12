@@ -1,12 +1,17 @@
-{
-  inputs,
-  ...
-}: {
-  imports = [inputs.treefmt-nix.flakeModule];
+{inputs, ...}: {
+  imports = [
+    inputs.flake-root.flakeModule
+    inputs.treefmt-nix.flakeModule
+  ];
 
-  perSystem = {config, pkgs, ...}: {
+  perSystem = {
+    config,
+    pkgs,
+    ...
+  }: {
     treefmt = {
-      projectRootFile = "flake.nix";
+      # projectRootFile = "flake.nix";
+      inherit (config.flake-root) projectRootFile;
       programs = {
         alejandra.enable = true;
         prettier.enable = true;

@@ -1,10 +1,11 @@
-{
-  inputs,
-  ...
-}: {
+{inputs, ...}: {
   imports = [inputs.devshell.flakeModule];
 
-  perSystem = { config, pkgs, ... }: {
+  perSystem = {
+    config,
+    pkgs,
+    ...
+  }: {
     devshells.default = {
       name = "nix-config";
       # imports = [(pkgs.devshell.extraModulesDir + "/git/hooks.nix")];
@@ -37,9 +38,9 @@
       devshell = {
         startup = {
           # only for pkgs.treefmt
-          # nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
-          #   export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
-          # '';
+          nodejs-setuphook = pkgs.lib.stringsWithDeps.noDepEntry ''
+            export NODE_PATH=${pkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:$NODE_PATH
+          '';
           pre-commit.text = config.pre-commit.installationScript;
         };
       };

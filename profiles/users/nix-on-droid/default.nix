@@ -24,10 +24,11 @@
     ../../home-manager/programs/zsh
   ];
 
-  private = {
-    editors = {
+  programs = {
+    private = {
       emacs = {
         enable = true;
+        doom-emacs = false;
         emacs-application-framework = false;
         nix-doom-emacs = true;
         spacemacs = false;

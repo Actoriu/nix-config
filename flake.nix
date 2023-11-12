@@ -44,14 +44,14 @@
       url = "github:NixOS/nixos-hardware";
     };
 
-    # flake-compat = {
-    #   url = "github:edolstra/flake-compat";
-    #   flake = false;
-    # };
+    flake-compat = {
+      url = "github:edolstra/flake-compat";
+      flake = false;
+    };
 
-    # flake-utils = {
-    #   url = "github:numtide/flake-utils";
-    # };
+    flake-utils = {
+      url = "github:numtide/flake-utils";
+    };
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -149,11 +149,11 @@
     };
     */
 
-    pre-commit-hooks = {
+    pre-commit-hooks-nix = {
       url = "github:cachix/pre-commit-hooks.nix";
       inputs = {
-        # flake-compat.follows = "flake-compat";
-        # flake-utils.follows = "flake-utils";
+        flake-compat.follows = "flake-compat";
+        flake-utils.follows = "flake-utils";
         nixpkgs.follows = "nixpkgs";
       };
     };
@@ -180,8 +180,11 @@
     };
   };
 
-
-  outputs = inputs: import ./flake-parts inputs;
+  outputs = inputs:
+    inputs.flake-parts.lib.mkFlake {inherit inputs;} {
+      systems = ["aarch64-linux" "x86_64-linux"];
+      imports = [./flake-parts];
+    };
 
   /*
   outputs = {
@@ -246,26 +249,26 @@
           inherit formatterPackArgsFor pkgs self;
         };
     });
-    */
+  */
 
-    /*
-    devShells = forEachSystem (system: let
-      pkgs = nixpkgs.legacyPackages.${system};
-    in {
-      default = pkgs.mkShell {
-        nativeBuildInputs = with pkgs; [
-          cachix
-          nvfetcher
-          (formatterPackArgsFor.${system})
-        ];
+  /*
+  devShells = forEachSystem (system: let
+    pkgs = nixpkgs.legacyPackages.${system};
+  in {
+    default = pkgs.mkShell {
+      nativeBuildInputs = with pkgs; [
+        cachix
+        nvfetcher
+        (formatterPackArgsFor.${system})
+      ];
 
-        shellHook = ''
-          ${self.checks.${system}.pre-commit-check.shellHook}
-          echo 1>&2 "Welcome to the development shell!"
-        '';
-      };
-    });
-    */
+      shellHook = ''
+        ${self.checks.${system}.pre-commit-check.shellHook}
+        echo 1>&2 "Welcome to the development shell!"
+      '';
+    };
+  });
+  */
 
   /*
     formatter = forEachPkgs (pkgs: formatterPackArgsFor.${pkgs.system}.config.build.wrapper);

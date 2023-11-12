@@ -1,10 +1,11 @@
-{
-  inputs,
-  ...
-}: {
+{inputs, ...}: {
   imports = [inputs.pre-commit-hooks-nix.flakeModule];
 
-  perSystem = { config, pkgs, ...}: {
+  perSystem = {
+    config,
+    pkgs,
+    ...
+  }: {
     pre-commit = {
       settings = {
         hooks = {

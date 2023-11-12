@@ -25,7 +25,7 @@ jobs:
         with:
           swap-size-gb: 10
       - name: Checkout repository
-        uses: actions/checkout@v4.1.0
+        uses: actions/checkout@v4.1.1
       - name: Install nix
         uses: cachix/install-nix-action@v23
         with:
@@ -41,7 +41,7 @@ jobs:
           signingKey: "${{ secrets.CACHIX_SIGNING_KEY }}"
           extraPullNames: nix-community,pre-commit-hooks,nix-on-droid
       - name: ${{ matrix.job_name }}
-        uses: nick-invision/retry@v2.8.3
+        uses: nick-invision/retry@v2.9.0
         id: update_nvfetcher
         with:
           max_attempts: 2
