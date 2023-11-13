@@ -32,6 +32,8 @@
             lib,
             ...
           }: {
+            # the options nixpkgs.* should not be used.
+            /*
             nixpkgs = {
               config = {
                 allowUnfree = true;
@@ -39,6 +41,7 @@
                 allowBroken = true;
               };
             };
+            */
 
             system.stateVersion = "${stateVersion}";
 
