@@ -12,6 +12,7 @@
   mkNixosConfig = {
     extraModules ? [],
     homeManager_extraModules ? [],
+    homeManager_sharedModules ? [],
     hostname ? null,
     non-nixos ? false,
     system ? "x86_64-linux",
@@ -51,6 +52,7 @@
               extraSpecialArgs = {inherit inputs non-nixos username stateVersion;};
               # useGlobalPkgs = true;
               useUserPackages = true;
+              sharedModules = homeManager_sharedModules;
               users.${username} = {...}: {
                 imports =
                   homeManager_extraModules
@@ -74,7 +76,8 @@ in {
         # inputs.nur.nixosModules.nur
         inputs.sops-nix.nixosModules.sops
       ];
-      homeManager_extraModules = [
+      # homeManager_extraModules = [];
+      homeManager_sharedModules = [
         inputs.impermanence.nixosModules.home-manager.impermanence
         inputs.nix-doom-emacs.hmModule
         # inputs.nur.hmModules.nur

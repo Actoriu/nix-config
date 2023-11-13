@@ -6,6 +6,7 @@
   mkDroidConfig = {
     extraModules ? [],
     homeManager_extraModules ? [],
+    homeManager_sharedModules ? [],
     hostname ? "default",
     non-nixos ? false,
     system ? "aarch64-linux",
@@ -45,6 +46,7 @@
               extraSpecialArgs = {inherit inputs non-nixos username stateVersion;};
               # useGlobalPkgs = true;
               useUserPackages = true;
+              sharedModules = homeManager_sharedModules;
               config = {
                 config,
                 lib,
@@ -80,9 +82,10 @@ in {
       username = "nix-on-droid";
       # system = "aarch64-linux";
       # extraModules = [];
-      homeManager_extraModules = [
+      # homeManager_extraModules = [];
+      homeManager_sharedModules = [
         # inputs.impermanence.nixosModules.home-manager.impermanence
-        # inputs.nix-doom-emacs.hmModule
+        inputs.nix-doom-emacs.hmModule
         # inputs.nur.hmModules.nur
         # inputs.sops-nix.homeManagerModules.sops
       ];
