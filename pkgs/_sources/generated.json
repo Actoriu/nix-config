@@ -1,7 +1,7 @@
 {
     "dnsmasq-china-list": {
         "cargoLocks": null,
-        "date": "2023-12-02",
+        "date": "2023-12-08",
         "extract": null,
         "name": "dnsmasq-china-list",
         "passthru": null,
@@ -13,11 +13,11 @@
             "name": null,
             "owner": "felixonmars",
             "repo": "dnsmasq-china-list",
-            "rev": "826c048fab6376a8bd150b54082682ed7f46e5f7",
-            "sha256": "sha256-GGUGwU5FkTVss8qNoDeA+1QKMOsSqWBEHq7eTUo072M=",
+            "rev": "e4b6d7e0fc5f1830f45cc4da9808a0ad8a56053a",
+            "sha256": "sha256-boIlJK58SQO9FNDSLhh1CG9/c7lUtioMdK+xibyGR7I=",
             "type": "github"
         },
-        "version": "826c048fab6376a8bd150b54082682ed7f46e5f7"
+        "version": "e4b6d7e0fc5f1830f45cc4da9808a0ad8a56053a"
     },
     "fcitx5-material-color": {
         "cargoLocks": null,
@@ -56,7 +56,7 @@
     },
     "fcitx5-pinyin-zhwiki": {
         "cargoLocks": null,
-        "date": "2023-10-16",
+        "date": "2023-12-05",
         "extract": null,
         "name": "fcitx5-pinyin-zhwiki",
         "passthru": null,
@@ -67,7 +67,7 @@
             "type": "url",
             "url": "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.4/zhwiki-20230823.dict.yaml"
         },
-        "version": "78a43785d7e8fade2955f2814fc5ad0cd18e4b6d"
+        "version": "b0696fa63937fa283cf783376c2b90d613545473"
     },
     "gfwlist": {
         "cargoLocks": null,
