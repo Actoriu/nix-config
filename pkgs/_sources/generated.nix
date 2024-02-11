@@ -3,15 +3,15 @@
 {
   dnsmasq-china-list = {
     pname = "dnsmasq-china-list";
-    version = "90ab9b23e9d7de922f16ce4e747a0a8f22ff07d3";
+    version = "64d4f5e9f846557f4286c3e9870317f8b367f653";
     src = fetchFromGitHub {
       owner = "felixonmars";
       repo = "dnsmasq-china-list";
-      rev = "90ab9b23e9d7de922f16ce4e747a0a8f22ff07d3";
+      rev = "64d4f5e9f846557f4286c3e9870317f8b367f653";
       fetchSubmodules = false;
-      sha256 = "sha256-YYLaK829ENDIzgXEJyn0XisLjBLmduxQ90klz6QAa18=";
+      sha256 = "sha256-wg3HGsfcVjtWyRuWuIPf0EtkLvLSGZUVjvbjqW/9qWg=";
     };
-    date = "2024-02-03";
+    date = "2024-02-08";
   };
   fcitx5-material-color = {
     pname = "fcitx5-material-color";
@@ -36,12 +36,12 @@
   };
   fcitx5-pinyin-zhwiki = {
     pname = "fcitx5-pinyin-zhwiki";
-    version = "b0696fa63937fa283cf783376c2b90d613545473";
+    version = "734dc029c5e3b872f250de346fa5708b06220cc0";
     src = fetchurl {
       url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.4/zhwiki-20230823.dict.yaml";
       sha256 = "sha256-2cx+enR+2lK0o+pYoP8CQg3qd2+nBpQVZhDj4pEPQjU=";
     };
-    date = "2023-12-05";
+    date = "2024-02-10";
   };
   gfwlist = {
     pname = "gfwlist";
