@@ -3,15 +3,15 @@
 {
   dnsmasq-china-list = {
     pname = "dnsmasq-china-list";
-    version = "a2cc1a02c29658a5b07bc9bf6c2baf556e8da5b8";
+    version = "3696009b920a66610fd54cd51d1548768b8456e2";
     src = fetchFromGitHub {
       owner = "felixonmars";
       repo = "dnsmasq-china-list";
-      rev = "a2cc1a02c29658a5b07bc9bf6c2baf556e8da5b8";
+      rev = "3696009b920a66610fd54cd51d1548768b8456e2";
       fetchSubmodules = false;
-      sha256 = "sha256-hTONzbBz/JrUK4g3uzK+tnSQSoZqAHzKwuPR6kwbuG8=";
+      sha256 = "sha256-1yDXwdITUKzNNoRkaLMZxRkJYqTrnLZIjhVBykyAXko=";
     };
-    date = "2024-02-16";
+    date = "2024-02-24";
   };
   fcitx5-material-color = {
     pname = "fcitx5-material-color";
@@ -45,14 +45,14 @@
   };
   gfwlist = {
     pname = "gfwlist";
-    version = "8f90afb9d4436bc44ba3641e45ed8ed4d2b0d612";
+    version = "11ab13f9155b303c029d762179b15f0039f0fca2";
     src = fetchFromGitHub {
       owner = "gfwlist";
       repo = "gfwlist";
-      rev = "8f90afb9d4436bc44ba3641e45ed8ed4d2b0d612";
+      rev = "11ab13f9155b303c029d762179b15f0039f0fca2";
       fetchSubmodules = false;
-      sha256 = "sha256-h3vyCO9T2OPrNcHLaUw4Yeyew5n5xsD1vvaaRT5TzLo=";
+      sha256 = "sha256-Z2F5EzFWjtv3j0YbTcTG5TP1oDwFzLyvEJ4Bi7tsbPs=";
     };
-    date = "2023-12-30";
+    date = "2024-02-19";
   };
 }
