@@ -3,15 +3,15 @@
 {
   dnsmasq-china-list = {
     pname = "dnsmasq-china-list";
-    version = "9988820dcbb7d7911bb6449ffe119859e91cb2c7";
+    version = "77dbdd9bf11bddc72c20211d3b42d5353d5b9f37";
     src = fetchFromGitHub {
       owner = "felixonmars";
       repo = "dnsmasq-china-list";
-      rev = "9988820dcbb7d7911bb6449ffe119859e91cb2c7";
+      rev = "77dbdd9bf11bddc72c20211d3b42d5353d5b9f37";
       fetchSubmodules = false;
-      sha256 = "sha256-Ym0Z1I6beSBW+G55NARCGzUOSEH0rApZVVR6fb6Cxk4=";
+      sha256 = "sha256-6fT4tCO+gQMn0B+F9xnBAGn3Br4C5UidBIAdhfKIdwA=";
     };
-    date = "2024-06-13";
+    date = "2024-06-19";
   };
   fcitx5-material-color = {
     pname = "fcitx5-material-color";
