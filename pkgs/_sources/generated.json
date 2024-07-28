@@ -41,7 +41,7 @@
     },
     "fcitx5-pinyin-moegirl": {
         "cargoLocks": null,
-        "date": "2024-06-09",
+        "date": "2024-07-25",
         "extract": null,
         "name": "fcitx5-pinyin-moegirl",
         "passthru": null,
@@ -52,11 +52,11 @@
             "type": "url",
             "url": "https://github.com/outloudvi/mw2fcitx/releases/download/20230414/moegirl.dict.yaml"
         },
-        "version": "083259df8691905dd6cbe2f5364c940faffaf7e1"
+        "version": "ca3f1659dee9e2049d59507cb1b6827d71bd888c"
     },
     "fcitx5-pinyin-zhwiki": {
         "cargoLocks": null,
-        "date": "2024-05-10",
+        "date": "2024-07-22",
         "extract": null,
         "name": "fcitx5-pinyin-zhwiki",
         "passthru": null,
@@ -67,7 +67,7 @@
             "type": "url",
             "url": "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.4/zhwiki-20230823.dict.yaml"
         },
-        "version": "8d031d51e22d02e9a5f963fa33b3572c47e18c1d"
+        "version": "de4c18c43cacd8ba2353f8d960cb4014386b6bcc"
     },
     "gfwlist": {
         "cargoLocks": null,

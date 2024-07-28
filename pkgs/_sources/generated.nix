@@ -27,21 +27,21 @@
   };
   fcitx5-pinyin-moegirl = {
     pname = "fcitx5-pinyin-moegirl";
-    version = "083259df8691905dd6cbe2f5364c940faffaf7e1";
+    version = "ca3f1659dee9e2049d59507cb1b6827d71bd888c";
     src = fetchurl {
       url = "https://github.com/outloudvi/mw2fcitx/releases/download/20230414/moegirl.dict.yaml";
       sha256 = "sha256-0hDjF1/Gt+OU6/YEY+t1efIRWpqPrKIiaMRBQ0zEWJg=";
     };
-    date = "2024-06-09";
+    date = "2024-07-25";
   };
   fcitx5-pinyin-zhwiki = {
     pname = "fcitx5-pinyin-zhwiki";
-    version = "8d031d51e22d02e9a5f963fa33b3572c47e18c1d";
+    version = "de4c18c43cacd8ba2353f8d960cb4014386b6bcc";
     src = fetchurl {
       url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.4/zhwiki-20230823.dict.yaml";
       sha256 = "sha256-2cx+enR+2lK0o+pYoP8CQg3qd2+nBpQVZhDj4pEPQjU=";
     };
-    date = "2024-05-10";
+    date = "2024-07-22";
   };
   gfwlist = {
     pname = "gfwlist";
