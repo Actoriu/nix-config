@@ -1,7 +1,7 @@
 {
     "dnsmasq-china-list": {
         "cargoLocks": null,
-        "date": "2024-07-17",
+        "date": "2024-08-01",
         "extract": null,
         "name": "dnsmasq-china-list",
         "passthru": null,
@@ -13,11 +13,11 @@
             "name": null,
             "owner": "felixonmars",
             "repo": "dnsmasq-china-list",
-            "rev": "6ce518f40347e474463f2a56b4ed33d5f1c8464b",
-            "sha256": "sha256-t6kZihsqcZgLVUrShTPL8OvrU/VHMeU0j0rX25BGG+I=",
+            "rev": "9bcd872b70e279a6889992057ef744fe218a66b0",
+            "sha256": "sha256-GJcqEW3ns9Bw7VuQJD+AflYE3eQ05AuzrVpqCh+KS3M=",
             "type": "github"
         },
-        "version": "6ce518f40347e474463f2a56b4ed33d5f1c8464b"
+        "version": "9bcd872b70e279a6889992057ef744fe218a66b0"
     },
     "fcitx5-material-color": {
         "cargoLocks": null,
@@ -41,7 +41,7 @@
     },
     "fcitx5-pinyin-moegirl": {
         "cargoLocks": null,
-        "date": "2024-07-25",
+        "date": "2024-08-04",
         "extract": null,
         "name": "fcitx5-pinyin-moegirl",
         "passthru": null,
@@ -52,7 +52,7 @@
             "type": "url",
             "url": "https://github.com/outloudvi/mw2fcitx/releases/download/20230414/moegirl.dict.yaml"
         },
-        "version": "ca3f1659dee9e2049d59507cb1b6827d71bd888c"
+        "version": "d8a382453f312046d16e25c6e247085bb02c8fb3"
     },
     "fcitx5-pinyin-zhwiki": {
         "cargoLocks": null,
@@ -71,7 +71,7 @@
     },
     "gfwlist": {
         "cargoLocks": null,
-        "date": "2024-07-20",
+        "date": "2024-07-28",
         "extract": null,
         "name": "gfwlist",
         "passthru": null,
@@ -83,10 +83,10 @@
             "name": null,
             "owner": "gfwlist",
             "repo": "gfwlist",
-            "rev": "795605222ed84d8771330f31c5de96124753b4a6",
-            "sha256": "sha256-nFdV8kTzz6+NV915jnuqKyhHXEhrNALMvsbDd1s9zr0=",
+            "rev": "2e68b2227cdad66c83d9c22d9c8e5035227783f5",
+            "sha256": "sha256-6geQrHoVmH/3LiA9LgSw8j9s6MmgRObNfix8v/lF0HQ=",
             "type": "github"
         },
-        "version": "795605222ed84d8771330f31c5de96124753b4a6"
+        "version": "2e68b2227cdad66c83d9c22d9c8e5035227783f5"
     }
 }
