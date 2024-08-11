@@ -1,7 +1,7 @@
 {
     "dnsmasq-china-list": {
         "cargoLocks": null,
-        "date": "2024-08-01",
+        "date": "2024-08-07",
         "extract": null,
         "name": "dnsmasq-china-list",
         "passthru": null,
@@ -13,11 +13,11 @@
             "name": null,
             "owner": "felixonmars",
             "repo": "dnsmasq-china-list",
-            "rev": "9bcd872b70e279a6889992057ef744fe218a66b0",
-            "sha256": "sha256-GJcqEW3ns9Bw7VuQJD+AflYE3eQ05AuzrVpqCh+KS3M=",
+            "rev": "6354128f5a8ce72fba877058b1de4cd670290c8f",
+            "sha256": "sha256-6kvf8q0fZuATYCDZuAUxvotOQzKcNxkScXH94CPwPEI=",
             "type": "github"
         },
-        "version": "9bcd872b70e279a6889992057ef744fe218a66b0"
+        "version": "6354128f5a8ce72fba877058b1de4cd670290c8f"
     },
     "fcitx5-material-color": {
         "cargoLocks": null,
@@ -71,7 +71,7 @@
     },
     "gfwlist": {
         "cargoLocks": null,
-        "date": "2024-07-28",
+        "date": "2024-08-03",
         "extract": null,
         "name": "gfwlist",
         "passthru": null,
@@ -83,10 +83,10 @@
             "name": null,
             "owner": "gfwlist",
             "repo": "gfwlist",
-            "rev": "2e68b2227cdad66c83d9c22d9c8e5035227783f5",
-            "sha256": "sha256-6geQrHoVmH/3LiA9LgSw8j9s6MmgRObNfix8v/lF0HQ=",
+            "rev": "b35f48888eab37cacad0787724d2c0bb1e2ab864",
+            "sha256": "sha256-MtA4526v3ATs4ULOHFln6rjGQgJCEJ/VWr9CQPARjWo=",
             "type": "github"
         },
-        "version": "2e68b2227cdad66c83d9c22d9c8e5035227783f5"
+        "version": "b35f48888eab37cacad0787724d2c0bb1e2ab864"
     }
 }
