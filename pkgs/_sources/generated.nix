@@ -27,12 +27,12 @@
   };
   fcitx5-pinyin-moegirl = {
     pname = "fcitx5-pinyin-moegirl";
-    version = "d8a382453f312046d16e25c6e247085bb02c8fb3";
+    version = "ae465e2cfad976b7be8b3b14ec7d8910aeef33a9";
     src = fetchurl {
       url = "https://github.com/outloudvi/mw2fcitx/releases/download/20230414/moegirl.dict.yaml";
       sha256 = "sha256-0hDjF1/Gt+OU6/YEY+t1efIRWpqPrKIiaMRBQ0zEWJg=";
     };
-    date = "2024-08-04";
+    date = "2024-08-23";
   };
   fcitx5-pinyin-zhwiki = {
     pname = "fcitx5-pinyin-zhwiki";
