@@ -3,15 +3,15 @@
 {
   dnsmasq-china-list = {
     pname = "dnsmasq-china-list";
-    version = "a460349440fef37e7e72b22080859a38b5443863";
+    version = "6f289b29cfb8d5b3421b150fbd11dab8feb4ce35";
     src = fetchFromGitHub {
       owner = "felixonmars";
       repo = "dnsmasq-china-list";
-      rev = "a460349440fef37e7e72b22080859a38b5443863";
+      rev = "6f289b29cfb8d5b3421b150fbd11dab8feb4ce35";
       fetchSubmodules = false;
-      sha256 = "sha256-aJzzIC6Aj4jEOk61RcKNxRUlBd3S8p3MSN9S4PhbYsQ=";
+      sha256 = "sha256-II/JvUNrPR1Zb8H3a/lofyNK/mku/BGBMviqMIpT6a0=";
     };
-    date = "2024-08-16";
+    date = "2024-08-26";
   };
   fcitx5-material-color = {
     pname = "fcitx5-material-color";
@@ -27,12 +27,12 @@
   };
   fcitx5-pinyin-moegirl = {
     pname = "fcitx5-pinyin-moegirl";
-    version = "ae465e2cfad976b7be8b3b14ec7d8910aeef33a9";
+    version = "f059e9fd244b6f232f38d63a9c660da43c8f9253";
     src = fetchurl {
       url = "https://github.com/outloudvi/mw2fcitx/releases/download/20230414/moegirl.dict.yaml";
       sha256 = "sha256-0hDjF1/Gt+OU6/YEY+t1efIRWpqPrKIiaMRBQ0zEWJg=";
     };
-    date = "2024-08-23";
+    date = "2024-08-28";
   };
   fcitx5-pinyin-zhwiki = {
     pname = "fcitx5-pinyin-zhwiki";
