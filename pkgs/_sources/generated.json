@@ -1,7 +1,7 @@
 {
     "dnsmasq-china-list": {
         "cargoLocks": null,
-        "date": "2024-11-23",
+        "date": "2025-12-27",
         "extract": null,
         "name": "dnsmasq-china-list",
         "passthru": null,
@@ -13,11 +13,11 @@
             "name": null,
             "owner": "felixonmars",
             "repo": "dnsmasq-china-list",
-            "rev": "a01bda7597d2d54627bf865d1b1eaa4a992a5cb3",
-            "sha256": "sha256-oAe93QMpThZyA0Ff7dxlp7AJqGbJGTFrkbdmep4k8PU=",
+            "rev": "9805f390a7a67d27b1a77188e3743e7abe47ee7c",
+            "sha256": "sha256-21UWrvMzzb/GQOIox4I4/+p/Irjzsfg9OZQE8DLipeQ=",
             "type": "github"
         },
-        "version": "a01bda7597d2d54627bf865d1b1eaa4a992a5cb3"
+        "version": "9805f390a7a67d27b1a77188e3743e7abe47ee7c"
     },
     "fcitx5-material-color": {
         "cargoLocks": null,
@@ -41,7 +41,7 @@
     },
     "fcitx5-pinyin-moegirl": {
         "cargoLocks": null,
-        "date": "2024-08-28",
+        "date": "2025-12-06",
         "extract": null,
         "name": "fcitx5-pinyin-moegirl",
         "passthru": null,
@@ -52,11 +52,11 @@
             "type": "url",
             "url": "https://github.com/outloudvi/mw2fcitx/releases/download/20230414/moegirl.dict.yaml"
         },
-        "version": "f059e9fd244b6f232f38d63a9c660da43c8f9253"
+        "version": "422ccd36a587e5d0ba198023b55d712ce1a1b438"
     },
     "fcitx5-pinyin-zhwiki": {
         "cargoLocks": null,
-        "date": "2024-09-16",
+        "date": "2025-12-23",
         "extract": null,
         "name": "fcitx5-pinyin-zhwiki",
         "passthru": null,
@@ -67,11 +67,11 @@
             "type": "url",
             "url": "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.4/zhwiki-20230823.dict.yaml"
         },
-        "version": "8d1a0262b894ca194014308f406c19d0153b5b13"
+        "version": "5c0c7e2a0f261be28820c558eef62f0ee0fe6b46"
     },
     "gfwlist": {
         "cargoLocks": null,
-        "date": "2024-10-07",
+        "date": "2025-12-27",
         "extract": null,
         "name": "gfwlist",
         "passthru": null,
@@ -83,10 +83,10 @@
             "name": null,
             "owner": "gfwlist",
             "repo": "gfwlist",
-            "rev": "d7f16cea44e06c6bce3c54867b25d5e48a1f4c63",
-            "sha256": "sha256-u4G8OFdkvvflBvNRxmaxd1sq/rCOKxvRQM6HMIm7oBk=",
+            "rev": "f43746b2b2ac77d4481e15ef9e26e885ca4492aa",
+            "sha256": "sha256-LqocsKA7BEx47L0Jucn5N+hKp1Mi+iI2ewtye+hMBzw=",
             "type": "github"
         },
-        "version": "d7f16cea44e06c6bce3c54867b25d5e48a1f4c63"
+        "version": "f43746b2b2ac77d4481e15ef9e26e885ca4492aa"
     }
 }

@@ -3,15 +3,15 @@
 {
   dnsmasq-china-list = {
     pname = "dnsmasq-china-list";
-    version = "a01bda7597d2d54627bf865d1b1eaa4a992a5cb3";
+    version = "9805f390a7a67d27b1a77188e3743e7abe47ee7c";
     src = fetchFromGitHub {
       owner = "felixonmars";
       repo = "dnsmasq-china-list";
-      rev = "a01bda7597d2d54627bf865d1b1eaa4a992a5cb3";
+      rev = "9805f390a7a67d27b1a77188e3743e7abe47ee7c";
       fetchSubmodules = false;
-      sha256 = "sha256-oAe93QMpThZyA0Ff7dxlp7AJqGbJGTFrkbdmep4k8PU=";
+      sha256 = "sha256-21UWrvMzzb/GQOIox4I4/+p/Irjzsfg9OZQE8DLipeQ=";
     };
-    date = "2024-11-23";
+    date = "2025-12-27";
   };
   fcitx5-material-color = {
     pname = "fcitx5-material-color";
@@ -27,32 +27,32 @@
   };
   fcitx5-pinyin-moegirl = {
     pname = "fcitx5-pinyin-moegirl";
-    version = "f059e9fd244b6f232f38d63a9c660da43c8f9253";
+    version = "422ccd36a587e5d0ba198023b55d712ce1a1b438";
     src = fetchurl {
       url = "https://github.com/outloudvi/mw2fcitx/releases/download/20230414/moegirl.dict.yaml";
       sha256 = "sha256-0hDjF1/Gt+OU6/YEY+t1efIRWpqPrKIiaMRBQ0zEWJg=";
     };
-    date = "2024-08-28";
+    date = "2025-12-06";
   };
   fcitx5-pinyin-zhwiki = {
     pname = "fcitx5-pinyin-zhwiki";
-    version = "8d1a0262b894ca194014308f406c19d0153b5b13";
+    version = "5c0c7e2a0f261be28820c558eef62f0ee0fe6b46";
     src = fetchurl {
       url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.4/zhwiki-20230823.dict.yaml";
       sha256 = "sha256-2cx+enR+2lK0o+pYoP8CQg3qd2+nBpQVZhDj4pEPQjU=";
     };
-    date = "2024-09-16";
+    date = "2025-12-23";
   };
   gfwlist = {
     pname = "gfwlist";
-    version = "d7f16cea44e06c6bce3c54867b25d5e48a1f4c63";
+    version = "f43746b2b2ac77d4481e15ef9e26e885ca4492aa";
     src = fetchFromGitHub {
       owner = "gfwlist";
       repo = "gfwlist";
-      rev = "d7f16cea44e06c6bce3c54867b25d5e48a1f4c63";
+      rev = "f43746b2b2ac77d4481e15ef9e26e885ca4492aa";
       fetchSubmodules = false;
-      sha256 = "sha256-u4G8OFdkvvflBvNRxmaxd1sq/rCOKxvRQM6HMIm7oBk=";
+      sha256 = "sha256-LqocsKA7BEx47L0Jucn5N+hKp1Mi+iI2ewtye+hMBzw=";
     };
-    date = "2024-10-07";
+    date = "2025-12-27";
   };
 }
